@@ -68,7 +68,7 @@ public class TeacherDTO implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "DisciplineDTO{" +
+        return "TeacherDTO{" +
                 "id=" + getId() +
                 ", name='" + getName() + "'" +
                 ", email='" + getEmail() + "'" +
