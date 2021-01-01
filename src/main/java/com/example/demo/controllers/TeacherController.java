@@ -1,7 +1,5 @@
 package com.example.demo.controllers;
 
-import com.example.demo.dao.TeacherDAO;
-import com.example.demo.domain.Teacher;
 import com.example.demo.service.TeacherService;
 import com.example.demo.service.dto.TeacherDTO;
 import org.slf4j.Logger;
@@ -23,11 +21,17 @@ public class TeacherController {
         this.teacherService = teacherService;
     }
 
+    /**
+     * {@code POST  /create} : Create a new teacher.
+     *
+     * @param teacherDTO the teacherDTO to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new teacherDTO
+     */
     @PostMapping("/create")
-    public ResponseEntity<TeacherDTO> createTeacher(@RequestBody TeacherDTO teacher) {
+    public ResponseEntity<TeacherDTO> createTeacher(@RequestBody TeacherDTO teacherDTO) {
         log.debug("REST request to create a Teacher");
-        TeacherDTO teacherCreated = this.teacherService.save(teacher);
-        return ResponseEntity.status(HttpStatus.OK).body(teacherCreated);
+        TeacherDTO createdTeacher = this.teacherService.save(teacherDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(createdTeacher);
     }
 
     /**
@@ -36,12 +40,11 @@ public class TeacherController {
      * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of teachers in body.
      */
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping("/teachers")
     public ResponseEntity<List<TeacherDTO>> getTeachers(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all Teachers");
         log.info("REST request to get all Teachers");
         List<TeacherDTO> teachers = teacherService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(teachers);
     }
-
 }

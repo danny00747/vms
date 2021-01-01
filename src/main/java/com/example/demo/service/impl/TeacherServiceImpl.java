@@ -5,16 +5,17 @@ import com.example.demo.domain.Teacher;
 import com.example.demo.service.TeacherService;
 import com.example.demo.service.dto.TeacherDTO;
 import com.example.demo.service.mapper.TeacherMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
+@Validated
 public class TeacherServiceImpl implements TeacherService {
 
     private final TeacherDAO teacherDAO;
@@ -26,7 +27,7 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public TeacherDTO save(@NotNull TeacherDTO teacherDTO) {
+    public TeacherDTO save(TeacherDTO teacherDTO) {
         Teacher teacher = teacherMapper.toEntity(teacherDTO);
         teacher = teacherDAO.save(teacher);
         return teacherMapper.toDto(teacher);

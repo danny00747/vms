@@ -1,7 +1,6 @@
 package com.example.demo.service.dto;
-
-
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -9,42 +8,44 @@ import java.io.Serializable;
  */
 public class TeacherDTO implements Serializable {
 
-    private int id;
+
+    private int teacherId;
+
+    @NotNull(message = "teacherName is a required field.")
+    @Size(min=5, max=30, message = "teacherName must be between 5 and 30.")
+    private String teacherName;
 
     @NotNull
-    private String name;
+    private String teacherEmail;
 
-    @NotNull
-    private String email;
-
-    public TeacherDTO(int id, @NotNull String name, @NotNull String email) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
+    public TeacherDTO(int teacherId, String teacherName, String teacherEmail) {
+        this.teacherId = teacherId;
+        this.teacherName = teacherName;
+        this.teacherEmail = teacherEmail;
     }
 
-    public String getName() {
-        return name;
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
     }
 
-    public int getId() {
-        return id;
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTeacherEmail(String teacherEmail) {
+        this.teacherEmail = teacherEmail;
     }
 
-    public String getEmail() {
-        return email;
+    public int getTeacherId() {
+        return teacherId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getTeacherName() {
+        return teacherName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getTeacherEmail() {
+        return teacherEmail;
     }
 
 
@@ -57,7 +58,7 @@ public class TeacherDTO implements Serializable {
             return false;
         }
 
-        return id == ((TeacherDTO) o).id;
+        return teacherId == ((TeacherDTO) o).teacherId;
     }
 
     @Override
@@ -69,9 +70,9 @@ public class TeacherDTO implements Serializable {
     @Override
     public String toString() {
         return "TeacherDTO{" +
-                "id=" + getId() +
-                ", name='" + getName() + "'" +
-                ", email='" + getEmail() + "'" +
+                "id=" + getTeacherId() +
+                ", names='" + getTeacherName() + "'" +
+                ", email='" + getTeacherEmail() + "'" +
                 "}";
     }
 }
