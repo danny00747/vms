@@ -32,6 +32,5 @@ public class DemoApplication {
                     .permitAll().anyRequest().authenticated()
                     .and().csrf().disable();
         }
-
     }
 }
