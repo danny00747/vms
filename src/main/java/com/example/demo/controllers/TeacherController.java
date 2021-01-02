@@ -10,6 +10,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,6 +55,7 @@ public class TeacherController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        log.warn("MethodArgumentNotValidException thrown !");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ex.getBindingResult()
                         .getAllErrors().stream()
@@ -63,6 +65,7 @@ public class TeacherController {
 
     @RequestMapping(value = "/error", method = {RequestMethod.GET, RequestMethod.POST}, produces = "text/html")
     public ModelAndView errorPage() {
+        log.error("An error occurred while sending the request ");
         return new ModelAndView("forward:/index.html");
     }
 }
