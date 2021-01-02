@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,5 +59,10 @@ public class TeacherController {
                         .getAllErrors().stream()
                         .map(ObjectError::getDefaultMessage)
                         .collect(Collectors.toList()));
+    }
+
+    @RequestMapping(value = "/error", method = {RequestMethod.GET, RequestMethod.POST}, produces = "text/html")
+    public ModelAndView errorPage() {
+        return new ModelAndView("forward:/index.html");
     }
 }
