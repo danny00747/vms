@@ -3,12 +3,16 @@ package com.example.demo.service.mapper;
 import com.example.demo.domain.Teacher;
 import com.example.demo.service.dto.TeacherDTO;
 import org.mapstruct.*;
+import org.mapstruct.factory.Mappers;
+import org.springframework.context.annotation.Bean;
 
 /**
  * Mapper for the entity {@link Teacher} and its DTO {@link TeacherDTO}.
  */
 @Mapper(componentModel = "spring")
 public interface TeacherMapper extends EntityMapper<TeacherDTO, Teacher> {
+
+    //TeacherMapper INSTANCE = Mappers.getMapper( TeacherMapper.class );
 
     @Mappings({
             @Mapping(source = "teacherId", target = "id"),

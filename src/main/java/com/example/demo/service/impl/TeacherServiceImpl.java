@@ -5,6 +5,7 @@ import com.example.demo.domain.Teacher;
 import com.example.demo.service.TeacherService;
 import com.example.demo.service.dto.TeacherDTO;
 import com.example.demo.service.mapper.TeacherMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
