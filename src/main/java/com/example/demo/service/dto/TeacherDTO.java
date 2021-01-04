@@ -1,4 +1,6 @@
 package com.example.demo.service.dto;
+import com.example.demo.service.mapper.DTO;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;

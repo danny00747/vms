@@ -36,7 +36,7 @@ public class TeacherController {
     public ResponseEntity<TeacherDTO> createTeacher(@Valid @RequestBody TeacherDTO teacherDTO) {
         log.debug("REST request to create a Teacher");
         TeacherDTO createdTeacher = this.teacherService.save(teacherDTO);
-        return ResponseEntity.status(HttpStatus.OK).body(createdTeacher);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdTeacher);
     }
 
     /**
@@ -50,7 +50,7 @@ public class TeacherController {
         log.debug("REST request to get all Teachers");
         log.info("REST request to get all Teachers");
         List<TeacherDTO> teachers = teacherService.findAll();
-        return ResponseEntity.status(HttpStatus.OK).body(teachers);
+        return ResponseEntity.status(HttpStatus.CREATED).body(teachers);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -66,6 +66,15 @@ public class TeacherController {
     @RequestMapping(value = "/error", method = {RequestMethod.GET, RequestMethod.POST}, produces = "text/html")
     public ModelAndView errorPage() {
         log.error("An error occurred while sending the request ");
+
+
+        /*
+        var t = new ProductDto.Request.Create("ss", 0.2, 0.3);
+        System.out.println(t);
+        var s = ProductDto.getMarkup(t);
+        System.out.println(s);
+         */
+
         return new ModelAndView("forward:/index.html");
     }
 }

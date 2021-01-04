@@ -1,6 +1,7 @@
 package com.example.demo.service.mapper;
-
 import java.util.List;
+
+
 
 /**
  * Contract for a generic dto to entity mapper.
@@ -19,3 +20,5 @@ public interface EntityMapper <D, E> {
 
     List <D> toDto(List<E> entityList);
 }
+
+

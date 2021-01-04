@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface TeacherDAO extends JpaRepository<Teacher, Integer> {
 
-    @Query("select discipline from Teacher discipline")
+    @Query("select teachers from Teacher teachers")
     List<Teacher> findAllWithEagerRelationships();
 }

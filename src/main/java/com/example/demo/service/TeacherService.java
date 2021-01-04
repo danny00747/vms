@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.config.TeacherDto;
 import com.example.demo.service.dto.TeacherDTO;
 
 import javax.validation.Valid;

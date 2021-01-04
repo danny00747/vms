@@ -3,6 +3,7 @@ package com.example.demo.config;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 
 public class ResourceConfigs {
     public enum ProductDto {
@@ -13,7 +14,8 @@ public class ResourceConfigs {
         }
 
         public sealed interface Name permits Request.Create, Response.Public, Response.Private {
-            @NotBlank String name();
+            @NotBlank @Size(min = 5, max = 30, message = "teacherName must be between 5 and 30.")
+            String name();
         }
 
         public interface Price {
@@ -34,12 +36,14 @@ public class ResourceConfigs {
         public enum Response {
             ;
 
-            public record Public(Long id, String name, Double price) implements Id, Name, Price { }
+            public record Public(Long id, String name, Double price) implements Id, Name, Price {
+            }
 
-            public record Private(Long id, String name, Double price, Double cost) implements Id, Name, Price { }
+            public record Private(Long id, String name, Double price, Double cost) implements Id, Name, Price {
+            }
         }
 
-        private static <DTO extends Price & Cost> Double getMarkup(DTO dto) {
+        public static <DTO extends Price & Cost> Double getMarkup(DTO dto) {
             return (dto.price() - dto.cost()) / dto.cost();
         }
     }
