@@ -1,4 +1,7 @@
 package com.example.demo.service.mapper;
+import com.example.demo.config.TeacherDto;
+import com.example.demo.service.dto.TeacherDTO;
+
 import java.util.List;
 
 
@@ -10,7 +13,7 @@ import java.util.List;
  * @param <E> - Entity type parameter.
  */
 
-public interface EntityMapper <D, E> {
+public sealed interface EntityMapper <D, E> permits TeacherMapper {
 
     E toEntity(D dto);
 

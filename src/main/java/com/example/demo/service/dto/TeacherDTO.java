@@ -1,15 +1,16 @@
 package com.example.demo.service.dto;
-import com.example.demo.service.mapper.DTO;
 
+import com.example.demo.domain.Teacher;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
+import java.util.List;
 
 /**
- * A DTO for the {@link com.example.demo.domain.Teacher} entity.
+ * A DTO for the {@link Teacher} entity.
  */
-public class TeacherDTO implements Serializable {
 
+public class TeacherDTO {
 
     private int teacherId;
 
@@ -17,8 +18,11 @@ public class TeacherDTO implements Serializable {
     @Size(min=5, max=30, message = "teacherName must be between 5 and 30.")
     private String teacherName;
 
-    @NotNull
+    @NotNull(message = "teacherEmail is a required field.")
+    @Pattern(regexp = "^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$", message = "Please provide a valid email")
     private String teacherEmail;
+
+    private List<Integer> listNumbers = List.of(1, 2, 3, 4, 5);
 
     public TeacherDTO(int teacherId, String teacherName, String teacherEmail) {
         this.teacherId = teacherId;
@@ -50,6 +54,14 @@ public class TeacherDTO implements Serializable {
         return teacherEmail;
     }
 
+    public List<Integer> getListNumbers() {
+        return listNumbers;
+    }
+
+    public void setListNumbers(List<Integer> listNumbers) {
+        this.listNumbers = listNumbers;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -75,6 +87,7 @@ public class TeacherDTO implements Serializable {
                 "id=" + getTeacherId() +
                 ", names='" + getTeacherName() + "'" +
                 ", email='" + getTeacherEmail() + "'" +
+                ", numbers='" + listNumbers + "'" +
                 "}";
     }
 }

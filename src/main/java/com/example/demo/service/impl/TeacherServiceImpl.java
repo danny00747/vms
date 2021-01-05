@@ -8,7 +8,6 @@ import com.example.demo.service.mapper.TeacherMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +34,8 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     @Transactional(readOnly = true)
     public List<TeacherDTO> findAll() {
-        return teacherDAO.findAllWithEagerRelationships().stream()
+        return teacherDAO.findAllWithEagerRelationships()
+                .stream()
                 .map(teacherMapper::toDto)
                 .collect(Collectors.toList());
     }

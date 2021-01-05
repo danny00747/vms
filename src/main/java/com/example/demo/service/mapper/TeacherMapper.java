@@ -9,9 +9,7 @@ import org.mapstruct.*;
  * Mapper for the entity {@link Teacher} and its DTO {@link TeacherDTO}.
  */
 @Mapper(componentModel = "spring")
-public interface TeacherMapper extends EntityMapper<TeacherDTO, Teacher> {
-
-    //TeacherMapper INSTANCE = Mappers.getMapper( TeacherMapper.class );
+public non-sealed interface TeacherMapper extends EntityMapper<TeacherDTO, Teacher> {
 
     @Mappings({
             @Mapping(source = "teacherId", target = "id"),

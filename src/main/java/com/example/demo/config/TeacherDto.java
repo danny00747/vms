@@ -23,8 +23,7 @@ public enum TeacherDto {
     public enum Request {
         ;
 
-        public record Create(String teacherName, String teacherEmail) implements TeacherEmail, TeacherName, DTO {
-        }
+        public record Create(String teacherName, String teacherEmail) implements TeacherEmail, TeacherName, DTO { }
     }
 
     public enum Response {
