@@ -1,10 +1,5 @@
 package com.example.demo.service.mapper;
-import com.example.demo.config.TeacherDto;
-import com.example.demo.service.dto.TeacherDTO;
-
 import java.util.List;
-
-
 
 /**
  * Contract for a generic dto to entity mapper.
@@ -13,7 +8,7 @@ import java.util.List;
  * @param <E> - Entity type parameter.
  */
 
-public sealed interface EntityMapper <D, E> permits TeacherMapper {
+public sealed interface EntityMapper <D, E> permits TeacherMapper, UserMapper {
 
     E toEntity(D dto);
 

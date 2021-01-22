@@ -20,7 +20,7 @@ public class DemoApplication {
     public static class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         @Autowired
-        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        protected void configure(AuthenticationManagerBuilder auth) {
             //...
         }
 
