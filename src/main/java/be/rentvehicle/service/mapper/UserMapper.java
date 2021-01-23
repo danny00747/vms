@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  * Mapper for the entity {@link User} and its DTO {@link UserDTO}.
  *
  * Normal mappers are generated using MapStruct, this one is hand-coded as roles
- * in UserDTO are a different compared to roles in User class.
+ * in UserDTO are a different type compared to roles in User class.
  */
 
 @Service
