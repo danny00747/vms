@@ -33,5 +33,4 @@ build/
 .vscode/
 src/main/resources/templates/
 
-.env.heroku
-.env
+*.env
