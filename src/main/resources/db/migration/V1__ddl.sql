@@ -7,14 +7,6 @@ CREATE DOMAIN username_regex AS VARCHAR(25)
 
  */
 
-CREATE TABLE course
-(
-    id       serial primary key,
-    NAME     VARCHAR(255),
-    rate     INT2 NOT NULL,
-    workload INT4 NOT NULL
-);
-
 CREATE TABLE teacher
 (
     id    serial primary key,
