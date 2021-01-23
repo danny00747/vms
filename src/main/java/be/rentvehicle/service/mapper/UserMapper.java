@@ -64,7 +64,7 @@ public class UserMapper {
         return roles;
     }
 
-    public User userFromId(int id) {
+    public User userFromId(UUID id) {
         User user = new User();
         user.setId(id);
         return user;

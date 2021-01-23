@@ -2,6 +2,7 @@ package be.rentvehicle.domain;
 
 import be.rentvehicle.config.Constants;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,6 +10,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 
 @Entity
@@ -16,9 +18,9 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "id")
-    private int id;
+    private UUID id;
 
     @NotNull
     @Pattern(regexp = Constants.USERNAME_REGEX)
@@ -48,11 +50,11 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "role_name", referencedColumnName = "name")})
     private Set<Roles> roles = new HashSet<>();
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

@@ -9,6 +9,7 @@ import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -17,19 +18,19 @@ import java.util.stream.Collectors;
 public class UserDTO implements Serializable {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private int userId;
+    private UUID userId;
 
-    @NotBlank
-    @Pattern(regexp = Constants.USERNAME_REGEX)
-    @Size(min = 4, max = 25)
+    @NotNull(message = "username is a required field.")
+    @Pattern(regexp = Constants.USERNAME_REGEX, message = "Please provide a valid username")
+    @Size(min = 4, max = 32, message = "'A username length must be between 4 and 32.")
     private String username;
 
-    @Email
+    @Pattern(regexp = Constants.EMAIL_REGEX,  message = "Please provide a valid email")
     @Size(min = 5, max = 254)
     private String userEmail;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotNull
+    @NotNull(message = "password is a required field.")
     private String password;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -49,7 +50,7 @@ public class UserDTO implements Serializable {
                 .collect(Collectors.toSet());
     }
 
-    public int getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
@@ -61,7 +62,7 @@ public class UserDTO implements Serializable {
         return userEmail;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 

@@ -9,11 +9,12 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Spring Data JPA repository for the {@link User} entity.
  */
-public interface UserDAO extends JpaRepository<User, Integer> {
+public interface UserDAO extends JpaRepository<User, UUID> {
 
     Optional<User> findOneByEmailIgnoreCase(String email);
 

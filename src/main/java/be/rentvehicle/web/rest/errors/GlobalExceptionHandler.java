@@ -45,8 +45,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> emailAlreadyUsedException(EmailAlreadyUsedException ex) {
         log.warn("EmailAlreadyUsedException thrown !");
         return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(Arrays.stream(ex.getMessage().split(":"))
-                                .collect(toMap(str -> "message", str -> str)));
+                .body(Map.of("message", ex.getMessage()));
     }
 }
 
