@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
+@RequestMapping("/api/v1")
 public interface TeacherResource {
 
     /**

@@ -1,6 +1,7 @@
 package be.rentvehicle.web.rest.errors;
 
 import be.rentvehicle.service.impl.errors.EmailAlreadyUsedException;
+import be.rentvehicle.service.impl.errors.UserNotFoundException;
 import be.rentvehicle.service.impl.errors.UsernameAlreadyUsedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +45,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({EmailAlreadyUsedException.class})
     public ResponseEntity<Map<String, String>> emailAlreadyUsedException(EmailAlreadyUsedException ex) {
         log.warn("EmailAlreadyUsedException thrown !");
-        return ResponseEntity.status(HttpStatus.CONFLICT)
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(Map.of("message", ex.getMessage()));
+    }
+
+    @ExceptionHandler({UserNotFoundException.class})
+    public ResponseEntity<Map<String, String>> userNotFoundException(UserNotFoundException ex) {
+        log.warn("EmailAlreadyUsedException thrown !");
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
                 .body(Map.of("message", ex.getMessage()));
     }
 }

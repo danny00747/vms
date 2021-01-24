@@ -21,15 +21,15 @@ public class UserDTO implements Serializable {
     private UUID userId;
 
     @NotNull(message = "username is a required field.")
-    @Pattern(regexp = Constants.USERNAME_REGEX, message = "Please provide a valid username")
-    @Size(min = 4, max = 32, message = "'A username length must be between 4 and 32.")
+    @Size(min = 4, max = 32, message = "A username length must be between 4 and 32.")
     private String username;
 
-    @Pattern(regexp = Constants.EMAIL_REGEX,  message = "Please provide a valid email")
+    @Pattern(regexp = Constants.EMAIL_REGEX, message = "Please provide a valid email")
     @Size(min = 5, max = 254)
     private String userEmail;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Size(min = 4, max = 100, message = "A password length must be between 4 and 100.")
     @NotNull(message = "password is a required field.")
     private String password;
 

@@ -1,8 +1,11 @@
 package be.rentvehicle.service;
 
+import be.rentvehicle.domain.User;
 import be.rentvehicle.service.dto.UserDTO;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.DoubleStream;
 
 public interface UserService {
 
@@ -32,7 +35,18 @@ public interface UserService {
      * Gets a list of all the roles.
      * @return a list of all the roles.
      */
-    public List<String> getRoles();
+    List<String> getRoles();
 
 
+    /**
+     * Gets a user.
+     * @return a user .
+     */
+    Optional<User> getUserWithRoles();
+
+    /**
+     * Gets a user.
+     * @return a user .
+     */
+    Optional<User> getUserWithRolesByUsername(String username);
 }
