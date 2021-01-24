@@ -23,7 +23,6 @@ public class User {
     private UUID id;
 
     @NotNull
-    @Pattern(regexp = Constants.USERNAME_REGEX)
     @Size(min = 4, max = 25)
     @Column(length = 25, unique = true, nullable = false)
     private String username;
