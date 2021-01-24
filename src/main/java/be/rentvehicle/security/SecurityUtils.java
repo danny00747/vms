@@ -64,9 +64,6 @@ public final class SecurityUtils {
 
     /**
      * If the current user has a specific role (security role).
-     * <p>
-     * The name of this method comes from the {@code isUserInRole()} method in the Servlet API.
-     *
      * @param role the role to check.
      * @return true if the current user has the role, false otherwise.
      */

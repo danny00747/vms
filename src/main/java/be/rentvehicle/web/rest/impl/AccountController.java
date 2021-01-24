@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class AccountController implements AccountResource {
+public class AccountController extends BaseRestController implements AccountResource {
 
     private final Logger log = LoggerFactory.getLogger(AccountController.class);
 

@@ -4,7 +4,6 @@ import be.rentvehicle.security.*;
 import be.rentvehicle.security.jwt.*;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -13,6 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 
 @EnableWebSecurity
@@ -43,6 +44,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .exceptionHandling()
+                .authenticationEntryPoint(authenticationFailureHandler())
+                .accessDeniedHandler(accessDeniedHandler())
                 .and()
                 .headers()
                 .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
@@ -59,12 +62,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/authenticate").permitAll()
                 .antMatchers("/api/v1/register").permitAll()
                 .antMatchers("/api/activate").permitAll()
-                .antMatchers("/api/**").authenticated()
-                .antMatchers("/admin/**").hasAuthority(RolesConstants.ADMIN)
+                .antMatchers("/api/v1/admin/**").hasAuthority(RolesConstants.ADMIN)
+                .antMatchers("/api/v1/**").authenticated()
+                .anyRequest().authenticated()
                 .and()
                 .httpBasic()
                 .and()
                 .apply(securityConfigurerAdapter());
+    }
+
+    @Bean
+    public AuthenticationEntryPoint authenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
     }
 
     private JWTConfigurer securityConfigurerAdapter() {

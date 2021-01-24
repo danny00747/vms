@@ -16,8 +16,8 @@ import java.util.Map;
 /**
  * REST controller for managing the current user's account.
  */
+
 @Controller
-@RequestMapping("/api/v1")
 public interface AccountResource {
 
     /**
@@ -47,7 +47,7 @@ public interface AccountResource {
      * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of users in body.
      */
-    @GetMapping("/users")
+    @GetMapping("/admin/users")
     ResponseEntity<List<UserDTO>> getAllUsers(@RequestParam(required = false, defaultValue = "false") boolean eagerload);
 
     /**
