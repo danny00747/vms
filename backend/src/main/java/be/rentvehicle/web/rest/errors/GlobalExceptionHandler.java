@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({UserNotFoundException.class})
     public ResponseEntity<Map<String, String>> userNotFoundException(UserNotFoundException ex) {
-        log.warn("EmailAlreadyUsedException thrown !");
+        log.warn("UserNotFoundException thrown !");
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(Map.of("message", ex.getMessage()));

@@ -35,6 +35,7 @@ public class DomainUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String username) {
         log.debug("Authenticating {}", username);
 
+        // UsernameNotFoundException is never thrown because of this class CustomAuthenticationFailureHandler
         if (new EmailValidator().isValid(username, null)) {
             return userDAO.findOneWithRolesByEmailIgnoreCase(username)
                     .map(this::createSpringSecurityUser)

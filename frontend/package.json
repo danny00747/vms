@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "ng serve --proxy-config proxy.conf.json",
+    "build": "npm run clean && ng build --prod",
+    "clean": "rimraf ../backend/src/main/resources/static/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

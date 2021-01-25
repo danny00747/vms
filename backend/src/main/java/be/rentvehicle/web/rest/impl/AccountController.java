@@ -2,6 +2,7 @@ package be.rentvehicle.web.rest.impl;
 
 import be.rentvehicle.security.jwt.JWTFilter;
 import be.rentvehicle.security.jwt.TokenProvider;
+import be.rentvehicle.security.securityAnnotations.isUsername;
 import be.rentvehicle.service.UserService;
 import be.rentvehicle.service.dto.UserDTO;
 import be.rentvehicle.service.impl.errors.UserNotFoundException;
@@ -17,6 +18,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -89,7 +91,7 @@ public class AccountController extends BaseRestController implements AccountReso
     }
 
     @Override
-    public ResponseEntity<UserDTO> getUser(@Valid String username) {
+    public ResponseEntity<UserDTO> getUser(String username) {
         log.debug("REST request to get User : {}", username);
         return ResponseEntity
                 .status(HttpStatus.OK)

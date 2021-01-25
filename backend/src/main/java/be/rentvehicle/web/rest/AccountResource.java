@@ -1,14 +1,17 @@
 package be.rentvehicle.web.rest;
 
+import be.rentvehicle.security.RolesConstants;
+import be.rentvehicle.security.securityAnnotations.isAdmin;
+import be.rentvehicle.security.securityAnnotations.isUsername;
 import be.rentvehicle.service.dto.UserDTO;
 import be.rentvehicle.service.impl.errors.EmailAlreadyUsedException;
 import be.rentvehicle.service.impl.errors.UsernameAlreadyUsedException;
 import be.rentvehicle.web.rest.vm.LoginVM;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +27,7 @@ public interface AccountResource {
      * {@code POST  /register} : register the user.
      *
      * @param userDTO the managed user View Model.
-     * @throws EmailAlreadyUsedException {@code 409 (CONFLICT)} if the email is already used.
+     * @throws EmailAlreadyUsedException    {@code 409 (CONFLICT)} if the email is already used.
      * @throws UsernameAlreadyUsedException {@code 409 (CONFLICT)} if the username is already used.
      */
     @PostMapping("/register")
@@ -35,7 +38,7 @@ public interface AccountResource {
      * {@code POST  /authenticate} : authenticate the user.
      *
      * @param loginVM the managed login View Model.
-     * @throws EmailAlreadyUsedException {@code 409 (CONFLICT)} if the email is already used.
+     * @throws EmailAlreadyUsedException    {@code 409 (CONFLICT)} if the email is already used.
      * @throws UsernameAlreadyUsedException {@code 409 (CONFLICT)} if the username is already used.
      */
     @PostMapping("/authenticate")
@@ -47,11 +50,13 @@ public interface AccountResource {
      * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of users in body.
      */
-    @GetMapping("/admin/users")
+    @GetMapping("/users")
+    @isAdmin
     ResponseEntity<List<UserDTO>> getAllUsers(@RequestParam(required = false, defaultValue = "false") boolean eagerload);
 
     /**
      * Gets a list of all roles.
+     *
      * @return a string list of all roles.
      */
     @GetMapping("/users/roles")
@@ -73,5 +78,6 @@ public interface AccountResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the "username" user, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/user/{username}")
-    ResponseEntity<UserDTO> getUser(@Valid @PathVariable String username);
+    @PreAuthorize("#username == authentication.principal.username or hasAuthority(\"" + RolesConstants.ADMIN + "\")")
+    ResponseEntity<UserDTO> getUser(@PathVariable("username") @isUsername String username);
 }
