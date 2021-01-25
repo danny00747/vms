@@ -11,6 +11,10 @@ import org.springframework.validation.annotation.Validated;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+/**
+ * Implementation of the {@link TeacherService} interface.
+ */
 @Service
 @Transactional
 @Validated

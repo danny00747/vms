@@ -64,6 +64,7 @@ public final class SecurityUtils {
 
     /**
      * If the current user has a specific role (security role).
+     *
      * @param role the role to check.
      * @return true if the current user has the role, false otherwise.
      */
@@ -73,6 +74,10 @@ public final class SecurityUtils {
                 getAuthorities(authentication).anyMatch(role::equals);
     }
 
+    /**
+     * @param authentication the role to check.
+     * @return a stream of authorities.
+     */
     private static Stream<String> getAuthorities(Authentication authentication) {
         return authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority);

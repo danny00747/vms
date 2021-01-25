@@ -2,8 +2,6 @@ package be.rentvehicle.domain;
 
 import be.rentvehicle.config.Constants;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -12,7 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-
+/**
+ * A user entity.
+ */
 @Entity
 @Table(name = "users")
 public class User {

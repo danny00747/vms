@@ -24,6 +24,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of the {@link UserService} interface.
+ */
 @Service
 @Transactional
 @Validated
@@ -93,6 +96,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUserWithRolesByUsername(String username) {
         return userDAO.findOneWithRolesByUsername(username);
+    }
+
+    @Override
+    public Optional<UserDTO> updateUser(String username, String email) {
+        return Optional.of(userDAO
+                .findOneByUsername(username))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(user -> {
+                    user.setUsername(username);
+                    user.setEmail(email);
+                    userDAO.save(user);
+                    log.debug("Changed Information for User: {}", user);
+                    return user;
+                })
+                .map(UserDTO::new);
     }
 
     @Override

@@ -1,9 +1,7 @@
 package be.rentvehicle.web.rest.vm;
 
-import be.rentvehicle.config.Constants;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 

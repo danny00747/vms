@@ -1,5 +1,8 @@
 package be.rentvehicle.security;
 
+/**
+ * Spring security roles constants.
+ */
 public final class RolesConstants {
 
     public static final String ADMIN = "ROLE_ADMIN";

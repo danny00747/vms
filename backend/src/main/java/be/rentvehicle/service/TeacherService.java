@@ -1,10 +1,14 @@
 package be.rentvehicle.service;
 
+import be.rentvehicle.domain.Teacher;
 import be.rentvehicle.service.dto.TeacherDTO;
 
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * TeacherService interface for the {@link Teacher} entity.
+ */
 public interface TeacherService {
 
     /**

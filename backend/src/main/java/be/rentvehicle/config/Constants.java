@@ -1,5 +1,8 @@
 package be.rentvehicle.config;
 
+/**
+ * Regex for constants across the whole application.
+ */
 public final class Constants {
 
     // Regex for acceptable variables
