@@ -8,7 +8,7 @@ import be.rentvehicle.service.dto.UserDTO;
 import be.rentvehicle.service.impl.errors.EmailAlreadyUsedException;
 import be.rentvehicle.service.impl.errors.UserNotFoundException;
 import be.rentvehicle.service.impl.errors.UsernameAlreadyUsedException;
-import be.rentvehicle.web.rest.vm.LoginVM;
+import be.rentvehicle.web.rest.vm.UserVM;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,7 +44,20 @@ public interface AccountResource {
      * @return a {@code 401 (UNAUTHORIZED)} is sent by {@link CustomAuthenticationFailureHandler} if the credentials are incorrect.
      */
     @PostMapping("/authenticate")
-    ResponseEntity<Map<String, String>> authorize(@Valid @RequestBody LoginVM loginVM);
+    ResponseEntity<Map<String, String>> authorize(@Valid @RequestBody UserVM.LoginVM loginVM);
+
+    /**
+     * {@code PATCH /user} : Updates an existing User.
+     *
+     * @param updateVM the managed update View Model.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body of the updated user.
+     * @throws EmailAlreadyUsedException    {@code 409 (CONFLICT)} if the email is already in use.
+     * @throws UsernameAlreadyUsedException {@code 409 (CONFLICT)} if the username is already in use.
+     * @throws UserNotFoundException        {@code 404 (Not Found)} if the user couldn't be returned.
+     */
+    @PatchMapping("/user/{usernameParam}")
+    @PreAuthorize("#usernameParam == authentication.principal.username or hasAuthority(\"" + RolesConstants.ADMIN + "\")")
+    ResponseEntity<UserDTO> updateUser(@Valid @PathVariable String usernameParam, @RequestBody UserVM.UpdateVM updateVM);
 
     /**
      * {@code GET  /users} : get all the users.
@@ -62,6 +75,7 @@ public interface AccountResource {
      * @return a string list of all roles.
      */
     @GetMapping("/users/roles")
+    @isAdmin
     ResponseEntity<List<String>> getRoles();
 
     /**
@@ -78,8 +92,20 @@ public interface AccountResource {
      *
      * @param username the username of the user to find.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the "username" user, or with status {@code 404 (Not Found)}.
+     * @throws UserNotFoundException {@code 404 (Not Found)} if the user couldn't be returned.
      */
     @GetMapping("/user/{username}")
     @PreAuthorize("#username == authentication.principal.username or hasAuthority(\"" + RolesConstants.ADMIN + "\")")
     ResponseEntity<UserDTO> getUser(@PathVariable("username") @isUsername String username);
+
+    /**
+     * {@code DELETE /users/:username} : delete the "username" User.
+     *
+     * @param username the username of the user to delete.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)}.
+     * @throws UserNotFoundException {@code 404 (Not Found)} if the user couldn't be returned.
+     */
+    @DeleteMapping("/user/{username}")
+    @isAdmin
+    ResponseEntity<Map<String, String>> deleteUser(@PathVariable String username);
 }

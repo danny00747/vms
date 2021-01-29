@@ -37,6 +37,12 @@ public class JWTFilter extends GenericFilterBean {
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
+    /**
+     * Resolves the jwt sent by the user.
+     *
+     * @param request to resolve.
+     * @return a jwt extracted from the request header. or null if the extraction process failed.
+     */
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {

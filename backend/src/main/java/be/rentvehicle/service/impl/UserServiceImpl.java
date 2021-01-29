@@ -4,6 +4,7 @@ import be.rentvehicle.domain.Roles;
 import be.rentvehicle.domain.User;
 import be.rentvehicle.security.SecurityUtils;
 import be.rentvehicle.service.dto.UserDTO;
+import be.rentvehicle.service.impl.errors.UserNotFoundException;
 import be.rentvehicle.service.mapper.UserMapper;
 import be.rentvehicle.dao.RolesDAO;
 import be.rentvehicle.dao.UserDAO;
@@ -90,7 +91,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public Optional<User> getUserWithRoles() {
-        return SecurityUtils.getCurrentUserLogin().flatMap(userDAO::findOneWithRolesByUsername);
+        return SecurityUtils.getCurrentAuthenticatedUser().flatMap(userDAO::findOneWithRolesByUsername);
     }
 
     @Override
@@ -99,9 +100,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserDTO> updateUser(String username, String email) {
+    public Optional<User> updateUser(String usernameParam, String username, String email) {
+
+        Optional<User> existingUserEmail = userDAO.findOneByEmailIgnoreCase(email);
+        if (existingUserEmail.isPresent() && (!existingUserEmail.get().getUsername().equalsIgnoreCase(usernameParam))) {
+            throw new EmailAlreadyUsedException(email);
+        }
+        Optional<User> existingUsername = userDAO.findOneByUsername(username);
+        if (existingUsername.isPresent() && (!existingUsername.get().getUsername().equalsIgnoreCase(usernameParam))) {
+            throw new UsernameAlreadyUsedException(username);
+        }
+
         return Optional.of(userDAO
-                .findOneByUsername(username))
+                .findOneByUsername(usernameParam))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(user -> {
@@ -110,8 +121,19 @@ public class UserServiceImpl implements UserService {
                     userDAO.save(user);
                     log.debug("Changed Information for User: {}", user);
                     return user;
-                })
-                .map(UserDTO::new);
+                });
+    }
+
+    @Override
+    public Optional<String> deleteUser(String username) {
+        return Optional.of(userDAO
+                .findOneByUsername(username))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(user -> {
+                    userDAO.delete(user);
+                    return "This user '" +  user.getUsername() + "' was successfully deleted !";
+                });
     }
 
     @Override

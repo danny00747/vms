@@ -58,9 +58,17 @@ public interface UserService {
     /**
      * Update basic information (username, email) for a specific user, and return the modified user.
      *
-     * @param username first name of user.
-     * @param email    email id of user.
+     * @param username username of user.
+     * @param email    email of user.
      * @return updated user.
      */
-    Optional<UserDTO> updateUser(String username, String email);
+    Optional<User> updateUser(String usernameParam, String username, String email);
+
+    /**
+     * Deletes a specific user, and return a confirmation message.
+     *
+     * @param username username of user.
+     * @return confirmation message.
+     */
+    Optional<String> deleteUser(String username);
 }

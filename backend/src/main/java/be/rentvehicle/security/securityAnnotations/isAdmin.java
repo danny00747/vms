@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Method level annotion for checking admin privileges across the whole application.
+ * Checks admin privileges across the whole application.
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

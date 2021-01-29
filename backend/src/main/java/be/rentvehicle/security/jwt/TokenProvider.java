@@ -24,7 +24,7 @@ public class TokenProvider {
 
     private final Logger log = LoggerFactory.getLogger(TokenProvider.class);
 
-    private static final String AUTHORITIES_KEY = "auth";
+    private static final String AUTHORITIES_KEY = "roles";
 
     @Value("${jwtSecretKey}")
     private String key;
@@ -32,9 +32,15 @@ public class TokenProvider {
     public TokenProvider() {
     }
 
-
+    /**
+     * Creates a jwt used to authenticate users.
+     *
+     * @param authentication used to create the jwt.
+     * @return a signed json web token as String.
+     */
     public String createToken(Authentication authentication) {
-        String authorities = authentication.getAuthorities().stream()
+        String authorities = authentication.getAuthorities()
+                .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
@@ -62,6 +68,12 @@ public class TokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
+    /**
+     * Validates/decodes the jwt used to authenticate users.
+     *
+     * @param authToken to validate during the authentication process.
+     * @return true if the jwt has been validated or false if the jwt is invalid.
+     */
     public boolean validateToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(key).parseClaimsJws(authToken);

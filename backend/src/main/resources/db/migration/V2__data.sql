@@ -19,4 +19,5 @@ VALUES (DEFAULT, 'tutu', 'tutu@gmail.com', '$2y$10$WHo/rOI5YCeiepz/0drvfOZXYnyOg
 INSERT INTO user_roles (role_name, user_id)
 VALUES ('ROLE_ADMIN', (SELECT id from users WHERE username = 'toto')),
        ('ROLE_USER', (SELECT id from users WHERE username = 'tata')),
-       ('ROLE_USER', (SELECT id from users WHERE username = 'tutu'));
+       ('ROLE_USER', (SELECT id from users WHERE username = 'tutu')),
+       ('ROLE_USER', (SELECT id from users WHERE username = 'toto'));;
