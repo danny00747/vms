@@ -15,7 +15,7 @@ import java.util.List;
 @Component
 public class TeacherController extends BaseRestController implements TeacherResource {
 
-    private final Logger log = LoggerFactory.getLogger(TeacherController.class);
+    private static final Logger log = LoggerFactory.getLogger(TeacherController.class);
 
     TeacherService teacherService;
 

@@ -86,6 +86,10 @@ public class UserDTO implements Serializable {
         return userRoles;
     }
 
+    public void setUserRoles(Set<String> userRoles) {
+        this.userRoles = userRoles;
+    }
+
     // prettier-ignore
     @Override
     public String toString() {

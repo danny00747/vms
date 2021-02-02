@@ -22,7 +22,7 @@ import io.jsonwebtoken.*;
 @Component
 public class TokenProvider {
 
-    private final Logger log = LoggerFactory.getLogger(TokenProvider.class);
+    private static final Logger log = LoggerFactory.getLogger(TokenProvider.class);
 
     private static final String AUTHORITIES_KEY = "roles";
 

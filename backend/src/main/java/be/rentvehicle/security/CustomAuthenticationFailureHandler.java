@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class CustomAuthenticationFailureHandler implements AuthenticationEntryPoint {
 
-    private final Logger log = LoggerFactory.getLogger(CustomAuthenticationFailureHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(CustomAuthenticationFailureHandler.class);
 
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {

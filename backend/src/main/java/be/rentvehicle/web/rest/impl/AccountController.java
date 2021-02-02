@@ -28,7 +28,7 @@ import java.util.Map;
 @Component
 public class AccountController extends BaseRestController implements AccountResource {
 
-    private final Logger log = LoggerFactory.getLogger(AccountController.class);
+    private static final Logger log = LoggerFactory.getLogger(AccountController.class);
 
     private final UserService userService;
 

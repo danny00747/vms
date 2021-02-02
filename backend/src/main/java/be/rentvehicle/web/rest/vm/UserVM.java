@@ -19,6 +19,11 @@ public enum UserVM {
             @Pattern(regexp = Constants.EMAIL_REGEX, message = "Please provide a valid email")
             @Size(min = 5, max = 254)
             String email) {
+
+        public UpdateVM(String username, String email) {
+            this.username = username;
+            this.email = email;
+        }
     }
 
     public static record LoginVM(
@@ -30,5 +35,10 @@ public enum UserVM {
             @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
             @NotNull(message = "password is a required field.")
             String password) {
+
+        public LoginVM(String pseudo, String password) {
+            this.password = password;
+            this.pseudo = pseudo;
+        }
     }
 }

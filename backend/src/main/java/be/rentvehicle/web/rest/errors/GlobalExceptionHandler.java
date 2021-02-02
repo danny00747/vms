@@ -26,7 +26,7 @@ import static java.util.stream.Collectors.toMap;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
      * A method to handle {@link MethodArgumentNotValidException} across the whole application.

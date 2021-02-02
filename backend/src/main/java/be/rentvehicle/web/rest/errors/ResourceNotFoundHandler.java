@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class ResourceNotFoundHandler {
 
-    private final Logger log = LoggerFactory.getLogger(ResourceNotFoundHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(ResourceNotFoundHandler.class);
 
     @RequestMapping(value = "/error", method = {RequestMethod.GET, RequestMethod.POST}, produces = "text/html")
     public ModelAndView errorPage() {

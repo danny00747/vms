@@ -4,7 +4,6 @@ import be.rentvehicle.domain.Roles;
 import be.rentvehicle.domain.User;
 import be.rentvehicle.security.SecurityUtils;
 import be.rentvehicle.service.dto.UserDTO;
-import be.rentvehicle.service.impl.errors.UserNotFoundException;
 import be.rentvehicle.service.mapper.UserMapper;
 import be.rentvehicle.dao.RolesDAO;
 import be.rentvehicle.dao.UserDAO;
@@ -33,7 +32,7 @@ import java.util.stream.Collectors;
 @Validated
 public class UserServiceImpl implements UserService {
 
-    private final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final UserDAO userDAO;
     private final RolesDAO rolesDAO;

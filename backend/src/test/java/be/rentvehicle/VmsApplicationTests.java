@@ -11,11 +11,4 @@ class VmsApplicationTests {
     void contextLoads() {
     }
 
-    @Test
-    void testTO() {
-        String a = "toto";
-        assertThat(a).isEqualTo("toto");
-
-    }
-
 }
