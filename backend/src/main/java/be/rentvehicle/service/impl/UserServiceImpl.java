@@ -1,6 +1,10 @@
 package be.rentvehicle.service.impl;
 
+import be.rentvehicle.dao.AddressDAO;
+import be.rentvehicle.dao.TownDAO;
+import be.rentvehicle.domain.Address;
 import be.rentvehicle.domain.Roles;
+import be.rentvehicle.domain.Town;
 import be.rentvehicle.domain.User;
 import be.rentvehicle.security.SecurityUtils;
 import be.rentvehicle.service.dto.UserDTO;
@@ -35,12 +39,16 @@ public class UserServiceImpl implements UserService {
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final UserDAO userDAO;
+    private final AddressDAO addressDAO;
+    private final TownDAO townDAO;
     private final RolesDAO rolesDAO;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserDAO userDAO, RolesDAO rolesDAO, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserDAO userDAO, AddressDAO addressDAO, TownDAO townDAO, RolesDAO rolesDAO, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
+        this.addressDAO = addressDAO;
+        this.townDAO = townDAO;
         this.rolesDAO = rolesDAO;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
@@ -64,7 +72,30 @@ public class UserServiceImpl implements UserService {
         user.setRoles(roles);
         String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
         user.setPassword(encryptedPassword);
+
+        Address address = new Address();
+        address.setRoad(userDTO.getAddress().getRoad());
+        address.setHouseNumber(userDTO.getAddress().getHouseNumber());
+        address.setPostBox(userDTO.getAddress().getPostBox());
+
+        user.setAddress(address);
+
+        address.setUser(user);
+
+        addressDAO.save(address);
+
+        Set<Address> addresses = new HashSet<>();
+        addresses.add(address);
+
+        Town town = new Town();
+        town.setPostcode(userDTO.getTown().getPostcode());
+        town.setName(userDTO.getTown().getName());
+        town.setAddresses(addresses);
+        town = townDAO.save(town);
+        address.setTown(town);
+
         user = userDAO.save(user);
+
         log.info("Created Information for User: {}", user);
         return userMapper.toDto(user);
     }
@@ -131,7 +162,7 @@ public class UserServiceImpl implements UserService {
                 .map(Optional::get)
                 .map(user -> {
                     userDAO.delete(user);
-                    return "This user '" +  user.getUsername() + "' was successfully deleted !";
+                    return "This user '" + user.getUsername() + "' was successfully deleted !";
                 });
     }
 

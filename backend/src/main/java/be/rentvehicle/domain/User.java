@@ -2,6 +2,7 @@ package be.rentvehicle.domain;
 
 import be.rentvehicle.config.Constants;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -36,11 +37,8 @@ public class User {
     @NotNull
     private String password;
 
-    /*
-       @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private Set<Roles> roles = new HashSet<>();
-     */
+    @OneToOne(mappedBy = "user")
+    private Address address;
 
     @ManyToMany
     @JoinTable(
@@ -106,6 +104,18 @@ public class User {
         return this;
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
+    public User address(Address address) {
+        this.address = address;
+        return this;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
     @Override
     public boolean equals(Object obj) {

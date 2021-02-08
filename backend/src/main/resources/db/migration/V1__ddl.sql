@@ -10,6 +10,8 @@ CREATE DOMAIN username_regex AS VARCHAR(25)
 DROP DOMAIN IF EXISTS dRoles CASCADE;
 DROP TABLE IF EXISTS teacher CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS address CASCADE;
+DROP TABLE IF EXISTS town CASCADE;
 DROP TABLE IF EXISTS user_roles CASCADE;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -43,5 +45,23 @@ CREATE TABLE user_roles
     FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (role_name) REFERENCES roles (name) ON UPDATE CASCADE ON DELETE CASCADE
 
+);
+
+CREATE TABLE town
+(
+    postcode integer primary key,
+    name     VARCHAR(128) NOT NULL
+);
+
+CREATE TABLE address
+(
+    id          uuid DEFAULT uuid_generate_v4() primary key,
+    road        VARCHAR(50) NOT NULL,
+    post_box     integer     NOT NULL,
+    house_number integer     NOT NULL,
+    postcode    integer,
+    user_id     uuid,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (postcode) REFERENCES town (postcode) ON UPDATE CASCADE ON DELETE CASCADE
 );
 

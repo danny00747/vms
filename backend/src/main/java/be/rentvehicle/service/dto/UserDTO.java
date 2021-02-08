@@ -1,7 +1,9 @@
 package be.rentvehicle.service.dto;
 
 import be.rentvehicle.config.Constants;
+import be.rentvehicle.domain.Address;
 import be.rentvehicle.domain.Roles;
+import be.rentvehicle.domain.Town;
 import be.rentvehicle.domain.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -33,8 +35,13 @@ public class UserDTO implements Serializable {
     @NotNull(message = "password is a required field.")
     private String password;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Set<String> userRoles = new HashSet<>();
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Address address;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Town town;
 
     public UserDTO() {
         // Empty constructor needed for Jackson.
@@ -90,6 +97,22 @@ public class UserDTO implements Serializable {
         this.userRoles = userRoles;
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Town getTown() {
+        return town;
+    }
+
+    public void setTown(Town town) {
+        this.town = town;
+    }
+
     // prettier-ignore
     @Override
     public String toString() {
@@ -97,7 +120,7 @@ public class UserDTO implements Serializable {
                 "userId='" + userId + '\'' +
                 ", email='" + userEmail + '\'' +
                 ", username='" + username + '\'' +
-                ", userRoles=" + userRoles +
+                ", userRoless=" + userRoles +
                 "}";
     }
 }
