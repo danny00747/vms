@@ -7,6 +7,7 @@ import be.rentvehicle.domain.Town;
 import be.rentvehicle.domain.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -35,11 +36,14 @@ public class UserDTO implements Serializable {
     @NotNull(message = "password is a required field.")
     private String password;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Set<String> userRoles = new HashSet<>();
 
+    @Valid
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Address address;
 
+    @Valid
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Town town;
 

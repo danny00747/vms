@@ -13,6 +13,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +74,20 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(Map.of("message", ex.getMessage()));
+    }
+
+    /**
+     * A method to handle {@link ConstraintViolationException} across the whole application.
+     */
+    @ExceptionHandler({ConstraintViolationException.class})
+    public ResponseEntity<List<String>> constraintViolationException(ConstraintViolationException ex) {
+        log.warn("ConstraintViolationException thrown !");
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ex.getConstraintViolations()
+                        .stream()
+                        .map(ConstraintViolation::getMessage)
+                        .collect(Collectors.toList()));
     }
 }
 

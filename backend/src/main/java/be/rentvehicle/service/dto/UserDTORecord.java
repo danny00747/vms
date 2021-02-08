@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public record UserDTOO(
+public record UserDTORecord(
 
         @JsonProperty(access = JsonProperty.Access.READ_ONLY)
         UUID userId,

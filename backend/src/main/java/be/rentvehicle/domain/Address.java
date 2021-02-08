@@ -20,13 +20,18 @@ public class Address implements Serializable {
     @Column(columnDefinition = "id")
     private UUID id;
 
+    @NotNull(message = "road is a required field.")
     private String road;
 
     @Column(name = "post_box")
-    private int postBox;
+    @Min(value = 1, message = "postBox must be greater than or equal to 1")
+    @NotNull(message = "road is a required field.")
+    private Integer postBox;
 
     @Column(name = "house_number")
-    private int houseNumber;
+    @Min(value = 1, message = "houseNumber must be greater than or equal to 1")
+    @NotNull(message = "houseNumber is a required field.")
+    private Integer houseNumber;
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -57,28 +62,28 @@ public class Address implements Serializable {
         this.road = road;
     }
 
-    public int getPostBox() {
+    public Integer getPostBox() {
         return postBox;
     }
 
-    public Address postBox(int postBox) {
+    public Address postBox(Integer postBox) {
         this.postBox = postBox;
         return this;
     }
 
-    public void setPostBox(int postBox) {
+    public void setPostBox(Integer postBox) {
         this.postBox = postBox;
     }
 
-    public int getHouseNumber() {
+    public Integer getHouseNumber() {
         return houseNumber;
     }
 
-    public void setHouseNumber(int houseNumber) {
+    public void setHouseNumber(Integer houseNumber) {
         this.houseNumber = houseNumber;
     }
 
-    public Address houseNumber(int houseNumber) {
+    public Address houseNumber(Integer houseNumber) {
         this.houseNumber = houseNumber;
         return this;
     }

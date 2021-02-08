@@ -23,18 +23,21 @@ public class Town implements Serializable {
 
     @Id
     @Column(name = "postcode")
-    private int postcode;
+    @NotNull(message = "postcode is a required field.")
+    @Min(value = 1, message = "postcode must be greater than or equal to 1")
+    private Integer postcode;
 
+    @NotNull(message = "A town's name is a required field.")
     private String name;
 
     @OneToMany(mappedBy = "town")
     private Set<Address> addresses = new HashSet<>();
 
-    public void setPostcode(int postcode) {
+    public void setPostcode(Integer postcode) {
         this.postcode = postcode;
     }
 
-    public int getPostcode() {
+    public Integer getPostcode() {
         return postcode;
     }
 
