@@ -73,6 +73,16 @@ public class UserServiceImpl implements UserService {
         String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
         user.setPassword(encryptedPassword);
 
+        saveTown(userDTO, user);
+
+        user = userDAO.save(user);
+
+        log.info("Created Information for User: {}", user);
+        return userMapper.toDto(user);
+    }
+
+    private Address saveAddress(UserDTO userDTO, User user) {
+
         Address address = new Address();
         address.setRoad(userDTO.getAddress().getRoad());
         address.setHouseNumber(userDTO.getAddress().getHouseNumber());
@@ -84,6 +94,13 @@ public class UserServiceImpl implements UserService {
 
         addressDAO.save(address);
 
+        return address;
+    }
+
+    private void saveTown(UserDTO userDTO, User user) {
+
+        Address address = saveAddress(userDTO, user);
+
         Set<Address> addresses = new HashSet<>();
         addresses.add(address);
 
@@ -93,11 +110,6 @@ public class UserServiceImpl implements UserService {
         town.setAddresses(addresses);
         town = townDAO.save(town);
         address.setTown(town);
-
-        user = userDAO.save(user);
-
-        log.info("Created Information for User: {}", user);
-        return userMapper.toDto(user);
     }
 
     @Override
