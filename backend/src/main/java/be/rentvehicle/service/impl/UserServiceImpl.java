@@ -101,8 +101,7 @@ public class UserServiceImpl implements UserService {
 
         Address address = saveAddress(userDTO, user);
 
-        Set<Address> addresses = new HashSet<>();
-        addresses.add(address);
+        Set<Address> addresses = Set.of(address);
 
         Town town = new Town();
         town.setPostcode(userDTO.getTown().getPostcode());
