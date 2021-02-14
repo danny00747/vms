@@ -37,7 +37,7 @@ public class Address implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "postcode")
     private Town town;
 

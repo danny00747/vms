@@ -17,6 +17,7 @@ public enum UserVM {
             String username,
 
             @Pattern(regexp = Constants.EMAIL_REGEX, message = "Please provide a valid email")
+            @NotNull(message = "email is a required field.")
             @Size(min = 5, max = 254)
             String email) {
 

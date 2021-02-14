@@ -57,7 +57,7 @@ public interface AccountResource {
      */
     @PatchMapping("/user/{usernameParam}")
     @PreAuthorize("#usernameParam == authentication.principal.username or hasAuthority(\"" + RolesConstants.ADMIN + "\")")
-    ResponseEntity<UserDTO> updateUser(@Valid @PathVariable String usernameParam, @RequestBody UserVM.UpdateVM updateVM);
+    ResponseEntity<UserDTO> updateUser(@PathVariable String usernameParam, @Valid @RequestBody UserVM.UpdateVM updateVM);
 
     /**
      * {@code GET  /users} : get all the users.

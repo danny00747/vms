@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,6 +28,11 @@ public interface UserDAO extends JpaRepository<User, UUID> {
 
     Page<User> findAllByUsernameNot(Pageable pageable, String username);
 
-    @Query("select distinct user from User user left join fetch user.roles order by user.username")
+    @Query(""" 
+                select distinct user from User user 
+                left join fetch user.roles 
+                join fetch user.address 
+                order by user.username 
+            """)
     List<User> findAllWithEagerRelationships();
 }

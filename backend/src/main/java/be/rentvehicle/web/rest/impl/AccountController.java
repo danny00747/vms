@@ -68,7 +68,7 @@ public class AccountController extends BaseRestController implements AccountReso
 
     @Override
     public ResponseEntity<UserDTO> updateUser(String usernameParam, UserVM.UpdateVM updateVM) {
-        log.debug("REST request to upfate User : {}", updateVM.username());
+        log.debug("REST request to upfate User : {}", usernameParam);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userService

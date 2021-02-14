@@ -1,16 +1,10 @@
 package be.rentvehicle.domain;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
-
 
 /**
  * A Town.
@@ -28,6 +22,7 @@ public class Town implements Serializable {
     private Integer postcode;
 
     @NotNull(message = "A town's name is a required field.")
+    @Column(unique = true)
     private String name;
 
     @OneToMany(mappedBy = "town")

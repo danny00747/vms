@@ -21,26 +21,30 @@ CREATE TABLE teacher
 (
     id    uuid DEFAULT uuid_generate_v4() primary key,
     email VARCHAR(255) NOT NULL,
-    name  VARCHAR(255) NOT NULL
+    name  VARCHAR(255) NOT NULL,
+    created_at DATE DEFAULT CURRENT_DATE
 );
 
 CREATE TABLE users
 (
     id       uuid DEFAULT uuid_generate_v4() primary key,
-    username VARCHAR(32)  NOT NULL,
-    email    VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL
+    username VARCHAR(32)  NOT NULL UNIQUE ,
+    email    VARCHAR(255) NOT NULL UNIQUE ,
+    password VARCHAR(255) NOT NULL,
+    created_at DATE DEFAULT CURRENT_DATE
 );
 
 CREATE TABLE roles
 (
-    name DRoles primary key
+    name DRoles primary key,
+    created_at DATE DEFAULT CURRENT_DATE
 );
 
 CREATE TABLE user_roles
 (
     role_name VARCHAR(25),
     user_id   uuid,
+    created_at DATE DEFAULT CURRENT_DATE,
     PRIMARY KEY (role_name, user_id),
     FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (role_name) REFERENCES roles (name) ON UPDATE CASCADE ON DELETE CASCADE
@@ -50,18 +54,20 @@ CREATE TABLE user_roles
 CREATE TABLE town
 (
     postcode integer primary key,
-    name     VARCHAR(128) NOT NULL
+    name     VARCHAR(128) NOT NULL,
+    created_at DATE DEFAULT CURRENT_DATE,
+    UNIQUE (name)
 );
 
 CREATE TABLE address
 (
-    id          uuid DEFAULT uuid_generate_v4() primary key,
-    road        VARCHAR(50) NOT NULL,
+    id           uuid DEFAULT uuid_generate_v4() primary key,
+    road         VARCHAR(50) NOT NULL,
     post_box     integer     NOT NULL,
     house_number integer     NOT NULL,
-    postcode    integer,
-    user_id     uuid,
+    postcode     integer,
+    user_id      uuid,
+    created_at DATE DEFAULT CURRENT_DATE,
     FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (postcode) REFERENCES town (postcode) ON UPDATE CASCADE ON DELETE CASCADE
 );
-

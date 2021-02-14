@@ -103,12 +103,16 @@ public class UserServiceImpl implements UserService {
 
         Set<Address> addresses = Set.of(address);
 
-        Town town = new Town();
+        final Town town = new Town();
         town.setPostcode(userDTO.getTown().getPostcode());
-        town.setName(userDTO.getTown().getName());
+        townDAO.findById(userDTO.getTown().getPostcode())
+                .ifPresentOrElse(
+                foundTown -> town.setName(foundTown.getName()),
+                () -> town.setName(userDTO.getTown().getName())
+        );
         town.setAddresses(addresses);
-        town = townDAO.save(town);
-        address.setTown(town);
+        Town savedTown = townDAO.save(town);
+        address.setTown(savedTown);
     }
 
     @Override

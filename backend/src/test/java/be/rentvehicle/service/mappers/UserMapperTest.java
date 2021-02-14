@@ -1,6 +1,8 @@
 package be.rentvehicle.service.mappers;
 
 
+import be.rentvehicle.domain.Address;
+import be.rentvehicle.domain.Town;
 import be.rentvehicle.service.mapper.UserMapper;
 import be.rentvehicle.domain.User;
 import be.rentvehicle.service.dto.UserDTO;
@@ -30,8 +32,18 @@ public class UserMapperTest {
         user = new User();
         user.setUsername(DEFAULT_LOGIN);
         user.setPassword(UUID.randomUUID().toString());
-        user.setEmail("test@localhost");
+        user.setEmail("test@localhost.com");
 
+        Address address = new Address();
+        address.setRoad("rue de la place");
+        address.setHouseNumber(7);
+        address.setPostBox(7);
+
+        Town town = new Town();
+        town.setName("LLN");
+        town.setPostcode(1338);
+        address.setTown(town);
+        user.setAddress(address);
         userDto = new UserDTO(user);
     }
 
@@ -127,7 +139,7 @@ public class UserMapperTest {
     @DisplayName("test UserFromId ")
     public void testUserFromId() {
         assertThat(userMapper.userFromId(DEFAULT_ID).getId()).isEqualTo(DEFAULT_ID);
-       assertThat(userMapper.userFromId(null).getId()).isNull();
+        assertThat(userMapper.userFromId(null).getId()).isNull();
     }
 
 }

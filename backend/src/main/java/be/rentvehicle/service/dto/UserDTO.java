@@ -6,11 +6,13 @@ import be.rentvehicle.domain.Roles;
 import be.rentvehicle.domain.Town;
 import be.rentvehicle.domain.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -18,7 +20,8 @@ import java.util.stream.Collectors;
 /**
  * A DTO for the {@link User} entity.
  */
-public class UserDTO implements Serializable {
+@NoArgsConstructor
+public @Data class UserDTO implements Serializable {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private UUID userId;
@@ -28,6 +31,7 @@ public class UserDTO implements Serializable {
     private String username;
 
     @Pattern(regexp = Constants.EMAIL_REGEX, message = "Please provide a valid email")
+    @NotNull(message = "userEmail is a required field.")
     @Size(min = 5, max = 254)
     private String userEmail;
 
@@ -37,94 +41,31 @@ public class UserDTO implements Serializable {
     private String password;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Set<String> userRoles = new HashSet<>();
+    private Set<String> userRoles;
 
     @Valid
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Address address;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Map<String, String> userAdress;
+
     @Valid
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Town town;
 
-    public UserDTO() {
-        // Empty constructor needed for Jackson.
-    }
 
     public UserDTO(User user) {
         this.userId = user.getId();
         this.username = user.getUsername();
         this.userEmail = user.getEmail();
+        this.userAdress = Map.of(
+                "address", user.getAddress().getRoad() + ", " + user.getAddress().getHouseNumber(),
+                "town", user.getAddress().getTown().getName()
+        );
         this.userRoles = user.getRoles()
                 .stream()
                 .map(Roles::getName)
                 .collect(Collectors.toSet());
-    }
-
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Set<String> getUserRoles() {
-        return userRoles;
-    }
-
-    public void setUserRoles(Set<String> userRoles) {
-        this.userRoles = userRoles;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public Town getTown() {
-        return town;
-    }
-
-    public void setTown(Town town) {
-        this.town = town;
-    }
-
-    // prettier-ignore
-    @Override
-    public String toString() {
-        return "UserDTO{" +
-                "userId='" + userId + '\'' +
-                ", email='" + userEmail + '\'' +
-                ", username='" + username + '\'' +
-                ", userRoless=" + userRoles +
-                "}";
     }
 }
