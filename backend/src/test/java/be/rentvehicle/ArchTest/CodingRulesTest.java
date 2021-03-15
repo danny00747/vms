@@ -22,10 +22,10 @@ public class CodingRulesTest {
             .importPackages("be.rentvehicle");
 
     @Test
-    @DisplayName("No classes should access standard streams or throw generic exceptions")
-    public void no_standard_streams_or_generic_exceptions() {
-        CompositeArchRule.of(NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS)
-                .and(NO_CLASSES_SHOULD_THROW_GENERIC_EXCEPTIONS).check(importedClasses);
+    @DisplayName("No classes should throw generic exceptions")
+    public void no_generic_exceptions() {
+        CompositeArchRule.of(NO_CLASSES_SHOULD_THROW_GENERIC_EXCEPTIONS)
+                .check(importedClasses);
     }
 
     @Test

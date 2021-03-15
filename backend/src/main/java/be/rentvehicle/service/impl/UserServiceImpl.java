@@ -72,11 +72,8 @@ public class UserServiceImpl implements UserService {
         user.setRoles(roles);
         String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
         user.setPassword(encryptedPassword);
-
         saveTown(userDTO, user);
-
         user = userDAO.save(user);
-
         log.info("Created Information for User: {}", user);
         return userMapper.toDto(user);
     }
@@ -89,11 +86,8 @@ public class UserServiceImpl implements UserService {
         address.setPostBox(userDTO.getAddress().getPostBox());
 
         user.setAddress(address);
-
         address.setUser(user);
-
         addressDAO.save(address);
-
         return address;
     }
 
@@ -136,7 +130,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public Optional<User> getUserWithRoles() {
-        return SecurityUtils.getCurrentAuthenticatedUser().flatMap(userDAO::findOneWithRolesByUsername);
+        return SecurityUtils
+                .getCurrentAuthenticatedUser()
+                .flatMap(userDAO::findOneWithRolesByUsername);
     }
 
     @Override

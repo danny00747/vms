@@ -54,7 +54,6 @@ public @Data class UserDTO implements Serializable {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Town town;
 
-
     public UserDTO(User user) {
         this.userId = user.getId();
         this.username = user.getUsername();

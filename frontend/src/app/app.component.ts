@@ -7,4 +7,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'vms';
+
+  functionOnWhichRedirectShouldHappen(): void {
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
+  }
 }
+
+

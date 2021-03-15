@@ -38,8 +38,8 @@ public enum UserVM {
             String password) {
 
         public LoginVM(String pseudo, String password) {
-            this.password = password;
             this.pseudo = pseudo;
+            this.password = password;
         }
     }
 }

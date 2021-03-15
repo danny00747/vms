@@ -1,6 +1,6 @@
 package be.rentvehicle.ArchTest;
 
-import be.rentvehicle.web.rest.impl.BaseRestController;
+import be.rentvehicle.web.rest.BaseRestController;
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.core.importer.ImportOption;

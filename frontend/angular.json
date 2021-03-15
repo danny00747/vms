@@ -24,9 +24,39 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/assets/css/bootstrap.min.css",
+              "src/assets/css/fontawesome.css",
+              "src/assets/css/aos.css",
+              "src/assets/css/animate.css",
+              "src/assets/css/slick.css",
+              "src/assets/css/slick-theme.css",
+              "src/assets/css/magnific-popup.css",
+              "src/assets/css/nice-select.css",
+              "src/assets/css/jquery-ui.css",
+              "src/assets/css/style.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/jquery-3.5.1.min.js",
+              "src/assets/js/popper.min.js",
+              "src/assets/js/bootstrap.min.js",
+              "src/assets/js/aos.js",
+              "src/assets/js/parallaxie.js",
+              "src/assets/js/slick.min.js",
+              "src/assets/js/magnific-popup.min.js",
+              "src/assets/js/nice-select.min.js",
+              "src/assets/js/isotope.pkgd.js",
+              "src/assets/js/imagesloaded.pkgd.min.js",
+              "src/assets/js/masonry.pkgd.min.js",
+              "src/assets/js/gmaps.min.js",
+              "src/assets/js/jquery-ui.js",
+              "src/assets/js/waypoint.js",
+              "src/assets/js/counterup.min.js",
+              "src/assets/js/validate.js",
+              "src/assets/js/mCustomScrollbar.js",
+              "src/assets/js/custom.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -88,9 +118,12 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/*.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/*.js"
+            ]
           }
         },
         "lint": {
