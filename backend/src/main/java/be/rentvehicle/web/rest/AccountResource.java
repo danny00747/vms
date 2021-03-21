@@ -1,5 +1,6 @@
 package be.rentvehicle.web.rest;
 
+import be.rentvehicle.config.TwilioConfiguration;
 import be.rentvehicle.security.CustomAuthenticationFailureHandler;
 import be.rentvehicle.security.RolesConstants;
 import be.rentvehicle.security.jwt.JWTFilter;
@@ -46,11 +47,14 @@ public class AccountResource extends BaseRestController {
 
     private final TokenProvider tokenProvider;
 
+    private final TwilioConfiguration twilioConfiguration;
+
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public AccountResource(UserService userService, TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
+    public AccountResource(UserService userService, TokenProvider tokenProvider, TwilioConfiguration twilioConfiguration, AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.userService = userService;
         this.tokenProvider = tokenProvider;
+        this.twilioConfiguration = twilioConfiguration;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
     }
 
