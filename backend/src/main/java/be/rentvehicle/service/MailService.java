@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+@Profile("prod")
 @Service
-// @Profile("dev")
 public class MailService {
 
     private final SendGridAPI sendGridAPI;
@@ -22,8 +22,8 @@ public class MailService {
 
     public void sendMail() {
         Email from = new Email("he201718@students.ephec.be", "rent vehicle");
-        String subject = "Test email with SendGrid";
-        Email to = new Email("olvdanny@protonmail.com");
+        String subject = "Testing SendGrid API";
+        Email to = new Email("danbarca955@gmail.com");
         Content content = new Content("text/html", mailTemplate()
                 .replace("XXXusernameXXX", "Messi")
                 .replace("XXXusernameXXX", "Messi"));

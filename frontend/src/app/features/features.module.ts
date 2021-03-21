@@ -5,19 +5,28 @@ import { RegisterComponent } from './components/register/register.component';
 import {Routes, RouterModule} from '@angular/router';
 import {SharedModule} from '../shared/shared.module';
 import { GalleryComponent } from './components/gallery/gallery.component';
+import {ButtonModule} from 'primeng/button';
+import { ProfileComponent } from './components/profile/profile.component';
+import {AuthGuard} from '@app/core/guards/auth.guard';
+import { CarsComponent } from './components/cars/cars.component';
+import { CarDetailComponent } from './components/cars/car-detail/car-detail.component';
 
 const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'gallery', component: GalleryComponent}
+  {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+  {path: 'gallery', component: GalleryComponent},
+  {path: 'cars', component: CarsComponent},
+  {path: 'cars/:name', component: CarDetailComponent}
 ];
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, GalleryComponent],
+  declarations: [LoginComponent, RegisterComponent, GalleryComponent, ProfileComponent, CarsComponent, CarDetailComponent],
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule.forChild(routes),
+    ButtonModule,
+    RouterModule.forChild(routes)
   ]
 })
 export class FeaturesModule { }

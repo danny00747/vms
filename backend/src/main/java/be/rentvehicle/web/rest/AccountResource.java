@@ -1,13 +1,11 @@
 package be.rentvehicle.web.rest;
 
-import be.rentvehicle.config.TwilioConfiguration;
 import be.rentvehicle.security.CustomAuthenticationFailureHandler;
 import be.rentvehicle.security.RolesConstants;
 import be.rentvehicle.security.jwt.JWTFilter;
 import be.rentvehicle.security.jwt.TokenProvider;
 import be.rentvehicle.security.securityAnnotations.isAdmin;
 import be.rentvehicle.security.securityAnnotations.isUsername;
-import be.rentvehicle.service.MailService;
 import be.rentvehicle.service.UserService;
 import be.rentvehicle.service.dto.UserDTO;
 import be.rentvehicle.service.impl.errors.EmailAlreadyUsedException;
@@ -48,17 +46,11 @@ public class AccountResource extends BaseRestController {
 
     private final TokenProvider tokenProvider;
 
-    private final MailService mailService;
-
-    private final TwilioConfiguration twilioConfiguration;
-
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public AccountResource(UserService userService, TokenProvider tokenProvider, MailService mailService, TwilioConfiguration twilioConfiguration, AuthenticationManagerBuilder authenticationManagerBuilder) {
+    public AccountResource(UserService userService, TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.userService = userService;
         this.tokenProvider = tokenProvider;
-        this.mailService = mailService;
-        this.twilioConfiguration = twilioConfiguration;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
     }
 
@@ -100,7 +92,6 @@ public class AccountResource extends BaseRestController {
 
          SecureRandom secureRandom = new SecureRandom();
          int myCode = secureRandom.nextInt(9000000) + 1000000;
-
 
          PhoneNumber to = new PhoneNumber("+32485713601");
          PhoneNumber from = new PhoneNumber(twilioConfiguration.getTrialNumber());

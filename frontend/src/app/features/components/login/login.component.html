@@ -1,9 +1,10 @@
-
 <!-- breadcrumb_section - start
 ================================================== -->
+
+<p-toast></p-toast>
 <section class="breadcrumb_section text-center clearfix">
   <div class="page_title_area has_overlay d-flex align-items-center clearfix"
-        style="background-image: url('../../../../assets/images/breadcrumb/bg_09.jpg')">
+       style="background-image: url('../../../../assets/images/breadcrumb/bg_09.jpg')">
     <div class="overlay"></div>
     <div class="container" data-aos="fade-up" data-aos-delay="100">
       <br><br><br>
@@ -13,7 +14,7 @@
   <div class="breadcrumb_nav clearfix" data-bg-color="#F2F2F2" style="background-color: #F2F2F2">
     <div class="container">
       <ul class="ul_li clearfix">
-        <li><a href="index.html">Home</a></li>
+        <li><a [routerLink]="['/home']">Home</a></li>
         <li>Login</li>
       </ul>
     </div>
@@ -22,14 +23,13 @@
 <!-- breadcrumb_section - end
 ================================================== -->
 
-
-
 <!-- register_section - start
 ================================================== -->
 <section class="register_section sec_ptb_100 clearfix">
   <div class="container">
 
-    <div style="background-color: #F2F2F2" class="register_card mb_60" data-bg-color="#F2F2F2" data-aos="fade-up" data-aos-delay="100">
+    <div style="background-color: #F2F2F2" class="register_card mb_60" data-aos="fade-up"
+         data-aos-delay="100">
       <div class="row align-items-center">
         <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
           <div class="reg_image" data-aos="fade-up" data-aos-delay="300">
@@ -44,7 +44,7 @@
               Savings of up to 15% with our car rental solutions, global coverage and a dedicated customer team
             </p>
             <span class="new_account mb_15">Log In or <a href="#">Create an Account?</a></span>
-            <form action="#">
+            <form #signUpForm="ngForm">
               <!-- Username or email-->
               <div class="form_item  form-label-group input">
                 <input #pseudoInput="ngModel"
@@ -54,8 +54,10 @@
                        [(ngModel)]="pseudo" name="pseudo"
                        placeholder="Pseudonyme" required autofocus>
                 <label for="pseudo">username or email</label>
-                <small id="pseudoError" class="text-danger" [class.d-none]="pseudoInput.valid ||
-            pseudoInput.untouched">Ce champ est obligatoire</small>
+                <small id="pseudoError" class="text-danger"
+                       [class.d-none]="pseudoInput.valid || pseudoInput.untouched">
+                  This field is required
+                </small>
               </div>
               <!-- password -->
               <div class="form_item  form-label-group input">
@@ -67,19 +69,19 @@
                        placeholder="Mot de passe" required autofocus>
                 <label for="password">password</label>
                 <small id="passwordError" class="text-danger" [class.d-none]="passwordInput.valid ||
-                       passwordInput.untouched">Un mot de passe est requis</small>
+                       passwordInput.untouched">A password is required</small>
               </div>
-              <button type="submit" class="custom_btn bg_default_red text-uppercase">Login <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
-              <span class="reset_pass mb_15"><a href="#">Reset Your Password by e-mail?</a></span>
+              <button type="submit" class="custom_btn carret bg_default_red text-uppercase"
+                      (click)="onLoginSubmit()"
+                      [disabled]="signUpForm.form.invalid">Login
+                <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
+              <span class="reset_pass mb_15"><a>Reset your Password by e-mail?</a></span>
             </form>
           </div>
         </div>
       </div>
     </div>
-
-
   </div>
 </section>
-<!-- register_section - end
+<!-- login_section - end
 ================================================== -->
-

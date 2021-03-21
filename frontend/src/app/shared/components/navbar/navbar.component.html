@@ -27,7 +27,7 @@
 
         <div class="col-lg-3 col-md-6 col-sm-6 col-6">
           <div class="brand_logo">
-            <a [routerLink]="['/home']" (click)="reload()">
+            <a [routerLink]="['/home']">
               <img src="../../../../assets/images/logo/logo_01_1x.png"
                    alt="logo_not_found">
               <img src="../../../../assets/images/logo/logo_02_1x.png"
@@ -44,7 +44,7 @@
                 <i class="fal fa-search"></i>
               </button>
             </li>
-            <li class="dropdown">
+            <li *ngIf="authService.currentUserValue" class="dropdown">
               <button type="button" class="cart_btn" id="cart_dropdown" data-toggle="dropdown" aria-haspopup="true"
                       aria-expanded="false">
                 <i class="fal fa-shopping-cart"></i>
@@ -94,7 +94,7 @@
                 </ul>
               </div>
             </li>
-            <li class="dropdown">
+            <li *ngIf="authService.currentUserValue" class="dropdown">
               <button type="button" class="user_btn" id="user_dropdown" data-toggle="dropdown" aria-haspopup="true"
                       aria-expanded="false">
                 <i class="fal fa-user"></i>
@@ -105,30 +105,30 @@
                     <img src="../../../../assets/images/meta/img_01.png" alt="thumbnail_not_found">
                   </a>
                   <div class="user_content">
-                    <h4 class="user_name"><a href="#!">Rakibul Hassan</a></h4>
-                    <span class="user_title">Seller</span>
+                    <h4 [routerLink]="['/profile']"  class="user_name"><a>Rakibul Hassan</a></h4>
+                    <span class="user_title">Client</span>
                   </div>
                 </div>
                 <ul class="ul_li_block clearfix">
-                  <li><a ><i class="fal fa-user-circle"></i> Profile</a></li>
+                  <li><a [routerLink]="['/profile']" ><i class="fal fa-user-circle"></i> Profile</a></li>
                   <li><a ><i class="fal fa-user-cog"></i> Settings</a></li>
-                  <li><a ><i class="fal fa-sign-out"></i> Logout</a></li>
+                  <li><a (click)="onLogOutClick()" ><i class="fal fa-sign-out"></i> Logout</a></li>
                 </ul>
               </div>
             </li>
-            <li>
+            <li *ngIf="authService.currentUserValue">
               <button type="button" class="mobile_sidebar_btn">
                 <i class="fal fa-align-right"></i></button>
             </li>
-            <li [routerLinkActive]="['active']"
+            <li *ngIf="!authService.currentUserValue" [routerLinkActive]="['active']"
                 [routerLinkActiveOptions]="{ exact: true }">
-              <button [routerLink]="['/login']"  (click)="reload()" type="button" class="">
+              <button [routerLink]="['/login']" type="button" class="">
                 <i class="fal fa-sign-in"></i>
               </button>
             </li>
-            <li [routerLinkActive]="['active']"
+            <li *ngIf="!authService.currentUserValue" [routerLinkActive]="['active']"
                 [routerLinkActiveOptions]="{ exact: true }">
-              <button [routerLink]="['/register']" (click)="reload()" type="button" class="">
+              <button [routerLink]="['/register']" type="button" class="">
                 <i class="fal fa-user-plus"></i>
               </button>
             </li>
@@ -140,11 +140,11 @@
             <ul class="ul_li_center clearfix">
               <li [routerLinkActive]="['active']"
                    [routerLinkActiveOptions]="{ exact: true }">
-                <a [routerLink]="['/home gallery']" (click)="reload()">Home</a>
+                <a [routerLink]="['/home']">Home</a>
               </li>
-              <li><a [routerLink]="['/gallery']" (click)="reload()">Our Cars</a></li>
+              <li><a [routerLink]="['/gallery']">Our Cars</a></li>
               <li><a >Reviews</a></li>
-              <li><a [routerLink]="['/about']" (click)="reload()">About</a></li>
+              <li><a [routerLink]="['/about']">About</a></li>
               <li class="has_child">
                 <a >Pages</a>
                 <ul class="submenu">
@@ -172,7 +172,7 @@
                 </ul>
               </li>
               <li class="">
-                <a [routerLink]="['/contact']" (click)="reload()">Contact Us</a>
+                <a [routerLink]="['/contact']">Contact Us</a>
               </li>
             </ul>
           </nav>

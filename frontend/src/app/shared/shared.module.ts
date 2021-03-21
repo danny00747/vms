@@ -6,12 +6,18 @@ import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {ToastModule} from 'primeng/toast';
+import {MultiSelectModule} from 'primeng/multiselect';
+import {BreadcrumbModule} from 'primeng/breadcrumb';
+
 
 @NgModule({
   declarations: [SidebarComponent, NavbarComponent],
   imports: [
     CommonModule,
     RouterModule,
+    ToastModule,
+    MultiSelectModule,
     HttpClientModule
   ],
   exports: [
@@ -21,7 +27,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    HttpClientModule
+    HttpClientModule,
+    MultiSelectModule,
+    ToastModule,
+    BreadcrumbModule,
   ]
 })
 export class SharedModule { }
