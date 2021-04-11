@@ -11,18 +11,20 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {JwtInterceptor} from './interceptor/jwt.interceptor';
 import {ErrorInterceptor} from './interceptor/error.interceptor';
 import {MessageService} from 'primeng/api';
+import { FaqComponent } from './components/faq/faq.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   {path: 'contact', component: ContactComponent},
   {path: 'about', component: AboutComponent},
+  {path: 'faq', component: FaqComponent},
   {path: '**', component: PageNotFoundComponent}
 ];
 
 @NgModule({
   declarations: [HomeComponent, FooterComponent, ContactComponent,
-    AboutComponent, PageNotFoundComponent],
+    AboutComponent, PageNotFoundComponent, FaqComponent],
   exports: [
     FooterComponent
   ],

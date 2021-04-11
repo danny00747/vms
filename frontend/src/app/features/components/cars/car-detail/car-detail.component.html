@@ -2,7 +2,6 @@
 ================================================== -->
 <section class="breadcrumb_section text-center clearfix">
   <div class="page_title_area has_overlay d-flex align-items-center clearfix"
-       data-bg-image="assets/images/breadcrumb/bg_02.jpg"
         style="background-image: url('assets/images/breadcrumb/bg_02.jpg')">
     <div class="overlay"></div>
     <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -13,8 +12,8 @@
   <div class="breadcrumb_nav clearfix" style="background-color: #F2F2F2">
     <div class="container">
       <ul class="ul_li clearfix">
-        <li><a >Home</a></li>
-        <li><a >Our Cars</a></li>
+        <li><a [routerLink]="['/home']">Home</a></li>
+        <li><a [routerLink]="['/cars']">Our Cars</a></li>
         <li>Car Details</li>
       </ul>
     </div>
@@ -52,20 +51,6 @@
       </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
         <div class="account_tab_content  tab-content">
           <div id="admin_tab" class="tab-pane active">
@@ -80,13 +65,14 @@
                   <li><span class="bg_default_blue">4.8/5</span></li>
                 </ul>
               </div>
-              <img src="assets/images/gallery/img_07.jpg" alt="image_not_found">
+              <img src="../../../../../assets/images/gallery/img_07.jpg" alt="image_not_found">
               <ul class="btns_group ul_li_center clearfix">
                 <li>
                   <span class="custom_btn btn_width bg_default_blue"><del>$800/Day</del> $400/Day</span>
                 </li>
                 <li>
-                  <a href="#!" class="custom_btn btn_width bg_default_red text-uppercase">Book A Car <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></a>
+                  <a [routerLink]="['/reservation/toto']" class="custom_btn btn_width bg_default_red text-uppercase">Book it
+                    <img src="../../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></a>
                 </li>
               </ul>
             </div>
@@ -189,25 +175,81 @@
 
           <div id="history_tab" class="tab-pane fade">
             <div  class="rent_details_info">
-              <h4 class="list_title" data-aos="fade-up" data-aos-delay="100">Rent Details:</h4>
-              <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                  <ul class="info_list ul_li_block mb_15 clearfix" data-aos="fade-up" data-aos-delay="200">
-                    <li><i style="color: #0048B9" class="fas fa-id-card"></i> Payment Guarantee</li>
-                    <li><i style="color: #0048B9" class="fas fa-business-time"></i> Protect Your Rental</li>
-                    <li><i style="color: #0048B9" class="fas fa-business-time"></i> Receipt by Email</li>
-                  </ul>
-                </div>
-
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                  <ul class="info_list ul_li_block mb_15 clearfix" data-aos="fade-up" data-aos-delay="300">
-                    <li><i style="color: #0048B9" class="fas fa-user-friends"></i> Car Sharing</li>
-                    <li><i style="color: #0048B9" class="fas fa-language"></i> Multilanguage Support</li>
-                    <li><i style="color: #0048B9" class="fas fa-money-bill"></i> Payment Options</li>
-                  </ul>
-                </div>
+              <h3 class="title_text mb_15" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-user"></i>
+                Driver & License Requirements
+                </h3>
+              <p>When you pick the car up, you'll need:</p>
+              <div class="car_choose_content ml-5">
+                <ul class="ul_li_block info_list ul_li_block clearfix ">
+                  <li class="clearfix"><i style="color: #0048B9" class="far fa-id-card"></i>
+                    Passport or national ID card</li>
+                  <li><i style="color: #0048B9" class="far fa-id-card"></i>
+                    Driving licence</li>
+                  <li><i style="color: #0048B9" class="fab fa-cc-mastercard"></i>
+                    Credit card</li>
+                </ul>
+              </div>
+              <div data-aos="fade-up" data-aos-delay="100">
+                <p class="terms_condition">
+                  <i style="color: green" class="fas fa-info-circle mr-1"></i>
+                  You must be at least 21 years old to rent this car.
+                  Collision Damage Waiver (CDW)</p>
               </div>
             </div>
+            <hr>
+            <div  class="rent_details_info">
+              <h3 class="title_text mb_15" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-shield-check"></i>
+                Security Deposit : 700,00 €
+              </h3>
+              <div class="car_choose_content ml-5">
+                <ul class="ul_li_block info_list ul_li_block clearfix ">
+                  <li class="clearfix">
+                    At pick-up, the main driver will leave a refundable security deposit of 700,00 € on their credit card. Cash and debit cards are not accepted.
+                    The counter staff will confirm how much this will be.</li>
+                </ul>
+              </div>
+            </div>
+            <hr>
+            <div class="rent_details_info">
+              <h3 class="title_text mb_15" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-car-crash"></i>
+                Damage Excess : 1331,00 €
+              </h3>
+              <div class="car_choose_content ml-5">
+                <ul class="ul_li_block info_list ul_li_block clearfix ">
+                  <li class="clearfix">
+                    If the car's bodywork gets damaged, you’re covered by the Collision
+                    Damage Waiver. This means that the most you'll pay
+                    towards repairs is the damage excess ( 1331,00 €).
+                  </li>
+                  <li class="clearfix">
+                    This cover is only valid if you stick to the terms of the rental agreement.
+                    It doesn't cover other parts of the car (e.g. windows, wheels, interior or
+                    undercarriage), or charges (e.g. for towing or off-road time), or anything
+                    in the car (e.g. child seats, GPS devices or personal belongings).
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <hr>
+            <div  class="rent_details_info">
+              <h3 class="title_text mb_15" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-road"></i>
+                Mileage 450 kilometres per rental
+              </h3>
+              <div class="car_choose_content ml-5">
+                <ul class="ul_li_block info_list ul_li_block clearfix ">
+                  <li class="clearfix">
+                    If you drive more than 450 kilometres during your rental,
+                    you'll pay between 0,16 € and 0,32 € for each
+                    additional kilometre when you drop your car off.
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <hr>
           </div>
         </div>
       </div>

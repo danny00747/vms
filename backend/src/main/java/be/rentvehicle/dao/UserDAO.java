@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,6 +26,10 @@ public interface UserDAO extends JpaRepository<User, UUID> {
 
     @EntityGraph(attributePaths = "roles")
     Optional<User> findOneWithRolesByEmailIgnoreCase(String email);
+
+    Optional<User> findOneByActivationKey(String activationKey);
+
+    List<User> findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(Instant dateTime);
 
     Page<User> findAllByUsernameNot(Pageable pageable, String username);
 

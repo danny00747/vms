@@ -10,6 +10,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import {AuthGuard} from '@app/core/guards/auth.guard';
 import { CarsComponent } from './components/cars/cars.component';
 import { CarDetailComponent } from './components/cars/car-detail/car-detail.component';
+import { ReservationComponent } from './components/reservation/reservation.component';
 
 const routes: Routes = [
   {path: 'register', component: RegisterComponent},
@@ -17,11 +18,13 @@ const routes: Routes = [
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'gallery', component: GalleryComponent},
   {path: 'cars', component: CarsComponent},
-  {path: 'cars/:name', component: CarDetailComponent}
+  {path: 'cars/:name', component: CarDetailComponent},
+  {path: 'reservation/:name', component: ReservationComponent}
 ];
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, GalleryComponent, ProfileComponent, CarsComponent, CarDetailComponent],
+  declarations: [LoginComponent, RegisterComponent, GalleryComponent,
+    ProfileComponent, CarsComponent, CarDetailComponent, ReservationComponent],
   imports: [
     CommonModule,
     SharedModule,

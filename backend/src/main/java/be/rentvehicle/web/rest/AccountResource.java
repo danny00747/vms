@@ -1,21 +1,19 @@
 package be.rentvehicle.web.rest;
 
-import be.rentvehicle.config.TwilioConfiguration;
 import be.rentvehicle.security.CustomAuthenticationFailureHandler;
 import be.rentvehicle.security.RolesConstants;
 import be.rentvehicle.security.jwt.JWTFilter;
 import be.rentvehicle.security.jwt.TokenProvider;
 import be.rentvehicle.security.securityAnnotations.isAdmin;
 import be.rentvehicle.security.securityAnnotations.isUsername;
+import be.rentvehicle.service.MailService;
 import be.rentvehicle.service.UserService;
 import be.rentvehicle.service.dto.UserDTO;
+import be.rentvehicle.service.impl.errors.AccountResourceException;
 import be.rentvehicle.service.impl.errors.EmailAlreadyUsedException;
 import be.rentvehicle.service.impl.errors.UserNotFoundException;
 import be.rentvehicle.service.impl.errors.UsernameAlreadyUsedException;
 import be.rentvehicle.web.rest.vm.UserVM;
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.rest.api.v2010.account.MessageCreator;
-import com.twilio.type.PhoneNumber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -30,7 +28,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
 
@@ -47,14 +44,14 @@ public class AccountResource extends BaseRestController {
 
     private final TokenProvider tokenProvider;
 
-    private final TwilioConfiguration twilioConfiguration;
+    private final MailService mailService;
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public AccountResource(UserService userService, TokenProvider tokenProvider, TwilioConfiguration twilioConfiguration, AuthenticationManagerBuilder authenticationManagerBuilder) {
+    public AccountResource(UserService userService, TokenProvider tokenProvider, MailService mailService, AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.userService = userService;
         this.tokenProvider = tokenProvider;
-        this.twilioConfiguration = twilioConfiguration;
+        this.mailService = mailService;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
     }
 
@@ -75,6 +72,20 @@ public class AccountResource extends BaseRestController {
     }
 
     /**
+     * {@code GET  /activate} : activate the registered user.
+     *
+     * @param key the activation key.
+     * @throws UserNotFoundException {@code 404 (Not Found)} if the user couldn't be activated.
+     */
+    @GetMapping("/activate")
+    public ResponseEntity<Map<String, String>> activateAccount(@RequestParam(value = "key") String key) {
+       return ResponseEntity
+               .status(HttpStatus.OK)
+               .body(Map.of("message", userService.activateRegistration(key)
+                       .orElseThrow(() -> new AccountResourceException("No user was found for this activation key"))));
+    }
+
+    /**
      * {@code POST  /authenticate} : authenticate the user.
      *
      * @param loginVM the managed login View Model.
@@ -91,6 +102,7 @@ public class AccountResource extends BaseRestController {
         String jwt = tokenProvider.createToken(authentication);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+        mailService.sendMail();
         /*
          // mailService.sendMail();
 

@@ -30,7 +30,7 @@
   <div class="container">
 
 
-    <div class="register_card mb-0" data-bg-color="##F2F2F2" data-aos="fade-up" data-aos-delay="100">
+    <div class="register_card mb-0" style="background-color: #F2F2F2" data-aos="fade-up" data-aos-delay="100">
       <div class="section_title mb_30 text-center">
         <h2 class="title_text mb-0" data-aos="fade-up" data-aos-delay="300">
           <span>Register</span>
@@ -47,6 +47,23 @@
             </div>
             <div class="form_item">
               <input type="password" name="password" placeholder="Password*">
+            </div>
+            <div class="form_item">
+              <p-password pTooltip="Enter your password" tooltipPosition="top" [(ngModel)]="value4" [toggleMask]="true">
+                <ng-template pTemplate="header">
+                  <h6>Pick a password</h6>
+                </ng-template>
+                <ng-template pTemplate="footer">
+                  <p-divider></p-divider>
+                  <p class="p-mt-2">Suggestions</p>
+                  <ul class="p-pl-2 p-ml-2 p-mt-0" style="line-height: 1.5">
+                    <li>At least one lowercase</li>
+                    <li>At least one uppercase</li>
+                    <li>At least one numeric</li>
+                    <li>Minimum 8 characters</li>
+                  </ul>
+                </ng-template>
+              </p-password>
             </div>
             <div class="form_item">
               <input type="password" name="confirmpass" placeholder="Confirm Password*">
@@ -76,7 +93,8 @@
             <p>
               Your personal data will be used in mapping with the vehicles you added to the website, to manage access to your account, and for other purposes described in our
             </p>
-            <button type="submit" class="custom_btn bg_default_red text-uppercase mb-0">Register <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
+            <button type="submit" class="custom_btn bg_default_red text-uppercase mb-0">Register
+              <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
           </div>
         </div>
       </form>

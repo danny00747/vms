@@ -17,16 +17,20 @@ import be.rentvehicle.service.impl.errors.EmailAlreadyUsedException;
 import be.rentvehicle.service.impl.errors.UsernameAlreadyUsedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.UUID;
 
 /**
  * Implementation of the {@link UserService} interface.
@@ -72,6 +76,8 @@ public class UserServiceImpl implements UserService {
         user.setRoles(roles);
         String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
         user.setPassword(encryptedPassword);
+        user.setActivated(false);
+        user.setActivationKey(UUID.randomUUID().toString());
         saveTown(userDTO, user);
         user = userDAO.save(user);
         log.info("Created Information for User: {}", user);
@@ -101,9 +107,9 @@ public class UserServiceImpl implements UserService {
         town.setPostcode(userDTO.getTown().getPostcode());
         townDAO.findById(userDTO.getTown().getPostcode())
                 .ifPresentOrElse(
-                foundTown -> town.setName(foundTown.getName()),
-                () -> town.setName(userDTO.getTown().getName())
-        );
+                        foundTown -> town.setName(foundTown.getName()),
+                        () -> town.setName(userDTO.getTown().getName())
+                );
         town.setAddresses(addresses);
         Town savedTown = townDAO.save(town);
         address.setTown(savedTown);
@@ -178,7 +184,45 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<String> activateRegistration(String key) {
+        log.debug("Activating user for activation key {}", key);
+        return Optional.of(userDAO
+                .findOneByActivationKey(key))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(user -> {
+                    user.setActivated(true);
+                    user.setActivationKey(null);
+                    userDAO.save(user);
+                    log.debug("Activated user: {}", user);
+                    return user.getUsername() + "'s account was successfully activated !";
+                });
+    }
+
+    @Override
+    @Scheduled(cron = "0 0 1 * * ?")
+    public void removeNotActivatedUsers() {
+        userDAO
+                .findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(Instant.now().minus(3, ChronoUnit.DAYS))
+                .forEach(
+                        user -> {
+                            log.debug("Deleting not activated user {}", user.getUsername());
+                            userDAO.delete(user);
+                        }
+                );
+    }
+
+    @Override
     public List<UserDTO> findAllWithEagerRelationships() {
         return null;
     }
 }
+
+/*
+    @Scheduled(cron = "0/2 * * * * ?")
+    public void printEvery2sec() {
+        // System.out.println(UUID.randomUUID());
+        Instant createdDate = Instant.now();
+        System.out.println(createdDate);
+    }
+ */

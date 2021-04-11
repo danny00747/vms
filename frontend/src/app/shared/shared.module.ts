@@ -9,7 +9,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ToastModule} from 'primeng/toast';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
-
+import {SliderModule} from 'primeng/slider';
+import {RatingModule} from 'primeng/rating';
+import {PasswordModule} from 'primeng/password';
+import {CalendarModule} from 'primeng/calendar';
+import {TabViewModule} from 'primeng/tabview';
+import {TableModule} from 'primeng/table';
+import {InputTextModule} from 'primeng/inputtext';
+import {RippleModule} from 'primeng/ripple';
+import {ToolbarModule} from 'primeng/toolbar';
+import {TooltipModule} from 'primeng/tooltip';
 
 @NgModule({
   declarations: [SidebarComponent, NavbarComponent],
@@ -18,7 +27,17 @@ import {BreadcrumbModule} from 'primeng/breadcrumb';
     RouterModule,
     ToastModule,
     MultiSelectModule,
-    HttpClientModule
+    RatingModule,
+    HttpClientModule,
+    PasswordModule,
+    InputTextModule,
+    RippleModule,
+    TabViewModule,
+    TooltipModule,
+    ToolbarModule,
+    CalendarModule,
+    TableModule,
+    SliderModule
   ],
   exports: [
     CommonModule,
@@ -28,9 +47,19 @@ import {BreadcrumbModule} from 'primeng/breadcrumb';
     ReactiveFormsModule,
     NgbModule,
     HttpClientModule,
+    RatingModule,
+    ToolbarModule,
     MultiSelectModule,
+    TooltipModule,
+    TabViewModule,
     ToastModule,
+    InputTextModule,
+    RippleModule,
+    TableModule,
+    CalendarModule,
+    PasswordModule,
     BreadcrumbModule,
+    SliderModule
   ]
 })
 export class SharedModule { }

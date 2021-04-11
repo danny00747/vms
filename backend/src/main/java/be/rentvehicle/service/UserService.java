@@ -71,4 +71,18 @@ public interface UserService {
      * @return confirmation message.
      */
     Optional<String> deleteUser(String username);
+
+    /**
+     * Deletes a specific user, and return a confirmation message.
+     *
+     * @param key activation key.
+     * @return confirmation message.
+     */
+    Optional<String> activateRegistration(String key);
+
+    /**
+     * Not activated users should be automatically deleted after 3 days.
+     * This is scheduled to get fired everyday, at 01:00 (am).
+     */
+    void removeNotActivatedUsers();
 }

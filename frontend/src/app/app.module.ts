@@ -2,6 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {AppComponent} from './app.component';
+import {AdminModule} from '@app/admin/admin.module';
 import {SharedModule} from './shared/shared.module';
 import {CoreModule} from './core/core.module';
 import {Routes, RouterModule} from '@angular/router';
@@ -9,6 +10,8 @@ import {FeaturesModule} from './features/features.module';
 
 
 const routes: Routes = [
+  { path: 'admin', loadChildren: () => import(`./admin/admin.module`)
+      .then(module => module.AdminModule) },
   {
     path: 'features', loadChildren: () =>
       import('./features/features.module').then(m => m.FeaturesModule)
@@ -22,6 +25,7 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    AdminModule,
     FeaturesModule,
     SharedModule,
     CoreModule,

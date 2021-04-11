@@ -43,7 +43,7 @@
             <p>
               Savings of up to 15% with our car rental solutions, global coverage and a dedicated customer team
             </p>
-            <span class="new_account mb_15">Log In or <a href="#">Create an Account?</a></span>
+            <span class="new_account mb_15">Log In or <a [routerLink]="['/register']">Create an Account?</a></span>
             <form #signUpForm="ngForm">
               <!-- Username or email-->
               <div class="form_item  form-label-group input">
@@ -74,7 +74,7 @@
               <button type="submit" class="custom_btn carret bg_default_red text-uppercase"
                       (click)="onLoginSubmit()"
                       [disabled]="signUpForm.form.invalid">Login
-                <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
+                <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
               <span class="reset_pass mb_15"><a>Reset your Password by e-mail?</a></span>
             </form>
           </div>

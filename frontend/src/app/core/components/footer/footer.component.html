@@ -1,12 +1,12 @@
 <footer class="footer_section clearfix">
-  <div class="footer_widget_area sec_ptb_100 clearfix" data-bg-color="#F2F2F2">
+  <div class="footer_widget_area sec_ptb_100 clearfix" style="background-color: #F2F2F2">
     <div class="container">
       <div class="row justify-content-lg-between">
         <div class="col-lg-4 col-md-4 col-sm-12 col-sm-12">
           <div class="footer_about" data-aos="fade-up" data-aos-delay="100">
             <div class="brand_logo mb_30">
               <a href="index.html">
-                <img src="assets/images/logo/logo_02_1x.png" srcset="assets/images/logo/logo_02_2x.png 2x"
+                <img src="../../../../assets/images/logo/logo_02_1x.png" srcset="assets/images/logo/logo_02_2x.png 2x"
                      alt="logo_not_found">
               </a>
             </div>
@@ -16,8 +16,8 @@
             </p>
             <div class="footer_useful_links mb_30">
               <ul class="ul_li_block clearfix">
-                <li><a href="#!"><i class="fal fa-angle-right"></i> Rental Information</a></li>
-                <li><a href="#!"><i class="fal fa-angle-right"></i> F.A.Q.</a></li>
+                <li><a [routerLink]="['/faq']"><i class="fal fa-angle-right"></i> Rental Information</a></li>
+                <li><a [routerLink]="['/faq']"><i class="fal fa-angle-right"></i> F.A.Q.</a></li>
               </ul>
             </div>
             <div class="form_item mb-0">
@@ -51,13 +51,13 @@
           <div class="footer_useful_links" data-aos="fade-up" data-aos-delay="300">
             <h3 class="footer_widget_title">Information:</h3>
             <ul class="ul_li_block clearfix">
-              <li><a href="#!"><i class="fal fa-angle-right"></i> Find a Car for Rent in the Nearest Location</a></li>
-              <li><a href="#!"><i class="fal fa-angle-right"></i> Cars Catalog</a></li>
-              <li><a href="#!"><i class="fal fa-angle-right"></i> F.A.Q.</a></li>
-              <li><a href="#!"><i class="fal fa-angle-right"></i> About Us</a></li>
-              <li><a href="#!"><i class="fal fa-angle-right"></i> Contact Us</a></li>
-              <li><a href="#!"><i class="fal fa-angle-right"></i> Help Center</a></li>
-              <li><a href="#!"><i class="fal fa-angle-right"></i> Privacy Police</a></li>
+              <li><a><i class="fal fa-angle-right"></i> Find a Car for Rent in the Nearest Location</a></li>
+              <li><a [routerLink]="['/gallery']"><i class="fal fa-angle-right"></i> Cars Catalog</a></li>
+              <li><a [routerLink]="['/faq']"><i class="fal fa-angle-right"></i> F.A.Q.</a></li>
+              <li><a [routerLink]="['/about']"><i class="fal fa-angle-right"></i> About Us</a></li>
+              <li><a [routerLink]="['/contact']"><i class="fal fa-angle-right"></i> Contact Us</a></li>
+              <li><a><i class="fal fa-angle-right"></i> Help Center</a></li>
+              <li><a><i class="fal fa-angle-right"></i> Privacy Police</a></li>
             </ul>
           </div>
         </div>
@@ -69,16 +69,17 @@
     <div class="container">
       <div class="row align-items-center justify-content-lg-between">
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-          <p class="copyright_text mb-0">Copyright © 2021. Rent Vehicle by <a class="author_links text-white">O.Daniel</a>
+          <p class="copyright_text mb-0">Copyright © 2021. Rent Vehicle by <a
+            class="author_links text-white">O.Daniel</a>
           </p>
         </div>
 
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
           <ul class="primary_social_links ul_li_right clearfix">
-            <li><a href="#!"><i class="fab fa-facebook-f"></i></a></li>
-            <li><a href="#!"><i class="fab fa-instagram"></i></a></li>
-            <li><a href="#!"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="#!"><i class="fab fa-youtube"></i></a></li>
+            <li><a><i class="fab fa-facebook-f"></i></a></li>
+            <li><a><i class="fab fa-instagram"></i></a></li>
+            <li><a><i class="fab fa-twitter"></i></a></li>
+            <li><a><i class="fab fa-youtube"></i></a></li>
           </ul>
         </div>
       </div>

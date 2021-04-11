@@ -37,6 +37,7 @@ Developer:		:  Rakibul Islam Dewan
 18 - cart page
 19 - service page
 
+// primary color  : #4CAF50
 */
 /* table of content - end
 ==================================================================================================== */
@@ -61,12 +62,12 @@ body {
 
 ::selection {
   color: #ffffff;
-  background-color: #EA001E;
+  background-color: #4CAF50;
 }
 
 ::-moz-selection {
   color: #ffffff;
-  background-color: #EA001E;
+  background-color: #4CAF50;
 }
 
 main {
@@ -222,8 +223,8 @@ hr {
   font-family: "Font Awesome 5 Pro";
 }
 .checkbox_input input:checked {
-  background: #EA001E;
-  border-color: #EA001E;
+  background: #4CAF50;
+  border-color: #4CAF50;
 }
 .checkbox_input input:checked:before {
   opacity: 1;
@@ -305,7 +306,7 @@ hr {
 .price-range-area .ui-slider-range {
   border: none;
   border-radius: 145px;
-  background-color: #EA001E;
+  background-color: #4CAF50;
 }
 .price-range-area .ui-state-default {
   top: -7px;
@@ -315,7 +316,7 @@ hr {
   outline: none;
   border-radius: 100%;
   border: 6px solid #ffffff;
-  background-color: #EA001E;
+  background-color: #4CAF50;
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
 }
 .price-range-area .input_title {
@@ -392,7 +393,7 @@ hr {
   padding: 0px;
   opacity: 0.3;
   border-radius: 0px;
-  background: #EA001E;
+  background: #4CAF50;
 }
 .slick-dots li:hover button, .slick-dots li.slick-active button {
   opacity: 1;
@@ -408,7 +409,7 @@ hr {
 }
 .slick-arrow:before {
   font-weight: 400;
-  color: #EA001E;
+  color: #4CAF50;
   display: inline-block;
   font-family: "Font Awesome 5 Pro";
 }
@@ -435,7 +436,7 @@ hr {
   margin-right: 10px;
 }
 .carousel_nav button:hover {
-  color: #EA001E;
+  color: #4CAF50;
 }
 .carousel_nav.position_ycenter button {
   top: 50%;
@@ -463,7 +464,7 @@ hr {
   height: 100%;
   display: block;
   position: absolute;
-  background: #EA001E;
+  background: #4CAF50;
   transition: all 0s linear;
 }
 .slick-progress span.active {
@@ -536,7 +537,7 @@ hr {
   color: #000C21;
 }
 .primary_social_links a:hover {
-  color: #EA001E;
+  color: #4CAF50;
 }
 
 /* social links - end
@@ -551,7 +552,7 @@ hr {
   margin-right: 2px;
 }
 .rating_star li.active {
-  color: #EA001E;
+  color: #4CAF50;
 }
 
 /* rating star - end
@@ -574,7 +575,7 @@ hr {
 }
 .pagination_nav li:hover a, .pagination_nav li.active a {
   color: #ffffff;
-  background-color: #EA001E;
+  background-color: #4CAF50;
   box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.24);
 }
 
@@ -598,7 +599,7 @@ hr {
   color: #6E7684;
 }
 .post_meta a:hover {
-  color: #EA001E;
+  color: #4CAF50;
 }
 
 /* post meta - end
@@ -616,7 +617,7 @@ hr {
   color: #000C21;
 }
 .filters-button-group button:hover, .filters-button-group button.active {
-  color: #EA001E;
+  color: #4CAF50;
 }
 
 /* filters button group - end
@@ -680,7 +681,7 @@ hr {
   display: inline-block;
 }
 .custom_btn.bg_default_red:hover {
-  background-color: #a50015;
+  background-color: #4CAF50;
 }
 .custom_btn.bg_default_black:hover {
   background-color: #000817;
@@ -695,7 +696,7 @@ hr {
   font-size: 18px;
   font-weight: 700;
   position: relative;
-  color: #EA001E;
+  color: #4CAF50;
   display: inline-block;
   font-family: "Goldman", cursive;
   transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
@@ -709,7 +710,7 @@ hr {
   content: "";
   position: absolute;
   transition: width 0.2s linear;
-  background-color: #EA001E;
+  background-color: #4CAF50;
 }
 .text_btn:hover span:before {
   left: 0px;
@@ -747,7 +748,7 @@ hr {
   position: absolute;
   display: inline-block;
   transform: translateY(-50%);
-  background-color: #EA001E;
+  background-color: #4CAF50;
 }
 .section_title .title_text span:before {
   left: 0px;
@@ -797,8 +798,8 @@ hr {
   display: none;
   position: fixed;
   border-radius: 100%;
-  background-color: #EA001E;
-  box-shadow: 0px 10px 30px 1px rgba(234, 0, 30, 0.3);
+  background-color: #4CAF50;
+  box-shadow: -1px 0px 15px 3px #4CAF50
 }
 .backtotop .scroll {
   z-index: 1;
@@ -842,7 +843,7 @@ hr {
   border-radius: 100%;
   animation: spinner 1s infinite linear;
   border: 3px solid rgba(255, 255, 255, 0.8);
-  border-top-color: #EA001E;
+  border-top-color: #4CAF50;
 }
 .preloader p {
   color: #ffffff;
@@ -914,7 +915,7 @@ hr {
 }
 
 .bg_default_red {
-  background-color: #EA001E;
+  background-color: #4CAF50;
 }
 
 .bg_default_blue {
@@ -966,7 +967,7 @@ button {
   color: #ffffff;
 }
 .header_section .primary_social_links a:hover {
-  color: #EA001E;
+  color: #4CAF50;
 }
 
 .header_top {
@@ -1027,14 +1028,14 @@ button {
   position: relative;
 }
 .header_action_btns button:hover, .header_action_btns button.active {
-  color: #EA001E;
+  color: #4CAF50;
 }
 
 .stuck .header_action_btns button {
   color: #1F2B3E;
 }
 .stuck .header_action_btns button:hover, .stuck .header_action_btns button.active {
-  color: #EA001E;
+  color: #4CAF50;
 }
 
 .cart_btn .cart_counter {
@@ -1136,7 +1137,7 @@ button {
   transform: translateY(-50%);
 }
 .cart_dropdown .cart_items_list .remove_btn:hover {
-  color: #EA001E;
+  color: #4CAF50;
 }
 .cart_dropdown .cart_items_list .item_image {
   width: 80px;
@@ -1203,13 +1204,13 @@ button {
   font-family: "Lato", sans-serif;
 }
 .user_dropdown .profile_info:hover .user_name > a {
-  color: #EA001E;
+  color: #4CAF50;
   text-decoration: underline;
 }
 .user_dropdown .profile_info .user_title {
   display: block;
   font-size: 14px;
-  color: #EA001E;
+  color: #4CAF50;
 }
 .user_dropdown > ul {
   padding: 9px 0px;
@@ -1234,7 +1235,7 @@ button {
   background-color: #f4f8fb;
 }
 .user_dropdown > ul > li:hover > a > i {
-  color: #EA001E;
+  color: #4CAF50;
 }
 
 /* header section - end */
@@ -1252,7 +1253,7 @@ button {
   font-size: 16px;
 }
 .main_menu > ul > li:hover > a, .main_menu > ul > li.active > a {
-  color: #EA001E;
+  color: #4CAF50;
 }
 .main_menu a {
   font-size: 16px;
@@ -1266,7 +1267,7 @@ button {
   color: #1F2B3E;
 }
 .stuck .main_menu > ul > li:hover > a, .stuck .main_menu > ul > li.active > a {
-  color: #EA001E;
+  color: #4CAF50;
 }
 
 .main_menu .has_child {
@@ -1305,7 +1306,7 @@ button {
   color: #1F2B3E;
 }
 .main_menu .has_child .submenu li:hover > a, .main_menu .has_child .submenu li.active > a {
-  color: #EA001E;
+  color: #4CAF50;
   background-color: #f5f6fa;
 }
 .main_menu .has_child:hover > .submenu {
@@ -1422,7 +1423,7 @@ button {
   position: absolute;
 }
 .sidebar-menu-wrapper .close_btn:hover {
-  color: #EA001E;
+  color: #4CAF50;
 }
 .sidebar-menu-wrapper p {
   font-size: 14px;
@@ -1480,7 +1481,7 @@ button {
   color: #ffffff;
 }
 .footer_section .primary_social_links a:hover {
-  color: #EA001E;
+  color: #4CAF50;
 }
 
 .footer_bottom {
@@ -1524,7 +1525,7 @@ button {
   color: #1F2B3E;
 }
 .footer_useful_links a:hover {
-  color: #EA001E;
+  color: #4CAF50;
 }
 .footer_useful_links i {
   margin-right: 6px;
@@ -1578,7 +1579,7 @@ button {
   color: #6E7684;
 }
 .breadcrumb_nav a:hover {
-  color: #EA001E;
+  color: #4CAF50;
 }
 
 /* 04 - breadcrumb - end
@@ -1639,7 +1640,7 @@ button {
   color: #000C21;
 }
 .sb_category_list a:hover {
-  color: #EA001E;
+  color: #4CAF50;
 }
 .sb_category_list i {
   margin-right: 10px;
@@ -1736,7 +1737,7 @@ button {
   font-size: 18px;
   font-weight: 700;
   margin-bottom: 5px;
-  color: #EA001E;
+  color: #4CAF50;
 }
 .banner_section .advance_search_form {
   margin-top: 130px;
@@ -1824,7 +1825,7 @@ button {
   margin-top: 5px;
   font-size: 24px;
   margin-right: 15px;
-  color: #EA001E;
+  color: #4CAF50;
 }
 .offer_info .item_content {
   display: table;
@@ -2030,7 +2031,7 @@ button {
   font-weight: 700;
 }
 .car_choose_content .terms_condition:hover {
-  color: #EA001E;
+  color: #4CAF50;
   text-decoration: underline;
 }
 
@@ -2065,7 +2066,7 @@ button {
   color: #000C21;
 }
 .feature_vehicle_item:hover .item_title a {
-  color: #EA001E;
+  color: #4CAF50;
 }
 .feature_vehicle_item .image_wrap {
   display: block;
@@ -2123,7 +2124,7 @@ button {
   top: 50%;
   font-size: 46px;
   position: absolute;
-  color: #EA001E;
+  color: #4CAF50;
   transform: translateY(-50%);
 }
 .feature_carousel_wrap .carousel_nav .s1_left_arrow {
@@ -2371,7 +2372,7 @@ button {
   height: 10px;
   display: block;
   line-height: 1;
-  background-color: #EA001E;
+  background-color: #4CAF50;
 }
 
 .slider_section .main_left_arrow,
@@ -2559,7 +2560,7 @@ button {
   color: #000C21;
 }
 .blog_child:hover .item_title a {
-  color: #EA001E;
+  color: #4CAF50;
 }
 
 .blog_small_grid:not(:last-child) {
@@ -2588,7 +2589,7 @@ button {
   color: #000C21;
 }
 .blog_small_grid:hover .item_title a {
-  color: #EA001E;
+  color: #4CAF50;
 }
 .blog_small_grid .post_date {
   color: #6E7684;
@@ -2626,7 +2627,7 @@ button {
   color: #000C21;
 }
 .blog_standard:hover .item_title a {
-  color: #EA001E;
+  color: #4CAF50;
 }
 
 /* 10 - blog page - end
@@ -2663,7 +2664,7 @@ blockquote h4 {
   color: #1F2B3E;
 }
 .comment_btn:hover {
-  color: #EA001E;
+  color: #4CAF50;
 }
 
 .prev_next_post {
@@ -2702,7 +2703,7 @@ blockquote h4 {
   color: #000C21;
 }
 .prev_next_post a:hover {
-  color: #EA001E;
+  color: #4CAF50;
 }
 .prev_next_post i {
   top: 0px;
@@ -2859,7 +2860,7 @@ blockquote h4 {
   font-family: "Font Awesome 5 Pro";
 }
 .faq_accordion .card-header a:not(.collapsed) {
-  color: #EA001E;
+  color: #4CAF50;
 }
 .faq_accordion .card-header a:not(.collapsed):before {
   content: "";
@@ -2908,7 +2909,7 @@ blockquote h4 {
 }
 .register_card .reset_pass a:hover,
 .register_card .new_account a:hover {
-  color: #EA001E;
+  color: #4CAF50;
 }
 .register_card .checkbox_input {
   color: #6E7684;
@@ -2949,7 +2950,7 @@ blockquote h4 {
   color: #000C21;
 }
 .account_tabs_menu a:hover, .account_tabs_menu a.active {
-  color: #EA001E;
+  color: #4CAF50;
   background-color: #ffffff;
 }
 .account_tabs_menu i {
@@ -2981,7 +2982,7 @@ blockquote h4 {
   margin-top: 30px;
 }
 .account_info_list .text_btn span {
-  color: #EA001E;
+  color: #4CAF50;
 }
 
 /* 17 - account page - end
@@ -3049,7 +3050,7 @@ blockquote h4 {
   color: #0048B9;
 }
 .rental_calltoaction .register_btn:hover {
-  color: #EA001E;
+  color: #4CAF50;
 }
 
 .cart_bottom_content .abtn_wrap {
@@ -3091,7 +3092,7 @@ blockquote h4 {
   line-height: 1;
   font-size: 48px;
   margin-bottom: 20px;
-  color: #EA001E;
+  color: #4CAF50;
 }
 .service_primary .item_title {
   line-height: 1;

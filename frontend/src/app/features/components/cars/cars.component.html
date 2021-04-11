@@ -3,7 +3,7 @@
 <section class="breadcrumb_section text-center clearfix">
   <div class="page_title_area has_overlay d-flex align-items-center clearfix"
        data-bg-image="assets/images/breadcrumb/bg_01.jpg"
-        style="background-image: url('assets/images/breadcrumb/bg_01.jpg')">
+        style="background-image: url('assets/images/breadcrumb/bg_06.jpg')">
     <div class="overlay"></div>
     <div class="container" data-aos="fade-up" data-aos-delay="100">
       <br><br><br>
@@ -21,8 +21,6 @@
 </section>
 <!-- breadcrumb_section - end
 ================================================== -->
-
-
 <!-- car_section - start
 ================================================== -->
 <div class="car_section sec_ptb_100 clearfix">
@@ -36,11 +34,16 @@
             <h3 class="text-white mb-0">Filters</h3>
           </div>
           <div class="sb_widget">
-            <form action="#">
+            <div>
               <div class="sb_widget price-range-area clearfix" data-aos="fade-up" data-aos-delay="100">
                 <h4 class="input_title">Price</h4>
                 <div id="slider-range" class="slider-range clearfix"></div>
                 <input class="price-text" type="text" id="amount" readonly>
+                <br>
+                <h4 class="input_title">Price</h4>
+                <p-slider [(ngModel)]="rangeValues" [step]="5" [range]="true" [min]="75" [max]="699"></p-slider>
+                <br>
+                <h4 class="input_title" style="color: darkgreen">{{rangeValues[0] + '€ - ' + rangeValues[1] + '€'}}</h4>
               </div>
 
               <div class="sb_widget car_picking" data-aos="fade-up" data-aos-delay="100">
@@ -158,10 +161,10 @@
               <hr data-aos="fade-up" data-aos-delay="100">
 
               <div data-aos="fade-up" data-aos-delay="100">
-                <button type="submit" class="custom_btn bg_default_red text-uppercase">Apply Filters
+                <button (click)="range()" type="submit" class="custom_btn bg_default_red text-uppercase">Apply Filters
                   <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
               </div>
-            </form>
+            </div>
           </div>
         </aside>
       </div>

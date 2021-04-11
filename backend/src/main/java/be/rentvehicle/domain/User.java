@@ -16,7 +16,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "users")
-public class User {
+public class User extends AbstractAuditingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,7 +33,15 @@ public class User {
     @Column(length = 25, unique = true, nullable = false)
     private String email;
 
+    @NotNull
+    @Column(nullable = false)
+    private boolean activated = false;
+
+    @Size(max = 36)
+    @Column(name = "activation_key", length = 36)
     @JsonIgnore
+    private String activationKey;
+
     @NotNull
     private String password;
 
@@ -85,6 +93,22 @@ public class User {
 
     public void setRoles(Set<Roles> roles) {
         this.roles = roles;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public String getActivationKey() {
+        return activationKey;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
+
+    public void setActivationKey(String activationKey) {
+        this.activationKey = activationKey;
     }
 
     public User roles(Set<Roles> roles) {

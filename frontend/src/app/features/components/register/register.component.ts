@@ -9,6 +9,8 @@ import {filter} from 'rxjs/operators';
 })
 export class RegisterComponent implements OnInit {
 
+  value4: string;
+
   constructor(private router: Router) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationStart))

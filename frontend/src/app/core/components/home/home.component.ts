@@ -9,6 +9,11 @@ import {filter} from 'rxjs/operators';
 })
 export class HomeComponent implements OnInit {
 
+  val3 = 3;
+  rangeValues: number[] = [75, 699];
+  rangeDates: Date[];
+  minDate: Date = new Date();
+
   constructor( private router: Router) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationStart))

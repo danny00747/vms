@@ -11,10 +11,10 @@
 
         <div class="col-lg-5">
           <ul class="primary_social_links ul_li_right clearfix">
-            <li><a href="#!"><i class="fab fa-facebook-f"></i></a></li>
-            <li><a href="#!"><i class="fab fa-instagram"></i></a></li>
-            <li><a href="#!"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="#!"><i class="fab fa-youtube"></i></a></li>
+            <li><a ><i class="fab fa-facebook-f"></i></a></li>
+            <li><a ><i class="fab fa-instagram"></i></a></li>
+            <li><a ><i class="fab fa-twitter"></i></a></li>
+            <li><a ><i class="fab fa-youtube"></i></a></li>
           </ul>
         </div>
       </div>
@@ -101,7 +101,7 @@
               </button>
               <div class="user_dropdown rotors_dropdown dropdown-menu clearfix" aria-labelledby="user_dropdown">
                 <div class="profile_info clearfix">
-                  <a href="#!" class="user_thumbnail">
+                  <a class="user_thumbnail">
                     <img src="../../../../assets/images/meta/img_01.png" alt="thumbnail_not_found">
                   </a>
                   <div class="user_content">
@@ -142,9 +142,17 @@
                    [routerLinkActiveOptions]="{ exact: true }">
                 <a [routerLink]="['/home']">Home</a>
               </li>
-              <li><a [routerLink]="['/gallery']">Our Cars</a></li>
-              <li><a >Reviews</a></li>
-              <li><a [routerLink]="['/about']">About</a></li>
+              <li [routerLinkActive]="['active']"
+                  [routerLinkActiveOptions]="{ exact: true }">
+                <a [routerLink]="['/gallery']">Our Cars</a>
+              </li>
+              <li [routerLinkActive]="['active']"
+                  [routerLinkActiveOptions]="{ exact: true }">
+                <a >Reviews</a>
+              </li>
+              <li [routerLinkActive]="['active']"
+                  [routerLinkActiveOptions]="{ exact: true }">
+                <a [routerLink]="['/about']">About</a></li>
               <li class="has_child">
                 <a >Pages</a>
                 <ul class="submenu">
@@ -153,25 +161,26 @@
                   <li><a >My Account</a></li>
                   <li><a >Reservation</a></li>
                   <li class="has_child">
-                    <a href="#!">Blogs</a>
+                    <a >Blogs</a>
                     <ul class="submenu">
                       <li><a >Blog</a></li>
                       <li><a >Blog Details</a></li>
                     </ul>
                   </li>
                   <li class="has_child">
-                    <a href="#!">Our Cars</a>
+                    <a >Our Cars</a>
                     <ul class="submenu">
                       <li><a >Cars</a></li>
-                      <li><a href="car_details.html">Car Details</a></li>
+                      <li><a >Car Details</a></li>
                     </ul>
                   </li>
-                  <li><a href="cart.html">Shopping Cart</a></li>
-                  <li><a href="faq.html">F.A.Q.</a></li>
-                  <li><a href="login.html">Login</a></li>
+                  <li><a >Shopping Cart</a></li>
+                  <li><a >F.A.Q.</a></li>
+                  <li><a >Login</a></li>
                 </ul>
               </li>
-              <li class="">
+              <li [routerLinkActive]="['active']"
+                  [routerLinkActiveOptions]="{ exact: true }">
                 <a [routerLink]="['/contact']">Contact Us</a>
               </li>
             </ul>

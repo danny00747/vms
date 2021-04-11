@@ -43,6 +43,7 @@ public class UserMapper {
             user.setUsername(userDTO.getUsername());
             user.setEmail(userDTO.getUserEmail());
             user.setPassword(userDTO.getPassword());
+            user.setActivated(userDTO.isActivated());
             Set<Roles> roles = this.rolesFromStrings(userDTO.getUserRoles());
             user.setRoles(roles);
             return user;

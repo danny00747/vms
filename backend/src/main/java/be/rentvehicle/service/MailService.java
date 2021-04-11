@@ -1,40 +1,40 @@
 package be.rentvehicle.service;
 
+import be.rentvehicle.config.SendGridConfiguration;
 import com.sendgrid.*;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 
-@Profile("prod")
+// @Profile("prod")
 @Service
 public class MailService {
 
-    private final SendGridAPI sendGridAPI;
+    private final String sendGridAPI;
 
-    public MailService(SendGridAPI sendGrid) {
-        this.sendGridAPI = sendGrid;
+    public MailService(SendGridConfiguration sendGridConfiguration) {
+        this.sendGridAPI = sendGridConfiguration.getApiKey();
     }
 
     public void sendMail() {
         Email from = new Email("he201718@students.ephec.be", "rent vehicle");
         String subject = "Testing SendGrid API";
-        Email to = new Email("danbarca955@gmail.com");
+        Email to = new Email("toto@gmail.com");
         Content content = new Content("text/html", mailTemplate()
-                .replace("XXXusernameXXX", "Messi")
-                .replace("XXXusernameXXX", "Messi"));
+                .replace("XXX-email-XXX", "toto@gmail.com")
+                .replace("XXX-link1-XXX", "https://cms-cars.herokuapp.com")
+                .replace("XXX-link2-XXX", "https://cms-cars.herokuapp.com"));
         Mail mail = new Mail(from, subject, to, content);
         Request request = new Request();
         try {
             request.setMethod(Method.POST);
             request.setEndpoint("mail/send");
             request.setBody(mail.build());
-            Response response = sendGridAPI.api(request);
-            System.out.println(response);
+            SendGrid sg = new SendGrid(sendGridAPI);
+            Response response = sg.api(request);
+            System.out.println(response.getStatusCode()); // 202 if ok
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -55,16 +55,16 @@ public class MailService {
                             -webkit-text-size-adjust: 100%;
                             -ms-text-size-adjust: 100%;
                         }
-                            
+                                
                         table, td {
                             mso-table-lspace: 0pt;
                             mso-table-rspace: 0pt;
                         }
-                            
+                                
                         img {
                             -ms-interpolation-mode: bicubic;
                         }
-                            
+                                
                         img {
                             border: 0;
                             height: auto;
@@ -72,18 +72,18 @@ public class MailService {
                             outline: none;
                             text-decoration: none;
                         }
-                            
+                                
                         table {
                             border-collapse: collapse !important;
                         }
-                            
+                                
                         body {
                             height: 100% !important;
                             margin: 0 !important;
                             padding: 0 !important;
                             width: 100% !important;
                         }
-                            
+                                
                         a[x-apple-data-detectors] {
                             color: inherit !important;
                             text-decoration: none !important;
@@ -92,29 +92,29 @@ public class MailService {
                             font-weight: inherit !important;
                             line-height: inherit !important;
                         }
-                            
+                                
                         a {
                             color: #00bc87;
                             text-decoration: underline;
                         }
-                            
+                                
                         * img[tabindex=
-                            
-                            
-                            
+                                
+                                
+                                
                         0
                         ]
                         + div {
                             display: none !important;
                         }
-                            
+                                
                         @media screen and (max-width: 350px) {
                             h1 {
                                 font-size: 24px !important;
                                 line-height: 24px !important;
                             }
                         }
-                            
+                                
                         div[style*=margin:  16  px  0  ;  ]
                         {
                             margin: 0 !important
@@ -124,7 +124,7 @@ public class MailService {
                             .headingMobile {
                                 font-size: 40px !important;
                             }
-                            
+                                
                             .headingMobileSmall {
                                 font-size: 28px !important;
                             }
@@ -164,7 +164,7 @@ public class MailService {
                                                         style="padding: 0px; color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; line-height: 48px;padding:0 0 15px 0;">
                                                         <a href="https://kotsapp.herokuapp.com" target="_blank"
                                                            style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;color: #797979;font-size: 12px;font-weight:400;-webkit-font-smoothing:antialiased;text-decoration: none;">
-                                                            Kots App</a></td>
+                                                            Vms App</a></td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -186,7 +186,7 @@ public class MailService {
                                                         style="padding: 20px 0 0 0; color: #666666; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400;-webkit-font-smoothing:antialiased;">
                                                         <p class="headingMobile"
                                                            style="margin: 0;color: #171717;font-size: 26px;font-weight: 200;line-height: 130%;margin-bottom:5px;">
-                                                            Group invitation by XXXusernameXXX </p>
+                                                           Verify your e-mail to finish signing up for vmsApp.herokuapp.com </p>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -199,12 +199,13 @@ public class MailService {
                                                             Hello there,</p>
                                                         <p style="margin:0;margin-top:20px;line-height:0;"></p>
                                                         <p style="margin:0;color:#585858;font-size:14px;font-weight:400;line-height:170%;">
-                                                            <b>XXXusernameXXX</b> has invited you to the group <b>XXXgroupXXX</b>.
-                                                            You can join this group by clicking on the button below or use this link:
+                                                            Please confirm that <b>XXX-email-XXX</b> is your e-mail address by
+                                                            clicking on the button below or use this link
                                                             <a style='color: #00bc87;text-decoration: underline;'
-                                                               target='_blank' href='link@link1'>
-                                                                link@link2
-                                                            </a></p>
+                                                               target='_blank' href='XXX-link1-XXX'>
+                                                               XXX-link2-XXX
+                                                            </a> within 3&nbsp;hours.
+                                                        </p>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -218,7 +219,7 @@ public class MailService {
                                                                                 bgcolor="#00bc87"><a href="link@link3"
                                                                                                      style="text-transform:uppercase;background:#00bc87;font-size: 13px; font-weight: 700; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none !important; padding: 20px 25px; border-radius: 4px; border: 1px solid #00bc87; display: block;-webkit-font-smoothing:antialiased;"
                                                                                                      target="_blank"><span
-                                                                                    style="color: #ffffff;text-decoration: none;">Join</span></a>
+                                                                                    style="color: #ffffff;text-decoration: none;">Verify</span></a>
                                                                             </td>
                                                                         </tr>
                                                                     </table>
@@ -261,7 +262,7 @@ public class MailService {
                                                     <td bgcolor="#ffffff" align="center"
                                                         style="padding: 15px 0 30px 0; color: #666666; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 18px;">
                                                         <p style="margin: 0;color: #585858;font-size: 12px;font-weight: 400;-webkit-font-smoothing:antialiased;line-height: 170%;">
-                                                            Kots App, Inc.<br> Rue Wiertz 60, B 1047<br> Brussels, Belgium</p>
+                                                            Vms App, Inc.<br> Rue Wiertz 60, B 1047<br> Brussels, Belgium</p>
                                                     </td>
                                                 </tr>
                                                 </td>
@@ -279,10 +280,11 @@ public class MailService {
                         </tbody>
                     </table>
                 </center>
-                            
-                            
+                                
+                                
                 </body>
                 </html>
+                                
                 """;
     }
 }

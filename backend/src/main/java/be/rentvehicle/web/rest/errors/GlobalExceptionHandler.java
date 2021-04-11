@@ -1,5 +1,6 @@
 package be.rentvehicle.web.rest.errors;
 
+import be.rentvehicle.service.impl.errors.AccountResourceException;
 import be.rentvehicle.service.impl.errors.EmailAlreadyUsedException;
 import be.rentvehicle.service.impl.errors.UserNotFoundException;
 import be.rentvehicle.service.impl.errors.UsernameAlreadyUsedException;
@@ -71,6 +72,17 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({UserNotFoundException.class})
     public ResponseEntity<Map<String, String>> userNotFoundException(UserNotFoundException ex) {
         log.warn("UserNotFoundException thrown !");
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(Map.of("message", ex.getMessage()));
+    }
+
+    /**
+     * A method to handle {@link AccountResourceException} across the whole application.
+     */
+    @ExceptionHandler({AccountResourceException.class})
+    public ResponseEntity<Map<String, String>> accountResourceException(AccountResourceException ex) {
+        log.warn("AccountResourceException thrown !");
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(Map.of("message", ex.getMessage()));

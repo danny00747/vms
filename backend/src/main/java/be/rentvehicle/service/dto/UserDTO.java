@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -43,6 +44,12 @@ public @Data class UserDTO implements Serializable {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Set<String> userRoles;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private boolean activated = false;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Instant createdAt;
+
     @Valid
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Address address;
@@ -58,6 +65,8 @@ public @Data class UserDTO implements Serializable {
         this.userId = user.getId();
         this.username = user.getUsername();
         this.userEmail = user.getEmail();
+        this.activated = user.isActivated();
+        this.createdAt = user.getCreatedDate();
         this.userAdress = Map.of(
                 "address", user.getAddress().getRoad() + ", " + user.getAddress().getHouseNumber(),
                 "town", user.getAddress().getTown().getName()

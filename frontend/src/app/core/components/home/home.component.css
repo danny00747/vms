@@ -38,3 +38,9 @@ button[disabled]:hover {
   }
 }
 
+@media screen and (max-width: 640px) {
+  :host ::ng-deep .dateRange {
+    width: 100%;
+  }
+}
+
