@@ -102,7 +102,6 @@ public class AccountResource extends BaseRestController {
         String jwt = tokenProvider.createToken(authentication);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-        mailService.sendMail();
         /*
          // mailService.sendMail();
 

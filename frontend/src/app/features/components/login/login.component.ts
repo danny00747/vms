@@ -26,7 +26,8 @@ export class LoginComponent implements OnInit, OnDestroy {
               private messageService: MessageService,
               private authService: AuthentificationService) {
     this.router.events
-      .pipe(filter(event => event instanceof NavigationStart))
+      .pipe(takeUntil(this.destroyed$),
+        filter(event => event instanceof NavigationStart))
       .subscribe(() => this.reload());
   }
 

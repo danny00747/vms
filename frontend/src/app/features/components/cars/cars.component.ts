@@ -1,14 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {NavigationStart, Router} from '@angular/router';
-import {filter} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {MenuItem} from 'primeng/api';
+import {ReplaySubject} from 'rxjs';
 
 @Component({
   selector: 'app-cars',
   templateUrl: './cars.component.html',
   styleUrls: ['./cars.component.css']
 })
-export class CarsComponent implements OnInit {
+export class CarsComponent implements OnInit, OnDestroy {
 
   rangeValues: number[] = [75, 699];
   submitted = false;
@@ -16,9 +17,14 @@ export class CarsComponent implements OnInit {
   items: MenuItem[];
   pages: any[];
 
-  constructor(private router: Router) {
+  // Observable used to notify subscription when to end
+  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+
+
+  constructor( private router: Router) {
     this.router.events
-      .pipe(filter(event => event instanceof NavigationStart))
+      .pipe(takeUntil(this.destroyed$),
+        filter(event => event instanceof NavigationStart))
       .subscribe(() => this.reload());
   }
 
@@ -40,6 +46,12 @@ export class CarsComponent implements OnInit {
       {label: 'Step 2'},
     ];
     this.pages.forEach((x, i) => x.activePage = (i === 0));
+  }
+
+  @HostListener('window:beforeunload')
+  async ngOnDestroy(): Promise<any> {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
   reload(): void {

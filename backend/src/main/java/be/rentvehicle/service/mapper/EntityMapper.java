@@ -8,7 +8,7 @@ import java.util.List;
  * @param <E> - Entity type parameter.
  */
 
-public sealed interface EntityMapper <D, E> permits TeacherMapper {
+public sealed interface EntityMapper <D, E> permits TeacherMapper, CarMapper, ModelMapper {
 
     E toEntity(D dto);
 

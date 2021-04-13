@@ -212,9 +212,26 @@ public class UserServiceImpl implements UserService {
                 );
     }
 
+    // @Scheduled(cron = "0/2 * * * * ?")
+    public void findbetween() {
+        userDAO
+                .findAllByCreatedDateBetween(Instant.parse("2018-04-09T10:15:30.00Z"), Instant.parse("2019-11-09T10:15:30.00Z"))
+                .forEach(user -> System.out.println(user.getUsername()));
+    }
+
     @Override
     public List<UserDTO> findAllWithEagerRelationships() {
         return null;
+    }
+
+    // @Scheduled(cron = "0/2 * * * * ?")
+    public void printEvery2sec() {
+        // System.out.println(UUID.randomUUID());
+        Instant d1 = Instant.now().minus(3, ChronoUnit.DAYS);
+        Instant d3 = Instant.now().plus(3, ChronoUnit.DAYS);
+        Instant d2 = Instant.parse("2021-04-09T10:15:30.00Z");
+        System.out.println(d3);
+        System.out.println(d2);
     }
 }
 

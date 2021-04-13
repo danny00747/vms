@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "roles")
-public class Roles implements Serializable {
+public class Roles extends AbstractAuditingEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

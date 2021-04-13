@@ -1,21 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {NavigationStart, Router} from '@angular/router';
-import {filter} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
+import {ReplaySubject, Subject} from 'rxjs';
 
 @Component({
   selector: 'app-car-detail',
   templateUrl: './car-detail.component.html',
   styleUrls: ['./car-detail.component.css']
 })
-export class CarDetailComponent implements OnInit {
+export class CarDetailComponent implements OnInit, OnDestroy {
+
+  // Observable used to notify subscription when to end
+  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor( private router: Router) {
     this.router.events
-      .pipe(filter(event => event instanceof NavigationStart))
+      .pipe(takeUntil(this.destroyed$),
+        filter(event => event instanceof NavigationStart))
       .subscribe(() => this.reload());
   }
 
   ngOnInit(): void {
+  }
+
+  /*
+    Stays subscribed until the component is about to be unload.
+    A subject is used to notify a subscription to end
+   */
+  @HostListener('window:beforeunload')
+  async ngOnDestroy(): Promise<any> {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
   reload(): void {

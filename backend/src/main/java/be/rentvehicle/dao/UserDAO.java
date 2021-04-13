@@ -31,6 +31,8 @@ public interface UserDAO extends JpaRepository<User, UUID> {
 
     List<User> findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(Instant dateTime);
 
+    List<User> findAllByCreatedDateBetween(Instant dateTime1, Instant dateTime2);
+
     Page<User> findAllByUsernameNot(Pageable pageable, String username);
 
     @Query(""" 

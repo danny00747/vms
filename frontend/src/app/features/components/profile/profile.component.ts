@@ -1,17 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {NavigationStart, Router} from '@angular/router';
-import {filter} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
+import {ReplaySubject} from 'rxjs';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
-  constructor(private router: Router) {
+  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+
+  constructor( private router: Router) {
     this.router.events
-      .pipe(filter(event => event instanceof NavigationStart))
+      .pipe(takeUntil(this.destroyed$),
+        filter(event => event instanceof NavigationStart))
       .subscribe(() => this.reload());
   }
 
@@ -20,6 +24,12 @@ export class ProfileComponent implements OnInit {
 
   reload(): void {
     setTimeout(() => window.location.reload(), 100);
+  }
+
+  @HostListener('window:beforeunload')
+  async ngOnDestroy(): Promise<any> {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
 }

@@ -11,7 +11,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "address")
-public class Address implements Serializable {
+public class Address extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,7 +28,7 @@ public class Address implements Serializable {
     @NotNull(message = "road is a required field.")
     private Integer postBox;
 
-    @Column(name = "house_number")
+    @Column(name = "house_number", nullable = false)
     @Min(value = 1, message = "houseNumber must be greater than or equal to 1")
     @NotNull(message = "houseNumber is a required field.")
     private Integer houseNumber;

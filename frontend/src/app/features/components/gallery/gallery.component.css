@@ -1,0 +1,10 @@
+
+
+.car-border
+{
+  padding: 5%;
+  border: 1px solid #ced4da;
+  margin-bottom: 2%;
+  border-radius:  4px;
+  box-shadow:  15px 15px 16px -1px rgba(0,0,0,.12);
+}
