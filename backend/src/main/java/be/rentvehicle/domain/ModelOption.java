@@ -1,13 +1,11 @@
 package be.rentvehicle.domain;
 
-import be.rentvehicle.config.Constants;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import java.util.List;
+import java.util.Set;
 
 /**
  * A ModelOption entity.
@@ -18,25 +16,23 @@ import javax.validation.constraints.Pattern;
 public @Data class ModelOption extends AbstractAuditingEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "option_code")
-    private String option_code;
+    @Column(name = "option_code", columnDefinition = "option_code")
+    private String optionCode;
 
-    @Max(10)
-    @Column(nullable = false)
-    private Integer seats_number;
+    @Column(name = "seats_number", nullable = false)
+    private Integer seatsNumber;
 
-    @NotNull
-    @Pattern(regexp = Constants.EMAIL_REGEX)
-    @Column(nullable = false)
-    private Boolean has_air_Conditioner;
+    @Column(name = "has_air_conditioner", nullable = false)
+    private Boolean hasAirConditioner;
 
-    @NotNull
-    @Column(nullable = false)
-    private Boolean is_automatic;
+    @Column(name = "is_automatic", nullable = false)
+    private Boolean isAutomatic;
 
-    @Max(10)
-    private Integer bags_number;
+    @Column(name = "bags_number", nullable = false)
+    private Integer bagsNumber;
+
+     @ManyToMany(mappedBy = "modelOptions")
+     private Set<Model> models;
 }
 
 

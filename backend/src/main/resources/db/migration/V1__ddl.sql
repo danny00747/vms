@@ -120,7 +120,7 @@ CREATE TABLE models_options
 (
     option_code         VARCHAR(36) PRIMARY KEY,
     seats_number        SMALLINT NOT NULL,
-    has_air_Conditioner BOOLEAN  NOT NULL,
+    has_air_conditioner BOOLEAN  NOT NULL,
     is_automatic        BOOLEAN  NOT NULL,
     bags_number         SMALLINT NOT NULL,
     created_at          TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP

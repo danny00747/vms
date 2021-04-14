@@ -32,4 +32,13 @@ public @Data class Model extends AbstractAuditingEntity {
     @OneToMany(mappedBy = "model")
     private Set<Car> cars = new HashSet<>();
 
+
+      @ManyToMany
+    @JoinTable(
+            name = "cars_models_options",
+            joinColumns = {@JoinColumn(name = "model_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "option_code", referencedColumnName = "option_code")})
+    private Set<ModelOption> modelOptions = new HashSet<>();
+
+
 }

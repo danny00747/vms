@@ -2,6 +2,7 @@ package be.rentvehicle.web.rest;
 
 import be.rentvehicle.service.CarService;
 import be.rentvehicle.service.dto.CarDTO;
+import be.rentvehicle.service.dto.CarsDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Validated
@@ -36,4 +38,18 @@ public class CarResource extends BaseRestController {
         List<CarDTO> cars = carService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(cars);
     }
+
+    /*
+     * {@code GET  /cars} : get all the cars.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of cars in body.
+     */
+    @GetMapping("/carss")
+    public ResponseEntity<List<CarDTO>> getAllCarss() {
+
+        log.debug("REST request to get a list of Cars");
+        List<CarDTO> cars = carService.finds();
+        return ResponseEntity.status(HttpStatus.OK).body(cars);
+    }
+
 }

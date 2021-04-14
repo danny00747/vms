@@ -7,10 +7,12 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import java.util.UUID;
 
+
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "cars")
-public @Data class Car extends AbstractAuditingEntity {
+public @Data
+class Car extends AbstractAuditingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
