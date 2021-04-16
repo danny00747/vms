@@ -1,15 +1,10 @@
 package be.rentvehicle.service.dto;
 
-import be.rentvehicle.domain.ModelOption;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +12,7 @@ public @Data
 class CarDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private UUID carId;
+    private String carId;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer madeInYear;
@@ -32,14 +27,20 @@ class CarDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String licensePlate;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private ModelDTO modelDTO;
+
     // private List<String> modelOptions;
+
+
 
     private String modelBrand;
     private Integer bagsNumber;
     private String modelType;
 
 
-    public CarDTO(String licensePlate, String modelType, String modelBrand, Integer bagsNumber) {
+    public CarDTO(String carId, String licensePlate, String modelType, String modelBrand, Integer bagsNumber) {
+        this.carId = carId;
         this.licensePlate = licensePlate;
         this.modelBrand = modelBrand;
         this.bagsNumber = bagsNumber;

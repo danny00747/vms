@@ -5,16 +5,15 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name="models",  uniqueConstraints={
-        @UniqueConstraint(columnNames={"model_type", "brand"})
+@Table(name = "models", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"model_type", "brand"})
 })
-public @Data class Model extends AbstractAuditingEntity {
+public @Data
+class Model extends AbstractAuditingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,16 +28,11 @@ public @Data class Model extends AbstractAuditingEntity {
     @NotNull(message = "brand is a required field.")
     private String brand;
 
-    @OneToMany(mappedBy = "model")
+    @OneToMany(mappedBy = "model", fetch = FetchType.EAGER)
     private Set<Car> cars = new HashSet<>();
 
-
-      @ManyToMany
-    @JoinTable(
-            name = "cars_models_options",
-            joinColumns = {@JoinColumn(name = "model_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "option_code", referencedColumnName = "option_code")})
-    private Set<ModelOption> modelOptions = new HashSet<>();
-
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "model_option")
+    private ModelOption modelOption;
 
 }

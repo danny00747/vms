@@ -2,7 +2,6 @@ package be.rentvehicle.web.rest;
 
 import be.rentvehicle.service.CarService;
 import be.rentvehicle.service.dto.CarDTO;
-import be.rentvehicle.service.dto.CarsDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -12,7 +11,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @Validated

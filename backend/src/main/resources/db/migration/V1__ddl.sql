@@ -86,34 +86,6 @@ CREATE TABLE address
 );
 
 -------------------------------------------------
---   Create models table
--------------------------------------------------
-CREATE TABLE models
-(
-    id         uuid        DEFAULT uuid_generate_v4() PRIMARY KEY,
-    model_type VARCHAR(128) NOT NULL,
-    brand      VARCHAR(128) NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE (model_type, brand)
-);
-
--------------------------------------------------
---   Create car table
--------------------------------------------------
-CREATE TABLE cars
-(
-    id              uuid        DEFAULT uuid_generate_v4() PRIMARY KEY,
-    license_plate   VARCHAR(9)                NOT NULL UNIQUE,
-    made_in_year    SMALLINT                  NOT NULL,
-    purchased_price d_price                   NOT NULL,
-    is_damaged      BOOLEAN     DEFAULT FALSE NOT NULL,
-    model_id        uuid,
-    created_at      TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (model_id) REFERENCES models (id) ON UPDATE CASCADE ON DELETE CASCADE
-
-);
-
--------------------------------------------------
 --   Create models_options table
 -------------------------------------------------
 CREATE TABLE models_options
@@ -127,16 +99,32 @@ CREATE TABLE models_options
 );
 
 -------------------------------------------------
---   Create cars_models_options table
+--   Create models table
 -------------------------------------------------
-CREATE TABLE cars_models_options
+CREATE TABLE models
 (
-    model_id    uuid,
-    option_code VARCHAR(36),
-    created_at  TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (model_id, option_code),
-    FOREIGN KEY (model_id) REFERENCES models (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (option_code) REFERENCES models_options (option_code) ON UPDATE CASCADE ON DELETE CASCADE
+    id         uuid        DEFAULT uuid_generate_v4() PRIMARY KEY,
+    model_type VARCHAR(128) NOT NULL,
+    brand      VARCHAR(128) NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    model_option            VARCHAR(36),
+    UNIQUE (model_type, brand),
+    FOREIGN KEY (model_option) REFERENCES models_options (option_code) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-------------------------------------------------
+--   Create car table
+-------------------------------------------------
+CREATE TABLE cars
+(
+    id              uuid        DEFAULT uuid_generate_v4() PRIMARY KEY,
+    license_plate   VARCHAR(9)                NOT NULL UNIQUE,
+    made_in_year    SMALLINT                  NOT NULL,
+    purchased_price d_price                   NOT NULL,
+    is_damaged      BOOLEAN     DEFAULT FALSE NOT NULL,
+    model_id            uuid,
+    created_at      TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (model_id) REFERENCES models (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 /*

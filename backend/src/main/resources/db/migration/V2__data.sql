@@ -34,13 +34,21 @@ VALUES (DEFAULT, 'rue de la place', 7, 7, 1300, (SELECT id FROM users WHERE user
        (DEFAULT, 'rue saint reine', 13, 13, 1370, (SELECT id FROM users WHERE username = 'tutu'), DEFAULT),
        (DEFAULT, 'place des fontaines', 34, 34, 1480, (SELECT id FROM users WHERE username = 'titi'), DEFAULT);
 
-INSERT INTO models (id, model_type, brand, created_at)
-VALUES (DEFAULT, 'Focus', 'Ford', DEFAULT),
-       (DEFAULT, 'Corsa', 'Opel', DEFAULT),
-       (DEFAULT, 'Zafira', 'Opel', DEFAULT),
-       (DEFAULT, 'Fiesta', 'Ford', DEFAULT),
-       (DEFAULT, 'Civic', 'Honda', DEFAULT),
-       (DEFAULT, 'Polo', 'Volkswagen', DEFAULT);
+INSERT INTO models_options (option_code, seats_number, has_air_conditioner, is_automatic, bags_number, created_at)
+VALUES ('S4-CT-AT-B2', 4, true, true, 2, DEFAULT),
+       ('S5-CT-AF-B2', 5, true, false, 2, DEFAULT),
+       ('S7-CT-AF-B4', 7, true, false, 4, DEFAULT),
+       ('S4-CT-AT-B1', 4, true, true, 1, DEFAULT),
+       ('S4-CT-AF-B1', 4, true, false, 1, DEFAULT);
+
+
+INSERT INTO models (id, model_type, brand, model_option, created_at)
+VALUES (DEFAULT, 'Focus', 'Ford', 'S4-CT-AF-B1', DEFAULT),
+       (DEFAULT, 'Corsa', 'Opel', 'S5-CT-AF-B2', DEFAULT),
+       (DEFAULT, 'Zafira', 'Opel', 'S7-CT-AF-B4', DEFAULT),
+       (DEFAULT, 'Fiesta', 'Ford', 'S4-CT-AT-B2', DEFAULT),
+       (DEFAULT, 'Civic', 'Honda', 'S5-CT-AF-B2', DEFAULT),
+       (DEFAULT, 'Polo', 'Volkswagen', 'S4-CT-AF-B1', DEFAULT);
 
 INSERT INTO cars (id, license_plate, made_in_year, is_damaged, purchased_price, model_id, created_at)
 VALUES (DEFAULT, '1-ABC-003', 2018, false, 14217.99,
@@ -64,29 +72,3 @@ VALUES (DEFAULT, '1-ABC-003', 2018, false, 14217.99,
        (DEFAULT, '8-SBE-018', 2017, false, 17274.99,
         (SELECT id FROM models WHERE model_type = 'Focus' AND brand = 'Ford'),
         DEFAULT);
-
-INSERT INTO models_options (option_code, seats_number, has_air_conditioner, is_automatic, bags_number, created_at)
-VALUES ('S4-CT-AT-B2', 4, true, true, 2, DEFAULT),
-       ('S5-CT-AF-B2', 5, true, false, 2, DEFAULT),
-       ('S7-CT-AF-B4', 7, true, false, 4, DEFAULT),
-       ('S4-CT-AT-B1', 4, true, true, 1, DEFAULT),
-       ('S4-CT-AF-B1', 4, true, false, 1, DEFAULT);
-
-INSERT INTO cars_models_options (model_id, option_code)
-VALUES ((SELECT id FROM models WHERE model_type = 'Zafira' AND brand = 'Opel'),
-        (SELECT option_code FROM models_options WHERE option_code = 'S7-CT-AF-B4')),
-
-       ((SELECT id FROM models WHERE model_type = 'Polo' AND brand = 'Volkswagen'),
-        (SELECT option_code FROM models_options WHERE option_code = 'S5-CT-AF-B2')),
-
-       ((SELECT id FROM models WHERE model_type = 'Corsa' AND brand = 'Opel'),
-        (SELECT option_code FROM models_options WHERE option_code = 'S4-CT-AT-B1')),
-
-       ((SELECT id FROM models WHERE model_type = 'Civic' AND brand = 'Honda'),
-        (SELECT option_code FROM models_options WHERE option_code = 'S5-CT-AF-B2')),
-
-       ((SELECT id FROM models WHERE model_type = 'Fiesta' AND brand = 'Ford'),
-        (SELECT option_code FROM models_options WHERE option_code = 'S4-CT-AF-B1')),
-
-       ((SELECT id FROM models WHERE model_type = 'Focus' AND brand = 'Ford'),
-        (SELECT option_code FROM models_options WHERE option_code = 'S5-CT-AF-B2'));

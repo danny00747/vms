@@ -1,10 +1,8 @@
 package be.rentvehicle.service.impl;
 
 import be.rentvehicle.dao.CarDAO;
-import be.rentvehicle.domain.Car;
 import be.rentvehicle.service.CarService;
 import be.rentvehicle.service.dto.CarDTO;
-import be.rentvehicle.service.dto.CarsDTO;
 import be.rentvehicle.service.mapper.CarMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,12 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Implementation of the {@link CarService} interface.
@@ -39,8 +33,6 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<CarDTO> findAll() {
-        // List<Map<String, String>> t = carDAO.findAllWithEagerRelationships();
-        // t.forEach(System.out::println);
         return carDAO.findAll()
                 .stream()
                 .map(carMapper::toDto)
@@ -52,7 +44,7 @@ public class CarServiceImpl implements CarService {
     public List<CarDTO> finds() {
         return carDAO.findAllWithEagerRelationships()
                 .stream()
-                .map(item -> new CarDTO(item[0].toString(), item[1].toString(), item[2].toString(), Integer.parseInt(item[3].toString()))
+                .map(item -> new CarDTO(item[0].toString(), item[1].toString(), item[2].toString(), item[3].toString(), Integer.parseInt(item[4].toString()))
                 ).collect(Collectors.toList());
         /*
         List<Map<String, Object>>

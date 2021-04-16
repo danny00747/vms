@@ -16,18 +16,22 @@ public non-sealed interface ModelOptionMapper  extends EntityMapper<ModelOptionD
     @Mappings({
             @Mapping(source = "seatsNumber", target = "seatsNumber"),
             @Mapping(source = "hasAirConditioner", target = "hasAirConditioner"),
-            @Mapping(source = "bagsNumber", target = "bagsNumber"),
-            @Mapping(source = "isAutomatic", target = "isAutomatic")
+            @Mapping(source = "isAutomatic", target = "isAutomatic"),
+            @Mapping(source = "bagsNumber", target = "bagsNumber")
     })
     ModelOption toEntity(ModelOptionDTO modelOptionDTO);
 
     @Mappings({
             @Mapping(source = "seatsNumber", target = "seatsNumber"),
             @Mapping(source = "hasAirConditioner", target = "hasAirConditioner"),
-            @Mapping(source = "bagsNumber", target = "bagsNumber"),
-            @Mapping(source = "isAutomatic", target = "isAutomatic")
+            @Mapping(source = "isAutomatic", target = "isAutomatic"),
+            @Mapping(source = "bagsNumber", target = "bagsNumber")
     })
     ModelOptionDTO toDto(ModelOption modelOption);
+
+    // List<ModelOptionDTO> toDto(List<ModelOption> modelOptions);
+
+   // List<ModelOption> toEntity(List<ModelOptionDTO> modelOptionDTOS);
 
     default ModelOption fromId(String id) {
         if (id == null) {

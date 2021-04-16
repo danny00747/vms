@@ -4,8 +4,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * A ModelOption entity.
@@ -31,8 +31,8 @@ public @Data class ModelOption extends AbstractAuditingEntity {
     @Column(name = "bags_number", nullable = false)
     private Integer bagsNumber;
 
-     @ManyToMany(mappedBy = "modelOptions")
-     private Set<Model> models;
+    @OneToMany(mappedBy = "modelOption", fetch = FetchType.EAGER)
+    private List<Model> models = new ArrayList<>();
 }
 
 
