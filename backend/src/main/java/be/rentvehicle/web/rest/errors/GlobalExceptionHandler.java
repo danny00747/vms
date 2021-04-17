@@ -1,9 +1,6 @@
 package be.rentvehicle.web.rest.errors;
 
-import be.rentvehicle.service.impl.errors.AccountResourceException;
-import be.rentvehicle.service.impl.errors.EmailAlreadyUsedException;
-import be.rentvehicle.service.impl.errors.UserNotFoundException;
-import be.rentvehicle.service.impl.errors.UsernameAlreadyUsedException;
+import be.rentvehicle.service.impl.errors.*;
 import be.rentvehicle.web.rest.AccountResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,6 +62,18 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.CONFLICT)
                 .body(Map.of("message", ex.getMessage()));
     }
+
+    /**
+     * A method to handle {@link CarNotFoundException} across the whole application.
+     */
+    @ExceptionHandler({CarNotFoundException.class})
+    public ResponseEntity<Map<String, String>> carNotFoundException(CarNotFoundException ex) {
+        log.warn("CarNotFoundException thrown !");
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(Map.of("message", ex.getMessage()));
+    }
+
 
     /**
      * A method to handle {@link UserNotFoundException} across the whole application.

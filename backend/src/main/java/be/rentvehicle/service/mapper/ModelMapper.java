@@ -10,11 +10,11 @@ import java.util.UUID;
 /**
  * Mapper for the entity {@link Model} and its DTO {@link ModelDTO}.
  */
-@Mapper(componentModel = "spring", uses = {ModelOptionMapper.class})
+@Mapper(componentModel = "spring", uses = {ModelOptionMapper.class}, imports = {UUID.class})
 public non-sealed interface ModelMapper extends EntityMapper<ModelDTO, Model> {
 
     @Mappings({
-            @Mapping(expression = "java(java.util.UUID.fromString(modelDTO.getModelId()))", target = "id"),
+            @Mapping(expression = "java(UUID.fromString(modelDTO.getModelId()))", target = "id"),
             @Mapping(source = "modelType", target = "modelType"),
             @Mapping(source = "brand", target = "brand")
     })

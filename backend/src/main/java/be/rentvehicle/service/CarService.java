@@ -2,12 +2,9 @@ package be.rentvehicle.service;
 
 import be.rentvehicle.domain.Car;
 import be.rentvehicle.service.dto.CarDTO;
-import be.rentvehicle.service.dto.CarsDTO;
-import com.fasterxml.jackson.databind.JsonNode;
-import org.json.JSONObject;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 /**
  * UserService interface for the {@link Car} entity.
@@ -15,11 +12,22 @@ import java.util.Map;
 public interface CarService {
 
     /**
-     * Get all the users.
+     * Get all the entities.
      *
      * @return the list of entities.
      */
     List<CarDTO> findAll();
+
+    List<CarDTO> getAllByModelBrand(String brand);
+
+    Optional<CarDTO> getOneCarById(String id);
+
+    /**
+     * Get all the entities.
+     *
+     * @return the list of entities with a given model brand.
+     */
+    List<CarDTO> findByModelBrand(String brand);
 
     List<CarDTO> finds();
 }

@@ -1,12 +1,11 @@
 package be.rentvehicle.dao;
 
 import be.rentvehicle.domain.Car;
-import be.rentvehicle.service.dto.CarDTO;
-import org.json.JSONObject;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -19,13 +18,20 @@ public interface CarDAO extends JpaRepository<Car, UUID> {
             value = """
                     SELECT cast (car.id as varchar), license_plate, model_type, brand, bags_number FROM cars car
                     JOIN models model ON model.id = car.model_id
-                    JOIN models_options mo on model.option_code = mo.option_code
+                    JOIN models_options mo on model.model_option = mo.option_code
                     WHERE model.brand = 'Ford'
                     """,
             nativeQuery = true)
     List<Object[]> findAllWithEagerRelationships();
 
+    Optional<Car> findOneByIdAndModelIsNotNull(UUID id);
 
+    @Query(""" 
+                select distinct car from Car car 
+                left join fetch car.model model 
+                where model.brand = :modelBrand
+            """)
+    List<Car> findAllByModelBrand(String modelBrand);
 }
 
 

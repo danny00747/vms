@@ -6,6 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -32,6 +33,8 @@ public non-sealed interface CarMapper extends EntityMapper<CarDTO, Car> {
             @Mapping(source = "isDamaged", target = "isDamaged")
     })
     CarDTO toDto(Car car);
+
+    List<CarDTO> toDto(List<Car> cars);
 
     default UUID setCarId(String id){
         return UUID.fromString(id);

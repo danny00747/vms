@@ -3,6 +3,7 @@ package be.rentvehicle.service.impl;
 import be.rentvehicle.dao.CarDAO;
 import be.rentvehicle.service.CarService;
 import be.rentvehicle.service.dto.CarDTO;
+import be.rentvehicle.service.impl.errors.CarNotFoundException;
 import be.rentvehicle.service.mapper.CarMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -33,8 +36,47 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<CarDTO> findAll() {
+        System.out.println("******************************************");
+        // List<Car> car = carDAO.findModel();
+        // System.out.println(car.get(0).getLicensePlate());
+        System.out.println("******************************************");
         return carDAO.findAll()
                 .stream()
+                .map(carMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CarDTO> getAllByModelBrand(String brand) {
+        carDAO.findAll();
+        return carDAO.findAllByModelBrand(brand.substring(0, 1).toUpperCase() + brand.substring(1).toLowerCase())
+                .stream()
+                .map(carMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<CarDTO> getOneCarById(String id) {
+        UUID carId;
+        try {
+            carId = UUID.fromString(id);
+        } catch (IllegalArgumentException ex) {
+            throw new CarNotFoundException(id);
+        }
+
+        return Optional.of(carDAO
+                .findOneByIdAndModelIsNotNull(carId))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(carMapper::toDto);
+        //return carDAO.findOneById(UUID.fromString(id));
+    }
+
+    @Override
+    public List<CarDTO> findByModelBrand(String brand) {
+        return carDAO.findAll()
+                .stream()
+                .filter(car -> car.getModel().getBrand().equals(brand.substring(0, 1).toUpperCase() + brand.substring(1).toLowerCase()))
                 .map(carMapper::toDto)
                 .collect(Collectors.toList());
     }

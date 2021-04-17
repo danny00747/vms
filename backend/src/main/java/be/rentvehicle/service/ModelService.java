@@ -11,7 +11,7 @@ import java.util.List;
 public interface ModelService {
 
     /**
-     * Get all the users.
+     * Get all the entities.
      *
      * @return the list of entities.
      */

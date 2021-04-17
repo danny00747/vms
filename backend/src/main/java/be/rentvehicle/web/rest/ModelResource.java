@@ -27,7 +27,7 @@ public class ModelResource extends BaseRestController {
     /**
      * {@code GET  /models} : get all the cars.
      *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of cars in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of models in body.
      */
     @GetMapping("/models")
     public ResponseEntity<List<ModelDTO>> getAllModels() {
