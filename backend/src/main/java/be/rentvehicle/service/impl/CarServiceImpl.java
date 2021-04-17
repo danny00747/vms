@@ -36,10 +36,6 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<CarDTO> findAll() {
-        System.out.println("******************************************");
-        // List<Car> car = carDAO.findModel();
-        // System.out.println(car.get(0).getLicensePlate());
-        System.out.println("******************************************");
         return carDAO.findAll()
                 .stream()
                 .map(carMapper::toDto)
