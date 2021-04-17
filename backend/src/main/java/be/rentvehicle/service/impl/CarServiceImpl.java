@@ -3,7 +3,6 @@ package be.rentvehicle.service.impl;
 import be.rentvehicle.dao.CarDAO;
 import be.rentvehicle.service.CarService;
 import be.rentvehicle.service.dto.CarDTO;
-import be.rentvehicle.service.impl.errors.CarNotFoundException;
 import be.rentvehicle.service.mapper.CarMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +56,7 @@ public class CarServiceImpl implements CarService {
         try {
             carId = UUID.fromString(id);
         } catch (IllegalArgumentException ex) {
-            throw new CarNotFoundException(id);
+            throw new IllegalArgumentException("Please provide a valid UUID");
         }
 
         return Optional.of(carDAO

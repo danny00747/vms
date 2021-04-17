@@ -1,7 +1,6 @@
 package be.rentvehicle.web.rest.errors;
 
 import be.rentvehicle.service.impl.errors.*;
-import be.rentvehicle.web.rest.AccountResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -64,11 +63,11 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * A method to handle {@link CarNotFoundException} across the whole application.
+     * A method to handle {@link IllegalArgumentException} across the whole application.
      */
-    @ExceptionHandler({CarNotFoundException.class})
-    public ResponseEntity<Map<String, String>> carNotFoundException(CarNotFoundException ex) {
-        log.warn("CarNotFoundException thrown !");
+    @ExceptionHandler({IllegalArgumentException.class})
+    public ResponseEntity<Map<String, String>> illegalArgumentException(IllegalArgumentException ex) {
+        log.warn("IllegalArgumentException thrown !");
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(Map.of("message", ex.getMessage()));

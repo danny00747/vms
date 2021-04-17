@@ -72,7 +72,7 @@ public class CarResource extends BaseRestController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(carService.getOneCarById(id)
-                        .orElseThrow(() -> new CarNotFoundException(id)));
+                        .orElseThrow(() -> new IllegalArgumentException("No car was found with this id :" + id)));
     }
 
 }
