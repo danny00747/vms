@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -37,5 +39,19 @@ public class ModelServiceImpl implements ModelService {
                 .stream()
                 .map(modelMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<ModelDTO> partialUpdate(ModelDTO modelDTO) {
+        log.debug("Request to partially update Model : {}", modelDTO);
+        return modelDAO
+                .findById(UUID.fromString(modelDTO.getModelId()))
+                .map(existingModel -> {
+                            modelMapper.partialUpdate(existingModel, modelDTO);
+                            return existingModel;
+                        }
+                )
+                .map(modelDAO::save)
+                .map(modelMapper::toDto);
     }
 }

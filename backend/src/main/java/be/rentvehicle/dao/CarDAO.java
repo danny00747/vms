@@ -3,6 +3,7 @@ package be.rentvehicle.dao;
 import be.rentvehicle.domain.Car;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +12,7 @@ import java.util.UUID;
 /**
  * Spring Data JPA repository for the {@link Car} entity.
  */
-
+@Repository
 public interface CarDAO extends JpaRepository<Car, UUID> {
 
     @Query(
@@ -25,6 +26,9 @@ public interface CarDAO extends JpaRepository<Car, UUID> {
     List<Object[]> findAllWithEagerRelationships();
 
     Optional<Car> findOneByIdAndModelIsNotNull(UUID id);
+    Optional<Car> findOneById(UUID id);
+
+
 
     @Query(""" 
                 select distinct car from Car car 

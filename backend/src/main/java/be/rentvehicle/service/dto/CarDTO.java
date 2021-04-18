@@ -11,20 +11,15 @@ import lombok.NoArgsConstructor;
 public @Data
 class CarDTO {
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+
     private String carId;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer madeInYear;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Boolean isDamaged = false;
 
-
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer purchasedPrice;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String licensePlate;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

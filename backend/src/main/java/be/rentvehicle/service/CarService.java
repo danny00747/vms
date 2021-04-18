@@ -18,8 +18,29 @@ public interface CarService {
      */
     List<CarDTO> findAll();
 
+    /**
+     * Get the entities given a model brand .
+     *
+     * @param brand the model brand to search.
+     * @return the list of entities.
+     */
     List<CarDTO> getAllByModelBrand(String brand);
 
+    /**
+     * Partially updates a car.
+     *
+     * @param carDTO the entity to update partially.
+     * @return the persisted entity.
+     */
+    Optional<CarDTO> partialUpdate(CarDTO carDTO);
+
+
+    /**
+     * Get a car given its id .
+     *
+     * @param id the id of car to search.
+     * @return the found entity.
+     */
     Optional<CarDTO> getOneCarById(String id);
 
     /**

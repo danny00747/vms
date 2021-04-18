@@ -69,6 +69,17 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> illegalArgumentException(IllegalArgumentException ex) {
         log.warn("IllegalArgumentException thrown !");
         return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("message", ex.getMessage()));
+    }
+
+    /**
+     * A method to handle {@link ResourceFoundException} across the whole application.
+     */
+    @ExceptionHandler({ResourceFoundException.class})
+    public ResponseEntity<Map<String, String>> resourceFoundException(ResourceFoundException ex) {
+        log.warn("ResourceFoundException thrown !");
+        return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(Map.of("message", ex.getMessage()));
     }

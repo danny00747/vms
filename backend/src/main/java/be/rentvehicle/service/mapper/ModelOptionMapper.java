@@ -2,9 +2,7 @@ package be.rentvehicle.service.mapper;
 
 import be.rentvehicle.domain.ModelOption;
 import be.rentvehicle.service.dto.ModelOptionDTO;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 
 
 /**
@@ -21,12 +19,7 @@ public non-sealed interface ModelOptionMapper  extends EntityMapper<ModelOptionD
     })
     ModelOption toEntity(ModelOptionDTO modelOptionDTO);
 
-    @Mappings({
-            @Mapping(source = "seatsNumber", target = "seatsNumber"),
-            @Mapping(source = "hasAirConditioner", target = "hasAirConditioner"),
-            @Mapping(source = "isAutomatic", target = "isAutomatic"),
-            @Mapping(source = "bagsNumber", target = "bagsNumber")
-    })
+    @InheritInverseConfiguration(name = "toEntity")
     ModelOptionDTO toDto(ModelOption modelOption);
 
     // List<ModelOptionDTO> toDto(List<ModelOption> modelOptions);

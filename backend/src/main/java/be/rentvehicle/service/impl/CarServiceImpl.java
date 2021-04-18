@@ -43,11 +43,26 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<CarDTO> getAllByModelBrand(String brand) {
-        carDAO.findAll();
+        log.debug("Request to get cars with this model brand : {}", brand);
+       // carDAO.findAll();
         return carDAO.findAllByModelBrand(brand.substring(0, 1).toUpperCase() + brand.substring(1).toLowerCase())
                 .stream()
                 .map(carMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<CarDTO> partialUpdate(CarDTO carDTO) {
+        log.debug("Request to partially update Car : {}", carDTO);
+        return carDAO
+                .findById(UUID.fromString(carDTO.getCarId()))
+                .map(existingCar -> {
+                            carMapper.partialUpdate(existingCar, carDTO);
+                            return existingCar;
+                        }
+                )
+                .map(carDAO::save)
+                .map(carMapper::toDto);
     }
 
     @Override
@@ -60,7 +75,7 @@ public class CarServiceImpl implements CarService {
         }
 
         return Optional.of(carDAO
-                .findOneByIdAndModelIsNotNull(carId))
+                .findById(carId))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(carMapper::toDto);

@@ -28,7 +28,7 @@ class Model extends AbstractAuditingEntity {
     @NotNull(message = "brand is a required field.")
     private String brand;
 
-    @OneToMany(mappedBy = "model", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "model")
     private Set<Car> cars = new HashSet<>();
 
     @ManyToOne(optional = false)

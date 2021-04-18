@@ -2,9 +2,7 @@ package be.rentvehicle.service.mapper;
 
 import be.rentvehicle.domain.Car;
 import be.rentvehicle.service.dto.CarDTO;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 
 import java.util.List;
 import java.util.UUID;

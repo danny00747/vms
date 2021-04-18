@@ -1,7 +1,9 @@
 package be.rentvehicle.service.mapper;
 
+import be.rentvehicle.domain.Car;
 import be.rentvehicle.domain.Roles;
 import be.rentvehicle.domain.User;
+import be.rentvehicle.service.dto.CarDTO;
 import be.rentvehicle.service.dto.UserDTO;
 import org.springframework.stereotype.Service;
 import java.util.*;
@@ -62,6 +64,19 @@ public class UserMapper {
             }).collect(Collectors.toSet());
         }
         return roles;
+    }
+
+    public void partialUpdate(User entity, UserDTO dto) {
+        if ( dto == null ) {
+            return;
+        }
+
+        if ( dto.getUserEmail() != null ) {
+            entity.setEmail( dto.getUserEmail() );
+        }
+        if ( dto.getUsername() != null ) {
+            entity.setUsername( dto.getUsername() );
+        }
     }
 
     public User userFromId(UUID id) {
