@@ -79,7 +79,6 @@ public class CarServiceImpl implements CarService {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(carMapper::toDto);
-        //return carDAO.findOneById(UUID.fromString(id));
     }
 
     @Override

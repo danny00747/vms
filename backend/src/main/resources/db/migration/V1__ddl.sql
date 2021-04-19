@@ -135,4 +135,3 @@ CREATE DOMAIN username_regex AS VARCHAR(25)
     CHECK (VALUE ~ '^(?>[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*)|(?>[_.@A-Za-z0-9-]+)$');
 
 */
-

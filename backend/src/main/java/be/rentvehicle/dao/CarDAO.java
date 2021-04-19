@@ -27,8 +27,7 @@ public interface CarDAO extends JpaRepository<Car, UUID> {
 
     Optional<Car> findOneByIdAndModelIsNotNull(UUID id);
     Optional<Car> findOneById(UUID id);
-
-
+    
 
     @Query(""" 
                 select distinct car from Car car 
