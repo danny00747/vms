@@ -16,7 +16,7 @@
       <ul class="ul_li clearfix">
         <li><a [routerLink]="['/home']">Home</a></li>
         <li><a [routerLink]="['/cars']">Our Cars</a></li>
-        <li><a [routerLink]="['/cars/toto']">Car Details</a></li>
+        <li><a [routerLink]="['/cars', car.carId]">Car Details</a></li>
         <li>Reservation</li>
       </ul>
     </div>
@@ -36,20 +36,20 @@
         <div class="feature_vehicle_item mt-0 ml-0" data-aos="fade-up" data-aos-delay="100">
           <h3 class="item_title mb-0">
             <a >
-              Opel Zafira
+              {{car.modelDTO.brand}} {{car.modelDTO.modelType}}
             </a>
           </h3>
           <div class="item_image position-relative">
             <a class="image_wrap" >
-              <img src="../../../../assets/images/feature/zafira.jpg" alt="image_not_found">
+              <img src="../../../../assets/images/feature/{{car.modelDTO.brand}} {{car.modelDTO.modelType}}.jpg" alt="image_not_found">
             </a>
-            <span class="item_price bg_default_blue">$230/Day</span>
+            <span class="item_price bg_default_blue">230€/Day</span>
           </div>
           <ul class="info_list ul_li_center clearfix">
-            <li>Sports</li>
-            <li>Auto</li>
-            <li>2 Passengers</li>
-            <li>Electro</li>
+            <li>{{car.modelDTO.modelOptionDTO.bagsNumber}} Bags</li>
+            <li>{{car.modelDTO.modelOptionDTO.seatsNumber}} Passengers</li>
+            <li>{{(car.modelDTO.modelOptionDTO.isAutomatic) ? 'Auto' : 'Manual'}}</li>
+            <li>Clim</li>
           </ul>
         </div>
       </div>

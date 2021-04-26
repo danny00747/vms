@@ -278,45 +278,20 @@
 
 <section class="container col-lg-6 col-md-6 col-sm-12 col-xs-12 cars_section clearfix">
 
-  <div class="row offers_car_carousel slideshow4_slider" data-slick='{"dots": false}' data-aos="fade-up"
-       data-aos-delay="100">
-    <div class="row ml-auto">
-      <div class="col-sm-3 item gallery_fullimage_2">
-        <img src="../../../../assets/images/gallery/img_03.jpg" alt="image_not_found">
-        <div class="item_content text-white">
-          <span class="item_price bg_default_blue">$670/Day</span>
-          <h3 class="item_title text-white">Phasellus porta pulvinar metus</h3>
-          <a class="text_btn text-uppercase" [routerLink]="['/cars/toto']"><span>Book it</span>
-            <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
+  <div class="row offers_car_carousel slideshow4_slider" data-aos-delay="100">
+    <div style="border-radius: 2px" class="row ml-auto">
+
+      <ng-container *ngFor="let car of smallCars; index as i">
+        <div class="col-sm-3 item gallery_fullimage_2">
+          <img src="../../../../assets/images/feature/small/{{car.modelDTO.brand}} {{car.modelDTO.modelType}}.jpg" alt="image_not_found">
+          <div class="item_content text-white">
+            <span class="item_price bg_default_blue">120€/Day</span>
+            <h3 class="item_title text-white">{{car.modelDTO.brand}} {{car.modelDTO.modelType}}</h3>
+            <a class="text_btn text-uppercase" [routerLink]="['/cars', car.carId]"><span>Book it</span>
+              <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
+          </div>
         </div>
-      </div>
-      <div class="col-sm-3 item gallery_fullimage_2">
-        <img src="../../../../assets/images/gallery/img_04.jpg" alt="image_not_found">
-        <div class="item_content text-white">
-          <span class="item_price bg_default_blue">$670/Day</span>
-          <h3 class="item_title text-white">Phasellus porta pulvinar metus</h3>
-          <a class="text_btn text-uppercase" [routerLink]="['/cars/toto']"><span>Book it</span>
-            <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
-        </div>
-      </div>
-      <div class="col-sm-3 item gallery_fullimage_2">
-        <img src="../../../../assets/images/gallery/img_05.jpg" alt="image_not_found">
-        <div class="item_content text-white">
-          <span class="item_price bg_default_blue">$670/Day</span>
-          <h3 class="item_title text-white">Phasellus porta pulvinar metus</h3>
-          <a class="text_btn text-uppercase" [routerLink]="['/cars/toto']"><span>Book it</span>
-            <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
-        </div>
-      </div>
-      <div class="col-sm-3 item gallery_fullimage_2">
-        <img src="../../../../assets/images/gallery/img_06.jpg" alt="image_not_found">
-        <div class="item_content text-white">
-          <span class="item_price bg_default_blue">$670/Day</span>
-          <h3 class="item_title text-white">Phasellus porta pulvinar metus</h3>
-          <a class="text_btn text-uppercase" [routerLink]="['/cars/toto']"><span>Book it</span>
-            <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
-        </div>
-      </div>
+      </ng-container>
     </div>
   </div>
 </section>
@@ -339,26 +314,26 @@
         </div>
 
         <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
-          <div class="car_choose_carousel mb_30 clearfix" data-aos="fade-up" data-aos-delay="300">
+          <div class="car_choose_carousel mb_30 clearfix" data-aos-delay="300">
             <div class="thumbnail_carousel">
               <div class="item">
                 <div class="item_head">
-                  <h4 class="item_title mb-0">Infiniti Q50 2018</h4>
+                  <h4 class="item_title mb-0"> {{cars[2].modelDTO.brand}} {{cars[2].modelDTO.modelType}}</h4>
                   <ul class="review_text ul_li_right clearfix">
                     <li class="text-right">
                       <strong>Super</strong>
-                      <small>24+ Reviews</small>
+                      <small>13+ Reviews</small>
                     </li>
                     <li><span class="bg_default_blue">4.8/5</span></li>
                   </ul>
                 </div>
-                <img src="../../../../assets/images/gallery/img_07.jpg" alt="image_not_found">
+                <img class="car-border" src="../../../../assets/images/feature/{{cars[2].modelDTO.brand}} {{cars[2].modelDTO.modelType}}.jpg" alt="image_not_found">
                 <ul class="btns_group ul_li_center clearfix">
                   <li>
-                    <span class="custom_btn btn_width bg_default_blue"><del>$800/Day</del> $400/Day</span>
+                    <span class="custom_btn btn_width bg_default_blue"><del>320€/Day</del> 210€/Day</span>
                   </li>
                   <li>
-                    <a [routerLink]="['/reservation/toto']" class="custom_btn btn_width bg_default_red text-uppercase">Book
+                    <a [routerLink]="['/cars', cars[2].carId]" class="custom_btn btn_width bg_default_red text-uppercase">Book
                       it <img
                         src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></a>
                   </li>
@@ -422,158 +397,39 @@
       </div>
     </div>
 
-    <ul class="button-group filters-button-group ul_li_center mb_30 clearfix" data-aos="fade-up" data-aos-delay="300">
-      <li>
-        <button class="button active" data-filter="*">All</button>
-      </li>
-      <li>
-        <button class="button" data-filter=".sedan">Sedan</button>
-      </li>
-      <li>
-        <button class="button" data-filter=".sports">Sports</button>
-      </li>
-      <li>
-        <button class="button" data-filter=".luxury">Luxury</button>
-      </li>
-    </ul>
-
     <div class="feature_vehicle_filter element-grid clearfix">
-      <div class="element-item sedan " data-category="sedan">
-        <div class="feature_vehicle_item" data-aos="fade-up" data-aos-delay="100">
-          <h3 class="item_title mb-0">
-            <a href="#!">
-              2015 Chevrolet Corvette Stingray Z51
-            </a>
-          </h3>
-          <div class="item_image position-relative">
-            <a class="image_wrap">
-              <img src="../../../../assets/images/feature/img_01.jpg" alt="image_not_found">
-            </a>
-            <span class="item_price bg_default_blue">$230/Day</span>
-          </div>
-          <ul class="info_list ul_li_center clearfix">
-            <li>Sports</li>
-            <li>Auto</li>
-            <li>2 Passengers</li>
-            <li>Gasoline</li>
-          </ul>
-        </div>
-      </div>
 
-      <div class="element-item sports " data-category="sports">
-        <div class="feature_vehicle_item" data-aos="fade-up" data-aos-delay="300">
-          <h3 class="item_title mb-0">
-            <a href="#!">
-              2020 Chevrolet Corvette Stingray Red
-            </a>
-          </h3>
-          <div class="item_image position-relative">
-            <a class="image_wrap" href="#!">
-              <img src="../../../../assets/images/feature/img_02.jpg" alt="image_not_found">
-            </a>
-            <span class="item_price bg_default_blue">$230/Day</span>
-          </div>
-          <ul class="info_list ul_li_center clearfix">
-            <li>Sports</li>
-            <li>Auto</li>
-            <li>2 Passengers</li>
-            <li>Hybrid</li>
-          </ul>
-        </div>
-      </div>
 
-      <div class="element-item luxury " data-category="luxury">
-        <div class="feature_vehicle_item" data-aos="fade-up" data-aos-delay="500">
-          <h3 class="item_title mb-0">
-            <a >
-              2015 Chevrolet Corvette Stingray Z51
-            </a>
-          </h3>
-          <div class="item_image position-relative">
-            <a class="image_wrap" href="#!">
-              <img src="../../../../assets/images/feature/img_03.jpg" alt="image_not_found">
-            </a>
-            <span class="item_price bg_default_blue">$120/Day</span>
+      <ng-container *ngFor="let car of cars; index as i">
+        <div class="element-item sedan" data-category="sedan">
+          <div class="feature_vehicle_item" data-aos-delay="100">
+            <h3 class="item_title mb-0">
+              <a [routerLink]="['/cars', car.carId]">
+                {{car.modelDTO.brand}} {{car.modelDTO.modelType}}
+              </a>
+            </h3>
+            <div class="item_image position-relative">
+              <a class="image_wrap">
+                <img src="../../../../assets/images/feature/{{car.modelDTO.brand}} {{car.modelDTO.modelType}}.jpg" alt="image_not_found">
+              </a>
+              <span class="item_price bg_default_blue">130€/Day</span>
+            </div>
+            <ul class="info_list ul_li_center clearfix">
+              <li>{{car.modelDTO.modelOptionDTO.bagsNumber}} Bags</li>
+              <li>{{car.modelDTO.modelOptionDTO.seatsNumber}} Passengers</li>
+              <li>{{(car.modelDTO.modelOptionDTO.isAutomatic) ? 'Auto' : 'Manual'}}</li>
+              <li>Clim</li>
+            </ul>
           </div>
-          <ul class="info_list ul_li_center clearfix">
-            <li>Sports</li>
-            <li>Auto</li>
-            <li>2 Passengers</li>
-            <li>Gasoline</li>
-          </ul>
         </div>
-      </div>
-
-      <div class="element-item sedan " data-category="sedan">
-        <div class="feature_vehicle_item" data-aos="fade-up" data-aos-delay="100">
-          <h3 class="item_title mb-0">
-            <a href="#!">
-              2020 Audi New Generation P00234
-            </a>
-          </h3>
-          <div class="item_image position-relative">
-            <a class="image_wrap" href="#!">
-              <img src="../../../../assets/images/feature/img_04.jpg" alt="image_not_found">
-            </a>
-            <span class="item_price bg_default_blue">$230/Day</span>
-          </div>
-          <ul class="info_list ul_li_center clearfix">
-            <li>Sports</li>
-            <li>Auto</li>
-            <li>2 Passengers</li>
-            <li>Electro</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="element-item sports " data-category="sports">
-        <div class="feature_vehicle_item" data-aos="fade-up" data-aos-delay="300">
-          <h3 class="item_title mb-0">
-            <a href="#!">
-              2015 Chevrolet Corvette Stingray Z51
-            </a>
-          </h3>
-          <div class="item_image position-relative">
-            <a class="image_wrap" href="#!">
-              <img src="../../../../assets/images/feature/img_05.jpg" alt="image_not_found">
-            </a>
-            <span class="item_price bg_default_blue">$160/Day</span>
-          </div>
-          <ul class="info_list ul_li_center clearfix">
-            <li>Sports</li>
-            <li>Auto</li>
-            <li>2 Passengers</li>
-            <li>Gasoline</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="element-item luxury " data-category="luxury">
-        <div class="feature_vehicle_item" data-aos="fade-up" data-aos-delay="500">
-          <h3 class="item_title mb-0">
-            <a href="#!">
-              2015 Chevrolet Corvette Stingray Z51
-            </a>
-          </h3>
-          <div class="item_image position-relative">
-            <a class="image_wrap" href="#!">
-              <img src="../../../../assets/images/feature/img_06.jpg" alt="image_not_found">
-            </a>
-            <span class="item_price bg_default_blue">$230/Day</span>
-          </div>
-          <ul class="info_list ul_li_center clearfix">
-            <li>Sports</li>
-            <li>Auto</li>
-            <li>2 Passengers</li>
-            <li>Hybrid</li>
-          </ul>
-        </div>
-      </div>
+      </ng-container>
     </div>
 
-    <div class="abtn_wrap text-center clearfix" data-aos="fade-up" data-aos-delay="100">
-      <a class="custom_btn bg_default_red btn_width text-uppercase" href="#!">Book A Car <img
-        src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></a>
+    <div class="abtn_wrap text-center clearfix" data-aos-delay="100">
+      <a [routerLink]="['/gallery']" class="custom_btn bg_default_red btn_width text-uppercase">
+        View More
+        <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found">
+      </a>
     </div>
 
   </div>

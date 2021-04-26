@@ -54,37 +54,54 @@
       <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
         <div class="account_tab_content  tab-content">
           <div id="admin_tab" class="tab-pane active">
-            <div class="item car_choose_carousel">
-              <div class="item_head">
-                <h4 class="item_title mb-0">Opel Zafira</h4>
-                <ul class="review_text ul_li_right clearfix">
-                  <li class="text-right">
-                    <strong>Super</strong>
-                    <small>24+ Reviews</small>
-                  </li>
-                  <li><span class="bg_default_blue">4.8/5</span></li>
-                </ul>
+            <div class="car_choose_carousel mb_30 clearfix" data-aos-delay="300">
+              <div class="thumbnail_carousel">
+                <div class="item">
+                  <div class="item_head">
+                    <h4 class="item_title mb-0">{{car.modelDTO.brand}} {{car.modelDTO.modelType}}</h4>
+                    <ul class="review_text ul_li_right clearfix">
+                      <li class="text-right">
+                        <strong>Super</strong>
+                        <small>13+ Reviews</small>
+                      </li>
+                      <li><span class="bg_default_blue">4.8/5</span></li>
+                    </ul>
+                  </div>
+                  <img class="car-border" src="../../../../assets/images/feature/{{car.modelDTO.brand}} {{car.modelDTO.modelType}}.jpg" alt="image_not_found">
+                  <ul class="btns_group ul_li_center clearfix">
+                    <li>
+                      <span class="custom_btn btn_width bg_default_blue"><del>320€/Day</del> 210€/Day</span>
+                    </li>
+                    <li>
+                      <a [routerLink]="['/reservation', car.carId]" class="custom_btn btn_width bg_default_red text-uppercase">Book
+                        it <img
+                          src="../../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></a>
+                    </li>
+                  </ul>
+                </div>
               </div>
-              <img class="car-border" src="../../../../../assets/images/gallery/zafira-big.jpg" alt="image_not_found">
-              <ul class="btns_group ul_li_center clearfix">
-                <li>
-                  <span class="custom_btn btn_width bg_default_blue"><del>$800/Day</del> $400/Day</span>
-                </li>
-                <li>
-                  <a [routerLink]="['/reservation/toto']" class="custom_btn btn_width bg_default_red text-uppercase">Book it
-                    <img src="../../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></a>
-                </li>
-              </ul>
             </div>
             <div class="car_choose_content">
-              <ul class="info_list ul_li_block mb_15 clearfix" data-aos="fade-up" data-aos-delay="100">
-                <li><strong>Passengers:</strong> 4</li>
-                <li><strong>Suitcase:</strong> 1 Large, 2 Small</li>
-                <li><strong>Doors:</strong> 2</li>
-                <li><strong>Engine:</strong> 3.9L V8 32V GDI DOHC Twin Turbo</li>
-                <li><strong>Fuel Type:</strong> Gasoline, Premium unleaded</li>
-                <li><strong>Options:</strong> Cruise Control, MP3 player, Automatic air conditioning, Wifi, GPS Navigation</li>
-              </ul>
+              <div id="carOption" class="faq_accordion mb_30">
+
+                <div class="card" data-aos="fade-up" data-aos-delay="100">
+                  <div class="card-header">
+                    <a class="collapsed" data-toggle="collapse" href="#collapse_car_option">
+                      This Car Options
+                    </a>
+                  </div>
+                  <div id="collapse_car_option" class="collapse" data-parent="#carOption">
+                    <div class="card-body">
+                      <ul class="info_list ul_li_block mb_15 clearfix" data-aos="fade-up" data-aos-delay="100">
+                        <li><strong>Passengers:</strong> {{car.modelDTO.modelOptionDTO.seatsNumber}}</li>
+                        <li><strong>Suitcase:</strong> {{car.modelDTO.modelOptionDTO.bagsNumber}}</li>
+                        <li><strong>Air Conditioning: </strong> <i class="pi pi-check-circle" style="color: #4CAF50"></i></li>
+                        <li><strong>{{(car.modelDTO.modelOptionDTO.isAutomatic) ? 'Automatic:' : 'Manual:'}} </strong> <i class="pi pi-check-circle" style="color: #4CAF50"></i></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 

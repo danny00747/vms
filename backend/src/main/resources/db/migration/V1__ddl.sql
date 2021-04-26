@@ -103,11 +103,11 @@ CREATE TABLE models_options
 -------------------------------------------------
 CREATE TABLE models
 (
-    id         uuid        DEFAULT uuid_generate_v4() PRIMARY KEY,
-    model_type VARCHAR(128) NOT NULL,
-    brand      VARCHAR(128) NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    model_option            VARCHAR(36),
+    id           uuid        DEFAULT uuid_generate_v4() PRIMARY KEY,
+    model_type   VARCHAR(128) NOT NULL,
+    brand        VARCHAR(128) NOT NULL,
+    created_at   TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    model_option VARCHAR(36),
     UNIQUE (model_type, brand),
     FOREIGN KEY (model_option) REFERENCES models_options (option_code) ON UPDATE CASCADE ON DELETE CASCADE
 );
@@ -122,7 +122,7 @@ CREATE TABLE cars
     made_in_year    SMALLINT                  NOT NULL,
     purchased_price d_price                   NOT NULL,
     is_damaged      BOOLEAN     DEFAULT FALSE NOT NULL,
-    model_id            uuid,
+    model_id        uuid                      NOT NULL,
     created_at      TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (model_id) REFERENCES models (id) ON UPDATE CASCADE ON DELETE CASCADE
 );

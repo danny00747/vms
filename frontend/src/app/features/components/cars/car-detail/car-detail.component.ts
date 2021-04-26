@@ -1,7 +1,10 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {NavigationStart, Router} from '@angular/router';
+import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {ReplaySubject, Subject} from 'rxjs';
+import {strict} from 'assert';
+import {CarService} from '@app/core/services/car.service';
+import {CarDTO} from '@app/shared/models';
 
 @Component({
   selector: 'app-car-detail',
@@ -10,10 +13,15 @@ import {ReplaySubject, Subject} from 'rxjs';
 })
 export class CarDetailComponent implements OnInit, OnDestroy {
 
+  carId: string;
+  car: CarDTO;
+
   // Observable used to notify subscription when to end
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
-  constructor( private router: Router) {
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              private carService: CarService) {
     this.router.events
       .pipe(takeUntil(this.destroyed$),
         filter(event => event instanceof NavigationStart))
@@ -21,6 +29,9 @@ export class CarDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.carId = this.route.snapshot.paramMap.get('id');
+    console.log(this.carId);
+    this.getCarDetails();
   }
 
   /*
@@ -35,5 +46,17 @@ export class CarDetailComponent implements OnInit, OnDestroy {
 
   reload(): void {
     setTimeout(() => window.location.reload(), 100);
+  }
+
+  getCarDetails(): void {
+    this.carService.getOneCar(this.carId)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(
+        async (data: CarDTO) => {
+          this.car = data;
+        },
+        error => {
+          console.error(error);
+        });
   }
 }
