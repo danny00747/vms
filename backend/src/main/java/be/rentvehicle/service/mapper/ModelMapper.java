@@ -10,7 +10,7 @@ import java.util.UUID;
 /**
  * Mapper for the entity {@link Model} and its DTO {@link ModelDTO}.
  */
-@Mapper(componentModel = "spring", uses = {ModelOptionMapper.class}, imports = {UUID.class})
+@Mapper(componentModel = "spring", uses = {ModelOptionMapper.class, PricingClassMapper.class}, imports = {UUID.class})
 public non-sealed interface ModelMapper extends EntityMapper<ModelDTO, Model> {
 
     @Mappings({
@@ -24,7 +24,8 @@ public non-sealed interface ModelMapper extends EntityMapper<ModelDTO, Model> {
             @Mapping(expression = "java(model.getId().toString())", target = "modelId"),
             @Mapping(source = "modelType", target = "modelType"),
             @Mapping(source = "brand", target = "brand"),
-            @Mapping(source = "model.modelOption", target = "modelOptionDTO")
+            @Mapping(source = "model.modelOption", target = "modelOptionDTO"),
+            @Mapping(source = "model.pricingClass", target = "princingDetailsDTO")
     })
     ModelDTO toDto(Model model);
 

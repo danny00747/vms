@@ -16,4 +16,6 @@ public @Data class ModelDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private ModelOptionDTO modelOptionDTO;
 
+    private PricingClassDTO princingDetailsDTO;
+
 }

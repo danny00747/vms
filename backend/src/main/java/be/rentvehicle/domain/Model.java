@@ -35,4 +35,8 @@ class Model extends AbstractAuditingEntity {
     @JoinColumn(name = "model_option")
     private ModelOption modelOption;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "pricing_class")
+    private PricingClass pricingClass;
+
 }

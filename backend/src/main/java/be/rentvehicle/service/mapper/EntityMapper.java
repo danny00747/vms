@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 public sealed interface EntityMapper <D, E> permits TeacherMapper, CarMapper,
-        ModelMapper, ModelOptionMapper {
+        ModelMapper, ModelOptionMapper, PricingClassMapper {
 
     E toEntity(D dto);
 

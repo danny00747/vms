@@ -9,6 +9,7 @@
 -------------------------------------------------
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE DOMAIN d_roles VARCHAR(25) CHECK (VALUE IN ('ROLE_ADMIN', 'ROLE_USER', 'ROLE_ANONYMOUS'));
+CREATE DOMAIN d_pricing_class VARCHAR(25) CHECK (VALUE IN ('CLASS_A', 'CLASS_B', 'CLASS_C'));
 CREATE DOMAIN d_price numeric(8, 2) CHECK (VALUE > 0.0);
 
 SET timezone = 'Europe/Brussels';
@@ -99,17 +100,32 @@ CREATE TABLE models_options
 );
 
 -------------------------------------------------
+--   Create pricing_class table
+-------------------------------------------------
+CREATE TABLE pricing_class
+(
+    class_name  d_pricing_class PRIMARY KEY,
+    daily_fine  INTEGER,
+    price_by_km INTEGER NOT NULL,
+    allowed_km_per_day    INTEGER NOT NULL,
+    cost_per_day INTEGER NOT NULL,
+    created_at  TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+-------------------------------------------------
 --   Create models table
 -------------------------------------------------
 CREATE TABLE models
 (
-    id           uuid        DEFAULT uuid_generate_v4() PRIMARY KEY,
-    model_type   VARCHAR(128) NOT NULL,
-    brand        VARCHAR(128) NOT NULL,
-    created_at   TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    model_option VARCHAR(36),
+    id            uuid        DEFAULT uuid_generate_v4() PRIMARY KEY,
+    model_type    VARCHAR(128)    NOT NULL,
+    brand         VARCHAR(128)    NOT NULL,
+    created_at    TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    model_option  VARCHAR(36)     NOT NULL,
+    pricing_class d_pricing_class NOT NULL,
     UNIQUE (model_type, brand),
-    FOREIGN KEY (model_option) REFERENCES models_options (option_code) ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY (model_option) REFERENCES models_options (option_code) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (pricing_class) REFERENCES pricing_class (class_name) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -------------------------------------------------
