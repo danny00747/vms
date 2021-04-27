@@ -17,14 +17,4 @@ public non-sealed interface PricingClassMapper extends EntityMapper<PricingClass
     List<PricingClassDTO> toDto(List<PricingClass> pricingClassList);
 
     List<PricingClass> toEntity(List<PricingClassDTO> pricingClassDTOList);
-
-    default PricingClass fromId(String name) {
-        if (name == null) {
-            return null;
-        }
-        PricingClass pricingClass = new PricingClass();
-        pricingClass.setClassName(name);
-        return pricingClass;
-    }
-
 }

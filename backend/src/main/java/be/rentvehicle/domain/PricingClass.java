@@ -2,6 +2,7 @@ package be.rentvehicle.domain;
 
 import javax.persistence.*;
 
+import be.rentvehicle.domain.enumeration.PRICINGCLASS;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -9,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A PricingClass.
+ * A DTO for the {@link PricingClass} entity.
  */
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -17,8 +18,9 @@ import java.util.Set;
 public @Data class PricingClass extends AbstractAuditingEntity {
 
     @Id
+    @Enumerated(EnumType.STRING)
     @Column(name = "class_name")
-    private String className;
+    private PRICINGCLASS className;
 
     @Column(name = "daily_fine")
     private Integer dailyFine;

@@ -9,6 +9,7 @@ import be.rentvehicle.security.securityAnnotations.isUsername;
 import be.rentvehicle.service.MailService;
 import be.rentvehicle.service.UserService;
 import be.rentvehicle.service.dto.UserDTO;
+import be.rentvehicle.service.dto.UserInfoDTO;
 import be.rentvehicle.service.impl.errors.AccountResourceException;
 import be.rentvehicle.service.impl.errors.EmailAlreadyUsedException;
 import be.rentvehicle.service.impl.errors.UserNotFoundException;
@@ -150,9 +151,9 @@ public class AccountResource extends BaseRestController {
      */
     @GetMapping("/users")
     @isAdmin
-    public ResponseEntity<List<UserDTO>> getAllUsers(@RequestParam(required = false, defaultValue = "false") boolean eagerload){
+    public ResponseEntity<List<UserInfoDTO>> getAllUsers(@RequestParam(required = false, defaultValue = "false") boolean eagerload){
         log.debug("REST request to get all users");
-        List<UserDTO> users = this.userService.findAll();
+        List<UserInfoDTO> users = this.userService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
@@ -194,12 +195,11 @@ public class AccountResource extends BaseRestController {
      */
     @GetMapping("/user/{username}")
     @PreAuthorize("#username == authentication.principal.username or hasAuthority(\"" + RolesConstants.ADMIN + "\")")
-    public ResponseEntity<UserDTO> getUser(@PathVariable("username") @isUsername String username){
+    public ResponseEntity<UserInfoDTO> getUser(@PathVariable("username") @isUsername String username){
         log.debug("REST request to get User : {}", username);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(userService.getUserWithRolesByUsername(username)
-                        .map(UserDTO::new)
+                .body(userService.getByUsername(username)
                         .orElseThrow(() -> new UserNotFoundException(username)));
     }
 

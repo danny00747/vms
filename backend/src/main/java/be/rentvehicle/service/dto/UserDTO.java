@@ -66,7 +66,7 @@ public @Data class UserDTO implements Serializable {
         this.username = user.getUsername();
         this.userEmail = user.getEmail();
         this.activated = user.isActivated();
-        this.createdAt = user.getCreatedDate();
+        this.createdAt = user.getCreatedAt();
         this.userAdress = Map.of(
                 "address", user.getAddress().getRoad() + ", " + user.getAddress().getHouseNumber(),
                 "town", user.getAddress().getTown().getName()

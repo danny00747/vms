@@ -8,6 +8,8 @@ import be.rentvehicle.domain.Town;
 import be.rentvehicle.domain.User;
 import be.rentvehicle.security.SecurityUtils;
 import be.rentvehicle.service.dto.UserDTO;
+import be.rentvehicle.service.dto.UserInfoDTO;
+import be.rentvehicle.service.mapper.UserInfoMapper;
 import be.rentvehicle.service.mapper.UserMapper;
 import be.rentvehicle.dao.RolesDAO;
 import be.rentvehicle.dao.UserDAO;
@@ -47,14 +49,16 @@ public class UserServiceImpl implements UserService {
     private final TownDAO townDAO;
     private final RolesDAO rolesDAO;
     private final UserMapper userMapper;
+    private final UserInfoMapper userInfoMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserDAO userDAO, AddressDAO addressDAO, TownDAO townDAO, RolesDAO rolesDAO, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserDAO userDAO, AddressDAO addressDAO, TownDAO townDAO, RolesDAO rolesDAO, UserMapper userMapper, UserInfoMapper userInfoMapper, PasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
         this.addressDAO = addressDAO;
         this.townDAO = townDAO;
         this.rolesDAO = rolesDAO;
         this.userMapper = userMapper;
+        this.userInfoMapper = userInfoMapper;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -117,10 +121,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<UserDTO> findAll() {
-        return userDAO.findAllWithEagerRelationships()
+    public List<UserInfoDTO> findAll() {
+        return userDAO.findAll()
                 .stream()
-                .map(userMapper::toDto)
+                .map(userInfoMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -142,8 +146,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUserWithRolesByUsername(String username) {
-        return userDAO.findOneWithRolesByUsername(username);
+    public Optional<UserInfoDTO> getByUsername(String username) {
+        return Optional.of(userDAO
+                .findOneByUsername(username))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(userInfoMapper::toDto);
     }
 
     @Override
@@ -203,7 +211,7 @@ public class UserServiceImpl implements UserService {
     @Scheduled(cron = "0 0 1 * * ?")
     public void removeNotActivatedUsers() {
         userDAO
-                .findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(Instant.now().minus(3, ChronoUnit.DAYS))
+                .findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedAtBefore(Instant.now().minus(3, ChronoUnit.DAYS))
                 .forEach(
                         user -> {
                             log.debug("Deleting not activated user {}", user.getUsername());
@@ -215,7 +223,7 @@ public class UserServiceImpl implements UserService {
     // @Scheduled(cron = "0/2 * * * * ?")
     public void findbetween() {
         userDAO
-                .findAllByCreatedDateBetween(Instant.parse("2018-04-09T10:15:30.00Z"), Instant.parse("2019-11-09T10:15:30.00Z"))
+                .findAllByCreatedAtBetween(Instant.parse("2018-04-09T10:15:30.00Z"), Instant.parse("2019-11-09T10:15:30.00Z"))
                 .forEach(user -> System.out.println(user.getUsername()));
     }
 

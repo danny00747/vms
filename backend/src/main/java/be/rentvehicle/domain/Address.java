@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 /**
- * A Address.
+ * An Address entity.
  */
 @Entity
 @Table(name = "address")

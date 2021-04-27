@@ -1,11 +1,15 @@
 package be.rentvehicle.service.dto;
 
+import be.rentvehicle.domain.PricingClass;
+import be.rentvehicle.domain.enumeration.PRICINGCLASS;
 import lombok.Data;
 
-
+/**
+ * A DTO for the {@link PricingClass} entity.
+ */
 public @Data class PricingClassDTO {
 
-    private String className;
+    private PRICINGCLASS className;
 
     private Integer dailyFine;
 

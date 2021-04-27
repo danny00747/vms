@@ -17,6 +17,6 @@ public @Data abstract class AbstractAuditingEntity {
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     @JsonIgnore
-    private Instant createdDate = Instant.now();
+    private Instant createdAt = Instant.now();
 
 }

@@ -2,6 +2,7 @@ package be.rentvehicle.service;
 
 import be.rentvehicle.domain.User;
 import be.rentvehicle.service.dto.UserDTO;
+import be.rentvehicle.service.dto.UserInfoDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +32,7 @@ public interface UserService {
      *
      * @return the list of entities.
      */
-    List<UserDTO> findAll();
+    List<UserInfoDTO> findAll();
 
     /**
      * Gets a list of all the roles.
@@ -53,7 +54,7 @@ public interface UserService {
      *
      * @return a user .
      */
-    Optional<User> getUserWithRolesByUsername(String username);
+    Optional<UserInfoDTO> getByUsername(String username);
 
     /**
      * Update basic information (username, email) for a specific user, and return the modified user.

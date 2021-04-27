@@ -1,5 +1,5 @@
 package be.rentvehicle.domain.enumeration;
 
-public enum PricingClass {
+public enum PRICINGCLASS {
     CLASS_A, CLASS_B, CLASS_C
 }
