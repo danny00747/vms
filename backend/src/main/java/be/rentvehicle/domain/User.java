@@ -48,6 +48,9 @@ public class User extends AbstractAuditingEntity {
     @OneToOne(mappedBy = "user")
     private Address address;
 
+    @OneToOne(mappedBy = "user")
+    private Booking booking;
+
     @ManyToMany
     @JoinTable(
             name = "user_roles",
@@ -139,6 +142,14 @@ public class User extends AbstractAuditingEntity {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public void setBooking(Booking booking) {
+        this.booking = booking;
     }
 
     @Override

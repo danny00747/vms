@@ -12,14 +12,15 @@ import org.mapstruct.Mappings;
 
 import java.util.UUID;
 
-@Mapper(componentModel = "spring", uses = {AddressMapper.class, RoleMapper.class}, imports = {UUID.class})
+@Mapper(componentModel = "spring", uses = {BookingMapper.class, AddressMapper.class, RoleMapper.class}, imports = {UUID.class})
 public non-sealed interface UserInfoMapper extends EntityMapper<UserInfoDTO, User> {
 
     @Mappings({
             @Mapping(expression = "java(user.getId().toString())", target = "userId"),
             @Mapping(source = "email", target = "userEmail"),
             @Mapping(source = "user.roles", target = "userRoles"),
-            @Mapping(source = "user.address", target = "addressDTO")
+            @Mapping(source = "user.address", target = "addressDTO"),
+            @Mapping(source = "user.booking", target = "bookingDTO")
     })
     UserInfoDTO toDto(User user);
 

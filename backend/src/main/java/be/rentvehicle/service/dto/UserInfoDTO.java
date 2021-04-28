@@ -2,9 +2,11 @@ package be.rentvehicle.service.dto;
 
 import be.rentvehicle.config.Constants;
 import be.rentvehicle.domain.Address;
+import be.rentvehicle.domain.Booking;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -42,4 +44,7 @@ public @Data class UserInfoDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private AddressDTO addressDTO;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private BookingDTO bookingDTO;
 }

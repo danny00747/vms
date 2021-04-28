@@ -3,7 +3,6 @@ package be.rentvehicle.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -11,9 +10,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "address")
-public class Address extends AbstractAuditingEntity implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Address extends AbstractAuditingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

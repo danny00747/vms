@@ -10,6 +10,7 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE DOMAIN d_roles VARCHAR(25) CHECK (VALUE IN ('ROLE_ADMIN', 'ROLE_USER', 'ROLE_ANONYMOUS'));
 CREATE DOMAIN d_pricing_class VARCHAR(25) CHECK (VALUE IN ('CLASS_A', 'CLASS_B', 'CLASS_C'));
+CREATE DOMAIN d_booking_state VARCHAR(25) CHECK (VALUE IN ('CANCELLED', 'FINISHED', 'DELETED', 'OPEN'));
 CREATE DOMAIN d_price numeric(8, 2) CHECK (VALUE > 0.0);
 
 SET timezone = 'Europe/Brussels';
@@ -104,12 +105,12 @@ CREATE TABLE models_options
 -------------------------------------------------
 CREATE TABLE pricing_class
 (
-    class_name  d_pricing_class PRIMARY KEY,
-    daily_fine  INTEGER,
-    price_by_km INTEGER NOT NULL,
-    allowed_km_per_day    INTEGER NOT NULL,
-    cost_per_day INTEGER NOT NULL,
-    created_at  TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+    class_name         d_pricing_class PRIMARY KEY,
+    daily_fine         INTEGER,
+    price_by_km        INTEGER NOT NULL,
+    allowed_km_per_day INTEGER NOT NULL,
+    cost_per_day       INTEGER NOT NULL,
+    created_at         TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -------------------------------------------------
@@ -141,6 +142,23 @@ CREATE TABLE cars
     model_id        uuid                      NOT NULL,
     created_at      TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (model_id) REFERENCES models (id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-------------------------------------------------
+--   Create booking table
+-------------------------------------------------
+CREATE TABLE booking
+(
+    id               uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
+    cancellation_date TIMESTAMPTZ,
+    booking_state     d_booking_state DEFAULT 'OPEN' NOT NULL,
+    withdrawal_date   TIMESTAMPTZ NOT NULL,
+    return_date       TIMESTAMPTZ NOT NULL CHECK (return_date > withdrawal_date),
+    user_id          uuid NOT NULL,
+    car_id           uuid NOT NULL,
+    created_at      TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (car_id) REFERENCES cars (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 /*

@@ -302,3 +302,16 @@ VALUES (DEFAULT, '1-ABC-001', 2018, false, 14217.99,
 
        (DEFAULT, '8-SBE-018', 2017, false, 12254.99,
         (SELECT id FROM models WHERE model_type = 'Focus' AND brand = 'Ford'), DEFAULT);
+
+INSERT INTO booking (id, cancellation_date, booking_state, withdrawal_date, return_date, user_id, car_id, created_at)
+VALUES (DEFAULT, NULL, 'OPEN', '2021-06-06T23:00:00.000Z', '2021-06-09T23:00:00.000Z',
+        (SELECT id FROM users WHERE username = 'toto'),
+        (SELECT id FROM cars WHERE license_plate = '3-FRE-342'), DEFAULT),
+
+       (DEFAULT, NULL, 'OPEN', '2021-10-20T23:00:00.000Z', '2021-10-25T23:00:00.000Z',
+        (SELECT id FROM users WHERE username = 'tata'),
+        (SELECT id FROM cars WHERE license_plate = '7-VCF-242'), DEFAULT),
+
+       (DEFAULT, NULL, 'OPEN', '2021-09-15T23:00:00.000Z', '2021-09-18T23:00:00.000Z',
+        (SELECT id FROM users WHERE username = 'titi'),
+        (SELECT id FROM cars WHERE license_plate = '2-CUF-88'), DEFAULT);

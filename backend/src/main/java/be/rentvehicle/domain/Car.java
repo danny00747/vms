@@ -36,4 +36,7 @@ class Car extends AbstractAuditingEntity {
     @JoinColumn(name = "model_id")
     private Model model;
 
+    @OneToOne(mappedBy = "car")
+    private Booking booking;
+
 }

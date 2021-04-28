@@ -1,6 +1,5 @@
 package be.rentvehicle.service.mapper;
 
-import be.rentvehicle.domain.Address;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
@@ -18,7 +17,7 @@ import java.util.Set;
 
 public sealed interface EntityMapper<D, E>permits TeacherMapper, CarMapper,
         ModelMapper, ModelOptionMapper, PricingClassMapper, UserInfoMapper,
-        TownMapper, AddressMapper, RoleMapper {
+        TownMapper, AddressMapper, RoleMapper, BookingMapper {
 
     E toEntity(D dto);
 
