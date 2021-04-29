@@ -61,4 +61,8 @@ export class CarService {
     return this.http.get<CarDTO>(`/api/v1/cars/${carId}`);
   }
 
+  getNoneBookedCars(withdrawalDate: string): Observable<CarDTO[]> {
+    return this.http.get<CarDTO[]>(`/api/v1/cars?withdrawalDate=${withdrawalDate}`);
+  }
+
 }

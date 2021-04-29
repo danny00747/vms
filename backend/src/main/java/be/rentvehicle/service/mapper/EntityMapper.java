@@ -5,6 +5,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -23,13 +24,9 @@ public sealed interface EntityMapper<D, E>permits TeacherMapper, CarMapper,
 
     D toDto(E entity);
 
-    List<E> toEntity(List<D> dtoList);
+    Collection<E> toEntity(Collection<D> dtoList);
 
-    List<D> toDto(List<E> entityList);
-
-    Set<E> toEntity(Set<D> dtoSet);
-
-    Set<D> toDto(Set<E> entitySet);
+    Collection<D> toDto(Collection<E> entityList);
 
     @Named("partialUpdate")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

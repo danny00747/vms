@@ -1,6 +1,7 @@
 package be.rentvehicle.service.impl;
 
 import be.rentvehicle.dao.CarDAO;
+import be.rentvehicle.domain.Car;
 import be.rentvehicle.service.CarService;
 import be.rentvehicle.service.dto.CarDTO;
 import be.rentvehicle.service.mapper.CarMapper;
@@ -10,9 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -44,7 +45,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public List<CarDTO> getAllByModelBrand(String brand) {
         log.debug("Request to get cars with this model brand : {}", brand);
-       // carDAO.findAll();
+        // carDAO.findAll();
         return carDAO.findAllByModelBrand(brand.substring(0, 1).toUpperCase() + brand.substring(1).toLowerCase())
                 .stream()
                 .map(carMapper::toDto)
@@ -82,17 +83,39 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<CarDTO> findByModelBrand(String brand) {
-        return carDAO.findAll()
-                .stream()
-                .filter(car -> car.getModel().getBrand().equals(brand.substring(0, 1).toUpperCase() + brand.substring(1).toLowerCase()))
-                .map(carMapper::toDto)
-                .collect(Collectors.toList());
+    public List<CarDTO> getBookedCars(Instant date) {
+
+        if (date.compareTo(Instant.now().minus(3, ChronoUnit.MINUTES)) > 0) {
+
+            List<Car> bookedCars = carDAO.findBetweens(date);
+
+            if (bookedCars.size() == 0) {
+                return carDAO.findAll()
+                        .stream()
+                        .map(carMapper::toDto)
+                        .collect(Collectors.toList());
+            } else {
+                Set<UUID> carsToAvoid = bookedCars.stream()
+                        .map(Car::getId)
+                        .collect(Collectors.toSet());
+
+                return carDAO.findAll()
+                        .stream()
+                        .filter(car -> !carsToAvoid.contains(car.getId()))
+                        .map(carMapper::toDto)
+                        .collect(Collectors.toList());
+            }
+
+        } else {
+            return carDAO.findAll()
+                    .stream()
+                    .map(carMapper::toDto)
+                    .collect(Collectors.toList());
+        }
     }
 
-
     @Override
-    public List<CarDTO> finds() {
+    public List<CarDTO> nativeQuery() {
         return carDAO.findAllWithEagerRelationships()
                 .stream()
                 .map(item -> new CarDTO(item[0].toString(), item[1].toString(), item[2].toString(), item[3].toString(), Integer.parseInt(item[4].toString()))

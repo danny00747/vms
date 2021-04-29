@@ -308,10 +308,14 @@ VALUES (DEFAULT, NULL, 'OPEN', '2021-06-06T23:00:00.000Z', '2021-06-09T23:00:00.
         (SELECT id FROM users WHERE username = 'toto'),
         (SELECT id FROM cars WHERE license_plate = '3-FRE-342'), DEFAULT),
 
+       (DEFAULT, NULL, 'OPEN', '2021-06-07T23:00:00.000Z', '2021-06-12T23:00:00.000Z',
+        (SELECT id FROM users WHERE username = 'titi'),
+        (SELECT id FROM cars WHERE license_plate = '4-CZD-93'), DEFAULT),
+
        (DEFAULT, NULL, 'OPEN', '2021-10-20T23:00:00.000Z', '2021-10-25T23:00:00.000Z',
         (SELECT id FROM users WHERE username = 'tata'),
         (SELECT id FROM cars WHERE license_plate = '7-VCF-242'), DEFAULT),
 
-       (DEFAULT, NULL, 'OPEN', '2021-09-15T23:00:00.000Z', '2021-09-18T23:00:00.000Z',
-        (SELECT id FROM users WHERE username = 'titi'),
-        (SELECT id FROM cars WHERE license_plate = '2-CUF-88'), DEFAULT);
+       (DEFAULT, NULL, 'OPEN', '2021-10-18T23:00:00.000Z', '2021-10-23T23:00:00.000Z',
+        (SELECT id FROM users WHERE username = 'tutu'),
+        (SELECT id FROM cars WHERE license_plate = '7-ZWQ-982'), DEFAULT);

@@ -3,6 +3,7 @@ package be.rentvehicle.service;
 import be.rentvehicle.domain.Car;
 import be.rentvehicle.service.dto.CarDTO;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,12 +44,14 @@ public interface CarService {
      */
     Optional<CarDTO> getOneCarById(String id);
 
-    /**
-     * Get all the entities.
-     *
-     * @return the list of entities with a given model brand.
-     */
-    List<CarDTO> findByModelBrand(String brand);
 
-    List<CarDTO> finds();
+    /**
+     * Get all non booked cars given a date .
+     *
+     * @param date the withdrawalDate to search.
+     * @return the found entities.
+     */
+    List<CarDTO> getBookedCars(Instant date);
+
+    List<CarDTO> nativeQuery();
 }

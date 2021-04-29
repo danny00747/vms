@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,8 +27,9 @@ public interface CarDAO extends JpaRepository<Car, UUID> {
     List<Object[]> findAllWithEagerRelationships();
 
     Optional<Car> findOneByIdAndModelIsNotNull(UUID id);
+
     Optional<Car> findOneById(UUID id);
-    
+
 
     @Query(""" 
                 select distinct car from Car car 
@@ -35,33 +37,15 @@ public interface CarDAO extends JpaRepository<Car, UUID> {
                 where model.brand = :modelBrand
             """)
     List<Car> findAllByModelBrand(String modelBrand);
+
+    List<Car> findAllByBookingIsNotNull();
+
+    List<Car> findAllByBookingWithdrawalDateAndBookingReturnDate(Instant t1, Instant t2);
+
+    @Query("""
+            select distinct c from Car c
+            left join c.booking b
+            where :date between b.withdrawalDate and b.returnDate
+            """)
+    List<Car> findBetweens(Instant date);
 }
-
-
-/*
-select cja.purchased_price,
-       cja.created_at,
-       (select json_agg(cars)
-        from (
-                 select a.license_plate,
-                        a.made_in_year,
-                        (select json_agg(mdl)
-                         from (
-                                  select m.brand,
-                                         m.model_type,
-                                         (select json_agg(opt)
-                                          from (
-                                                   select mo.bags_number, mo.is_automatic, mo.has_air_conditioner
-                                                   from cars_models_options cmo
-                                                            join models_options mo on cmo.option_code = mo.option_code
-                                               ) opt
-                                         ) as options
-                                  from models m
-                                           join cars c on m.id = c.model_id
-                                  where brand = 'Ford'
-                              ) mdl
-                        ) as models
-                 from cars as a) cars)
-from cars as cja;
-
- */

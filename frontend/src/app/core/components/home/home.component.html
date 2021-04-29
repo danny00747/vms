@@ -92,19 +92,28 @@
       <div>
         <div class="row">
           <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-            <div class="form_item" data-aos="fade-up" data-aos-delay="100">
-              <h4 class="input_title text-white">Pick Up Location</h4>
-              <div class="position-relative">
-                <input id="location_twos" type="text" name="location" placeholder="City, State or Airport Code">
-                <label for="location_twos" class="input_icon"><i class="fas fa-map-marker-alt"></i></label>
+              <div class="form_item" data-aos="fade-up" data-aos-delay="300">
+                <div class="form_item" data-aos="fade-up" data-aos-delay="300">
+                  <h4 class="input_title text-white">PickUp Location</h4>
+                  <select (change)="getSelectedPickUpLocations(pickUpLocation)" #pickUpLocation class="nice-select">
+                    <option value="Brussels">Brussels</option>
+                    <option value="Namur">Namur</option>
+                    <option value="Genk">Genk</option>
+                    <option value="Ottignies-Louvain-la-Neuve">Ottignies-Louvain-la-Neuve</option>
+                    <option value="Ford">Mons</option>
+                    <option value="Bruges">Bruges</option>
+                  </select>
+                </div>
               </div>
-            </div>
           </div>
 
           <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item" data-aos="fade-up" data-aos-delay="300">
-              <h4 class="input_title text-white">Pick A Date</h4>
-              <input type="date" name="date">
+              <h4 class="input_title text-white">PickUp Date</h4>
+              <input  #pickUpDate (change)="getPickUpDate(pickUpDate)" type="date" name="date">
+              <small style="color: red" *ngIf="pickUpDate?.value && !checkPickDate()">
+                <i style="color: red; font-size: 0.7rem" class="pi pi-exclamation-circle"></i> wrong date
+              </small>
             </div>
           </div>
 
@@ -117,18 +126,27 @@
 
           <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item" data-aos="fade-up" data-aos-delay="100">
-              <h4 class="input_title text-white">Return car to a different location</h4>
-              <div class="position-relative">
-                <input id="location_three" type="text" name="location" placeholder="City, State or Airport Code">
-                <label for="location_three" class="input_icon"><i class="fas fa-map-marker-alt"></i></label>
-              </div>
+              <h4 class="input_title text-white">Return Location</h4>
+              <select (change)="getSelectedReturnLocations(returnLocation)" #returnLocation class="nice-select">
+                <option value="Brussels">Brussels</option>
+                <option value="Namur">Namur</option>
+                <option value="Genk">Genk</option>
+                <option value="Ottignies-Louvain-la-Neuve">Ottignies-Louvain-la-Neuve</option>
+                <option value="Ford">Mons</option>
+                <option value="Bruges">Bruges</option>
+              </select>
             </div>
           </div>
 
           <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item" data-aos="fade-up" data-aos-delay="300">
               <h4 class="input_title text-white">Return Date</h4>
-              <input type="date" name="date">
+              <input #returnDate (change)="getReturnDate(returnDate)" type="date" name="date">
+              <small >
+                <small style="color: red" *ngIf="returnDate?.value && !checkReturnDate()">
+                  <i style="color: red; font-size: 0.7rem" class="pi pi-exclamation-circle"></i> wrong date
+                </small>
+              </small>
             </div>
           </div>
 
@@ -142,15 +160,28 @@
 
           <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
             <div class="checkbox_input" data-aos="fade-up" data-aos-delay="100">
-              <label for="help_checkbox"><input type="checkbox" id="help_checkbox"> Help me find rental location. View
-                Map</label>
+              <label for="passengersBtn">
+                <input (click)="passengersBtn($event.target)" type="checkbox" id="passengersBtn">
+                2 - 4 Passengers
+              </label>
             </div>
           </div>
 
           <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
             <div class="checkbox_input" data-aos="fade-up" data-aos-delay="300">
-              <label for="service_checkbox"><input type="checkbox" id="service_checkbox"> Chauffeur-driven
-                service</label>
+              <label for="passengersBtn">
+                <input (click)="suitcasesBtn($event.target)" type="checkbox" id="suitcasesBtn">
+                2 - 5 Suitcases
+              </label>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <div class="checkbox_input" data-aos="fade-up" data-aos-delay="300">
+              <label for="automaticBtn">
+                <input (click)="automaticBtn($event.target)" type="checkbox" id="automaticBtn">
+                Automatic
+              </label>
             </div>
           </div>
         </div>
@@ -160,23 +191,30 @@
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <div class="form_item mb-0" data-aos="fade-up" data-aos-delay="100">
               <h4 class="input_icon">Select Car Type</h4>
-              <select class="nice-select">
-                <option selected disabled data-display="All Cars Type">Car Brands</option>
-                <option value="1">Audi</option>
-                <option value="2">BMW</option>
-                <option value="4">Honda</option>
-                <option value="4">Ford</option>
-                <option value="4">Toyota</option>
+              <select (change)="getSelectedcarBrand(carBrands)" #carBrands class="nice-select">
+                <option value="All">All</option>
+                <option value="BMW">BMW</option>
+                <option value="Opel">Opel</option>
+                <option value="Audi">Audi</option>
+                <option value="Ford">Ford</option>
+                <option value="Toyota">Toyota</option>
+                <option value="Volkswagen">Volkswagen</option>
               </select>
             </div>
           </div>
 
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <div data-aos="fade-up" data-aos-delay="300">
-              <button type="submit" class="custom_btn bg_default_red btn_width text-uppercase">Book A Car <img
+              <button [disabled]="!checkSubmission1()" type="submit" (click)="submitFirstQuery()"
+                      class="custom_btn bg_default_red btn_width text-uppercase">Book A Car <img
                 src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
             </div>
           </div>
+          <span class="justify-content-center ml-3">
+            <br>
+            qqqqqqqqqqq
+            <br>
+          </span>
         </div>
       </div>
     </div>
@@ -196,19 +234,18 @@
         <div class="row align-items-end">
           <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item">
-              <h4 class="input_title text-white">Pick Up Location</h4>
-              <div class="position-relative">
-                <input id="location_two" type="text" name="location" placeholder="City, State or Airport Code">
-                <label for="location_two" class="input_icon"><i class="fas fa-map-marker-alt"></i></label>
-              </div>
+              <h4 class="input_title text-white">Pick A Date</h4>
+              <p-calendar [showIcon]="true" [(ngModel)]="date1" [minDate]="minDate"
+                          [readonlyInput]="true" [placeholder]="'pickUp date'" inputId="range1">
+              </p-calendar>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item">
-              <h4 class="input_title text-white">Pick A Date</h4>
-              <p-calendar [showIcon]="true" [(ngModel)]="rangeDates" selectionMode="range" [minDate]="minDate"
-                          [readonlyInput]="true" [placeholder]="'pickUp & return date'" inputId="range">
+              <h4 class="input_title text-white">Return Date</h4>
+              <p-calendar [showIcon]="true" [(ngModel)]="date2" [minDate]="minDate"
+                          [readonlyInput]="true" [placeholder]="'return date'" inputId="range2">
               </p-calendar>
             </div>
           </div>
@@ -223,8 +260,9 @@
           </div>
 
           <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-            <button [disabled]="true" type="submit" class="custom_btn bg_default_red text-uppercase">Find A Car <img
-              src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
+            <button [disabled]="true" type="submit" class="custom_btn bg_default_red text-uppercase">Find A Car
+              <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found">
+            </button>
           </div>
         </div>
       </div>
@@ -318,7 +356,7 @@
             <div class="thumbnail_carousel">
               <div class="item">
                 <div class="item_head">
-                  <h4 class="item_title mb-0"> {{cars[2].modelDTO.brand}} {{cars[2].modelDTO.modelType}}</h4>
+                  <h4 class="item_title mb-0"> {{cars[2]?.modelDTO.brand}} {{cars[2]?.modelDTO.modelType}}</h4>
                   <ul class="review_text ul_li_right clearfix">
                     <li class="text-right">
                       <strong>Super</strong>
@@ -327,13 +365,13 @@
                     <li><span class="bg_default_blue">4.8/5</span></li>
                   </ul>
                 </div>
-                <img class="car-border" src="../../../../assets/images/feature/{{cars[2].modelDTO.brand}} {{cars[2].modelDTO.modelType}}.jpg" alt="image_not_found">
+                <img class="car-border" src="../../../../assets/images/feature/{{cars[2]?.modelDTO.brand}} {{cars[2]?.modelDTO.modelType}}.jpg" alt="image_not_found">
                 <ul class="btns_group ul_li_center clearfix">
                   <li>
                     <span class="custom_btn btn_width bg_default_blue"><del>320€/Day</del> 210€/Day</span>
                   </li>
                   <li>
-                    <a [routerLink]="['/cars', cars[2].carId]" class="custom_btn btn_width bg_default_red text-uppercase">Book
+                    <a [routerLink]="['/cars', cars[2]?.carId]" class="custom_btn btn_width bg_default_red text-uppercase">Book
                       it <img
                         src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></a>
                   </li>

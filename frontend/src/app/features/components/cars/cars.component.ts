@@ -7,6 +7,7 @@ import {CarService} from '@app/core/services/car.service';
 import {EToastSeverities} from '@app/core/services';
 import {CarDTO} from '@app/shared/models';
 import {CarsResolver} from '@app/core/resolvers/cars.resolver';
+import {log} from 'util';
 
 @Component({
   selector: 'app-cars',
@@ -20,10 +21,15 @@ export class CarsComponent implements OnInit, OnDestroy {
 
   items: MenuItem[];
   cars: CarDTO[] = [];
+  cachedCars: CarDTO[] = [];
   carss: any = [];
   pages: any[];
 
   sortOptions: SelectItem[];
+
+  withdrawalDate: string;
+  queryParamCarBrand: string;
+  queryParamAutomaticCar: string;
 
   // Observable used to notify subscription when to end
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
@@ -31,7 +37,7 @@ export class CarsComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private carService: CarService,
-              private routes: ActivatedRoute) {
+              private route: ActivatedRoute) {
     this.router.events
       .pipe(takeUntil(this.destroyed$),
         filter(event => event instanceof NavigationStart))
@@ -41,6 +47,14 @@ export class CarsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    this.route.queryParams
+      .subscribe(params => {
+          this.withdrawalDate = params.pickUpDate;
+          this.queryParamCarBrand = params.carBrand;
+          this.queryParamAutomaticCar = params.automaticCar;
+        }
+      );
 
     this.getCars();
 
@@ -157,12 +171,16 @@ export class CarsComponent implements OnInit, OnDestroy {
   }
 
   getCars(): void {
-    this.carService.getCars()
+    this.carService.getNoneBookedCars(this.withdrawalDate ?? new Date().toISOString())
       .pipe(takeUntil(this.destroyed$))
       .subscribe(
-        async (data) => {
-          console.log(data);
-          this.cars = data;
+        async (data: CarDTO[]) => {
+          if (this.queryParamCarBrand && this.queryParamCarBrand !== 'All') {
+            this.cars = data.filter(x => x.modelDTO.brand === this.queryParamCarBrand);
+          } else if (this.queryParamCarBrand === undefined && this.withdrawalDate === undefined) {
+            this.cars = data;
+            this.cachedCars = data;
+          }
         },
         error => {
           console.error(error);
@@ -182,7 +200,15 @@ export class CarsComponent implements OnInit, OnDestroy {
             console.error(error);
           });
     } else {
-      this.getCars();
+      this.carService.getNoneBookedCars(new Date().toISOString())
+        .pipe(takeUntil(this.destroyed$))
+        .subscribe(
+          async (data) => {
+            this.cars = data;
+          },
+          error => {
+            console.error(error);
+          });
     }
   }
 
