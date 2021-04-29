@@ -14,7 +14,9 @@
             euismod quis viverra nibh cras. Arcu cursus euismod quis viverra nibh cras
           </p>
           <div data-aos="fade-up" data-aos-delay="500">
-            <a class="custom_btn bg_default_red btn_width text-uppercase" [routerLink]="['/cars']">Book A Car
+            <a class="custom_btn bg_default_red btn_width text-uppercase"
+               [routerLink]="['/cars']"
+               [queryParams]="{ pickUpDate: minDate.toISOString(), carBrand: 'All', automaticCar: 'false' }">Book A Car
               <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></a>
           </div>
         </div>
@@ -26,17 +28,17 @@
             <div class="card-header" id="heading_one">
               <button data-toggle="collapse" data-target="#collapse_one" aria-expanded="true"
                       aria-controls="collapse_one">
-                2017 Bentley Flying Spur V8
+                {{cars[2]?.modelDTO.brand}} {{cars[2]?.modelDTO.modelType}}
               </button>
             </div>
 
             <div id="collapse_one" class="collapse show" aria-labelledby="heading_one" data-parent="#banner_accordion">
               <div class="card-body">
-                <strong>$110/day</strong>
+                <strong>{{cars[2]?.modelDTO.princingDetailsDTO.costPerDay}}€/day</strong>
                 <p>
-                  6.6L V8 32V DDI OHV Turbo Diesel, 5-Speed Automatic, Fuel Type: Diesel, Color: White
+                  6.6L V8 32V DDI OHV Turbo Diesel, 5-Speed Automatic, Fuel Type: Diesel, Color: Gray
                 </p>
-                <a class="text_btn text-uppercase" [routerLink]="['/cars/toto']"><span>Book it</span>
+                <a class="text_btn text-uppercase" [routerLink]="['/cars', cars[2]?.carId]"><span>Book it</span>
                   <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
               </div>
             </div>
@@ -46,16 +48,16 @@
             <div class="card-header" id="heading_two">
               <button class="collapsed" data-toggle="collapse" data-target="#collapse_two" aria-expanded="false"
                       aria-controls="collapse_two">
-                2018 Hummer H1 ALPHA
+                {{cars[3]?.modelDTO.brand}} {{cars[3]?.modelDTO.modelType}}
               </button>
             </div>
             <div id="collapse_two" class="collapse" aria-labelledby="heading_two" data-parent="#banner_accordion">
               <div class="card-body">
-                <strong>$240/day</strong>
+                <strong>{{cars[3]?.modelDTO.princingDetailsDTO.costPerDay}}€/day</strong>
                 <p>
-                  6.6L V8 32V DDI OHV Turbo Diesel, 5-Speed Automatic, Fuel Type: Diesel, Color: White
+                  6.6L V8 32V DDI OHV Turbo Diesel, 5-Speed Automatic, Fuel Type: Diesel, Color: Gray
                 </p>
-                <a class="text_btn text-uppercase" [routerLink]="['/cars/toto']"><span>Book it</span>
+                <a class="text_btn text-uppercase" [routerLink]="['/cars', cars[3]?.carId]"><span>Book it</span>
                   <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
               </div>
             </div>
@@ -65,16 +67,16 @@
             <div class="card-header" id="heading_three">
               <button class="collapsed" data-toggle="collapse" data-target="#collapse_three" aria-expanded="false"
                       aria-controls="collapse_three">
-                2019 Bentley Flying Spur V8
+                {{cars[4]?.modelDTO.brand}} {{cars[4]?.modelDTO.modelType}}
               </button>
             </div>
             <div id="collapse_three" class="collapse" aria-labelledby="heading_three" data-parent="#banner_accordion">
               <div class="card-body">
-                <strong>$170/day</strong>
+                <strong>{{cars[4]?.modelDTO.princingDetailsDTO.costPerDay}}€/day</strong>
                 <p>
-                  6.6L V8 32V DDI OHV Turbo Diesel, 5-Speed Automatic, Fuel Type: Diesel, Color: White
+                  6.6L V8 32V DDI OHV Turbo Diesel, 5-Speed Automatic, Fuel Type: Diesel, Color: Gray
                 </p>
-                <a class="text_btn text-uppercase" [routerLink]="['/cars/toto']"><span>Book it</span>
+                <a class="text_btn text-uppercase" [routerLink]="['/cars', cars[4]?.carId]"><span>Book it</span>
                   <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
               </div>
             </div>
@@ -92,25 +94,25 @@
       <div>
         <div class="row">
           <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <div class="form_item" data-aos="fade-up" data-aos-delay="300">
               <div class="form_item" data-aos="fade-up" data-aos-delay="300">
-                <div class="form_item" data-aos="fade-up" data-aos-delay="300">
-                  <h4 class="input_title text-white">PickUp Location</h4>
-                  <select (change)="getSelectedPickUpLocations(pickUpLocation)" #pickUpLocation class="nice-select">
-                    <option value="Brussels">Brussels</option>
-                    <option value="Namur">Namur</option>
-                    <option value="Genk">Genk</option>
-                    <option value="Ottignies-Louvain-la-Neuve">Ottignies-Louvain-la-Neuve</option>
-                    <option value="Ford">Mons</option>
-                    <option value="Bruges">Bruges</option>
-                  </select>
-                </div>
+                <h4 class="input_title text-white">PickUp Location</h4>
+                <select (change)="getSelectedPickUpLocations(pickUpLocation)" #pickUpLocation class="nice-select">
+                  <option value="Brussels">Brussels</option>
+                  <option value="Namur">Namur</option>
+                  <option value="Genk">Genk</option>
+                  <option value="Ottignies-Louvain-la-Neuve">Ottignies-Louvain-la-Neuve</option>
+                  <option value="Ford">Mons</option>
+                  <option value="Bruges">Bruges</option>
+                </select>
               </div>
+            </div>
           </div>
 
           <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item" data-aos="fade-up" data-aos-delay="300">
               <h4 class="input_title text-white">PickUp Date</h4>
-              <input  #pickUpDate (change)="getPickUpDate(pickUpDate)" type="date" name="date">
+              <input #pickUpDate (change)="getPickUpDate(pickUpDate)" type="date" name="date">
               <small style="color: red" *ngIf="pickUpDate?.value && !checkPickDate()">
                 <i style="color: red; font-size: 0.7rem" class="pi pi-exclamation-circle"></i> wrong date
               </small>
@@ -142,7 +144,7 @@
             <div class="form_item" data-aos="fade-up" data-aos-delay="300">
               <h4 class="input_title text-white">Return Date</h4>
               <input #returnDate (change)="getReturnDate(returnDate)" type="date" name="date">
-              <small >
+              <small>
                 <small style="color: red" *ngIf="returnDate?.value && !checkReturnDate()">
                   <i style="color: red; font-size: 0.7rem" class="pi pi-exclamation-circle"></i> wrong date
                 </small>
@@ -210,11 +212,6 @@
                 src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
             </div>
           </div>
-          <span class="justify-content-center ml-3">
-            <br>
-            qqqqqqqqqqq
-            <br>
-          </span>
         </div>
       </div>
     </div>
@@ -234,9 +231,9 @@
         <div class="row align-items-end">
           <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item">
-              <h4 class="input_title text-white">Pick A Date</h4>
+              <h4 class="input_title text-white">PickUp Date</h4>
               <p-calendar [showIcon]="true" [(ngModel)]="date1" [minDate]="minDate"
-                          [readonlyInput]="true" [placeholder]="'pickUp date'" inputId="range1">
+                          [placeholder]="'pickUp date'" inputId="range1">
               </p-calendar>
             </div>
           </div>
@@ -244,8 +241,8 @@
           <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item">
               <h4 class="input_title text-white">Return Date</h4>
-              <p-calendar [showIcon]="true" [(ngModel)]="date2" [minDate]="minDate"
-                          [readonlyInput]="true" [placeholder]="'return date'" inputId="range2">
+              <p-calendar [disabled]="!date1" [showIcon]="true" [(ngModel)]="date2" [minDate]="date1"
+                          [placeholder]="'return date'" inputId="range2">
               </p-calendar>
             </div>
           </div>
@@ -253,14 +250,15 @@
           <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
             <div class="clearfix">
               <h4 class="input_title text-white">Price</h4>
-              <p-slider [(ngModel)]="rangeValues" [step]="5" [range]="true" [min]="75" [max]="699"></p-slider>
+              <p-slider [(ngModel)]="rangeValues" [step]="5" [range]="true" [min]="110" [max]="300"></p-slider>
               <br>
               <h4 class="input_title" style="color: white">{{rangeValues[0] + '€ - ' + rangeValues[1] + '€'}}</h4>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-            <button [disabled]="true" type="submit" class="custom_btn bg_default_red text-uppercase">Find A Car
+            <button [disabled]="!checkSubmission2()" type="submit" (click)="submitSecondQuery()"
+                    class="custom_btn bg_default_red text-uppercase">Find A Car
               <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found">
             </button>
           </div>
@@ -321,9 +319,10 @@
 
       <ng-container *ngFor="let car of smallCars; index as i">
         <div class="col-sm-3 item gallery_fullimage_2">
-          <img src="../../../../assets/images/feature/small/{{car.modelDTO.brand}} {{car.modelDTO.modelType}}.jpg" alt="image_not_found">
+          <img src="../../../../assets/images/feature/small/{{car.modelDTO.brand}} {{car.modelDTO.modelType}}.jpg"
+               alt="image_not_found">
           <div class="item_content text-white">
-            <span class="item_price bg_default_blue">120€/Day</span>
+            <span class="item_price bg_default_blue">{{car.modelDTO.princingDetailsDTO.costPerDay}}€/Day</span>
             <h3 class="item_title text-white">{{car.modelDTO.brand}} {{car.modelDTO.modelType}}</h3>
             <a class="text_btn text-uppercase" [routerLink]="['/cars', car.carId]"><span>Book it</span>
               <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
@@ -365,13 +364,16 @@
                     <li><span class="bg_default_blue">4.8/5</span></li>
                   </ul>
                 </div>
-                <img class="car-border" src="../../../../assets/images/feature/{{cars[2]?.modelDTO.brand}} {{cars[2]?.modelDTO.modelType}}.jpg" alt="image_not_found">
+                <img class="car-border"
+                     src="../../../../assets/images/feature/{{cars[2]?.modelDTO.brand}} {{cars[2]?.modelDTO.modelType}}.jpg"
+                     alt="image_not_found">
                 <ul class="btns_group ul_li_center clearfix">
                   <li>
                     <span class="custom_btn btn_width bg_default_blue"><del>320€/Day</del> 210€/Day</span>
                   </li>
                   <li>
-                    <a [routerLink]="['/cars', cars[2]?.carId]" class="custom_btn btn_width bg_default_red text-uppercase">Book
+                    <a [routerLink]="['/cars', cars[2]?.carId]"
+                       class="custom_btn btn_width bg_default_red text-uppercase">Book
                       it <img
                         src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></a>
                   </li>
@@ -448,7 +450,8 @@
             </h3>
             <div class="item_image position-relative">
               <a class="image_wrap">
-                <img src="../../../../assets/images/feature/{{car.modelDTO.brand}} {{car.modelDTO.modelType}}.jpg" alt="image_not_found">
+                <img src="../../../../assets/images/feature/{{car.modelDTO.brand}} {{car.modelDTO.modelType}}.jpg"
+                     alt="image_not_found">
               </a>
               <span class="item_price bg_default_blue">130€/Day</span>
             </div>
@@ -732,11 +735,11 @@
                 <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
                   <ul class="primary_social_links ul_li_right clearfix" data-aos="fade-up" data-aos-delay="200">
                     <li><span class="social_list_title">Follow Us:</span></li>
-                    <li><a ><i class="fab fa-facebook-f"></i></a></li>
-                    <li><a ><i class="fab fa-youtube"></i></a></li>
-                    <li><a ><i class="fab fa-instagram"></i></a></li>
-                    <li><a ><i class="fab fa-twitter"></i></a></li>
-                    <li><a ><i class="fas fa-envelope"></i></a></li>
+                    <li><a><i class="fab fa-facebook-f"></i></a></li>
+                    <li><a><i class="fab fa-youtube"></i></a></li>
+                    <li><a><i class="fab fa-instagram"></i></a></li>
+                    <li><a><i class="fab fa-twitter"></i></a></li>
+                    <li><a><i class="fas fa-envelope"></i></a></li>
                   </ul>
                 </div>
               </div>

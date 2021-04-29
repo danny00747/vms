@@ -1,4 +1,12 @@
+button:disabled,button[disabled]{
+  background-color: #929191;
+  cursor:not-allowed !important;
+}
 
+button[disabled]:hover {
+  background-color: #929191;
+  cursor:not-allowed !important;
+}
 
 .car-border
 {

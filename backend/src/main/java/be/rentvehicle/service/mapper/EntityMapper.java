@@ -6,8 +6,6 @@ import org.mapstruct.Named;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Contract for a generic dto to entity mapper.

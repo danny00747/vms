@@ -14,7 +14,8 @@ export class GalleryComponent implements OnInit, OnDestroy {
 
   cars: CarDTO[] = [];
   cachedCars: CarDTO[] = [];
-  rangeValues: number[] = [75, 699];
+  rangeValues: number[] = [110, 249];
+  minDate: Date = new Date();
   sortHeaders = [
     {name: 'All', active: true},
     {name: 'Ford', active: false},
@@ -22,6 +23,9 @@ export class GalleryComponent implements OnInit, OnDestroy {
     {name: 'Toyota', active: false},
     {name: 'Volkswagen', active: false}
   ];
+
+  date1: Date;
+  date2: Date;
 
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
@@ -50,8 +54,7 @@ export class GalleryComponent implements OnInit, OnDestroy {
     this.carService.getCars()
       .pipe(takeUntil(this.destroyed$))
       .subscribe(
-        async (data) => {
-          console.log(data);
+        async (data: CarDTO[]) => {
           this.cars = data;
           this.cachedCars = data;
         },
@@ -67,5 +70,20 @@ export class GalleryComponent implements OnInit, OnDestroy {
     } else {
       this.cars = this.cachedCars.filter(x => x.modelDTO.brand.toLocaleLowerCase() === sort.id);
     }
+  }
+
+  async submitSecondQuery(): Promise<void> {
+    await this.router.navigate(['/cars'],
+      {
+        queryParams:
+          {
+            pickUpDate: this.date1.toISOString(),
+            costRange: this.rangeValues
+          }
+      });
+  }
+
+  checkSubmission2(): boolean {
+    return this.date2?.getTime() - this.date1?.getTime() > 1;
   }
 }

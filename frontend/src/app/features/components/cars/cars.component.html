@@ -40,7 +40,7 @@
             <div>
               <div class="sb_widget price-range-area clearfix" data-aos="fade-up" data-aos-delay="100">
                 <h4 class="input_title">Price</h4>
-                <p-slider [(ngModel)]="rangeValues" [step]="5" [range]="true" [min]="75" [max]="699"></p-slider>
+                <p-slider [(ngModel)]="rangeValues" [step]="5" [range]="true" [min]="110" [max]="300"></p-slider>
                 <br>
                 <h4 class="input_title" style="color: darkgreen">{{rangeValues[0] + '€ - ' + rangeValues[1] + '€'}}</h4>
               </div>
@@ -50,26 +50,30 @@
                 <div class="row">
                   <div class="col-lg-6">
                     <div class="checkbox_input">
-                      <label for="passengers_radio1"><input type="radio" id="passengers_radio1" name="passengers"
-                                                            checked> 2</label>
+                      <label for="passengers_radio1">
+                        <input type="radio" id="passengers_radio1" name="passengers" checked> 2
+                      </label>
                     </div>
                   </div>
                   <div class="col-lg-6">
                     <div class="checkbox_input">
-                      <label for="passengers_radio2"><input type="radio" id="passengers_radio2" name="passengers">
-                        5</label>
+                      <label for="passengers_radio2">
+                        <input type="radio" id="passengers_radio2" name="passengers">5
+                      </label>
                     </div>
                   </div>
                   <div class="col-lg-6">
                     <div class="checkbox_input">
-                      <label for="passengers_radio3"><input type="radio" id="passengers_radio3" name="passengers">
-                        4</label>
+                      <label for="passengers_radio3">
+                        <input type="radio" id="passengers_radio3" name="passengers">4
+                      </label>
                     </div>
                   </div>
                   <div class="col-lg-6">
                     <div class="checkbox_input">
-                      <label for="passengers_radio4"><input type="radio" id="passengers_radio4" name="passengers"> 7 or
-                        more</label>
+                      <label for="passengers_radio4">
+                        <input type="radio" id="passengers_radio4" name="passengers"> 7 or more
+                      </label>
                     </div>
                   </div>
                 </div>
@@ -80,66 +84,32 @@
                 <div class="row">
                   <div class="col-lg-6">
                     <div class="checkbox_input">
-                      <label for="bags_radio1"><input type="radio" id="bags_radio1" name="passengers"
-                                                            checked> 1</label>
+                      <label for="2bags">
+                        <input type="radio" id="2bags" name="bags" (click)="getNbBags($event.target)"> 2
+                      </label>
                     </div>
                   </div>
                   <div class="col-lg-6">
                     <div class="checkbox_input">
-                      <label for="bags_radio2"><input type="radio" id="bags_radio2" name="passengers">
-                        2</label>
+                      <label for="3bags">
+                        <input type="radio" id="3bags" name="bags" (click)="getNbBags($event.target)">3
+                      </label>
                     </div>
                   </div>
                   <div class="col-lg-6">
                     <div class="checkbox_input">
-                      <label for="bags_radio3"><input type="radio" id="bags_radio3" name="passengers">
-                        4</label>
+                      <label for="4bags">
+                        <input type="radio" id="4bags" name="bags" (click)="getNbBags($event.target)">4
+                      </label>
                     </div>
                   </div>
                   <div class="col-lg-6">
                     <div class="checkbox_input">
-                      <label for="bags_radio4"><input type="radio" id="bags_radio4" name="passengers"> 5 or
-                        more</label>
+                      <label for="5bags">
+                        <input type="radio" id="5bags" name="bags" (click)="getNbBags($event.target)"> 5 or more
+                      </label>
                     </div>
                   </div>
-                </div>
-              </div>
-
-              <div class="sb_widget" data-aos="fade-up" data-aos-delay="100">
-                <div class="form_item">
-                  <p-dropdown [options]="sortOptions" placeholder="Sort By Brand"
-                              (onChange)="onSortChange($event)" styleClass="progressbar">
-                  </p-dropdown>
-                </div>
-
-                <div class="form_item">
-                  <select class="nice-select">
-                    <option data-display="Fuel type">Select A Option</option>
-                    <option value="1">Option 1</option>
-                    <option value="2">Option 2</option>
-                    <option value="3" disabled>Option 3</option>
-                    <option value="4">Option 4</option>
-                  </select>
-                </div>
-
-                <div class="form_item">
-                  <select class="nice-select">
-                    <option data-display="Luggage space options">Select A Option</option>
-                    <option value="1">Option 1</option>
-                    <option value="2">Option 2</option>
-                    <option value="3" disabled>Option 3</option>
-                    <option value="4">Option 4</option>
-                  </select>
-                </div>
-
-                <div class="form_item">
-                  <select class="nice-select">
-                    <option data-display="Model Type">Select A Option</option>
-                    <option value="1">Option 1</option>
-                    <option value="2">Option 2</option>
-                    <option value="3" disabled>Option 3</option>
-                    <option value="4">Option 4</option>
-                  </select>
                 </div>
               </div>
 
@@ -156,26 +126,12 @@
                 <div class="checkbox_input">
                   <label for="air_conditioning"><input type="checkbox" id="air_conditioning"> Air conditioning</label>
                 </div>
-
-                <div class="checkbox_input">
-                  <label for="chauffeur_services"><input type="checkbox" id="chauffeur_services"> Chauffeur
-                    services</label>
-                </div>
-
-                <div class="checkbox_input">
-                  <label for="winter_equipment"><input type="checkbox" id="winter_equipment"> Winter Equipment</label>
-                </div>
-
-                <div class="checkbox_input">
-                  <label for="premium_sound_system"><input type="checkbox" id="premium_sound_system"> Premium Sound
-                    System</label>
-                </div>
               </div>
 
               <hr data-aos="fade-up" data-aos-delay="100">
 
               <div data-aos="fade-up" data-aos-delay="100">
-                <button (click)="range()" type="submit" class="custom_btn bg_default_red text-uppercase">Apply Filters
+                <button (click)="applyFilters()" type="submit" class="custom_btn bg_default_red text-uppercase">Apply Filters
                   <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
               </div>
             </div>

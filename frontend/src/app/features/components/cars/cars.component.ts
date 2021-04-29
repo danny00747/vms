@@ -4,10 +4,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {MenuItem, SelectItem} from 'primeng/api';
 import {ReplaySubject} from 'rxjs';
 import {CarService} from '@app/core/services/car.service';
-import {EToastSeverities} from '@app/core/services';
 import {CarDTO} from '@app/shared/models';
-import {CarsResolver} from '@app/core/resolvers/cars.resolver';
-import {log} from 'util';
 
 @Component({
   selector: 'app-cars',
@@ -16,20 +13,22 @@ import {log} from 'util';
 })
 export class CarsComponent implements OnInit, OnDestroy {
 
-  rangeValues: number[] = [75, 699];
+  rangeValues: number[] = [110, 199];
   submitted = false;
 
   items: MenuItem[];
   cars: CarDTO[] = [];
   cachedCars: CarDTO[] = [];
-  carss: any = [];
-  pages: any[];
 
   sortOptions: SelectItem[];
 
   withdrawalDate: string;
   queryParamCarBrand: string;
   queryParamAutomaticCar: string;
+  queryParamRangesValues: any[] = [];
+
+  nbOfPassengers: string;
+  nbOfBags: string;
 
   // Observable used to notify subscription when to end
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
@@ -53,6 +52,7 @@ export class CarsComponent implements OnInit, OnDestroy {
           this.withdrawalDate = params.pickUpDate;
           this.queryParamCarBrand = params.carBrand;
           this.queryParamAutomaticCar = params.automaticCar;
+          this.queryParamRangesValues = params.costRange ?? [];
         }
       );
 
@@ -65,91 +65,6 @@ export class CarsComponent implements OnInit, OnDestroy {
       {label: 'Toyota', value: 'Toyota'},
       {label: 'Volkswagen', value: 'Volkswagen'}
     ];
-    // this.cars = this.routes.snapshot.data.cars;
-    // console.log(this.cars);
-    this.carss = [
-      {
-        carId: 'c66045cf-c760-4157-8871-32fe27f15035',
-        madeInYear: 2019,
-        isDamaged: false,
-        purchasedPrice: 12944,
-        licensePlate: '4-BNK-341',
-        modelDTO: {
-          modelId: 'cce50279-e9d5-4bf0-a570-4073efd1ec68',
-          modelType: 'C-Max',
-          brand: 'Ford',
-          modelOptionDTO: {
-            optionCode: 'S5-CT-AF-B2',
-            bagsNumber: 2,
-            isAutomatic: false,
-            hasAirConditioner: true,
-            seatsNumber: 5
-          }
-        }
-      },
-      {
-        carId: 'f25c9b76-c018-44bd-8af2-8088952c4661',
-        madeInYear: 2019,
-        isDamaged: false,
-        purchasedPrice: 17944,
-        licensePlate: '3-MPO-873',
-        modelDTO: {
-          modelId: '09077cdd-e80e-4a58-a4b9-948be2cf3b5e',
-          modelType: 'Mondeo',
-          brand: 'Ford',
-          modelOptionDTO: {
-            optionCode: 'S5-CT-AF-B2',
-            bagsNumber: 2,
-            isAutomatic: false,
-            hasAirConditioner: true,
-            seatsNumber: 5
-          }
-        },
-      },
-      {
-        carId: 'f9e039a4-e5fe-40b8-9f19-b2d0985043dc',
-        madeInYear: 2018,
-        isDamaged: false,
-        purchasedPrice: 24184,
-        licensePlate: '3-QVW-23',
-        modelDTO: {
-          modelId: '78028974-a431-4965-a798-ff4b2a7d141d',
-          modelType: 'Fiesta',
-          brand: 'Ford',
-          modelOptionDTO: {
-            optionCode: 'S4-CT-AT-B2',
-            bagsNumber: 2,
-            isAutomatic: true,
-            hasAirConditioner: true,
-            seatsNumber: 4
-          }
-        },
-      }
-    ];
-
-    /*
-    this.routes.data.subscribe((response: any) => {
-      console.log(response.cars);
-    });
-     */
-
-    this.items = [
-      {label: 'Step 1'},
-      {label: 'Step 2'},
-      {label: 'Step 2'},
-      {label: 'Step 2'},
-      {label: 'Step 2'},
-      {label: 'Step 2'},
-    ];
-    this.pages = [
-      {label: 'Step 1'},
-      {label: 'Step 2'},
-      {label: 'Step 2'},
-      {label: 'Step 2'},
-      {label: 'Step 2'},
-      {label: 'Step 2'},
-    ];
-    this.pages.forEach((x, i) => x.activePage = (i === 0));
   }
 
   @HostListener('window:beforeunload')
@@ -162,22 +77,21 @@ export class CarsComponent implements OnInit, OnDestroy {
     setTimeout(() => window.location.reload(), 100);
   }
 
-  range(): void {
-    console.log(this.rangeValues);
-  }
-
-  activePage(value: HTMLElement): void {
-    this.pages.forEach((x, i) => x.activePage = i === Number(value.id));
-  }
-
   getCars(): void {
     this.carService.getNoneBookedCars(this.withdrawalDate ?? new Date().toISOString())
       .pipe(takeUntil(this.destroyed$))
       .subscribe(
         async (data: CarDTO[]) => {
+          console.log(data);
           if (this.queryParamCarBrand && this.queryParamCarBrand !== 'All') {
             this.cars = data.filter(x => x.modelDTO.brand === this.queryParamCarBrand);
-          } else if (this.queryParamCarBrand === undefined && this.withdrawalDate === undefined) {
+            this.cachedCars = data;
+          } else if (this.queryParamRangesValues.length !== 0) {
+            this.cars = data
+              .filter(x => x.modelDTO.princingDetailsDTO.costPerDay >= Number(this.queryParamRangesValues[0])
+              && x.modelDTO.princingDetailsDTO.costPerDay <= Number(this.queryParamRangesValues[1]));
+            this.cachedCars = data;
+          } else {
             this.cars = data;
             this.cachedCars = data;
           }
@@ -212,4 +126,14 @@ export class CarsComponent implements OnInit, OnDestroy {
     }
   }
 
+  applyFilters(): void {
+    console.log(this.rangeValues);
+    this.cars = this.cachedCars
+      .filter(x => x.modelDTO.princingDetailsDTO.costPerDay >= this.rangeValues[0]
+        && x.modelDTO.princingDetailsDTO.costPerDay <= this.rangeValues[1]);
+  }
+
+  getNbBags(bags: any): void {
+    console.log(bags.checked, bags.id);
+  }
 }

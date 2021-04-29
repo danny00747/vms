@@ -12,7 +12,7 @@ import {CarService} from '@app/core/services/car.service';
 export class HomeComponent implements OnInit {
 
   val3 = 3;
-  rangeValues: number[] = [75, 699];
+  rangeValues: number[] = [110, 199];
   rangeDates: Date[];
   date1: Date;
   date2: Date;
@@ -121,12 +121,6 @@ export class HomeComponent implements OnInit {
   }
 
   async submitFirstQuery(): Promise<void> {
-    console.log('suitcasesButton ', this.suitcasesButton);
-    console.log('passengersButton ', this.passengersButton);
-    console.log('automaticButton ', this.automaticButton);
-    console.log('pickUpDate ', this.pickUpDate);
-    console.log('returnLocation ', this.returnDate);
-    console.log('selectedCarBrand ', this.selectedCarBrand);
     await this.router.navigate(['/cars'],
       {
         queryParams:
@@ -138,7 +132,22 @@ export class HomeComponent implements OnInit {
       });
   }
 
+  async submitSecondQuery(): Promise<void> {
+    await this.router.navigate(['/cars'],
+      {
+        queryParams:
+          {
+            pickUpDate: this.date1.toISOString(),
+            costRange: this.rangeValues
+          }
+      });
+  }
+
   checkSubmission1(): boolean {
     return this.checkPickDate() && this.checkReturnDate();
+  }
+
+  checkSubmission2(): boolean {
+    return this.date2?.getTime() - this.date1?.getTime() > 1;
   }
 }

@@ -100,28 +100,34 @@
           <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item" data-aos="fade-up" data-aos-delay="400">
               <h4 class="input_title text-white">PickUp A Date</h4>
-              <input type="date" name="date">
+              <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="date1" [minDate]="minDate"
+                          [placeholder]="'pickUp date'" inputId="range1">
+              </p-calendar>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item" data-aos="fade-up" data-aos-delay="400">
               <h4 class="input_title text-white">Return Date</h4>
-              <input type="date" name="date">
+              <p-calendar appendTo="body" [disabled]="!date1" [showIcon]="true" [(ngModel)]="date2" [minDate]="date1"
+                          [placeholder]="'return date'" inputId="range2">
+              </p-calendar>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
             <div class="price-range-area clearfix" data-aos="fade-up" data-aos-delay="500">
               <h4 class="input_title text-white">Price</h4>
-              <p-slider styleClass="slider-range clearfix" [(ngModel)]="rangeValues" [step]="5" [range]="true" [min]="75" [max]="699"></p-slider>
+              <p-slider styleClass="slider-range" [(ngModel)]="rangeValues" [step]="5" [range]="true" [min]="110" [max]="300"></p-slider>
               <h4 class="input_title" style="color: white">{{rangeValues[0] + '€ - ' + rangeValues[1] + '€'}}</h4>
             </div>
           </div>
 
-          <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12" data-aos-delay="600">
-            <button type="submit" class="custom_btn bg_default_red text-uppercase">Find A Car
-              <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
+          <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+            <button [disabled]="!checkSubmission2()" type="submit" (click)="submitSecondQuery()"
+                    class="custom_btn bg_default_red text-uppercase">Find A Car
+              <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found">
+            </button>
           </div>
         </div>
     </div>
