@@ -16,7 +16,10 @@ export class HomeComponent implements OnInit {
   rangeDates: Date[];
   date1: Date;
   date2: Date;
+  date3: Date;
+  date4: Date;
   minDate: Date = new Date();
+  defaultHour = new Date().getHours() + ':' + new Date().getMinutes();
 
   pickUpLocation: string;
   pickUpDate: Date;
@@ -98,34 +101,12 @@ export class HomeComponent implements OnInit {
               (option.value === 'Bruges') ? this.returnLocation = 'Bruges' : this.returnLocation = '';
   }
 
-  getPickUpDate(pickUpDate: HTMLInputElement): void {
-    this.pickUpDate = new Date(pickUpDate?.value);
-    console.log(this.pickUpDate);
-  }
-
-  getReturnDate(returnDate: HTMLInputElement): void {
-    this.returnDate = new Date(returnDate?.value);
-    console.log(this.returnDate);
-  }
-
-  checkPickDate(): boolean {
-    const today = new Date().getTime();
-    const pickUpDate = this.pickUpDate?.getTime();
-    return pickUpDate - today > 1;
-  }
-
-  checkReturnDate(): boolean {
-    const today = new Date().getTime();
-    const returnDate = this.returnDate?.getTime();
-    return returnDate - today > 1 && this.returnDate.getTime() > this.pickUpDate.getTime();
-  }
-
   async submitFirstQuery(): Promise<void> {
     await this.router.navigate(['/cars'],
       {
         queryParams:
           {
-            pickUpDate: this.returnDate.toISOString(),
+            pickUpDate: this.date3.toISOString(),
             carBrand: this.selectedCarBrand,
             automaticCar: this.automaticButton
           }
@@ -144,7 +125,7 @@ export class HomeComponent implements OnInit {
   }
 
   checkSubmission1(): boolean {
-    return this.checkPickDate() && this.checkReturnDate();
+    return this.date4?.getTime() - this.date3?.getTime() > 1;
   }
 
   checkSubmission2(): boolean {

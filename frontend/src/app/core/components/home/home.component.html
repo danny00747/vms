@@ -96,69 +96,33 @@
           <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item" data-aos="fade-up" data-aos-delay="300">
               <div class="form_item" data-aos="fade-up" data-aos-delay="300">
-                <h4 class="input_title text-white">PickUp Location</h4>
-                <select (change)="getSelectedPickUpLocations(pickUpLocation)" #pickUpLocation class="nice-select">
-                  <option value="Brussels">Brussels</option>
-                  <option value="Namur">Namur</option>
-                  <option value="Genk">Genk</option>
-                  <option value="Ottignies-Louvain-la-Neuve">Ottignies-Louvain-la-Neuve</option>
-                  <option value="Ford">Mons</option>
-                  <option value="Bruges">Bruges</option>
-                </select>
+                <h4 class="input_title text-white">PickUp Date</h4>
+                <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="date3" [minDate]="minDate" [showButtonBar]="true"
+                            [placeholder]="'pickUp date'" inputId="pickUpDate">
+                  <ng-template pTemplate="date" let-date>
+                    <span [ngStyle]="{textDecoration: (date.month < minDate.getMonth()) ? 'line-through' : 'inherit'}">{{date.day}}</span>
+                  </ng-template>
+                </p-calendar>
               </div>
             </div>
           </div>
 
           <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item" data-aos="fade-up" data-aos-delay="300">
-              <h4 class="input_title text-white">PickUp Date</h4>
-              <input #pickUpDate (change)="getPickUpDate(pickUpDate)" type="date" name="date">
-              <small style="color: red" *ngIf="pickUpDate?.value && !checkPickDate()">
-                <i style="color: red; font-size: 0.7rem" class="pi pi-exclamation-circle"></i> wrong date
-              </small>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-            <div class="form_item" data-aos="fade-up" data-aos-delay="500">
-              <h4 class="input_title text-white">Time</h4>
-              <input type="time" name="time">
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-            <div class="form_item" data-aos="fade-up" data-aos-delay="100">
-              <h4 class="input_title text-white">Return Location</h4>
-              <select (change)="getSelectedReturnLocations(returnLocation)" #returnLocation class="nice-select">
-                <option value="Brussels">Brussels</option>
-                <option value="Namur">Namur</option>
-                <option value="Genk">Genk</option>
-                <option value="Ottignies-Louvain-la-Neuve">Ottignies-Louvain-la-Neuve</option>
-                <option value="Ford">Mons</option>
-                <option value="Bruges">Bruges</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-            <div class="form_item" data-aos="fade-up" data-aos-delay="300">
               <h4 class="input_title text-white">Return Date</h4>
-              <input #returnDate (change)="getReturnDate(returnDate)" type="date" name="date">
-              <small>
-                <small style="color: red" *ngIf="returnDate?.value && !checkReturnDate()">
-                  <i style="color: red; font-size: 0.7rem" class="pi pi-exclamation-circle"></i> wrong date
-                </small>
-              </small>
+              <p-calendar appendTo="body" [disabled]="!date3" [showIcon]="true" [(ngModel)]="date4" [minDate]="date3"
+                          [placeholder]="'return date'" inputId="returnDate">
+              </p-calendar>
             </div>
           </div>
 
           <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item" data-aos="fade-up" data-aos-delay="500">
               <h4 class="input_title text-white">Time</h4>
-              <input type="time" name="time">
+              <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="defaultHour" [timeOnly]="true" inputId="timeonly">
+              </p-calendar>
             </div>
           </div>
-
 
           <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
             <div class="checkbox_input" data-aos="fade-up" data-aos-delay="100">

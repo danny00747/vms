@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {CarDTO} from '@app/shared/models';
 import {CarService} from '@app/core/services/car.service';
+import {SelectItem} from 'primeng/api';
 
 @Component({
   selector: 'app-reservation',
@@ -13,6 +14,21 @@ export class ReservationComponent implements OnInit {
 
   carId: string;
   car: CarDTO;
+
+  date1: Date;
+  date2: Date;
+  date3: Date;
+  date4: Date;
+  minDate: Date = new Date();
+  defaultHour = new Date().getHours() + ':' + new Date().getMinutes();
+
+  sortOptions: SelectItem[] = [
+    {label: 'Opel', value: 'Opel'},
+    {label: 'Ford', value: 'Ford'},
+    {label: 'Renault', value: 'Renault'},
+    {label: 'Toyota', value: 'Toyota'},
+    {label: 'Volkswagen', value: 'Volkswagen'}
+  ];
 
   constructor(private router: Router,
               private route: ActivatedRoute,

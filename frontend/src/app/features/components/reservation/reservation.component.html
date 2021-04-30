@@ -16,7 +16,7 @@
       <ul class="ul_li clearfix">
         <li><a [routerLink]="['/home']">Home</a></li>
         <li><a [routerLink]="['/cars']">Our Cars</a></li>
-        <li><a [routerLink]="['/cars', car.carId]">Car Details</a></li>
+        <li><a [routerLink]="['/cars', car?.carId]">Car Details</a></li>
         <li>Reservation</li>
       </ul>
     </div>
@@ -36,19 +36,19 @@
         <div class="feature_vehicle_item mt-0 ml-0" data-aos="fade-up" data-aos-delay="100">
           <h3 class="item_title mb-0">
             <a >
-              {{car.modelDTO.brand}} {{car.modelDTO.modelType}}
+              {{car?.modelDTO.brand}} {{car?.modelDTO.modelType}}
             </a>
           </h3>
           <div class="item_image position-relative">
             <a class="image_wrap" >
-              <img src="../../../../assets/images/feature/{{car.modelDTO.brand}} {{car.modelDTO.modelType}}.jpg" alt="image_not_found">
+              <img src="../../../../assets/images/feature/{{car?.modelDTO.brand}} {{car?.modelDTO.modelType}}.jpg" alt="image_not_found">
             </a>
             <span class="item_price bg_default_blue">230€/Day</span>
           </div>
           <ul class="info_list ul_li_center clearfix">
-            <li>{{car.modelDTO.modelOptionDTO.bagsNumber}} Bags</li>
-            <li>{{car.modelDTO.modelOptionDTO.seatsNumber}} Passengers</li>
-            <li>{{(car.modelDTO.modelOptionDTO.isAutomatic) ? 'Auto' : 'Manual'}}</li>
+            <li>{{car?.modelDTO.modelOptionDTO.bagsNumber}} Bags</li>
+            <li>{{car?.modelDTO.modelOptionDTO.seatsNumber}} Passengers</li>
+            <li>{{(car?.modelDTO.modelOptionDTO.isAutomatic) ? 'Auto' : 'Manual'}}</li>
             <li>Clim</li>
           </ul>
         </div>
@@ -56,53 +56,33 @@
 
       <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
         <div class="reservation_form">
-          <form action="#">
             <div class="row">
               <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12">
-                <div class="form_item" data-aos="fade-up" data-aos-delay="100">
-                  <h4 class="input_title">Pick Up Location</h4>
-                  <div class="position-relative">
-                    <input id="location_two" type="text" name="location" placeholder="86 Albert Road, London, N51 4VK">
-                    <label for="location_two" class="input_icon"><i class="fas fa-map-marker-alt"></i></label>
-                  </div>
+                <div class="form_item" data-aos-delay="100">
+                  <h4 class="input_title">Pick Up Date</h4>
+                  <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="date1" [minDate]="minDate" [showButtonBar]="true"
+                              [placeholder]="'pick up date'" inputId="pickUpDate">
+                    <ng-template pTemplate="date" let-date>
+                      <span [ngStyle]="{textDecoration: (date.month < minDate.getMonth()) ? 'line-through' : 'inherit'}">{{date.day}}</span>
+                    </ng-template>
+                  </p-calendar>
                 </div>
               </div>
 
               <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                <div class="form_item" data-aos="fade-up" data-aos-delay="200">
-                  <h4 class="input_title">Pick A Date</h4>
-                  <input type="date" name="date">
+                <div class="form_item"  data-aos-delay="200">
+                  <h4 class="input_title">Return Date</h4>
+                  <p-calendar appendTo="body" [disabled]="!date1" [showIcon]="true" [(ngModel)]="date2" [minDate]="date1"
+                              [placeholder]="'return date'" inputId="returnDate">
+                  </p-calendar>
                 </div>
               </div>
 
               <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                 <div class="form_item" data-aos="fade-up" data-aos-delay="300">
                   <h4 class="input_title">Time</h4>
-                  <input type="time" name="time">
-                </div>
-              </div>
-
-              <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12">
-                <div class="form_item" data-aos="fade-up" data-aos-delay="400">
-                  <h4 class="input_title">Pick Up Location</h4>
-                  <div class="position-relative">
-                    <input id="location_three" type="text" name="location" placeholder="86 Albert Road, London, N51 4VK">
-                    <label for="location_three" class="input_icon"><i class="fas fa-map-marker-alt"></i></label>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                <div class="form_item" data-aos="fade-up" data-aos-delay="500">
-                  <h4 class="input_title">Pick A Date</h4>
-                  <input type="date" name="date">
-                </div>
-              </div>
-
-              <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-                <div class="form_item" data-aos="fade-up" data-aos-delay="600">
-                  <h4 class="input_title">Time</h4>
-                  <input type="time" name="time">
+                  <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="defaultHour" [timeOnly]="true" inputId="timeonly">
+                  </p-calendar>
                 </div>
               </div>
             </div>
@@ -208,7 +188,6 @@
                 </div>
               </div>
             </div>
-          </form>
         </div>
       </div>
 

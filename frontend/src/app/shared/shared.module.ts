@@ -19,6 +19,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {RippleModule} from 'primeng/ripple';
 import {ToolbarModule} from 'primeng/toolbar';
 import {TooltipModule} from 'primeng/tooltip';
+import {DropdownModule} from 'primeng/dropdown';
 
 @NgModule({
   declarations: [SidebarComponent, NavbarComponent],
@@ -36,6 +37,7 @@ import {TooltipModule} from 'primeng/tooltip';
     TooltipModule,
     ToolbarModule,
     CalendarModule,
+    DropdownModule,
     TableModule,
     SliderModule
   ],
@@ -54,6 +56,7 @@ import {TooltipModule} from 'primeng/tooltip';
     TabViewModule,
     ToastModule,
     InputTextModule,
+    DropdownModule,
     RippleModule,
     TableModule,
     CalendarModule,
