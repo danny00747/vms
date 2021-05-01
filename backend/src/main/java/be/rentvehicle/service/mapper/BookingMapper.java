@@ -17,6 +17,8 @@ public non-sealed interface BookingMapper extends EntityMapper<BookingDTO, Booki
     })
     BookingDTO toDto(Booking booking);
 
-    @Mapping(expression = "java(UUID.fromString(bookingDTO.getBookingId()))", target = "id")
+    @Mappings({
+            @Mapping(target = "id", ignore = true),
+    })
     Booking toEntity(BookingDTO bookingDTO);
 }

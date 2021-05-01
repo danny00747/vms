@@ -29,6 +29,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -66,9 +67,9 @@ public class AccountResource extends BaseRestController {
      */
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<UserDTO> registerAccount(@RequestBody UserDTO userDTO){
+    public ResponseEntity<UserInfoDTO> registerAccount(@RequestBody @Valid UserInfoDTO userDTO){
         log.debug("REST request to create a user");
-        UserDTO createdUser = this.userService.registerUser(userDTO);
+        UserInfoDTO createdUser = this.userService.registerUser(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
@@ -177,12 +178,11 @@ public class AccountResource extends BaseRestController {
      * @throws UserNotFoundException {@code 404 (Not Found)} if the user couldn't be returned.
      */
     @GetMapping("/account")
-    public ResponseEntity<UserDTO> getAccount(){
+    public ResponseEntity<UserInfoDTO> getAccount(){
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userService
-                        .getUserWithRoles()
-                        .map(UserDTO::new)
+                        .getUserWithJwt()
                         .orElseThrow(() -> new UserNotFoundException("User could not be found")));
     }
 

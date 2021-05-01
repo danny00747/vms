@@ -2,6 +2,7 @@ package be.rentvehicle.service.dto;
 
 import be.rentvehicle.domain.Booking;
 import be.rentvehicle.domain.enumeration.BOOKINGSTATE;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.time.Instant;

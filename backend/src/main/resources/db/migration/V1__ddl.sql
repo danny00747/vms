@@ -149,14 +149,14 @@ CREATE TABLE cars
 -------------------------------------------------
 CREATE TABLE booking
 (
-    id               uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
+    id                uuid            DEFAULT uuid_generate_v4() PRIMARY KEY,
     cancellation_date TIMESTAMPTZ,
     booking_state     d_booking_state DEFAULT 'OPEN' NOT NULL,
-    withdrawal_date   TIMESTAMPTZ NOT NULL,
-    return_date       TIMESTAMPTZ NOT NULL CHECK (return_date > withdrawal_date),
-    user_id          uuid NOT NULL,
-    car_id           uuid NOT NULL,
-    created_at      TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    withdrawal_date   TIMESTAMPTZ                    NOT NULL,
+    return_date       TIMESTAMPTZ                    NOT NULL CHECK (return_date > withdrawal_date),
+    user_id           uuid                           NOT NULL UNIQUE,
+    car_id            uuid                           NOT NULL,
+    created_at        TIMESTAMPTZ     DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (car_id) REFERENCES cars (id) ON UPDATE CASCADE ON DELETE CASCADE
 );

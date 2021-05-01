@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
@@ -63,7 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO registerUser(UserDTO userDTO) {
+    public UserInfoDTO registerUser(@Valid UserInfoDTO userDTO) {
 
         userDAO.findOneByUsername(userDTO.getUsername().toLowerCase())
                 .ifPresent(existingUser -> {
@@ -74,7 +75,7 @@ public class UserServiceImpl implements UserService {
                     throw new EmailAlreadyUsedException(existingUser.getEmail());
                 });
 
-        User user = userMapper.toEntity(userDTO);
+        User user = userInfoMapper.toEntity(userDTO);
         Set<Roles> roles = new HashSet<>();
         rolesDAO.findById(RolesConstants.USER).ifPresent(roles::add);
         user.setRoles(roles);
@@ -85,15 +86,15 @@ public class UserServiceImpl implements UserService {
         saveTown(userDTO, user);
         user = userDAO.save(user);
         log.info("Created Information for User: {}", user);
-        return userMapper.toDto(user);
+        return userInfoMapper.toDto(user);
     }
 
-    private Address saveAddress(UserDTO userDTO, User user) {
+    private Address saveAddress(UserInfoDTO userDTO, User user) {
 
         Address address = new Address();
-        address.setRoad(userDTO.getAddress().getRoad());
-        address.setHouseNumber(userDTO.getAddress().getHouseNumber());
-        address.setPostBox(userDTO.getAddress().getPostBox());
+        address.setRoad(userDTO.getAddressDTO().getRoad());
+        address.setHouseNumber(userDTO.getAddressDTO().getHouseNumber());
+        address.setPostBox(userDTO.getAddressDTO().getPostBox());
 
         user.setAddress(address);
         address.setUser(user);
@@ -101,18 +102,18 @@ public class UserServiceImpl implements UserService {
         return address;
     }
 
-    private void saveTown(UserDTO userDTO, User user) {
+    private void saveTown(UserInfoDTO userDTO, User user) {
 
         Address address = saveAddress(userDTO, user);
 
         Set<Address> addresses = Set.of(address);
 
         final Town town = new Town();
-        town.setPostcode(userDTO.getTown().getPostcode());
-        townDAO.findById(userDTO.getTown().getPostcode())
+        town.setPostcode(userDTO.getAddressDTO().getTownDTO().getPostcode());
+        townDAO.findById(userDTO.getAddressDTO().getTownDTO().getPostcode())
                 .ifPresentOrElse(
                         foundTown -> town.setName(foundTown.getName()),
-                        () -> town.setName(userDTO.getTown().getName())
+                        () -> town.setName(userDTO.getAddressDTO().getTownDTO().getName())
                 );
         town.setAddresses(addresses);
         Town savedTown = townDAO.save(town);
@@ -139,10 +140,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<User> getUserWithRoles() {
+    public Optional<UserInfoDTO> getUserWithJwt() {
         return SecurityUtils
                 .getCurrentAuthenticatedUser()
-                .flatMap(userDAO::findOneWithRolesByUsername);
+                .flatMap(userDAO::findOneWithRolesByUsername)
+                .map(userInfoMapper::toDto);
     }
 
     @Override

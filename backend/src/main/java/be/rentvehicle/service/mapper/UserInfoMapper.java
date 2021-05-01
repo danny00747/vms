@@ -1,10 +1,6 @@
 package be.rentvehicle.service.mapper;
 
-import be.rentvehicle.domain.Model;
-import be.rentvehicle.domain.Town;
 import be.rentvehicle.domain.User;
-import be.rentvehicle.service.dto.ModelDTO;
-import be.rentvehicle.service.dto.TownDTO;
 import be.rentvehicle.service.dto.UserInfoDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -24,6 +20,38 @@ public non-sealed interface UserInfoMapper extends EntityMapper<UserInfoDTO, Use
     })
     UserInfoDTO toDto(User user);
 
-    @Mapping(expression = "java(UUID.fromString(userInfoDTO.getUserId()))", target = "id")
+    @Mappings({
+            @Mapping(source = "addressDTO", target = "address"),
+            @Mapping(target = "id", ignore = true),
+            @Mapping(source = "userEmail", target = "email"),
+    })
     User toEntity(UserInfoDTO userInfoDTO);
+
+
+/*
+    // @Mapping(target = "userId", source = "id"),
+    default User setId(UUID id) {
+        if (id == null) {
+            User user = new User();
+            user.setId(UUID.randomUUID());
+            return user;
+        }
+        User user = new User();
+        user.setId(id);
+        return user;
+    }
+
+
+    default UUID map(String id) {
+        if (id == null) {
+            UserInfoDTO userInfoDTO = new UserInfoDTO();
+            userInfoDTO.setUserId(new User().getId().toString());
+            return UUID.randomUUID();
+        }
+        UserInfoDTO userInfoDTO = new UserInfoDTO();
+        userInfoDTO.setUserId(UUID.fromString(id).toString());
+        return UUID.fromString(id);
+    }
+ */
+
 }

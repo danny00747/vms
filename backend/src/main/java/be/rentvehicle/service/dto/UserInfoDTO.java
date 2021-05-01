@@ -11,11 +11,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.Set;
 import java.util.UUID;
 
-public @Data class UserInfoDTO {
+public @Data class UserInfoDTO implements Serializable {
 
     private String userId;
 
@@ -42,7 +43,6 @@ public @Data class UserInfoDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Instant createdAt;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private AddressDTO addressDTO;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

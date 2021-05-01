@@ -1,0 +1,11 @@
+@startuml
+title backend java api
+
+'left to right direction
+
+class User {
+    + getAddress()
+    - List<Models> models
+}
+
+@enduml

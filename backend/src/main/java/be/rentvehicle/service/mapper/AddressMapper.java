@@ -21,6 +21,6 @@ public non-sealed interface AddressMapper extends EntityMapper<AddressDTO, Addre
     })
     AddressDTO toDto(Address address);
 
-    @Mapping(expression = "java(UUID.fromString(addressDTO.getAddressId()))", target = "id")
+    @Mapping(target = "id", ignore = true)
     Address toEntity(AddressDTO addressDTO);
 }

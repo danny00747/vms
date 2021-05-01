@@ -4,6 +4,7 @@ import be.rentvehicle.domain.User;
 import be.rentvehicle.service.dto.UserDTO;
 import be.rentvehicle.service.dto.UserInfoDTO;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +19,7 @@ public interface UserService {
      * @param userDTO the entity to save.
      * @return the persisted entity.
      */
-    UserDTO registerUser(UserDTO userDTO);
+    UserInfoDTO registerUser(@Valid UserInfoDTO userDTO);
 
     /**
      * Get all the users with eager load of many-to-many relationships.
@@ -45,13 +46,13 @@ public interface UserService {
     /**
      * Gets a user.
      *
-     * @return a user .
+     * @return a user by their JWT.
      */
-    Optional<User> getUserWithRoles();
+    Optional<UserInfoDTO> getUserWithJwt();
 
     /**
      * Gets a user.
-     *
+     * @param username to search.
      * @return a user .
      */
     Optional<UserInfoDTO> getByUsername(String username);

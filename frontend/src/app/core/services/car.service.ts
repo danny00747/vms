@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpResponse} from '@angular/common/http';
-import {CarDTO, JWT, LoginDTO} from '@app/shared/models';
+import {CarDTO, JWT, LoginDTO, UserDTO} from '@app/shared/models';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
@@ -63,6 +63,10 @@ export class CarService {
 
   getNoneBookedCars(withdrawalDate: string): Observable<CarDTO[]> {
     return this.http.get<CarDTO[]>(`/api/v1/cars?withdrawalDate=${withdrawalDate}`);
+  }
+
+  getUserByJwt(): Observable<UserDTO> {
+    return this.http.get<UserDTO>(`/api/v1/account`);
   }
 
 }

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
-import {CarDTO} from '@app/shared/models';
+import {CarDTO, UserDTO} from '@app/shared/models';
 import {CarService} from '@app/core/services/car.service';
 import {SelectItem} from 'primeng/api';
 
@@ -52,6 +52,19 @@ export class ReservationComponent implements OnInit {
       .subscribe(
         async (data: CarDTO) => {
           this.car = data;
+        },
+        error => {
+          console.error(error);
+        });
+  }
+
+  getLoggedInUser(): void{
+   const token: string = JSON.parse(localStorage.getItem('currentUser'))?.token;
+   console.log(token);
+   this.carService.getUserByJwt()
+      .subscribe(
+        async (data: UserDTO) => {
+          console.log(data);
         },
         error => {
           console.error(error);
