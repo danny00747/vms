@@ -9,6 +9,7 @@ import be.rentvehicle.domain.User;
 import be.rentvehicle.security.SecurityUtils;
 import be.rentvehicle.service.BookingService;
 import be.rentvehicle.service.CarService;
+import be.rentvehicle.service.MailService;
 import be.rentvehicle.service.UserService;
 import be.rentvehicle.service.dto.BookingDTO;
 import be.rentvehicle.service.impl.errors.ResourceFoundException;
@@ -21,7 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -40,22 +47,32 @@ public class BookingServiceImpl implements BookingService {
     private final BookingMapper bookingMapper;
     private final UserService userService;
     private final CarService carService;
-    private final CarMapper carMapper;
+    private final MailService mailService;
     private final UserInfoMapper userInfoMapper;
 
-    public BookingServiceImpl(BookingDAO bookingDAO, CarDAO carDAO, UserDAO userDAO, BookingMapper bookingMapper, UserService userService, CarService carService, CarMapper carMapper, UserInfoMapper userInfoMapper) {
+    public BookingServiceImpl(BookingDAO bookingDAO, CarDAO carDAO, UserDAO userDAO, BookingMapper bookingMapper,
+                              UserService userService, CarService carService, MailService mailService,
+                              UserInfoMapper userInfoMapper) {
         this.bookingDAO = bookingDAO;
         this.carDAO = carDAO;
         this.userDAO = userDAO;
         this.bookingMapper = bookingMapper;
         this.userService = userService;
         this.carService = carService;
-        this.carMapper = carMapper;
+        this.mailService = mailService;
         this.userInfoMapper = userInfoMapper;
     }
 
     @Override
     public List<BookingDTO> findAll() {
+
+        DateTimeFormatter formatter = DateTimeFormatter
+                .ofLocalizedDateTime(FormatStyle.MEDIUM)
+                .withLocale(Locale.ENGLISH)
+                .withZone(ZoneId.systemDefault());
+        String time = formatter.format(Instant.now());
+        System.out.println(time);
+
         return bookingDAO.findAll()
                 .stream()
                 .map(bookingMapper::toDto)
@@ -83,22 +100,40 @@ public class BookingServiceImpl implements BookingService {
                 .map(Optional::get)
                 .orElseThrow(() -> new UserNotFoundException("User could not be found"));
 
-        Car cc = Optional.of(carDAO
-                .findById(UUID.fromString(cardId)))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .orElseThrow(() -> new ResourceFoundException("No car was found with this id :" + cardId));
+        if (!uu.isActivated()) {
+            return null;
+        } else {
+            Car cc = Optional.of(carDAO
+                    .findById(UUID.fromString(cardId)))
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .orElseThrow(() -> new ResourceFoundException("No car was found with this id :" + cardId));
 
-        booking.setUser(uu);
-        booking.setCar(cc);
-        booking = bookingDAO.save(booking);
+            booking.setUser(uu);
+            booking.setCar(cc);
+            booking = bookingDAO.save(booking);
+
+            DateTimeFormatter formatter = DateTimeFormatter
+                    .ofLocalizedDateTime(FormatStyle.MEDIUM)
+                    .withLocale(Locale.ENGLISH)
+                    .withZone(ZoneId.systemDefault());
+
+            long nbOfDaysBetween = ChronoUnit.DAYS.between(booking.getWithdrawalDate(), booking.getReturnDate());
+            long total = booking.getCar().getModel().getPricingClass().getCostPerDay() * nbOfDaysBetween;
+            mailService.sendReservationEMail(
+                    "danbarca955@gmail.com",
+                    booking.getCar().getModel().getBrand() + " " + booking.getCar().getModel().getModelType(),
+                    formatter.format(booking.getReturnDate()),
+                    formatter.format(booking.getWithdrawalDate()),
+                    booking.getCar().getModel().getPricingClass().getCostPerDay().toString() + "€",
+                    total + "€");
+
+            return bookingMapper.toDto(booking);
+        }
 
 
-        return bookingMapper.toDto(booking);
+
         /*
-
-
-
 
         Optional<User> foundUser = userService.getUserWithJwt();
         Booking booking = bookingMapper.toEntity(bookingDTO);
@@ -106,6 +141,18 @@ public class BookingServiceImpl implements BookingService {
         return null;
          */
 
+    }
+
+    @Override
+    public Optional<String> deleteBooking(String bookingId) {
+        return Optional.of(bookingDAO
+                .findById(UUID.fromString(bookingId)))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(booking -> {
+                    bookingDAO.delete(booking);
+                    return booking.getUser().getUsername() + "'s reservation has been successfully deleted !";
+                });
     }
 }
 

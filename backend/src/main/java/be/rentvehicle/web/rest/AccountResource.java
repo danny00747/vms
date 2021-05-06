@@ -1,5 +1,6 @@
 package be.rentvehicle.web.rest;
 
+import be.rentvehicle.config.TwilioConfiguration;
 import be.rentvehicle.security.CustomAuthenticationFailureHandler;
 import be.rentvehicle.security.RolesConstants;
 import be.rentvehicle.security.jwt.JWTFilter;
@@ -15,6 +16,9 @@ import be.rentvehicle.service.impl.errors.EmailAlreadyUsedException;
 import be.rentvehicle.service.impl.errors.UserNotFoundException;
 import be.rentvehicle.service.impl.errors.UsernameAlreadyUsedException;
 import be.rentvehicle.web.rest.vm.UserVM;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.rest.api.v2010.account.MessageCreator;
+import com.twilio.type.PhoneNumber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -30,6 +34,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
 
@@ -46,13 +51,16 @@ public class AccountResource extends BaseRestController {
 
     private final TokenProvider tokenProvider;
 
+    private final TwilioConfiguration twilioConfiguration;
+
     private final MailService mailService;
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public AccountResource(UserService userService, TokenProvider tokenProvider, MailService mailService, AuthenticationManagerBuilder authenticationManagerBuilder) {
+    public AccountResource(UserService userService, TokenProvider tokenProvider, TwilioConfiguration twilioConfiguration, MailService mailService, AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.userService = userService;
         this.tokenProvider = tokenProvider;
+        this.twilioConfiguration = twilioConfiguration;
         this.mailService = mailService;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
     }
@@ -67,10 +75,10 @@ public class AccountResource extends BaseRestController {
      */
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<UserInfoDTO> registerAccount(@RequestBody @Valid UserInfoDTO userDTO){
+    public ResponseEntity<Map<String, String>> registerAccount(@RequestBody @Valid UserInfoDTO userDTO) {
         log.debug("REST request to create a user");
         UserInfoDTO createdUser = this.userService.registerUser(userDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "A verification key has been sent to " + createdUser.getUserEmail()));
     }
 
     /**
@@ -81,10 +89,10 @@ public class AccountResource extends BaseRestController {
      */
     @GetMapping("/activate")
     public ResponseEntity<Map<String, String>> activateAccount(@RequestParam(value = "key") String key) {
-       return ResponseEntity
-               .status(HttpStatus.OK)
-               .body(Map.of("message", userService.activateRegistration(key)
-                       .orElseThrow(() -> new AccountResourceException("No user was found for this activation key"))));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(Map.of("message", userService.activateRegistration(key)
+                        .orElseThrow(() -> new AccountResourceException("No user was found with this activation key"))));
     }
 
     /**
@@ -94,7 +102,7 @@ public class AccountResource extends BaseRestController {
      * @return a {@code 401 (UNAUTHORIZED)} is sent by {@link CustomAuthenticationFailureHandler} if the credentials are incorrect.
      */
     @PostMapping("/authenticate")
-    public ResponseEntity<Map<String, String>> authorize(@RequestBody UserVM.LoginVM loginVM){
+    public ResponseEntity<Map<String, String>> authorize(@RequestBody UserVM.LoginVM loginVM) {
         log.debug("REST request to authenticate : {}", loginVM.pseudo());
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginVM.pseudo(), loginVM.password());
@@ -104,9 +112,9 @@ public class AccountResource extends BaseRestController {
         String jwt = tokenProvider.createToken(authentication);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+
         /*
          // mailService.sendMail();
-
          SecureRandom secureRandom = new SecureRandom();
          int myCode = secureRandom.nextInt(9000000) + 1000000;
 
@@ -116,7 +124,9 @@ public class AccountResource extends BaseRestController {
          MessageCreator creator = Message.creator(to, from, message);
          creator.create();
          log.info("Send sms {}", "sms sent with code :" + myCode);
+
          */
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .headers(httpHeaders)
@@ -134,7 +144,7 @@ public class AccountResource extends BaseRestController {
      */
     @PatchMapping("/user/{usernameParam}")
     @PreAuthorize("#usernameParam == authentication.principal.username or hasAuthority(\"" + RolesConstants.ADMIN + "\")")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable("usernameParam") String usernameParam, @RequestBody UserVM.UpdateVM updateVM){
+    public ResponseEntity<UserDTO> updateUser(@PathVariable("usernameParam") String usernameParam, @RequestBody UserVM.UpdateVM updateVM) {
         log.debug("REST request to upfate User : {}", usernameParam);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -152,7 +162,7 @@ public class AccountResource extends BaseRestController {
      */
     @GetMapping("/users")
     @isAdmin
-    public ResponseEntity<List<UserInfoDTO>> getAllUsers(@RequestParam(required = false, defaultValue = "false") boolean eagerload){
+    public ResponseEntity<List<UserInfoDTO>> getAllUsers(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all users");
         List<UserInfoDTO> users = this.userService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(users);
@@ -165,7 +175,7 @@ public class AccountResource extends BaseRestController {
      */
     @GetMapping("/users/roles")
     @isAdmin
-    public ResponseEntity<List<String>> getRoles(){
+    public ResponseEntity<List<String>> getRoles() {
         log.debug("REST request to get all roles");
         List<String> roles = this.userService.getRoles();
         return ResponseEntity.status(HttpStatus.OK).body(roles);
@@ -178,7 +188,7 @@ public class AccountResource extends BaseRestController {
      * @throws UserNotFoundException {@code 404 (Not Found)} if the user couldn't be returned.
      */
     @GetMapping("/account")
-    public ResponseEntity<UserInfoDTO> getAccount(){
+    public ResponseEntity<UserInfoDTO> getAccount() {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userService
@@ -195,7 +205,7 @@ public class AccountResource extends BaseRestController {
      */
     @GetMapping("/user/{username}")
     @PreAuthorize("#username == authentication.principal.username or hasAuthority(\"" + RolesConstants.ADMIN + "\")")
-    public ResponseEntity<UserInfoDTO> getUser(@PathVariable("username") @isUsername String username){
+    public ResponseEntity<UserInfoDTO> getUser(@PathVariable("username") @isUsername String username) {
         log.debug("REST request to get User : {}", username);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -212,11 +222,25 @@ public class AccountResource extends BaseRestController {
      */
     @DeleteMapping("/user/{username}")
     @isAdmin
-    public ResponseEntity<Map<String, String>> deleteUser(@PathVariable String username){
+    public ResponseEntity<Map<String, String>> deleteUser(@PathVariable String username) {
         log.debug("REST request to delete User : {}", username);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(Map.of("message", userService.deleteUser(username)
                         .orElseThrow(() -> new UserNotFoundException(username))));
+    }
+
+    /**
+     * {@code GET  /verifyPhone} : verify a phone number.
+     *
+     * @param verificationCode the code to verify.
+     * @throws UserNotFoundException {@code 404 (Not Found)} if the user with this verificationCode couldn't be found.
+     */
+    @GetMapping("/verifyPhone")
+    public ResponseEntity<Map<String, String>> verifyPhoneNumber(@RequestParam(value = "verificationCode") Integer verificationCode) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(Map.of("message", userService.verifyPhoneNumber(verificationCode)
+                        .orElseThrow(() -> new AccountResourceException("No user was found with this verification Code"))));
     }
 }

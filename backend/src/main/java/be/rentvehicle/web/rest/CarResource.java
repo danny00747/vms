@@ -66,19 +66,6 @@ public class CarResource extends BaseRestController {
         }
     }
 
-    /*
-     * {@code GET  /carss} : get all the cars.
-     *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of cars in body.
-     */
-    @GetMapping("/carss")
-    public ResponseEntity<List<CarDTO>> getAllCarss() {
-
-        log.debug("REST request to get a list of Cars");
-        List<CarDTO> cars = carService.nativeQuery();
-        return ResponseEntity.status(HttpStatus.OK).body(cars);
-    }
-
     /**
      * {@code GET /cars/:id} : get the "id" car.
      *

@@ -114,13 +114,15 @@ public class CarServiceImpl implements CarService {
         }
     }
 
-    @Override
+}
+
+/*
     public List<CarDTO> nativeQuery() {
         return carDAO.findAllWithEagerRelationships()
                 .stream()
                 .map(item -> new CarDTO(item[0].toString(), item[1].toString(), item[2].toString(), item[3].toString(), Integer.parseInt(item[4].toString()))
                 ).collect(Collectors.toList());
-        /*
+
         List<Map<String, Object>>
         return carDAO.findAllWithEagerRelationships()
                 .stream()
@@ -131,5 +133,4 @@ public class CarServiceImpl implements CarService {
                         "bagsNumber", Integer.parseInt(item[3].toString()))
                 ).collect(Collectors.toList());
          */
-    }
-}
+

@@ -12,6 +12,17 @@ import {SelectItem} from 'primeng/api';
 })
 export class ReservationComponent implements OnInit {
 
+  username: string;
+  userEmail: string;
+  password: string;
+  phoneNumber: number;
+
+  road: string;
+  houseNumber: number;
+  townName: string;
+  postCode: number;
+  passwordPattern = '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})';
+
   carId: string;
   car: CarDTO;
 
@@ -58,10 +69,10 @@ export class ReservationComponent implements OnInit {
         });
   }
 
-  getLoggedInUser(): void{
-   const token: string = JSON.parse(localStorage.getItem('currentUser'))?.token;
-   console.log(token);
-   this.carService.getUserByJwt()
+  getLoggedInUser(): void {
+    const token: string = JSON.parse(localStorage.getItem('currentUser'))?.token;
+    console.log(token);
+    this.carService.getUserByJwt()
       .subscribe(
         async (data: UserDTO) => {
           console.log(data);
@@ -71,4 +82,10 @@ export class ReservationComponent implements OnInit {
         });
   }
 
+  submit(): void {
+    console.log(this.password);
+    console.log(this.phoneNumber);
+    console.log(this.userEmail);
+    console.log(this.username);
+  }
 }

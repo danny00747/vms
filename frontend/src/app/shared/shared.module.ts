@@ -20,6 +20,7 @@ import {RippleModule} from 'primeng/ripple';
 import {ToolbarModule} from 'primeng/toolbar';
 import {TooltipModule} from 'primeng/tooltip';
 import {DropdownModule} from 'primeng/dropdown';
+import {InputMaskModule} from 'primeng/inputmask';
 
 @NgModule({
   declarations: [SidebarComponent, NavbarComponent],
@@ -33,6 +34,7 @@ import {DropdownModule} from 'primeng/dropdown';
     PasswordModule,
     InputTextModule,
     RippleModule,
+    InputMaskModule,
     TabViewModule,
     TooltipModule,
     ToolbarModule,
@@ -54,6 +56,7 @@ import {DropdownModule} from 'primeng/dropdown';
     MultiSelectModule,
     TooltipModule,
     TabViewModule,
+    InputMaskModule,
     ToastModule,
     InputTextModule,
     DropdownModule,

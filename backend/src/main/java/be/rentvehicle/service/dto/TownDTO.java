@@ -1,6 +1,5 @@
 package be.rentvehicle.service.dto;
 
-import be.rentvehicle.domain.PricingClass;
 import be.rentvehicle.domain.Town;
 import lombok.Data;
 

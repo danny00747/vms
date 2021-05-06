@@ -16,6 +16,7 @@ import {SkeletonModule} from 'primeng/skeleton';
 import {PaginatorModule} from 'primeng/paginator';
 import {DataViewModule} from 'primeng/dataview';
 import {CascadeSelectModule} from 'primeng/cascadeselect';
+import { VerifyEmailComponent } from './components/register/verify-email/verify-email.component';
 
 const routes: Routes = [
   {path: 'register', component: RegisterComponent},
@@ -24,14 +25,15 @@ const routes: Routes = [
   {path: 'gallery', component: GalleryComponent},
   {path: 'cars', component: CarsComponent},
   {path: 'cars/:id', component: CarDetailComponent},
-  {path: 'reservation/:carId', component: ReservationComponent}
+  {path: 'reservation/:carId', component: ReservationComponent},
+  {path: 'verify-email/:key', component: VerifyEmailComponent},
 ];
 
 // {path: 'cars', component: CarsComponent, resolve: {cars: CarsResolver}},
 
 @NgModule({
   declarations: [LoginComponent, RegisterComponent, GalleryComponent,
-    ProfileComponent, CarsComponent, CarDetailComponent, ReservationComponent],
+    ProfileComponent, CarsComponent, CarDetailComponent, ReservationComponent, VerifyEmailComponent],
   imports: [
     CommonModule,
     SharedModule,

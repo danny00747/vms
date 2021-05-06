@@ -52,6 +52,4 @@ public interface CarService {
      * @return the found entities.
      */
     List<CarDTO> getBookedCars(Instant date);
-
-    List<CarDTO> nativeQuery();
 }

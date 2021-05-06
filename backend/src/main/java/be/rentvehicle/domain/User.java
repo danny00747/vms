@@ -1,7 +1,6 @@
 package be.rentvehicle.domain;
 
 import be.rentvehicle.config.Constants;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -39,8 +38,13 @@ public class User extends AbstractAuditingEntity {
 
     @Size(max = 36)
     @Column(name = "activation_key", length = 36)
-    @JsonIgnore
     private String activationKey;
+
+    @Column(name = "phone_number", length = 12)
+    private String phoneNumber;
+
+    @Column(name = "verification_phone_code")
+    private Integer verificationPhoneCode;
 
     @NotNull
     private String password;
@@ -100,6 +104,22 @@ public class User extends AbstractAuditingEntity {
 
     public boolean isActivated() {
         return activated;
+    }
+
+    public Integer getVerificationPhoneCode() {
+        return verificationPhoneCode;
+    }
+
+    public void setVerificationPhoneCode(Integer verificationPhoneCode) {
+        this.verificationPhoneCode = verificationPhoneCode;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getActivationKey() {

@@ -19,14 +19,12 @@ public class MailService {
         this.sendGridAPI = sendGridConfiguration.getApiKey();
     }
 
-    public void sendMail() {
+    public void sendEmailConfirmation(String emailTo, String key) {
         Email from = new Email("he201718@students.ephec.be", "rent vehicle");
-        String subject = "Thank You For Your Reservation !";
-        Email to = new Email("toto@gmail.com");
-        Content content = new Content("text/html", emailConfirmatioTemplate()
-                .replace("XXX-email-XXX", "toto@gmail.com")
-                .replace("XXX-link1-XXX", "https://cms-cars.herokuapp.com")
-                .replace("XXX-link2-XXX", "https://cms-cars.herokuapp.com"));
+        String subject = "Confirmation Your Email !";
+        Email to = new Email(emailTo);
+        Content content = new Content("text/html", emailConfirmationTemplate()
+                .replace("xxx-key-xxx", key));
         Mail mail = new Mail(from, subject, to, content);
         Request request = new Request();
         try {
@@ -41,8 +39,33 @@ public class MailService {
         }
     }
 
+    public void sendReservationEMail(String emailTo, String carName, String retunDate,
+                                     String pickUpDate, String costPerDay, String total) {
+        Email from = new Email("he201718@students.ephec.be", "rent vehicle");
+        String subject = "Thank You For Your Reservation !";
+        Email to = new Email(emailTo);
+        Content content = new Content("text/html", reservationTemplate()
+                .replace("xxx-pickUpDate-xxx", pickUpDate)
+                .replace("xxx-returnDate-xxx", retunDate)
+                .replace("xxx-carName-xxx", carName)
+                .replace("xxx-DatePickUp-xxx", pickUpDate)
+                .replace("xxx-total-xxx", total)
+                .replace("xxx-cost-xxx", costPerDay));
+        Mail mail = new Mail(from, subject, to, content);
+        Request request = new Request();
+        try {
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+            SendGrid sg = new SendGrid(sendGridAPI);
+            Response response = sg.api(request);
+            System.out.println(response.getStatusCode()); // 202 if ok
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 
-    private String emailConfirmatioTemplate() {
+    private String emailConfirmationTemplate() {
         return """
                 <!DOCTYPE html>
                 <html>
@@ -56,16 +79,16 @@ public class MailService {
                             -webkit-text-size-adjust: 100%;
                             -ms-text-size-adjust: 100%;
                         }
-                                
+                               \s
                         table, td {
                             mso-table-lspace: 0pt;
                             mso-table-rspace: 0pt;
                         }
-                                
+                               \s
                         img {
                             -ms-interpolation-mode: bicubic;
                         }
-                                
+                               \s
                         img {
                             border: 0;
                             height: auto;
@@ -73,18 +96,18 @@ public class MailService {
                             outline: none;
                             text-decoration: none;
                         }
-                                
+                               \s
                         table {
                             border-collapse: collapse !important;
                         }
-                                
+                               \s
                         body {
                             height: 100% !important;
                             margin: 0 !important;
                             padding: 0 !important;
                             width: 100% !important;
                         }
-                                
+                               \s
                         a[x-apple-data-detectors] {
                             color: inherit !important;
                             text-decoration: none !important;
@@ -93,29 +116,29 @@ public class MailService {
                             font-weight: inherit !important;
                             line-height: inherit !important;
                         }
-                                
+                               \s
                         a {
                             color: #00bc87;
                             text-decoration: underline;
                         }
-                                
+                               \s
                         * img[tabindex=
-                                
-                                
-                                
+                               \s
+                               \s
+                               \s
                         0
                         ]
                         + div {
                             display: none !important;
                         }
-                                
+                               \s
                         @media screen and (max-width: 350px) {
                             h1 {
                                 font-size: 24px !important;
                                 line-height: 24px !important;
                             }
                         }
-                                
+                               \s
                         div[style*=margin:  16  px  0  ;  ]
                         {
                             margin: 0 !important
@@ -125,7 +148,7 @@ public class MailService {
                             .headingMobile {
                                 font-size: 40px !important;
                             }
-                                
+                               \s
                             .headingMobileSmall {
                                 font-size: 28px !important;
                             }
@@ -187,7 +210,7 @@ public class MailService {
                                                         style="padding: 20px 0 0 0; color: #666666; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400;-webkit-font-smoothing:antialiased;">
                                                         <p class="headingMobile"
                                                            style="margin: 0;color: #171717;font-size: 26px;font-weight: 200;line-height: 130%;margin-bottom:5px;">
-                                                           Verify your e-mail to finish signing up for vmsApp.herokuapp.com </p>
+                                                           Verify your email to finish signing up for VmsApp </p>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -200,33 +223,13 @@ public class MailService {
                                                             Hello there,</p>
                                                         <p style="margin:0;margin-top:20px;line-height:0;"></p>
                                                         <p style="margin:0;color:#585858;font-size:14px;font-weight:400;line-height:170%;">
-                                                            Please confirm that <b>XXX-email-XXX</b> is your e-mail address by
-                                                            clicking on the button below or use this link
-                                                            <a style='color: #00bc87;text-decoration: underline;'
-                                                               target='_blank' href='XXX-link1-XXX'>
-                                                               XXX-link2-XXX
-                                                            </a> within 3&nbsp;hours.
+                                                            Here is the confirmation key for your online form :\s
+                                                            <p style="margin:0;margin-top:20px;line-height:0;"></p>
+                                                            xxx-key-xxx
+                                                            <p style="margin:0;margin-top:20px;line-height:0;"></p>
+                                                            All you have to do is copy the confirmation key and paste it to your form to complete the\s
+                                                            email verification process.\s
                                                         </p>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td align="center">
-                                                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                                            <tr>
-                                                                <td align="center" style="padding: 33px 0 33px 0;">
-                                                                    <table border="0" cellspacing="0" cellpadding="0" width="100%">
-                                                                        <tr>
-                                                                            <td align="center" style="border-radius: 4px;"
-                                                                                bgcolor="#00bc87"><a href="link@link3"
-                                                                                                     style="text-transform:uppercase;background:#00bc87;font-size: 13px; font-weight: 700; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none !important; padding: 20px 25px; border-radius: 4px; border: 1px solid #00bc87; display: block;-webkit-font-smoothing:antialiased;"
-                                                                                                     target="_blank"><span
-                                                                                    style="color: #ffffff;text-decoration: none;">Verify</span></a>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
                                                     </td>
                                                 </tr>
                                                 </tbody>
@@ -281,11 +284,11 @@ public class MailService {
                         </tbody>
                     </table>
                 </center>
-                                
-                                
+                               \s
+                               \s
                 </body>
                 </html>
-                                
+                               \s
                 """;
     }
 
@@ -303,21 +306,21 @@ public class MailService {
                             -webkit-text-size-adjust: 100%;
                             -ms-text-size-adjust: 100%;
                         }
-
+                                
                         .green {
                             color: #4CAF50;
                             font-weight: 680
                         }
-
+                                
                         table, td {
                             mso-table-lspace: 0pt;
                             mso-table-rspace: 0pt;
                         }
-
+                                
                         img {
                             -ms-interpolation-mode: bicubic;
                         }
-
+                                
                         img {
                             border: 0;
                             height: auto;
@@ -325,18 +328,18 @@ public class MailService {
                             outline: none;
                             text-decoration: none;
                         }
-
+                                
                         table {
                             border-collapse: collapse !important;
                         }
-
+                                
                         body {
                             height: 100% !important;
                             margin: 0 !important;
                             padding: 0 !important;
                             width: 100% !important;
                         }
-
+                                
                         a[x-apple-data-detectors] {
                             color: inherit !important;
                             text-decoration: none !important;
@@ -345,36 +348,36 @@ public class MailService {
                             font-weight: inherit !important;
                             line-height: inherit !important;
                         }
-
+                                
                         a {
                             color: #4CAF50;
                             text-decoration: underline;
                         }
-
+                                
                         * img[tabindex=
-
-
-
-
-
+                                
+                                
+                                
+                                
+                                
                         0
                         ]
                         + div {
                             display: none !important;
                         }
-
+                                
                         @media screen and (max-width: 350px) {
                             h1 {
                                 font-size: 24px !important;
                                 line-height: 24px !important;
                             }
                         }
-
+                                
                         div[style*=margin:
-
+                                
                         16
                         px
-
+                                
                         0
                         ;
                         ]
@@ -386,11 +389,11 @@ public class MailService {
                             .headingMobile {
                                 font-size: 40px !important;
                             }
-
+                                
                             .headingMobileSmall {
                                 font-size: 28px !important;
                             }
-
+                                
                             .mobile {
                                 padding-top: 40px
                             }
@@ -468,10 +471,10 @@ public class MailService {
                                                             We have received your reservation.
                                                         </p>
                                                         <p style="margin:0;color:#585858;font-size:14px;font-weight:400;line-height:170%;">
-                                                            On x day when you come to pick up the car, we will need the following
+                                                            On xxx-DatePickUp-xxx, when you come to pick up the car, we will need the following
                                                             information :
                                                         </p>
-
+                                
                                                         <p>
                                                         <ul style="margin:0;color:#585858;font-size:14px;font-weight:400;line-height:170%;">
                                                             <li>Identity card</li>
@@ -480,18 +483,18 @@ public class MailService {
                                                             <li>Phone number</li>
                                                         </ul>
                                                         </p>
-
+                                
                                                         <p style="margin:0;color:#585858;font-size:14px;font-weight:400;line-height:170%;">
                                                             Here is a recap of your reservation :
-
+                                
                                                         </p>
-
-
+                                
+                                
                                                         <hr>
-
+                                
                                                         <div class="rounded bg-white">
                                                             <div class="justify-content-center">
-
+                                
                                                                 <div style="background-color: ghostwhite" class="bg-light rounded flex-column">
                                                                     <p></p>
                                                                     <div>
@@ -499,18 +502,18 @@ public class MailService {
                                                                     </div>
                                                                     <p>
                                                                         <ul style="margin:0;color:#585858;font-size:14px;font-weight:400;line-height:170%;">
-                                                                            <li>Car Name : xxxxxxx</li>
-                                                                            <li>Pick up date : xxxxxx</li>
-                                                                            <li>Return date : xxxxx</li>
-                                                                            <li>Cost per day : 110€</li>
-                                                                            <li>Total : xxxx €</li>
+                                                                            <li>Car Name : xxx-carName-xxx</li>
+                                                                            <li>Pick up date : xxx-pickUpDate-xxx</li>
+                                                                            <li>Return date : xxx-returnDate-xxx</li>
+                                                                            <li>Cost per day : xxx-cost-xxx</li>
+                                                                            <li>Total : xxx-total-xxx</li>
                                                                         </ul>
                                                                     </p>
                                                                 </div>
                                                             </div>
                                                         </div>
-
-
+                                
+                                
                                                     </td>
                                                 </tr>
                                                 </tbody>
@@ -535,7 +538,7 @@ public class MailService {
                                                                                  style="color: #00bc87;text-decoration: underline;"
                                                                                  target="_blank">HE201718@students.ephec.be</a> or visit
                                                             our <a
-                                                                href="https://kotsapp.herokuapp.com"
+                                                                href="https://cms-cars.herokuapp.com/faq"
                                                                 style="color: #00bc87;text-decoration: underline;" target="_blank">Help
                                                             Center</a></p>
                                                 <tr>
@@ -568,7 +571,7 @@ public class MailService {
                 </section>
                 </body>
                 </html>
-
-                                """;
+                                
+                """;
     }
 }

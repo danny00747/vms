@@ -1,5 +1,6 @@
 package be.rentvehicle.service.impl;
 
+import be.rentvehicle.config.TwilioConfiguration;
 import be.rentvehicle.dao.AddressDAO;
 import be.rentvehicle.dao.TownDAO;
 import be.rentvehicle.domain.Address;
@@ -7,6 +8,7 @@ import be.rentvehicle.domain.Roles;
 import be.rentvehicle.domain.Town;
 import be.rentvehicle.domain.User;
 import be.rentvehicle.security.SecurityUtils;
+import be.rentvehicle.service.MailService;
 import be.rentvehicle.service.dto.UserDTO;
 import be.rentvehicle.service.dto.UserInfoDTO;
 import be.rentvehicle.service.mapper.UserInfoMapper;
@@ -17,6 +19,9 @@ import be.rentvehicle.security.RolesConstants;
 import be.rentvehicle.service.UserService;
 import be.rentvehicle.service.impl.errors.EmailAlreadyUsedException;
 import be.rentvehicle.service.impl.errors.UsernameAlreadyUsedException;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.rest.api.v2010.account.MessageCreator;
+import com.twilio.type.PhoneNumber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -26,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
@@ -49,16 +55,20 @@ public class UserServiceImpl implements UserService {
     private final AddressDAO addressDAO;
     private final TownDAO townDAO;
     private final RolesDAO rolesDAO;
-    private final UserMapper userMapper;
+    private final MailService mailService;
+    private final TwilioConfiguration twilioConfiguration;
     private final UserInfoMapper userInfoMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserDAO userDAO, AddressDAO addressDAO, TownDAO townDAO, RolesDAO rolesDAO, UserMapper userMapper, UserInfoMapper userInfoMapper, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserDAO userDAO, AddressDAO addressDAO, TownDAO townDAO,
+                           RolesDAO rolesDAO, MailService mailService, TwilioConfiguration twilioConfiguration,
+                           UserInfoMapper userInfoMapper, PasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
         this.addressDAO = addressDAO;
         this.townDAO = townDAO;
         this.rolesDAO = rolesDAO;
-        this.userMapper = userMapper;
+        this.mailService = mailService;
+        this.twilioConfiguration = twilioConfiguration;
         this.userInfoMapper = userInfoMapper;
         this.passwordEncoder = passwordEncoder;
     }
@@ -81,11 +91,19 @@ public class UserServiceImpl implements UserService {
         user.setRoles(roles);
         String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
         user.setPassword(encryptedPassword);
+        user.setPhoneNumber(userDTO.getPhoneNumber());
+        user.setVerificationPhoneCode(getVerificationPhoneCode(userDTO.getPhoneNumber()));
+
+        String confirmationKey = UUID.randomUUID().toString();
         user.setActivated(false);
-        user.setActivationKey(UUID.randomUUID().toString());
+        user.setActivationKey(confirmationKey);
+        user.setCreatedAt(Instant.now());
         saveTown(userDTO, user);
         user = userDAO.save(user);
         log.info("Created Information for User: {}", user);
+
+        mailService.sendEmailConfirmation(user.getEmail(), confirmationKey);
+
         return userInfoMapper.toDto(user);
     }
 
@@ -210,6 +228,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<String> verifyPhoneNumber(Integer verificationCode) {
+        log.debug("Verifying a phone number {}", verificationCode);
+        return Optional.of(userDAO
+                .findOneByVerificationPhoneCode(verificationCode))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(user -> {
+                    user.setVerificationPhoneCode(null);
+                    userDAO.save(user);
+                    return user.getUsername() + "'s phone number was successfully verified !";
+                });
+    }
+
+    @Override
     @Scheduled(cron = "0 0 1 * * ?")
     public void removeNotActivatedUsers() {
         userDAO
@@ -242,6 +274,20 @@ public class UserServiceImpl implements UserService {
         Instant d2 = Instant.parse("2021-04-09T10:15:30.00Z");
         System.out.println(d3);
         System.out.println(d2);
+    }
+
+    private int getVerificationPhoneCode(String phoneNumber) {
+        SecureRandom secureRandom = new SecureRandom();
+        int myCode = secureRandom.nextInt(9000000) + 1000000;
+
+        PhoneNumber to = new PhoneNumber(phoneNumber);
+        PhoneNumber from = new PhoneNumber(twilioConfiguration.getTrialNumber());
+        String message = "\n[RentVehicle] Your verification code is : " + myCode;
+        MessageCreator creator = Message.creator(to, from, message);
+        creator.create();
+        log.info("Send sms {}", "sms sent with code :" + myCode);
+
+        return myCode;
     }
 }
 

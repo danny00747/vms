@@ -1,10 +1,8 @@
-
-
 <!-- breadcrumb_section - start
 ================================================== -->
 <section class="breadcrumb_section text-center clearfix">
   <div class="page_title_area has_overlay d-flex align-items-center clearfix"
-      style="background-image: url('../../../../assets/images/breadcrumb/bg_06.jpg')">
+       style="background-image: url('../../../../assets/images/breadcrumb/bg_06.jpg')">
     <div class="overlay"></div>
     <div class="container" data-aos="fade-up" data-aos-delay="100">
       <br><br>
@@ -35,13 +33,14 @@
       <div class="col-lg-4 col-md-8 col-sm-10 col-xs-12">
         <div class="feature_vehicle_item mt-0 ml-0" data-aos="fade-up" data-aos-delay="100">
           <h3 class="item_title mb-0">
-            <a >
+            <a>
               {{car?.modelDTO.brand}} {{car?.modelDTO.modelType}}
             </a>
           </h3>
           <div class="item_image position-relative">
-            <a class="image_wrap" >
-              <img src="../../../../assets/images/feature/{{car?.modelDTO.brand}} {{car?.modelDTO.modelType}}.jpg" alt="image_not_found">
+            <a class="image_wrap">
+              <img src="../../../../assets/images/feature/{{car?.modelDTO.brand}} {{car?.modelDTO.modelType}}.jpg"
+                   alt="image_not_found">
             </a>
             <span class="item_price bg_default_blue">230€/Day</span>
           </div>
@@ -56,138 +55,338 @@
 
       <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
         <div class="reservation_form">
+          <div class="row">
+            <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12">
+              <div class="form_item" data-aos-delay="100">
+                <h4 class="input_title">Pick Up Date</h4>
+                <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="date1" [minDate]="minDate"
+                            [showButtonBar]="true"
+                            [placeholder]="'pick up date'" inputId="pickUpDate">
+                  <ng-template pTemplate="date" let-date>
+                    <span
+                      [ngStyle]="{textDecoration: (date.month < minDate.getMonth()) ? 'line-through' : 'inherit'}">{{date.day}}</span>
+                  </ng-template>
+                </p-calendar>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+              <div class="form_item" data-aos-delay="200">
+                <h4 class="input_title">Return Date</h4>
+                <p-calendar appendTo="body" [disabled]="!date1" [showIcon]="true" [(ngModel)]="date2" [minDate]="date1"
+                            [placeholder]="'return date'" inputId="returnDate">
+                </p-calendar>
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+              <div class="form_item" data-aos="fade-up" data-aos-delay="300">
+                <h4 class="input_title">Time</h4>
+                <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="defaultHour" [timeOnly]="true"
+                            inputId="timeonly">
+                </p-calendar>
+              </div>
+            </div>
+          </div>
+
+          <hr class="mt-0" data-aos="fade-up" data-aos-delay="700">
+
+          <div class="reservation_offer_checkbox">
+            <h4 class="input_title" data-aos="fade-up" data-aos-delay="800">Your Offer Includes:</h4>
             <div class="row">
-              <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12">
-                <div class="form_item" data-aos-delay="100">
-                  <h4 class="input_title">Pick Up Date</h4>
-                  <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="date1" [minDate]="minDate" [showButtonBar]="true"
-                              [placeholder]="'pick up date'" inputId="pickUpDate">
-                    <ng-template pTemplate="date" let-date>
-                      <span [ngStyle]="{textDecoration: (date.month < minDate.getMonth()) ? 'line-through' : 'inherit'}">{{date.day}}</span>
-                    </ng-template>
-                  </p-calendar>
+              <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="900">
+                <div class="checkbox_input">
+                  <label for="offer1"><input type="checkbox" id="offer1" checked> Registration Free/ Road Tax</label>
+                </div>
+                <div class="checkbox_input">
+                  <label for="offer2"><input type="checkbox" id="offer2" checked> Fully Comprehensive Insurance</label>
+                </div>
+                <div class="checkbox_input">
+                  <label for="offer3"><input type="checkbox" id="offer3" checked> Unlimited Mileage</label>
                 </div>
               </div>
 
-              <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                <div class="form_item"  data-aos-delay="200">
-                  <h4 class="input_title">Return Date</h4>
-                  <p-calendar appendTo="body" [disabled]="!date1" [showIcon]="true" [(ngModel)]="date2" [minDate]="date1"
-                              [placeholder]="'return date'" inputId="returnDate">
-                  </p-calendar>
+              <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="900">
+                <div class="checkbox_input">
+                  <label for="offer4"><input type="checkbox" id="offer4" checked> Excess/Security Deposit</label>
+                </div>
+                <div class="checkbox_input">
+                  <label for="offer5"><input type="checkbox" id="offer5"> Baby Seat: $23/Day</label>
+                </div>
+                <div class="checkbox_input">
+                  <label for="offer6"><input type="checkbox" id="offer6"> Breakdown Assistance</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="mt-0" data-aos="fade-up" data-aos-delay="100">
+
+          <div class="reservation_customer_details">
+            <h4 class="input_title" data-aos="fade-up" data-aos-delay="100">Customer Details:</h4>
+            <ul class="customer_gender ul_li clearfix" data-aos="fade-up" data-aos-delay="300">
+              <li>
+                <div class="checkbox_input">
+                  <label for="mr"><input type="radio" id="mr" checked name="gender"> Mr.</label>
+                </div>
+              </li>
+              <li>
+                <div class="checkbox_input">
+                  <label for="ms"><input type="radio" id="ms" name="gender"> Ms.</label>
+                </div>
+              </li>
+            </ul>
+            <form class="row">
+
+              <!-- username -->
+              <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
+                <div class="form_item form-label-group input">
+                  <input #pseudoInput="ngModel"
+                         [class.is-invalid]="pseudoInput.invalid && pseudoInput.touched"
+                         [class.is-valid]="!(pseudoInput.invalid && pseudoInput.untouched)"
+                         [(ngModel)]="username" class="form-control" type="text" name="username" id="username" required
+                         autofocus>
+                  <label for="username">username</label>
+                  <small id="pseudoError" class="text-danger"
+                         [class.d-none]="pseudoInput.valid || pseudoInput.untouched">
+                    This field is required
+                  </small>
                 </div>
               </div>
 
-              <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-                <div class="form_item" data-aos="fade-up" data-aos-delay="300">
-                  <h4 class="input_title">Time</h4>
-                  <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="defaultHour" [timeOnly]="true" inputId="timeonly">
-                  </p-calendar>
+              <!-- email -->
+              <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
+                <div class="form_item form-label-group input">
+                  <input #emailInput="ngModel"
+                         pattern="^[aA-zZ0-9._%+-]+@[a-z0-9.-]+\.[aA-zZ]{2,4}$"
+                         [class.is-invalid]="emailInput.invalid && emailInput.touched"
+                         [class.is-valid]="!(emailInput.invalid && emailInput.untouched)"
+                         class="form-control" type="email" id="inputEmail"
+                         [(ngModel)]="userEmail" name="email" required>
+                  <label for="inputEmail">email</label>
+                  <div *ngIf="emailInput.errors && (emailInput.invalid ||emailInput.touched)">
+                    <small *ngIf="emailInput.errors.pattern" id="emailInvalid" class="text-danger">
+                      {{emailInput.value}} is not valid email
+                    </small>
+                    <small *ngIf="emailInput.errors.required && emailInput.touched"
+                           id="emailRequired" class="text-danger">
+                      This field is required
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <!-- password -->
+              <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
+                <div class="form_item form-label-group input">
+                  <input #passwordInput="ngModel"
+                         [class.is-invalid]="passwordInput.invalid && passwordInput.touched"
+                         [class.is-valid]="!(passwordInput.invalid && passwordInput.untouched)"
+                         class="form-control" type="password" id="password"
+                         [(ngModel)]="password" name="password" required autofocus>
+                  <label for="password">password</label>
+                  <small id="passwordError" class="text-danger" [class.d-none]="passwordInput.valid ||
+                       passwordInput.untouched">A password is required</small>
+                </div>
+              </div>
+
+              <!-- phone number -->
+              <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
+                <div class="form_item form-label-group input">
+                  <input #phoneNumberInput="ngModel"
+                         pattern="\\d{10}"
+                         [class.is-invalid]="phoneNumberInput.invalid && phoneNumberInput.touched"
+                         [class.is-valid]="!(phoneNumberInput.invalid && phoneNumberInput.untouched)"
+                         class="form-control" type="text" id="inputPhoneNumber"
+                         [(ngModel)]="phoneNumber" name="phoneNumber" required autofocus>
+                  <label for="inputPhoneNumber">phone number</label>
+                  <div *ngIf="phoneNumberInput.errors && (phoneNumberInput.invalid ||phoneNumberInput.touched)">
+                    <small *ngIf="phoneNumberInput.errors.pattern" id="phoneNumberInputInvalid" class="text-danger">
+                      {{phoneNumberInput.value}} is not a valid phone number
+                    </small>
+                    <small *ngIf="phoneNumberInput.errors.required && phoneNumberInput.touched"
+                           id="phoneNumberRequired" class="text-danger">
+                      This field is required
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- road -->
+              <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
+                <div class="form_item form-label-group input">
+                  <input #roadInput="ngModel"
+                         [class.is-invalid]="roadInput.invalid && roadInput.touched"
+                         [class.is-valid]="!(roadInput.invalid && roadInput.untouched)"
+                         [(ngModel)]="road" class="form-control" type="text" name="road" id="road" required autofocus>
+                  <label for="road">road</label>
+                  <small id="roadError" class="text-danger"
+                         [class.d-none]="roadInput.valid || roadInput.untouched">
+                    This field is required
+                  </small>
+                </div>
+              </div>
+
+              <!-- house number -->
+              <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
+                <div class="form_item form-label-group input">
+                  <input #houseNumberInput="ngModel"
+                         pattern="^([1-9][0-9]{0,2}|1000)$"
+                         [class.is-invalid]="houseNumberInput.invalid && houseNumberInput.touched"
+                         [class.is-valid]="!(houseNumberInput.invalid && houseNumberInput.untouched)"
+                         class="form-control" type="number" id="inputHouseNumber" min="1" max="1000"
+                         [(ngModel)]="houseNumber" name="houseNumber" required>
+                  <label for="inputHouseNumber">house number</label>
+                  <div *ngIf="houseNumberInput.errors && (houseNumberInput.invalid ||houseNumberInput.touched)">
+                    <small *ngIf="houseNumberInput.errors.pattern" id="houseNumberInvalid" class="text-danger">
+                      {{houseNumberInput.value}} is not valid email
+                    </small>
+                    <small *ngIf="houseNumberInput.errors.required && houseNumberInput.touched"
+                           id="houseNumberRequired" class="text-danger">
+                      This field is required
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <!-- town -->
+              <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
+                <div class="form_item form-label-group input">
+                  <input #townInput="ngModel"
+                         [class.is-invalid]="townInput.invalid && townInput.touched"
+                         [class.is-valid]="!(townInput.invalid && townInput.untouched)"
+                         class="form-control" type="text" id="townInput"
+                         [(ngModel)]="townName" name="town name" required autofocus>
+                  <label for="townInput">town name</label>
+                  <small id="townError" class="text-danger"
+                         [class.d-none]="townInput.valid || townInput.untouched">
+                    This field is required
+                  </small>
+                </div>
+              </div>
+
+              <!-- postcode -->
+              <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
+                <div class="form_item form-label-group input">
+                  <input #postCodeInput="ngModel"
+                         [class.is-invalid]="postCodeInput.invalid && postCodeInput.touched"
+                         [class.is-valid]="!(postCodeInput.invalid && postCodeInput.untouched)"
+                         class="form-control" type="number" id="postCodeInput"
+                         [(ngModel)]="postCode" name="town name" required autofocus>
+                  <label for="postCodeInput">post code</label>
+                  <small id="postCodeInputError" class="text-danger"
+                         [class.d-none]="postCodeInput.valid || postCodeInput.untouched">
+                    This field is required
+                  </small>
+                </div>
+              </div>
+            </form>
+
+            <div class="cart_bottom_content mt__30 clearfix">
+              <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <ul class="cart_price_info ul_li_block clearfix" data-aos="fade-up" data-aos-delay="100">
+                    <a style="cursor:default;" class="terms_condition">
+                      <i class="fas fa-info-circle mr-1"></i>
+                      Unverified accounts is deleted within 3 days.
+                    </a>
+                  </ul>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <div class="abtn_wrap clearfix" data-aos="fade-up" data-aos-delay="300">
+                    <a (click)="submit()" class="custom_btn bg_default_red btn_width text-uppercase">Sign up
+                      <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found">
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <hr class="mt-0" data-aos="fade-up" data-aos-delay="700">
+            <br>
+            <div class="justify-content-center align-items-center">
+              <small>
+                <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                A verification key has been sent to toto@gmail.com
+              </small>
+            </div>
+            <div class="justify-content-center align-items-center">
+              <small>
+                <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                A verification code has been sent to your phone
+              </small>
+            </div>
 
-            <div class="reservation_offer_checkbox">
-              <h4 class="input_title" data-aos="fade-up" data-aos-delay="800">Your Offer Includes:</h4>
-              <div class="row">
-                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="900">
-                  <div class="checkbox_input">
-                    <label for="offer1"><input type="checkbox" id="offer1" checked> Registration Free/ Road Tax</label>
-                  </div>
-                  <div class="checkbox_input">
-                    <label for="offer2"><input type="checkbox" id="offer2" checked> Fully Comprehensive Insurance</label>
-                  </div>
-                  <div class="checkbox_input">
-                    <label for="offer3"><input type="checkbox" id="offer3" checked> Unlimited Mileage</label>
+            <br>
+
+            <div class="cart_bottom_content mt__30 clearfix">
+              <div class="row  align-items-center">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <div class="form_item cart_price_info ul_li_block clearfix" data-aos="fade-up" data-aos-delay="700">
+                    <input type="text" name="tel" placeholder="Enter verification key">
                   </div>
                 </div>
 
-                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="900">
-                  <div class="checkbox_input">
-                    <label for="offer4"><input type="checkbox" id="offer4" checked> Excess/Security Deposit</label>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <div class="abtn_wrap clearfix" data-aos="fade-up" data-aos-delay="300">
+                    <a class="custom_btn bg_default_red btn_width text-uppercase">Verify
+                      <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found">
+                    </a>
                   </div>
-                  <div class="checkbox_input">
-                    <label for="offer5"><input type="checkbox" id="offer5"> Baby Seat: $23/Day</label>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="cart_bottom_content mt__30 clearfix">
+              <div class="row  align-items-center">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <div class="form_item cart_price_info ul_li_block clearfix" data-aos="fade-up" data-aos-delay="700">
+                    <input type="number" name="tel" placeholder="Enter verification code">
                   </div>
-                  <div class="checkbox_input">
-                    <label for="offer6"><input type="checkbox" id="offer6"> Breakdown Assistance</label>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <div class="abtn_wrap clearfix" data-aos="fade-up" data-aos-delay="300">
+                    <a class="custom_btn bg_default_red btn_width text-uppercase">Verify
+                      <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found">
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
 
-            <hr class="mt-0" data-aos="fade-up" data-aos-delay="100">
 
-            <div class="reservation_customer_details">
-              <h4 class="input_title" data-aos="fade-up" data-aos-delay="100">Customer Details:</h4>
-              <ul class="customer_gender ul_li clearfix" data-aos="fade-up" data-aos-delay="300">
-                <li>
-                  <div class="checkbox_input">
-                    <label for="mr"><input type="radio" id="mr" name="gender"> Mr.</label>
-                  </div>
-                </li>
-                <li>
-                  <div class="checkbox_input">
-                    <label for="ms"><input type="radio" id="ms" name="gender"> Ms.</label>
-                  </div>
-                </li>
-              </ul>
-              <div class="row">
-                <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
-                  <div class="form_item" data-aos="fade-up" data-aos-delay="400">
-                    <input type="text" name="firstname" placeholder="First Name">
-                  </div>
-                </div>
+            <hr data-aos="fade-up" data-aos-delay="200">
 
-                <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
-                  <div class="form_item" data-aos="fade-up" data-aos-delay="500">
-                    <input type="text" name="lastname" placeholder="Last Name">
-                  </div>
-                </div>
+            <div class="form_item" data-aos="fade-up" data-aos-delay="800">
+              <textarea name="information" placeholder="Additional information (Optional)"></textarea>
+            </div>
 
-                <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
-                  <div class="form_item" data-aos="fade-up" data-aos-delay="600">
-                    <input type="text" name="email" placeholder="E-mail adress">
-                  </div>
-                </div>
+            <div data-aos="fade-up" data-aos-delay="100">
+              <a class="terms_condition">
+                <i class="fas fa-info-circle mr-1"></i>
+                You must be at least 21 years old to rent this car. Collision Damage Waiver (CDW)
+              </a>
+            </div>
 
-                <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
-                  <div class="form_item" data-aos="fade-up" data-aos-delay="700">
-                    <input type="text" name="tel" placeholder="Phone Number">
-                  </div>
+            <hr data-aos="fade-up" data-aos-delay="200">
+
+            <div class="row align-items-center justify-content-lg-between">
+              <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="200">
+                <a class="bonus_program"><i class="far fa-angle-left mr-1"></i> Bonus Program</a>
+                <div class="checkbox_input mb-0">
+                  <label for="accept">
+                    <input type="checkbox" id="accept"> I accept all information and Payments etc
+                  </label>
                 </div>
               </div>
-
-              <div class="form_item" data-aos="fade-up" data-aos-delay="800">
-                <textarea name="information" placeholder="Additional information (Optional)"></textarea>
-              </div>
-
-              <div data-aos="fade-up" data-aos-delay="100">
-                <a class="terms_condition">
-                  <i class="fas fa-info-circle mr-1"></i>
-                  You must be at least 21 years old to rent this car. Collision Damage Waiver (CDW)
-                </a>
-              </div>
-
-              <hr data-aos="fade-up" data-aos-delay="200">
-
-              <div class="row align-items-center justify-content-lg-between">
-                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="200">
-                  <a class="bonus_program" href="#!"><i class="far fa-angle-left mr-1"></i> Bonus Program</a>
-                  <div class="checkbox_input mb-0">
-                    <label for="accept">
-                      <input type="checkbox" id="accept"> I accept all information and Payments etc
-                    </label>
-                  </div>
-                </div>
-                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="300">
-                  <button type="submit" (click)="getLoggedInUser()" class="custom_btn bg_default_red text-uppercase ">Reservation Now
-                    <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
-                </div>
+              <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="300">
+                <button type="submit" (click)="getLoggedInUser()" class="custom_btn bg_default_red text-uppercase">
+                  Reservation Now
+                  <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
               </div>
             </div>
+          </div>
         </div>
       </div>
 

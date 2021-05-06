@@ -83,6 +83,15 @@ public interface UserService {
     Optional<String> activateRegistration(String key);
 
     /**
+     * Verifies a specific phone number.
+     *
+     * @param verificationCode code to verify.
+     * @return confirmation message.
+     */
+    Optional<String> verifyPhoneNumber(Integer verificationCode);
+
+
+    /**
      * Not activated users should be automatically deleted after 3 days.
      * This is scheduled to get fired everyday, at 01:00 (am).
      */

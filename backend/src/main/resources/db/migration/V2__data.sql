@@ -3,17 +3,17 @@ VALUES ('ROLE_ADMIN'),
        ('ROLE_USER'),
        ('ROLE_ANONYMOUS');
 
-INSERT INTO users (id, username, email, password, activated, activation_key, created_at)
-VALUES (DEFAULT, 'toto', 'toto@gmail.com', '$2y$10$zXH3.kVPYuN2W/Ge2AajoOW.XfsSjlMCOJmoN6GRXDq1I49IBe0/S', true, null,
+INSERT INTO users (id, username, email, phone_number, password, activated, activation_key, verification_phone_code, created_at)
+VALUES (DEFAULT, 'toto', 'toto@gmail.com', '+32411601733', '$2y$10$zXH3.kVPYuN2W/Ge2AajoOW.XfsSjlMCOJmoN6GRXDq1I49IBe0/S', true, null,
+        null,
         DEFAULT),
-       (DEFAULT, 'tata', 'tata@gmail.com', '$2y$10$5p.uOY9VVrJaLxqVpU6iae3vTzw16SoaBQMv1o1CkKhJLonZRG/Z6', true, null,
+       (DEFAULT, 'tata', 'tata@gmail.com', '+32411510733', '$2y$10$5p.uOY9VVrJaLxqVpU6iae3vTzw16SoaBQMv1o1CkKhJLonZRG/Z6', true, null,
+        null,
         DEFAULT),
-       (DEFAULT, 'tutu', 'tutu@gmail.com', '$2y$10$WHo/rOI5YCeiepz/0drvfOZXYnyOgwz0OEi9zulO4Vg/EVpbuQl5m', false,
-        '54947df8-0e9e-4471-a2f9-9af509fb5889',
-        '2020-03-17 19:10:21-07'),
-       (DEFAULT, 'titi', 'titi@gmail.com', '$2y$10$dU.y3rblsNc/rg4b24jw9u0u7ULgt6l84z6WJ3iSEdQov5wjK/WUm', false,
-        '12737df8-0e9e-4471-a2f9-9af509fb5114',
-        '2019-07-22 22:33:25-07');
+       (DEFAULT, 'tutu', 'tutu@gmail.com', '+32421510253', '$2y$10$WHo/rOI5YCeiepz/0drvfOZXYnyOgwz0OEi9zulO4Vg/EVpbuQl5m', false,
+        '54947df8-0e9e-4471-a2f9-9af509fb5889', 1234228, '2020-03-17 19:10:21-07'),
+       (DEFAULT, 'titi', 'titi@gmail.com', '+32421410300', '$2y$10$dU.y3rblsNc/rg4b24jw9u0u7ULgt6l84z6WJ3iSEdQov5wjK/WUm', false,
+        '12737df8-0e9e-4471-a2f9-9af509fb5114', 44342119, '2019-07-22 22:33:25-07');
 
 INSERT INTO user_roles (role_name, user_id)
 VALUES ('ROLE_ADMIN', (SELECT id FROM users WHERE username = 'toto')),

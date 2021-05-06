@@ -6,6 +6,7 @@ import be.rentvehicle.service.dto.UserInfoDTO;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * BookingService interface for the {@link Booking} entity.
@@ -26,4 +27,13 @@ public interface BookingService {
      * @return the persisted entity.
      */
     BookingDTO save(@Valid BookingDTO bookingDTO, String cardId);
+
+    /**
+     * Deletes a specific reservation, and return a confirmation message.
+     *
+     * @param bookingId id of the reservation.
+     * @return confirmation message.
+     */
+    Optional<String> deleteBooking(String bookingId);
+
 }

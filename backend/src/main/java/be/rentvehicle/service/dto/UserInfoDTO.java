@@ -29,6 +29,10 @@ public @Data class UserInfoDTO implements Serializable {
     @Size(min = 5, max = 254)
     private String userEmail;
 
+    @NotNull(message = "phone number is a required field.")
+    @Size(min = 12, max = 12, message = "A phone number length must be between 12.")
+    private String phoneNumber;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Size(min = 4, max = 100, message = "A password length must be between 4 and 100.")
     @NotNull(message = "password is a required field.")
