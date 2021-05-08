@@ -1,8 +1,29 @@
-import {Role, RoleDTO} from './role';
+import {RoleDTO} from './role';
+import {AddressDTO} from '@app/shared/models/address';
+import {BookingDTO} from '@app/shared/models/booking';
 
 export interface LoginDTO {
   pseudo: string;
   password: string;
+}
+
+export interface CreateUserDTO {
+  username: string;
+  userEmail: string;
+  password: string;
+  phoneNumber: string;
+  addressDTO: AddressDTO;
+}
+
+export class UserInfoDTO {
+  userId: string;
+  username: string;
+  userEmail: string;
+  userRoles: RoleDTO[];
+  activated: boolean;
+  createdAt: Date;
+  addressDTO: AddressDTO;
+  bookingDTO: BookingDTO;
 }
 
 export interface UserDTO {
@@ -17,55 +38,7 @@ export interface UserDTO {
   isActive: boolean;
 }
 
-export interface CreateUserDTO {
-  firstName: string;
-  lastName: string;
-  password: string;
-  email: string;
-  roleId: number;
-  isActive: boolean;
-}
-
-export interface UpdateUserDTO {
-  firstName: string;
-  lastName: string;
-  password: string;
-  email: string;
-  roleId: number;
-  isActive: boolean;
-}
-
-export interface SimpleUserDTO {
-  id: number;
-}
-
 export interface JWT {
   message: string;
   access_token: string;
-}
-
-export interface IUser {
-  firstName: string;
-  lastName: string;
-  email: string;
-  role: Role;
-  token?: string;
-  id?: string;
-  password?: string;
-}
-
-export class UserImpl implements IUser {
-  constructor(
-    public firstName: string,
-    public lastName: string,
-    public email: string,
-    public role: Role,
-    public password?: string,
-  ) {
-    this.firstName = firstName ? firstName : null;
-    this.lastName = lastName ? lastName : null;
-    this.email = email ? email : null;
-    this.password = password ? password : null;
-    this.role = role ? role : null;
-  }
 }

@@ -24,10 +24,10 @@ public interface UserDAO extends JpaRepository<User, UUID> {
     Optional<User> findOneByUsername(String username);
 
     @EntityGraph(attributePaths = "roles")
-    Optional<User> findOneWithRolesByUsername(String username);
+    Optional<User> findOneWithRolesByUsernameAndActivatedIsTrue(String username);
 
     @EntityGraph(attributePaths = "roles")
-    Optional<User> findOneWithRolesByEmailIgnoreCase(String email);
+    Optional<User> findOneWithRolesByEmailIgnoreCaseAndActivatedIsTrue(String email);
 
     Optional<User> findOneByActivationKey(String activationKey);
 

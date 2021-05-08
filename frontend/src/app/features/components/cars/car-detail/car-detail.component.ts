@@ -4,7 +4,8 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {ReplaySubject, Subject} from 'rxjs';
 import {strict} from 'assert';
 import {CarService} from '@app/core/services/car.service';
-import {CarDTO} from '@app/shared/models';
+import {CarDTO, UserInfoDTO} from '@app/shared/models';
+import {UserService} from '@app/core/services/user.service';
 
 @Component({
   selector: 'app-car-detail',
@@ -16,11 +17,14 @@ export class CarDetailComponent implements OnInit, OnDestroy {
   carId: string;
   car: CarDTO;
 
+  loggedInUser = false;
+
   // Observable used to notify subscription when to end
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private router: Router,
               private route: ActivatedRoute,
+              private userService: UserService,
               private carService: CarService) {
     this.router.events
       .pipe(takeUntil(this.destroyed$),
@@ -30,8 +34,8 @@ export class CarDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.carId = this.route.snapshot.paramMap.get('id');
-    console.log(this.carId);
     this.getCarDetails();
+    this.getLoggedInUser();
   }
 
   /*
@@ -54,6 +58,17 @@ export class CarDetailComponent implements OnInit, OnDestroy {
       .subscribe(
         async (data: CarDTO) => {
           this.car = data;
+        },
+        error => {
+          console.error(error);
+        });
+  }
+
+  getLoggedInUser(): void {
+    this.userService.getUserByJwt()
+      .subscribe(
+        (data: UserInfoDTO) => {
+          this.loggedInUser = data.bookingDTO !== null;
         },
         error => {
           console.error(error);

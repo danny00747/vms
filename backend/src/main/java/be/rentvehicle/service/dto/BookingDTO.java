@@ -16,11 +16,13 @@ public @Data class BookingDTO {
 
     private Instant cancellationDate;
 
-    private BOOKINGSTATE bookingstate;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private BOOKINGSTATE bookingState;
 
     private Instant withdrawalDate;
 
     private Instant returnDate;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private CarDTO carDTO;
 }

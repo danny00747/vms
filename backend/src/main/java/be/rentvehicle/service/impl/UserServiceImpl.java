@@ -92,7 +92,8 @@ public class UserServiceImpl implements UserService {
         String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
         user.setPassword(encryptedPassword);
         user.setPhoneNumber(userDTO.getPhoneNumber());
-        user.setVerificationPhoneCode(getVerificationPhoneCode(userDTO.getPhoneNumber()));
+        // user.setVerificationPhoneCode(getVerificationPhoneCode(userDTO.getPhoneNumber()));
+        user.setVerificationPhoneCode(1234567);
 
         String confirmationKey = UUID.randomUUID().toString();
         user.setActivated(false);
@@ -102,7 +103,7 @@ public class UserServiceImpl implements UserService {
         user = userDAO.save(user);
         log.info("Created Information for User: {}", user);
 
-        mailService.sendEmailConfirmation(user.getEmail(), confirmationKey);
+        // mailService.sendEmailConfirmation(user.getEmail(), confirmationKey);
 
         return userInfoMapper.toDto(user);
     }
@@ -161,7 +162,7 @@ public class UserServiceImpl implements UserService {
     public Optional<UserInfoDTO> getUserWithJwt() {
         return SecurityUtils
                 .getCurrentAuthenticatedUser()
-                .flatMap(userDAO::findOneWithRolesByUsername)
+                .flatMap(userDAO::findOneByUsername)
                 .map(userInfoMapper::toDto);
     }
 

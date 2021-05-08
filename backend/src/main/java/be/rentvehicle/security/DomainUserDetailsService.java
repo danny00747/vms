@@ -37,13 +37,13 @@ public class DomainUserDetailsService implements UserDetailsService {
 
         // UsernameNotFoundException is never thrown because of this class CustomAuthenticationFailureHandler
         if (new EmailValidator().isValid(username, null)) {
-            return userDAO.findOneWithRolesByEmailIgnoreCase(username)
+            return userDAO.findOneWithRolesByEmailIgnoreCaseAndActivatedIsTrue(username)
                     .map(this::createSpringSecurityUser)
                     .orElseThrow(() -> new UsernameNotFoundException("User with email " + username + " was not found in the database"));
         }
 
         String lowercaseUsername = username.toLowerCase(Locale.ENGLISH);
-        return userDAO.findOneWithRolesByUsername(lowercaseUsername)
+        return userDAO.findOneWithRolesByUsernameAndActivatedIsTrue(lowercaseUsername)
                 .map(this::createSpringSecurityUser)
                 .orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseUsername + " was not found in the database"));
 

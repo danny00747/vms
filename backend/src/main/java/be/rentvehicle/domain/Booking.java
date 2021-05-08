@@ -26,7 +26,7 @@ public @Data class Booking extends AbstractAuditingEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "booking_state")
-    private BOOKINGSTATE bookingstate;
+    private BOOKINGSTATE bookingState;
 
     @Column(name = "withdrawal_date")
     private Instant withdrawalDate;

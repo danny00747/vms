@@ -1,5 +1,6 @@
 <!-- breadcrumb_section - start
 ================================================== -->
+<p-toast></p-toast>
 <section class="breadcrumb_section text-center clearfix">
   <div class="page_title_area has_overlay d-flex align-items-center clearfix"
        style="background-image: url('../../../../assets/images/breadcrumb/bg_06.jpg')">
@@ -57,7 +58,7 @@
         <div class="reservation_form">
           <div class="row">
             <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12">
-              <div class="form_item" data-aos-delay="100">
+              <div class="form_item">
                 <h4 class="input_title">Pick Up Date</h4>
                 <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="date1" [minDate]="minDate"
                             [showButtonBar]="true"
@@ -71,7 +72,7 @@
             </div>
 
             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-              <div class="form_item" data-aos-delay="200">
+              <div class="form_item">
                 <h4 class="input_title">Return Date</h4>
                 <p-calendar appendTo="body" [disabled]="!date1" [showIcon]="true" [(ngModel)]="date2" [minDate]="date1"
                             [placeholder]="'return date'" inputId="returnDate">
@@ -80,7 +81,7 @@
             </div>
 
             <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-              <div class="form_item" data-aos="fade-up" data-aos-delay="300">
+              <div class="form_item">
                 <h4 class="input_title">Time</h4>
                 <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="defaultHour" [timeOnly]="true"
                             inputId="timeonly">
@@ -92,9 +93,9 @@
           <hr class="mt-0" data-aos="fade-up" data-aos-delay="700">
 
           <div class="reservation_offer_checkbox">
-            <h4 class="input_title" data-aos="fade-up" data-aos-delay="800">Your Offer Includes:</h4>
+            <h4 class="input_title">Your Offer Includes:</h4>
             <div class="row">
-              <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="900">
+              <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="checkbox_input">
                   <label for="offer1"><input type="checkbox" id="offer1" checked> Registration Free/ Road Tax</label>
                 </div>
@@ -106,7 +107,7 @@
                 </div>
               </div>
 
-              <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="900">
+              <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="checkbox_input">
                   <label for="offer4"><input type="checkbox" id="offer4" checked> Excess/Security Deposit</label>
                 </div>
@@ -121,9 +122,9 @@
           </div>
           <hr class="mt-0" data-aos="fade-up" data-aos-delay="100">
 
-          <div class="reservation_customer_details">
-            <h4 class="input_title" data-aos="fade-up" data-aos-delay="100">Customer Details:</h4>
-            <ul class="customer_gender ul_li clearfix" data-aos="fade-up" data-aos-delay="300">
+          <div *ngIf="!loggedInUser" class="reservation_customer_details">
+            <h4 class="input_title">Customer Details:</h4>
+            <ul class="customer_gender ul_li clearfix">
               <li>
                 <div class="checkbox_input">
                   <label for="mr"><input type="radio" id="mr" checked name="gender"> Mr.</label>
@@ -135,7 +136,7 @@
                 </div>
               </li>
             </ul>
-            <form class="row">
+            <form #signUpForm="ngForm" class="row">
 
               <!-- username -->
               <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
@@ -193,7 +194,7 @@
               <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
                 <div class="form_item form-label-group input">
                   <input #phoneNumberInput="ngModel"
-                         pattern="\\d{10}"
+                         pTooltip="Eg : +32485601713" tooltipPosition="top"
                          [class.is-invalid]="phoneNumberInput.invalid && phoneNumberInput.touched"
                          [class.is-valid]="!(phoneNumberInput.invalid && phoneNumberInput.untouched)"
                          class="form-control" type="text" id="inputPhoneNumber"
@@ -256,7 +257,7 @@
                          [class.is-invalid]="townInput.invalid && townInput.touched"
                          [class.is-valid]="!(townInput.invalid && townInput.untouched)"
                          class="form-control" type="text" id="townInput"
-                         [(ngModel)]="townName" name="town name" required autofocus>
+                         [(ngModel)]="townName" name="townName" required autofocus>
                   <label for="townInput">town name</label>
                   <small id="townError" class="text-danger"
                          [class.d-none]="townInput.valid || townInput.untouched">
@@ -272,7 +273,7 @@
                          [class.is-invalid]="postCodeInput.invalid && postCodeInput.touched"
                          [class.is-valid]="!(postCodeInput.invalid && postCodeInput.untouched)"
                          class="form-control" type="number" id="postCodeInput"
-                         [(ngModel)]="postCode" name="town name" required autofocus>
+                         [(ngModel)]="postCode" name="postCode" required autofocus>
                   <label for="postCodeInput">post code</label>
                   <small id="postCodeInputError" class="text-danger"
                          [class.d-none]="postCodeInput.valid || postCodeInput.untouched">
@@ -285,7 +286,7 @@
             <div class="cart_bottom_content mt__30 clearfix">
               <div class="row align-items-center">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <ul class="cart_price_info ul_li_block clearfix" data-aos="fade-up" data-aos-delay="100">
+                  <ul class="cart_price_info ul_li_block clearfix">
                     <a style="cursor:default;" class="terms_condition">
                       <i class="fas fa-info-circle mr-1"></i>
                       Unverified accounts is deleted within 3 days.
@@ -294,75 +295,63 @@
                 </div>
 
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <div class="abtn_wrap clearfix" data-aos="fade-up" data-aos-delay="300">
-                    <a (click)="submit()" class="custom_btn bg_default_red btn_width text-uppercase">Sign up
+                  <div class="abtn_wrap clearfix">
+                    <button [disabled]="signUpForm.invalid || verifyInputs" (click)="submit()"
+                            class="custom_btn bg_default_red btn_width text-uppercase">Sign up
                       <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found">
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
 
             <br>
-            <div class="justify-content-center align-items-center">
-              <small>
-                <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                A verification key has been sent to toto@gmail.com
-              </small>
-            </div>
-            <div class="justify-content-center align-items-center">
-              <small>
-                <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                A verification code has been sent to your phone
-              </small>
-            </div>
 
-            <br>
-
-            <div class="cart_bottom_content mt__30 clearfix">
+            <div *ngIf="verifyInputs" class="cart_bottom_content mt__30 clearfix">
               <div class="row  align-items-center">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <div class="form_item cart_price_info ul_li_block clearfix" data-aos="fade-up" data-aos-delay="700">
-                    <input type="text" name="tel" placeholder="Enter verification key">
+                  <div class="form_item cart_price_info ul_li_block clearfix">
+                    <input type="text" name="emailKey" class="form-control" [(ngModel)]="emailKey"
+                           placeholder="Enter verification key">
                   </div>
                 </div>
 
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <div class="abtn_wrap clearfix" data-aos="fade-up" data-aos-delay="300">
-                    <a class="custom_btn bg_default_red btn_width text-uppercase">Verify
+                  <div class="abtn_wrap clearfix">
+                    <button [disabled]="!checkEmailKey() || verifiedEmailKey" (click)="verifyEmailKey()"
+                            class="custom_btn bg_default_red btn_width text-uppercase">Verify
                       <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found">
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
+
             <br>
-            <div class="cart_bottom_content mt__30 clearfix">
+
+            <div *ngIf="verifyInputs" class="cart_bottom_content mt__30 clearfix">
               <div class="row  align-items-center">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <div class="form_item cart_price_info ul_li_block clearfix" data-aos="fade-up" data-aos-delay="700">
-                    <input type="number" name="tel" placeholder="Enter verification code">
+                  <div class="form_item cart_price_info ul_li_block clearfix">
+                    <input type="number" name="phoneKey" class="form-control" [(ngModel)]="phoneCode"
+                           placeholder="Enter verification code">
                   </div>
                 </div>
 
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <div class="abtn_wrap clearfix" data-aos="fade-up" data-aos-delay="300">
-                    <a class="custom_btn bg_default_red btn_width text-uppercase">Verify
+                  <div class="abtn_wrap clearfix">
+                    <button [disabled]="!checkPhoneCode() || verifiedPhoneCode" (click)="verifyPhoneCode()"
+                            class="custom_btn bg_default_red btn_width text-uppercase">Verify
                       <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found">
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
 
+            <br>
 
-            <hr data-aos="fade-up" data-aos-delay="200">
-
-            <div class="form_item" data-aos="fade-up" data-aos-delay="800">
-              <textarea name="information" placeholder="Additional information (Optional)"></textarea>
-            </div>
-
-            <div data-aos="fade-up" data-aos-delay="100">
+            <div>
               <a class="terms_condition">
                 <i class="fas fa-info-circle mr-1"></i>
                 You must be at least 21 years old to rent this car. Collision Damage Waiver (CDW)
@@ -372,19 +361,37 @@
             <hr data-aos="fade-up" data-aos-delay="200">
 
             <div class="row align-items-center justify-content-lg-between">
-              <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="200">
-                <a class="bonus_program"><i class="far fa-angle-left mr-1"></i> Bonus Program</a>
+              <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="checkbox_input mb-0">
                   <label for="accept">
-                    <input type="checkbox" id="accept"> I accept all information and Payments etc
+                    <input type="checkbox" (click)="checkAcceptedTerms($event.target)" id="accept">
+                    I accept all information and Payments etc
                   </label>
                 </div>
               </div>
-              <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="300">
-                <button type="submit" (click)="getLoggedInUser()" class="custom_btn bg_default_red text-uppercase">
+              <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <button [disabled]="!checkBooking()" type="button"
+                        class="custom_btn bg_default_red text-uppercase">
                   Reservation Now
                   <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
               </div>
+            </div>
+          </div>
+
+
+          <!-- logged in user booking -->
+          <div *ngIf="loggedInUser" class="row align-items-center justify-content-lg-between">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+              <div class="checkbox_input mb-0">
+                <label for="bookingInfo">
+                  <input type="checkbox" id="bookingInfo"> I accept all information and Payments etc
+                </label>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+              <button type="button" class="custom_btn bg_default_red text-uppercase">
+                Reservation Now
+                <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
             </div>
           </div>
         </div>

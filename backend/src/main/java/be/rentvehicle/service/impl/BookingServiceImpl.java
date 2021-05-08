@@ -6,6 +6,7 @@ import be.rentvehicle.dao.UserDAO;
 import be.rentvehicle.domain.Booking;
 import be.rentvehicle.domain.Car;
 import be.rentvehicle.domain.User;
+import be.rentvehicle.domain.enumeration.BOOKINGSTATE;
 import be.rentvehicle.security.SecurityUtils;
 import be.rentvehicle.service.BookingService;
 import be.rentvehicle.service.CarService;
@@ -91,6 +92,8 @@ public class BookingServiceImpl implements BookingService {
 
         Booking booking = bookingMapper.toEntity(bookingDTO);
 
+        booking.setBookingState(BOOKINGSTATE.OPEN);
+
         Optional<User> u = userDAO.findOneByUsername(userEntity.getUsername());
 
         User uu = Optional.of(SecurityUtils
@@ -100,9 +103,6 @@ public class BookingServiceImpl implements BookingService {
                 .map(Optional::get)
                 .orElseThrow(() -> new UserNotFoundException("User could not be found"));
 
-        if (!uu.isActivated()) {
-            return null;
-        } else {
             Car cc = Optional.of(carDAO
                     .findById(UUID.fromString(cardId)))
                     .filter(Optional::isPresent)
@@ -118,20 +118,20 @@ public class BookingServiceImpl implements BookingService {
                     .withLocale(Locale.ENGLISH)
                     .withZone(ZoneId.systemDefault());
 
+            /*
             long nbOfDaysBetween = ChronoUnit.DAYS.between(booking.getWithdrawalDate(), booking.getReturnDate());
             long total = booking.getCar().getModel().getPricingClass().getCostPerDay() * nbOfDaysBetween;
-            mailService.sendReservationEMail(
+
+                    mailService.sendReservationEMail(
                     "danbarca955@gmail.com",
                     booking.getCar().getModel().getBrand() + " " + booking.getCar().getModel().getModelType(),
                     formatter.format(booking.getReturnDate()),
                     formatter.format(booking.getWithdrawalDate()),
                     booking.getCar().getModel().getPricingClass().getCostPerDay().toString() + "€",
                     total + "€");
+             */
 
             return bookingMapper.toDto(booking);
-        }
-
-
 
         /*
 

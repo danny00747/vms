@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {IUser, JWT, LoginDTO} from '@app/shared/models';
+import {JWT, LoginDTO} from '@app/shared/models';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class AuthentificationService {
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue(): IUser {
+  public get currentUserValue(): any {
     return this.currentUserSubject.value;
   }
 

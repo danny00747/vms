@@ -241,6 +241,6 @@ public class AccountResource extends BaseRestController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(Map.of("message", userService.verifyPhoneNumber(verificationCode)
-                        .orElseThrow(() -> new AccountResourceException("No user was found with this verification Code"))));
+                        .orElseThrow(() -> new AccountResourceException("No user was found with this verification code"))));
     }
 }
