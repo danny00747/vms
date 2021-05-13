@@ -1,0 +1,81 @@
+<p></p>
+<form #addRent="ngForm">
+  <div class="p-fluid">
+    <div class="p-grid p-formgrid">
+      <div class="p-col-12 p-md-6 p-lg-6 form-label-group input">
+        <input #bookingIdInput="ngModel"
+               [class.is-invalid]="bookingIdInput.invalid && bookingIdInput.touched"
+               [class.is-valid]="!(bookingIdInput.invalid && bookingIdInput.untouched)"
+               [(ngModel)]="bookingId" class="form-control" type="text" name="bookingId" id="bookingId" required
+               autofocus>
+        <label for="bookingId">bookingId</label>
+        <small id="bookingIdError" class="text-danger"
+               [class.d-none]="bookingIdInput.valid || bookingIdInput.untouched">
+          This field is required
+        </small>
+      </div>
+      <div class="p-col-12 p-md-6 p-lg-6 form-label-group input">
+
+        <input #licenseNumberInput="ngModel"
+               [class.is-invalid]="licenseNumberInput.invalid && licenseNumberInput.touched"
+               [class.is-valid]="!(licenseNumberInput.invalid && licenseNumberInput.untouched)"
+               [(ngModel)]="licenseNumber" class="form-control" type="text" name="username" id="licenseNumber" required
+               autofocus>
+        <label for="licenseNumber">licenseNumber</label>
+        <small id="licenseNumberError" class="text-danger"
+               [class.d-none]="licenseNumberInput.valid || licenseNumberInput.untouched">
+          This field is required
+        </small>
+      </div>
+    </div>
+
+    <div class="p-grid p-formgrid">
+      <div class="p-col-12 p-md-6 p-lg-6 form-label-group input">
+        <input #returnKmInput="ngModel"
+               [class.is-invalid]="returnKmInput.invalid && returnKmInput.touched"
+               [class.is-valid]="!(returnKmInput.invalid && returnKmInput.untouched)"
+               class="form-control" type="number" id="returnKm"
+               [(ngModel)]="returnKm" name="returnKm" required autofocus>
+        <label for="returnKm">returnKm</label>
+        <small id="returnKmError" class="text-danger"
+               [class.d-none]="returnKmInput.valid || returnKmInput.untouched">
+          This field is required
+        </small>
+      </div>
+
+      <div class="p-col-12 p-md-6 p-lg-6 form-label-group input">
+        <input #withdrawalKmInput="ngModel"
+               [class.is-invalid]="withdrawalKmInput.invalid && withdrawalKmInput.touched"
+               [class.is-valid]="!(withdrawalKmInput.invalid && withdrawalKmInput.untouched)"
+               class="form-control" type="number" id="withdrawalKm"
+               [(ngModel)]="withdrawalKm" name="postCode" required autofocus>
+        <label for="withdrawalKm">withdrawalKm</label>
+        <small id="withdrawalKmError" class="text-danger"
+               [class.d-none]="withdrawalKmInput.valid || withdrawalKmInput.untouched">
+          This field is required
+        </small>
+      </div>
+    </div>
+
+    <div class="checkbox_input">
+      <label for="cautionPayed">
+        <input type="checkbox" id="cautionPayed" checked>caution payed ?
+      </label>
+    </div>
+
+  </div>
+
+  <hr >
+
+  <div style="float: right">
+    <button pButton type="button" [label]="'CANCEL'" class="p-button-danger p-button-outlined p-mr-1"
+            icon="bx bx-x" (click)="ref.close()">
+      <i class="pi pi-trash"></i>
+    </button>
+    <button pButton type="submit" [label]="'SAVE'" icon="bx bx-save"
+            [disabled]="addRent.invalid">
+      <i class="pi pi-save"></i>
+    </button>
+  </div>
+</form>
+

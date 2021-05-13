@@ -7,6 +7,7 @@ import {SharedModule} from './shared/shared.module';
 import {CoreModule} from './core/core.module';
 import {Routes, RouterModule} from '@angular/router';
 import {FeaturesModule} from './features/features.module';
+import {JwtModule} from '@auth0/angular-jwt';
 
 
 const routes: Routes = [
@@ -14,7 +15,7 @@ const routes: Routes = [
       .then(module => module.AdminModule) },
   {
     path: 'features', loadChildren: () =>
-      import('./features/features.module').then(m => m.FeaturesModule)
+      import('./features/features.module').then(m => m.FeaturesModule),
   }
 ];
 
@@ -29,6 +30,11 @@ const routes: Routes = [
     FeaturesModule,
     SharedModule,
     CoreModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => localStorage.getItem('currentToken')
+      }
+    }),
     RouterModule.forRoot(routes),
   ],
   providers: [],

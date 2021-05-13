@@ -25,4 +25,7 @@ public @Data class BookingDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private CarDTO carDTO;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private RentDTO rentDTO;
 }

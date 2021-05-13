@@ -319,3 +319,17 @@ VALUES (DEFAULT, NULL, 'OPEN', '2021-06-06T23:00:00.000Z', '2021-06-09T23:00:00.
        (DEFAULT, NULL, 'OPEN', '2021-10-18T23:00:00.000Z', '2021-10-23T23:00:00.000Z',
         (SELECT id FROM users WHERE username = 'tutu'),
         (SELECT id FROM cars WHERE license_plate = '7-ZWQ-982'), DEFAULT);
+
+
+INSERT INTO rent (id, license_number, withdrawal_km, return_km, effective_return_date, caution_payment, booking_id, created_at)
+VALUES (DEFAULT, '2341234532', 74321, 74521, '2021-06-11T23:00:00.000Z', true,
+        (SELECT id FROM booking WHERE return_date = '2021-06-09T23:00:00.000Z'), DEFAULT),
+
+       (DEFAULT, '1241231532', 94321, 94421, '2021-06-12T23:00:00.000Z', false,
+        (SELECT id FROM booking WHERE return_date = '2021-06-12T23:00:00.000Z'), DEFAULT),
+
+       (DEFAULT, '0341234531', 84321, 84721, '2021-10-25T23:00:00.000Z', false,
+        (SELECT id FROM booking WHERE return_date = '2021-10-25T23:00:00.000Z'), DEFAULT),
+
+       (DEFAULT, '8941234510', 91321, 91521, '2021-10-27T23:00:00.000Z', true,
+        (SELECT id FROM booking WHERE return_date = '2021-10-23T23:00:00.000Z'), DEFAULT);

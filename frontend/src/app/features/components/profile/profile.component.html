@@ -30,15 +30,15 @@
     <div class="row justify-content-lg-between justify-content-md-center justify-content-sm-center">
 
       <div class="col-lg-4 col-md-8 col-sm-10 col-xs-12">
-        <div class="account_tabs_menu clearfix" data-aos="fade-up" data-aos-delay="100"
+        <div class="account_tabs_menu clearfix"
           style="background-color: #F2F2F2">
           <h3 class="list_title mb_15">Account Details:</h3>
           <ul class="ul_li_block nav" role="tablist">
             <li>
-              <a class="active" data-toggle="tab" href="#admin_tab"><i class="fas fa-user"></i> John Doe</a>
+              <a class="active" data-toggle="tab" href="#admin_tab"><i class="fas fa-user"></i>Profile</a>
             </li>
             <li>
-              <a ><i class="fas fa-sign-out-alt"></i> Log Out
+              <a (click)="logOutUser()"><i class="fas fa-sign-out-alt"></i> Log Out
                 <img class="arrow" src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
             </li>
             <li>
@@ -51,35 +51,38 @@
         </div>
       </div>
 
-      <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
+      <div *ngIf="user" class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
         <div class="account_tab_content tab-content">
           <div id="admin_tab" class="tab-pane active">
-            <div class="account_info_list" data-aos="fade-up" data-aos-delay="100">
+            <div class="account_info_list">
               <h3 class="list_title mb_30">Account:</h3>
               <ul class="ul_li_block clearfix">
-                <li><span>Name:</span> Rakibul Islam Dewan</li>
-                <li><span>E-mail:</span> myname@email.com</li>
-                <li><span>Phone Number:</span> +1-202-555-0104</li>
-                <li><span>Country:</span> United States</li>
-                <li><span>Address:</span> 60 Stonybrook Lane Atlanta, GA 30303</li>
+                <li><span>Name:</span> {{user.username}}</li>
+                <li><span>E-mail:</span> {{user.userEmail}}</li>
+                <li><span>Phone Number:</span> {{user.phoneNumber}}</li>
+                <li><span>Country:</span> Belgium</li>
+                <li><span>Address:</span> {{user.addressDTO.road}} {{user.addressDTO.houseNumber}}, {{user.addressDTO.townDTO.name}}</li>
               </ul>
-              <a class="text_btn text-uppercase"><span>Change Account Information</span>
+              <a (click)="openEditProfileDialog()" class="text_btn text-uppercase"><span>Change Account Information</span>
                 <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
             </div>
 
-            <div class="account_info_list" data-aos="fade-up" data-aos-delay="300">
-              <h3 class="list_title mb_30">Booking Profiles:</h3>
+            <div class="account_info_list">
+              <h3 class="list_title mb_30">Booking Details:</h3>
               <ul class="ul_li_block clearfix">
-                <li><span>Profile ID:</span> 1234557jt</li>
-                <li><span>Payment Method:</span> Visa Credit Card</li>
-                <li><span>Phone Number:</span> +1-202-555-0104</li>
+                <li><span>Booking Reference:</span> {{user.bookingDTO.bookingId}}</li>
+                <li><span>Booked Car:</span> {{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}</li>
+                <li><span>Withdrawal Date:</span> {{user.bookingDTO.withdrawalDate | date: 'dd/MM/yyyy'}} </li>
+                <li><span>Return Date:</span> {{user.bookingDTO.returnDate | date: 'dd/MM/yyyy'}} </li>
               </ul>
+              <a (click)="cancelReservation()" class="text_btn text-uppercase"><span>Cancel your reservation</span>
+                <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
             </div>
 
-            <div class="account_info_list" data-aos="fade-up" data-aos-delay="500">
+            <div class="account_info_list">
               <h3 class="list_title mb_30">Booking History:</h3>
               <ul class="ul_li_block clearfix">
-                <li><span>Upcoming Reservations:</span> No Reservations Yet</li>
+                <li><span>Upcoming Reservations:</span>{{user.bookingDTO ? 'You have one active Reservations' : ' No Reservations Yet'}}</li>
                 <li><span>Past Rentals:</span> 0</li>
               </ul>
               <a class="text_btn text-uppercase" [routerLink]="['/gallery']"><span>Book A Car</span>
@@ -88,69 +91,71 @@
           </div>
 
           <div id="profile_tab" class="tab-pane fade">
-            <div class="account_info_list" data-aos="fade-up" data-aos-delay="100">
-              <h3 class="list_title mb_30">Booking Profiles:</h3>
+            <div class="account_info_list">
+              <h3 class="list_title mb_30">Booking Details:</h3>
               <ul class="ul_li_block clearfix">
-                <li><span>Profile ID:</span> 1234557jt</li>
-                <li><span>Payment Method:</span> Visa Credit Card</li>
-                <li><span>Phone Number:</span> +1-202-555-0104</li>
+                <li><span>Booking Reference:</span> {{user.bookingDTO.bookingId}}</li>
+                <li><span>Booked Car:</span> {{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}</li>
+                <li><span>Withdrawal Date:</span> {{user.bookingDTO.withdrawalDate | date: 'dd/MM/yyyy'}} </li>
+                <li><span>Return Date:</span> {{user.bookingDTO.returnDate | date: 'dd/MM/yyyy'}} </li>
               </ul>
             </div>
 
-            <div class="account_info_list" data-aos="fade-up" data-aos-delay="300">
+            <div class="account_info_list">
               <h3 class="list_title mb_30">Booking History:</h3>
               <ul class="ul_li_block clearfix">
-                <li><span>Upcoming Reservations:</span> No Reservations Yet</li>
+                <li><span>Upcoming Reservations:</span>{{user.bookingDTO ? 'You have one active Reservations' : ' No Reservations Yet'}}</li>
                 <li><span>Past Rentals:</span> 0</li>
               </ul>
               <a class="text_btn text-uppercase" [routerLink]="['/gallery']"><span>Book A Car</span>
                 <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
             </div>
 
-            <div class="account_info_list" data-aos="fade-up" data-aos-delay="500">
+            <div class="account_info_list">
               <h3 class="list_title mb_30">Account:</h3>
               <ul class="ul_li_block clearfix">
-                <li><span>Name:</span> Rakibul Islam Dewan</li>
-                <li><span>E-mail:</span> myname@email.com</li>
-                <li><span>Phone Number:</span> +1-202-555-0104</li>
-                <li><span>Country:</span> United States</li>
-                <li><span>Address:</span> 60 Stonybrook Lane Atlanta, GA 30303</li>
+                <li><span>Name:</span> {{user.username}}</li>
+                <li><span>E-mail:</span> {{user.userEmail}}</li>
+                <li><span>Phone Number:</span> {{user.phoneNumber}}</li>
+                <li><span>Country:</span> Belgium</li>
+                <li><span>Address:</span> {{user.addressDTO.road}} {{user.addressDTO.houseNumber}}, {{user.addressDTO.townDTO.name}}</li>
               </ul>
-              <a class="text_btn text-uppercase" href="#!"><span>Change Account Information</span>
+              <a (click)="openEditProfileDialog()" class="text_btn text-uppercase"><span>Change Account Information</span>
                 <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
             </div>
           </div>
 
           <div id="history_tab" class="tab-pane fade">
-            <div class="account_info_list" data-aos="fade-up" data-aos-delay="100">
+            <div class="account_info_list">
               <h3 class="list_title mb_30">Booking History:</h3>
               <ul class="ul_li_block clearfix">
-                <li><span>Upcoming Reservations:</span> No Reservations Yet</li>
+                <li><span>Upcoming Reservations:</span>{{user.bookingDTO ? 'You have one active Reservations' : ' No Reservations Yet'}}</li>
                 <li><span>Past Rentals:</span> 0</li>
               </ul>
               <a class="text_btn text-uppercase" href="#!"><span>Book A Car</span>
                 <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
             </div>
 
-            <div class="account_info_list" data-aos="fade-up" data-aos-delay="300">
-              <h3 class="list_title mb_30">Booking Profiles:</h3>
+            <div class="account_info_list">
+              <h3 class="list_title mb_30">Booking Details:</h3>
               <ul class="ul_li_block clearfix">
-                <li><span>Profile ID:</span> 1234557jt</li>
-                <li><span>Payment Method:</span> Visa Credit Card</li>
-                <li><span>Phone Number:</span> +1-202-555-0104</li>
+                <li><span>Booking Reference:</span> {{user.bookingDTO.bookingId}}</li>
+                <li><span>Booked Car:</span> {{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}</li>
+                <li><span>Withdrawal Date:</span> {{user.bookingDTO.withdrawalDate | date: 'dd/MM/yyyy'}} </li>
+                <li><span>Return Date:</span> {{user.bookingDTO.returnDate | date: 'dd/MM/yyyy'}} </li>
               </ul>
             </div>
 
-            <div class="account_info_list" data-aos="fade-up" data-aos-delay="500">
+            <div class="account_info_list">
               <h3 class="list_title mb_30">Account:</h3>
               <ul class="ul_li_block clearfix">
-                <li><span>Name:ss</span> Rakibul Islam Dewan</li>
-                <li><span>E-mail:</span> myname@email.com</li>
-                <li><span>Phone Number:</span> +1-202-555-0104</li>
-                <li><span>Country:</span> United States</li>
-                <li><span>Address:</span> 60 Stonybrook Lane Atlanta, GA 30303</li>
+                <li><span>Name:</span> {{user.username}}</li>
+                <li><span>E-mail:</span> {{user.userEmail}}</li>
+                <li><span>Phone Number:</span> {{user.phoneNumber}}</li>
+                <li><span>Country:</span> Belgium</li>
+                <li><span>Address:</span> {{user.addressDTO.road}} {{user.addressDTO.houseNumber}}, {{user.addressDTO.townDTO.name}}</li>
               </ul>
-              <a class="text_btn text-uppercase" href="#!"><span>Change Account Information</span>
+              <a (click)="openEditProfileDialog()" class="text_btn text-uppercase"><span>Change Account Information</span>
                 <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
             </div>
           </div>

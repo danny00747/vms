@@ -16,7 +16,7 @@ import be.rentvehicle.service.dto.BookingDTO;
 import be.rentvehicle.service.impl.errors.ResourceFoundException;
 import be.rentvehicle.service.impl.errors.UserNotFoundException;
 import be.rentvehicle.service.mapper.BookingMapper;
-import be.rentvehicle.service.mapper.CarMapper;
+import be.rentvehicle.service.mapper.RentMapper;
 import be.rentvehicle.service.mapper.UserInfoMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +24,6 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -48,11 +47,12 @@ public class BookingServiceImpl implements BookingService {
     private final BookingMapper bookingMapper;
     private final UserService userService;
     private final CarService carService;
+    private final RentMapper rentMapper;
     private final MailService mailService;
     private final UserInfoMapper userInfoMapper;
 
     public BookingServiceImpl(BookingDAO bookingDAO, CarDAO carDAO, UserDAO userDAO, BookingMapper bookingMapper,
-                              UserService userService, CarService carService, MailService mailService,
+                              UserService userService, CarService carService, RentMapper rentMapper, MailService mailService,
                               UserInfoMapper userInfoMapper) {
         this.bookingDAO = bookingDAO;
         this.carDAO = carDAO;
@@ -60,19 +60,13 @@ public class BookingServiceImpl implements BookingService {
         this.bookingMapper = bookingMapper;
         this.userService = userService;
         this.carService = carService;
+        this.rentMapper = rentMapper;
         this.mailService = mailService;
         this.userInfoMapper = userInfoMapper;
     }
 
     @Override
     public List<BookingDTO> findAll() {
-
-        DateTimeFormatter formatter = DateTimeFormatter
-                .ofLocalizedDateTime(FormatStyle.MEDIUM)
-                .withLocale(Locale.ENGLISH)
-                .withZone(ZoneId.systemDefault());
-        String time = formatter.format(Instant.now());
-        System.out.println(time);
 
         return bookingDAO.findAll()
                 .stream()
@@ -84,39 +78,31 @@ public class BookingServiceImpl implements BookingService {
     public BookingDTO save(@Valid BookingDTO bookingDTO, String cardId) {
         carService.getOneCarById(cardId);
 
-        User userEntity = userService
-                .getUserWithJwt()
-                .map(userInfoMapper::toEntity)
-                .orElseThrow(() -> new UserNotFoundException("User could not be found"));
-
-
         Booking booking = bookingMapper.toEntity(bookingDTO);
 
         booking.setBookingState(BOOKINGSTATE.OPEN);
 
-        Optional<User> u = userDAO.findOneByUsername(userEntity.getUsername());
-
-        User uu = Optional.of(SecurityUtils
+        User user = Optional.of(SecurityUtils
                 .getCurrentAuthenticatedUser()
                 .flatMap(userDAO::findOneByUsername))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .orElseThrow(() -> new UserNotFoundException("User could not be found"));
 
-            Car cc = Optional.of(carDAO
-                    .findById(UUID.fromString(cardId)))
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .orElseThrow(() -> new ResourceFoundException("No car was found with this id :" + cardId));
+        Car car = Optional.of(carDAO
+                .findById(UUID.fromString(cardId)))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .orElseThrow(() -> new ResourceFoundException("No car was found with this id :" + cardId));
 
-            booking.setUser(uu);
-            booking.setCar(cc);
-            booking = bookingDAO.save(booking);
+        booking.setUser(user);
+        booking.setCar(car);
+        booking = bookingDAO.save(booking);
 
-            DateTimeFormatter formatter = DateTimeFormatter
-                    .ofLocalizedDateTime(FormatStyle.MEDIUM)
-                    .withLocale(Locale.ENGLISH)
-                    .withZone(ZoneId.systemDefault());
+        DateTimeFormatter formatter = DateTimeFormatter
+                .ofLocalizedDateTime(FormatStyle.MEDIUM)
+                .withLocale(Locale.ENGLISH)
+                .withZone(ZoneId.systemDefault());
 
             /*
             long nbOfDaysBetween = ChronoUnit.DAYS.between(booking.getWithdrawalDate(), booking.getReturnDate());
@@ -131,16 +117,7 @@ public class BookingServiceImpl implements BookingService {
                     total + "€");
              */
 
-            return bookingMapper.toDto(booking);
-
-        /*
-
-        Optional<User> foundUser = userService.getUserWithJwt();
-        Booking booking = bookingMapper.toEntity(bookingDTO);
-        booking = bookingDAO.save(booking)
-        return null;
-         */
-
+        return bookingMapper.toDto(booking);
     }
 
     @Override

@@ -4,6 +4,10 @@ import {filter} from 'rxjs/operators';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import {ConfirmationDialogComponent} from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import {DialogService} from 'primeng/dynamicdialog';
+import {AddRentComponent} from '@app/admin/components/add-rent/add-rent.component';
+import {EditProfileComponent} from '@app/features/components/profile/edit-profile/edit-profile.component';
 
 
 @Component({
@@ -25,7 +29,7 @@ export class CalendarComponent implements OnInit {
 
   // @ViewChild('calendar') private calendar;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private readonly dialogService: DialogService) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationStart))
       .subscribe(() => this.reload());
@@ -935,5 +939,15 @@ export class CalendarComponent implements OnInit {
     return this.customers ? this.first === 0 : true;
   }
 
+  openAddRentDialog(): void {
+    const ref = this.dialogService.open(AddRentComponent, {
+      header: 'Add A Rent',
+    });
+
+    ref.onClose.subscribe((formId: number) => {
+      if (formId) {
+      }
+    });
+  }
 
 }

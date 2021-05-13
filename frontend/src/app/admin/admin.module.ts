@@ -1,17 +1,23 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {FullCalendarModule} from 'primeng/fullcalendar';
 import {RouterModule, Routes} from '@angular/router';
 import {SharedModule} from '@app/shared/shared.module';
 import {CalendarComponent} from './components/calendar/calendar.component';
+import {AddRentComponent} from './components/add-rent/add-rent.component';
+import {AdminGuard} from '@app/core/guards/admin.guard';
 
 
 const appRoutes: Routes = [
-  { path: 'admin/calendar', component: CalendarComponent},
+  {
+    path: 'admin/management',
+    component: CalendarComponent,
+    canActivate: [AdminGuard]
+  },
 ];
 
 @NgModule({
-  declarations: [CalendarComponent],
+  declarations: [CalendarComponent, AddRentComponent],
   imports: [
     CommonModule,
     FullCalendarModule,
@@ -19,6 +25,7 @@ const appRoutes: Routes = [
     RouterModule.forChild(appRoutes),
   ]
 })
-export class AdminModule { }
+export class AdminModule {
+}
 
 // import {FullCalendarModule} from 'primeng/fullcalendar';

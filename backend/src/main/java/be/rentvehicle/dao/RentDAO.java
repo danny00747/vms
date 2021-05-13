@@ -1,14 +1,14 @@
 package be.rentvehicle.dao;
 
-import be.rentvehicle.domain.Booking;
+import be.rentvehicle.domain.Rent;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
 /**
- * Spring Data JPA repository for the {@link Booking} entity.
+ * Spring Data JPA repository for the {@link Rent} entity.
  */
 @Repository
-public interface BookingDAO extends JpaRepository<Booking, UUID> {
+public interface RentDAO extends JpaRepository<Rent, UUID> {
 }

@@ -12,6 +12,7 @@ import {JwtInterceptor} from './interceptor/jwt.interceptor';
 import {ErrorInterceptor} from './interceptor/error.interceptor';
 import {MessageService} from 'primeng/api';
 import { FaqComponent } from './components/faq/faq.component';
+import {JwtHelperService} from '@auth0/angular-jwt';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -35,6 +36,7 @@ const routes: Routes = [
   ],
   providers: [
     MessageService,
+    JwtHelperService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ]

@@ -16,7 +16,9 @@ import {SkeletonModule} from 'primeng/skeleton';
 import {PaginatorModule} from 'primeng/paginator';
 import {DataViewModule} from 'primeng/dataview';
 import {CascadeSelectModule} from 'primeng/cascadeselect';
-import { VerifyEmailComponent } from './components/register/verify-email/verify-email.component';
+import {VerifyEmailComponent} from './components/register/verify-email/verify-email.component';
+import {EditProfileComponent} from './components/profile/edit-profile/edit-profile.component';
+import {DialogService} from 'primeng/dynamicdialog';
 
 const routes: Routes = [
   {path: 'register', component: RegisterComponent},
@@ -33,7 +35,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [LoginComponent, RegisterComponent, GalleryComponent,
-    ProfileComponent, CarsComponent, CarDetailComponent, ReservationComponent, VerifyEmailComponent],
+    ProfileComponent, CarsComponent, CarDetailComponent, ReservationComponent, VerifyEmailComponent, EditProfileComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -43,7 +45,7 @@ const routes: Routes = [
     DataViewModule,
     CascadeSelectModule,
     RouterModule.forChild(routes)
-  ]
+  ], providers: [DialogService]
 })
 export class FeaturesModule {
 }

@@ -136,6 +136,15 @@
                 </div>
               </li>
             </ul>
+
+
+            <small>
+              <i class="fas fa-info-circle mr-1"></i>
+              Your email & phone are only intended to confirm your appointment and
+              to contact you in the event of a change.
+            </small>
+            <br>
+            <br>
             <form #signUpForm="ngForm" class="row">
 
               <!-- username -->
@@ -186,7 +195,8 @@
                          [(ngModel)]="password" name="password" required autofocus>
                   <label for="password">password</label>
                   <small id="passwordError" class="text-danger" [class.d-none]="passwordInput.valid ||
-                       passwordInput.untouched">A password is required</small>
+                       passwordInput.untouched">A password is required
+                  </small>
                 </div>
               </div>
 

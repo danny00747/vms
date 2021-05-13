@@ -1,4 +1,5 @@
 import {CarDTO} from '@app/shared/models/car';
+import {RentDTO} from '@app/shared/models/rent';
 
 export class BookingDTO {
   bookingId: string;
@@ -7,6 +8,7 @@ export class BookingDTO {
   withdrawalDate: Date;
   returnDate: Date;
   carDTO: CarDTO;
+  rentDTO: RentDTO;
 }
 
 export enum BookingState {

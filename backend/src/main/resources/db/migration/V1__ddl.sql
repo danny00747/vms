@@ -163,6 +163,19 @@ CREATE TABLE booking
     FOREIGN KEY (car_id) REFERENCES cars (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+CREATE TABLE rent
+(
+    id                    uuid        DEFAULT uuid_generate_v4() PRIMARY KEY,
+    license_number        varchar(64) NOT NULL,
+    withdrawal_km         INTEGER     NOT NULL,
+    return_km             INTEGER     NOT NULL CHECK (return_km > withdrawal_km),
+    effective_return_date TIMESTAMPTZ NOT NULL UNIQUE,
+    caution_payment        boolean     NOT NULL,
+    booking_id            uuid        NOT NULL,
+    created_at            TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (booking_id) REFERENCES booking (id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 /*
  CREATE DOMAIN email_regex AS VARCHAR(255)
     CHECK (VALUE ~ '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$');

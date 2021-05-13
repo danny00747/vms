@@ -4,7 +4,7 @@
   <div class="page_title_area has_overlay d-flex align-items-center clearfix"
        style="background-image: url('../../../../assets/images/breadcrumb/bg_02.jpg')">
     <div class="overlay"></div>
-    <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <div class="container">
       <br><br>
       <h1 class="page_title text-white mb-0">Calendar</h1>
     </div>
@@ -28,7 +28,7 @@
 
     <div class="row justify-content-center">
       <div class="col-lg-6 col-md-8 col-sm-10 col-xs-12">
-        <div class="section_title mb_60 text-center" data-aos="fade-up" data-aos-delay="100">
+        <div class="section_title mb_60 text-center">
           <h2 class="title_text mb_15">
             <span>Reservations Management</span>
           </h2>
@@ -99,8 +99,16 @@
 
 
       </p-tabPanel>
-      <p-tabPanel header="Header 3">
-        Content 3
+      <p-tabPanel header="Rents">
+        <h5>List of rents</h5>
+        <br>
+        <p-toolbar styleClass="p-mb-4">
+          <ng-template pTemplate="left">
+            <button (click)="openAddRentDialog()" pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2">
+            </button>
+            <button pButton pRipple [label]="'Delete'" icon="pi pi-trash" class="p-button-danger"></button>
+          </ng-template>
+        </p-toolbar>
       </p-tabPanel>
     </p-tabView>
   </div>

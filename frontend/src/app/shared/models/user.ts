@@ -19,6 +19,7 @@ export class UserInfoDTO {
   userId: string;
   username: string;
   userEmail: string;
+  phoneNumber: string;
   userRoles: RoleDTO[];
   activated: boolean;
   createdAt: Date;
@@ -40,5 +41,5 @@ export interface UserDTO {
 
 export interface JWT {
   message: string;
-  access_token: string;
+  token: string;
 }

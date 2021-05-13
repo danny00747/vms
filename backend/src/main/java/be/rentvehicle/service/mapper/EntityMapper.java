@@ -14,9 +14,9 @@ import java.util.Collection;
  * @param <E> - Entity type parameter.
  */
 
-public sealed interface EntityMapper<D, E>permits TeacherMapper, CarMapper,
+public sealed interface EntityMapper<D, E>permits CarMapper,
         ModelMapper, ModelOptionMapper, PricingClassMapper, UserInfoMapper,
-        TownMapper, AddressMapper, RoleMapper, BookingMapper {
+        TownMapper, AddressMapper, RoleMapper, BookingMapper, RentMapper {
 
     E toEntity(D dto);
 

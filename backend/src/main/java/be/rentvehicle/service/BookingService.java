@@ -23,7 +23,8 @@ public interface BookingService {
     /**
      * Save a reservation.
      *
-     * @param bookingDTO the entity to save.
+     * @param bookingDTO the booking to save.
+     * @param cardId the id of the car.
      * @return the persisted entity.
      */
     BookingDTO save(@Valid BookingDTO bookingDTO, String cardId);

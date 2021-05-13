@@ -21,9 +21,10 @@ import {ToolbarModule} from 'primeng/toolbar';
 import {TooltipModule} from 'primeng/tooltip';
 import {DropdownModule} from 'primeng/dropdown';
 import {InputMaskModule} from 'primeng/inputmask';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
-  declarations: [SidebarComponent, NavbarComponent],
+  declarations: [SidebarComponent, NavbarComponent, ConfirmationDialogComponent],
   imports: [
     CommonModule,
     RouterModule,

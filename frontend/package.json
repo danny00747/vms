@@ -29,6 +29,8 @@
     "@fullcalendar/timegrid": "^4.1.0",
     "@ng-bootstrap/ng-bootstrap": "^8.0.4",
     "bootstrap": "^4.5.0",
+    "ngx-permissions": "^8.0.0",
+    "@auth0/angular-jwt": "^4.2.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.5.1",
     "primeflex": "^2.0.0",
