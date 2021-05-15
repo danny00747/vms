@@ -75,6 +75,15 @@ public interface UserService {
     Optional<String> deleteUser(String username);
 
     /**
+     * Deletes specific users, and return a confirmation message.
+     *
+     * @param ids list of user ids to delete.
+     * @return confirmation message.
+     */
+    String bulkDeleteUsers(List<String> ids);
+
+
+    /**
      * Deletes a specific user, and return a confirmation message.
      *
      * @param key activation key.

@@ -39,12 +39,13 @@ public class MailService {
         }
     }
 
-    public void sendReservationEMail(String emailTo, String carName, String retunDate,
+    public void sendReservationEMail(String emailTo, String bookingRef ,String carName, String retunDate,
                                      String pickUpDate, String costPerDay, String total) {
         Email from = new Email("he201718@students.ephec.be", "rent vehicle");
         String subject = "Thank You For Your Reservation !";
         Email to = new Email(emailTo);
         Content content = new Content("text/html", reservationTemplate()
+                .replace("xxx-bookingRef-xxx", bookingRef)
                 .replace("xxx-pickUpDate-xxx", pickUpDate)
                 .replace("xxx-returnDate-xxx", retunDate)
                 .replace("xxx-carName-xxx", carName)
@@ -502,6 +503,7 @@ public class MailService {
                                                                     </div>
                                                                     <p>
                                                                         <ul style="margin:0;color:#585858;font-size:14px;font-weight:400;line-height:170%;">
+                                                                            <li>Booking Reference : xxx-bookingRef-xxx</li>
                                                                             <li>Car Name : xxx-carName-xxx</li>
                                                                             <li>Pick up date : xxx-pickUpDate-xxx</li>
                                                                             <li>Return date : xxx-returnDate-xxx</li>

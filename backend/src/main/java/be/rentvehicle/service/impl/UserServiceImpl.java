@@ -34,12 +34,8 @@ import javax.validation.Valid;
 import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.UUID;
 
 /**
  * Implementation of the {@link UserService} interface.
@@ -210,6 +206,17 @@ public class UserServiceImpl implements UserService {
                     userDAO.delete(user);
                     return "This user '" + user.getUsername() + "' was successfully deleted !";
                 });
+    }
+
+    @Transactional
+    @Override
+    public String bulkDeleteUsers(List<String> ids) {
+        List<UUID> uuids = ids.stream()
+                .map(UUID::fromString)
+                .collect(Collectors.toList());
+        List<User> users = userDAO.findAllById(uuids);
+        userDAO.deleteAll(users);
+        return (users.size() == 0) ? "No users were deleted !" : "Users were successfully deleted ! N";
     }
 
     @Override

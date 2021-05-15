@@ -1,14 +1,20 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {NavigationStart, Router} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
 import {filter} from 'rxjs/operators';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import {ConfirmationDialogComponent} from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import {DialogService} from 'primeng/dynamicdialog';
 import {AddRentComponent} from '@app/admin/components/add-rent/add-rent.component';
-import {EditProfileComponent} from '@app/features/components/profile/edit-profile/edit-profile.component';
-
+import {UserService} from '@app/core/services/user.service';
+import {UserInfoDTO} from '@app/shared/models';
+import {MenuItem, SelectItem} from 'primeng/api';
+import {EToastSeverities, ToastService} from '@app/core/services';
+import {Table} from 'primeng/table';
+import {CarService} from '@app/core/services/car.service';
+import {ViewBookingComponent} from '@app/admin/components/view-booking/view-booking.component';
+import {ConfirmationDialogComponent} from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import {ConfirmationService} from 'primeng/api';
 
 @Component({
   selector: 'app-calendar',
@@ -17,11 +23,21 @@ import {EditProfileComponent} from '@app/features/components/profile/edit-profil
 })
 export class CalendarComponent implements OnInit {
 
-  events: any[];
+  events: any[] = [];
 
   options: any;
 
-  customers: any[];
+  bookingDetails: UserInfoDTO;
+
+  users: UserInfoDTO[] = [];
+  statuses: SelectItem[];
+  clonedUsers: { [s: string]: UserInfoDTO; } = {};
+  exportColumns: any[];
+  cols: any[];
+  statusess: SelectItem[];
+  bookoingAction: MenuItem[];
+  selectedUsers: UserInfoDTO[];
+
 
   first = 0;
 
@@ -29,914 +45,76 @@ export class CalendarComponent implements OnInit {
 
   // @ViewChild('calendar') private calendar;
 
-  constructor(private router: Router, private readonly dialogService: DialogService) {
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              public toastService: ToastService,
+              public carService: CarService,
+              private confirmationService: ConfirmationService,
+              private userService: UserService,
+              private readonly dialogService: DialogService) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationStart))
       .subscribe(() => this.reload());
   }
 
   ngOnInit(): void {
-    this.events = [
-      {
-        id: 1,
-        title: 'All Day Event \n All Day Event',
-        start: '2017-02-01'
-      },
-      {
-        id: 2,
-        title: 'Long Event',
-        start: '2017-02-07',
-        end: '2017-02-10'
-      },
-      {
-        id: 3,
-        title: 'Repeating Event',
-        start: '2017-02-09T16:00:00'
-      },
-      {
-        id: 4,
-        title: 'Repeating Event',
-        start: '2017-02-16T16:00:00'
-      },
-      {
-        id: 5,
-        title: 'Conference',
-        start: '2017-02-22',
-        end: '2017-02-24'
-      },
-      {
-        id: 6,
-        title: 'Meeting',
-        start: '2017-02-12T10:30:00',
-        end: '2017-02-12T12:30:00'
-      },
-      {
-        id: 7,
-        title: 'Lunch',
-        start: '2017-02-12T12:00:00'
-      },
-      {
-        id: 8,
-        title: 'Meeting',
-        start: '2017-02-12T14:30:00'
-      },
-      {
-        id: 9,
-        title: 'Happy Hour',
-        start: '2017-02-12T17:30:00'
-      },
-      {
-        id: 10,
-        title: 'Dinner',
-        start: '2017-02-12T20:00:00'
-      },
-      {
-        id: 11,
-        title: 'Birthday Party',
-        start: '2017-02-13T07:00:00'
-      },
-      {
-        id: 12,
-        title: 'Click for Google',
-        url: '/cars/toto',
-        start: '2017-02-28'
-      }
-    ];
+    this.getUsers();
     this.options = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-      defaultDate: '2017-02-01',
+      defaultDate: new Date().toISOString(),
       header: {
         left: 'prev,next',
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      },
+      dateClick: (e) => {
+        // e.dayEl.style.backgroundColor  = 'red';
+        // console.log(e.dayEl.style);
       }
     };
-    this.customers = [
-        {
-          id: 1000,
-          name: 'James Butt',
-          country: {
-            name: 'Algeria',
-            code: 'dz'
-          },
-          company: 'Benton, John B Jr',
-          date: '2015-09-13',
-          status: 'unqualified',
-          activity: 17,
-          representative: {
-            name: 'Ioni Bowcher',
-            image: 'ionibowcher.png'
-          }
-        },
-        {
-          id: 1001,
-          name: 'Josephine Darakjy',
-          country: {
-            name: 'Egypt',
-            code: 'eg'
-          },
-          company: 'Chanay, Jeffrey A Esq',
-          date: '2019-02-09',
-          status: 'proposal',
-          activity: 0,
-          representative: {
-            name: 'Amy Elsner',
-            image: 'amyelsner.png'
-          }
-        },
-        {
-          id: 1002,
-          name: 'Art Venere',
-          country: {
-            name: 'Panama',
-            code: 'pa'
-          },
-          company: 'Chemel, James L Cpa',
-          date: '2017-05-13',
-          status: 'qualified',
-          activity: 63,
-          representative: {
-            name: 'Asiya Javayant',
-            image: 'asiyajavayant.png'
-          }
-        },
-        {
-          id: 1003,
-          name: 'Lenna Paprocki',
-          country: {
-            name: 'Slovenia',
-            code: 'si'
-          },
-          company: 'Feltz Printing Service',
-          date: '2020-09-15',
-          status: 'new',
-          activity: 37,
-          representative: {
-            name: 'Xuxue Feng',
-            image: 'xuxuefeng.png'
-          }
-        },
-        {
-          id: 1004,
-          name: 'Donette Foller',
-          country: {
-            name: 'South Africa',
-            code: 'za'
-          },
-          company: 'Printing Dimensions',
-          date: '2016-05-20',
-          status: 'proposal',
-          activity: 33,
-          representative: {
-            name: 'Asiya Javayant',
-            image: 'asiyajavayant.png'
-          }
-        },
-        {
-          id: 1005,
-          name: 'Simona Morasca',
-          country: {
-            name: 'Egypt',
-            code: 'eg'
-          },
-          company: 'Chapman, Ross E Esq',
-          date: '2018-02-16',
-          status: 'qualified',
-          activity: 68,
-          representative: {
-            name: 'Ivan Magalhaes',
-            image: 'ivanmagalhaes.png'
-          }
-        },
-        {
-          id: 1006,
-          name: 'Mitsue Tollner',
-          country: {
-            name: 'Paraguay',
-            code: 'py'
-          },
-          company: 'Morlong Associates',
-          date: '2018-02-19',
-          status: 'renewal',
-          activity: 54,
-          representative: {
-            name: 'Ivan Magalhaes',
-            image: 'ivanmagalhaes.png'
-          }
-        },
-        {
-          id: 1007,
-          name: 'Leota Dilliard',
-          country: {
-            name: 'Serbia',
-            code: 'rs'
-          },
-          company: 'Commercial Press',
-          date: '2019-08-13',
-          status: 'renewal',
-          activity: 69,
-          representative: {
-            name: 'Onyama Limba',
-            image: 'onyamalimba.png'
-          }
-        },
-        {
-          id: 1008,
-          name: 'Sage Wieser',
-          country: {
-            name: 'Egypt',
-            code: 'eg'
-          },
-          company: 'Truhlar And Truhlar Attys',
-          date: '2018-11-21',
-          status: 'unqualified',
-          activity: 76,
-          representative: {
-            name: 'Ivan Magalhaes',
-            image: 'ivanmagalhaes.png'
-          }
-        },
-        {
-          id: 1009,
-          name: 'Kris Marrier',
-          country: {
-            name: 'Mexico',
-            code: 'mx'
-          },
-          company: 'King, Christopher A Esq',
-          date: '2015-07-07',
-          status: 'proposal',
-          activity: 3,
-          representative: {
-            name: 'Onyama Limba',
-            image: 'onyamalimba.png'
-          }
-        },
-        {
-          id: 1010,
-          name: 'Minna Amigon',
-          country: {
-            name: 'Romania',
-            code: 'ro'
-          },
-          company: 'Dorl, James J Esq',
-          date: '2018-11-07',
-          status: 'qualified',
-          activity: 38,
-          representative: {
-            name: 'Anna Fali',
-            image: 'annafali.png'
-          }
-        },
-        {
-          id: 1011,
-          name: 'Abel Maclead',
-          country: {
-            name: 'Singapore',
-            code: 'sg'
-          },
-          company: 'Rangoni Of Florence',
-          date: '2017-03-11',
-          status: 'qualified',
-          activity: 87,
-          representative: {
-            name: 'Bernardo Dominic',
-            image: 'bernardodominic.png'
-          }
-        },
-        {
-          id: 1012,
-          name: 'Kiley Caldarera',
-          country: {
-            name: 'Serbia',
-            code: 'rs'
-          },
-          company: 'Feiner Bros',
-          date: '2015-10-20',
-          status: 'unqualified',
-          activity: 80,
-          representative: {
-            name: 'Onyama Limba',
-            image: 'onyamalimba.png'
-          }
-        },
-        {
-          id: 1013,
-          name: 'Graciela Ruta',
-          country: {
-            name: 'Chile',
-            code: 'cl'
-          },
-          company: 'Buckley Miller \u0026 Wright',
-          date: '2016-07-25',
-          status: 'negotiation',
-          activity: 59,
-          representative: {
-            name: 'Amy Elsner',
-            image: 'amyelsner.png'
-          }
-        },
-        {
-          id: 1014,
-          name: 'Cammy Albares',
-          country: {
-            name: 'Philippines',
-            code: 'ph'
-          },
-          company: 'Rousseaux, Michael Esq',
-          date: '2019-06-25',
-          status: 'new',
-          activity: 90,
-          representative: {
-            name: 'Asiya Javayant',
-            image: 'asiyajavayant.png'
-          }
-        },
-        {
-          id: 1015,
-          name: 'Mattie Poquette',
-          country: {
-            name: 'Venezuela',
-            code: 've'
-          },
-          company: 'Century Communications',
-          date: '2017-12-12',
-          status: 'negotiation',
-          activity: 52,
-          representative: {
-            name: 'Anna Fali',
-            image: 'annafali.png'
-          }
-        },
-        {
-          id: 1016,
-          name: 'Meaghan Garufi',
-          country: {
-            name: 'Malaysia',
-            code: 'my'
-          },
-          company: 'Bolton, Wilbur Esq',
-          date: '2018-07-04',
-          status: 'unqualified',
-          activity: 31,
-          representative: {
-            name: 'Ivan Magalhaes',
-            image: 'ivanmagalhaes.png'
-          }
-        },
-        {
-          id: 1017,
-          name: 'Gladys Rim',
-          country: {
-            name: 'Netherlands',
-            code: 'nl'
-          },
-          company: 'T M Byxbee Company Pc',
-          date: '2020-02-27',
-          status: 'renewal',
-          activity: 48,
-          representative: {
-            name: 'Stephen Shaw',
-            image: 'stephenshaw.png'
-          }
-        },
-        {
-          id: 1018,
-          name: 'Yuki Whobrey',
-          country: {
-            name: 'Israel',
-            code: 'il'
-          },
-          company: 'Farmers Insurance Group',
-          date: '2017-12-21',
-          status: 'negotiation',
-          activity: 16,
-          representative: {
-            name: 'Bernardo Dominic',
-            image: 'bernardodominic.png'
-          }
-        },
-        {
-          id: 1019,
-          name: 'Fletcher Flosi',
-          country: {
-            name: 'Argentina',
-            code: 'ar'
-          },
-          company: 'Post Box Services Plus',
-          date: '2016-01-04',
-          status: 'renewal',
-          activity: 19,
-          representative: {
-            name: 'Xuxue Feng',
-            image: 'xuxuefeng.png'
-          }
-        },
-        {
-          id: 1020,
-          name: 'Bette Nicka',
-          country: {
-            name: 'Paraguay',
-            code: 'py'
-          },
-          company: 'Sport En Art',
-          date: '2016-10-21',
-          status: 'renewal',
-          activity: 100,
-          representative: {
-            name: 'Onyama Limba',
-            image: 'onyamalimba.png'
-          }
-        },
-        {
-          id: 1021,
-          name: 'Veronika Inouye',
-          country: {
-            name: 'Ecuador',
-            code: 'ec'
-          },
-          company: 'C 4 Network Inc',
-          date: '2017-03-24',
-          status: 'renewal',
-          activity: 72,
-          representative: {
-            name: 'Ioni Bowcher',
-            image: 'ionibowcher.png'
-          }
-        },
-        {
-          id: 1022,
-          name: 'Willard Kolmetz',
-          country: {
-            name: 'Tunisia',
-            code: 'tn'
-          },
-          company: 'Ingalls, Donald R Esq',
-          date: '2017-04-15',
-          status: 'renewal',
-          activity: 94,
-          representative: {
-            name: 'Asiya Javayant',
-            image: 'asiyajavayant.png'
-          }
-        },
-        {
-          id: 1023,
-          name: 'Maryann Royster',
-          country: {
-            name: 'Belarus',
-            code: 'by'
-          },
-          company: 'Franklin, Peter L Esq',
-          date: '2017-03-11',
-          status: 'qualified',
-          activity: 56,
-          representative: {
-            name: 'Elwin Sharvill',
-            image: 'elwinsharvill.png'
-          }
-        },
-        {
-          id: 1024,
-          name: 'Alisha Slusarski',
-          country: {
-            name: 'Iceland',
-            code: 'is'
-          },
-          company: 'Wtlz Power 107 Fm',
-          date: '2018-03-27',
-          status: 'qualified',
-          activity: 7,
-          representative: {
-            name: 'Stephen Shaw',
-            image: 'stephenshaw.png'
-          }
-        },
-        {
-          id: 1025,
-          name: 'Allene Iturbide',
-          country: {
-            name: 'Italy',
-            code: 'it'
-          },
-          company: 'Ledecky, David Esq',
-          date: '2016-02-20',
-          status: 'qualified',
-          activity: 1,
-          representative: {
-            name: 'Ivan Magalhaes',
-            image: 'ivanmagalhaes.png'
-          }
-        },
-        {
-          id: 1026,
-          name: 'Chanel Caudy',
-          country: {
-            name: 'Argentina',
-            code: 'ar'
-          },
-          company: 'Professional Image Inc',
-          date: '2018-06-24',
-          status: 'new',
-          activity: 26,
-          representative: {
-            name: 'Ioni Bowcher',
-            image: 'ionibowcher.png'
-          }
-        },
-        {
-          id: 1027,
-          name: 'Ezekiel Chui',
-          country: {
-            name: 'Ireland',
-            code: 'ie'
-          },
-          company: 'Sider, Donald C Esq',
-          date: '2016-09-24',
-          status: 'new',
-          activity: 76,
-          representative: {
-            name: 'Amy Elsner',
-            image: 'amyelsner.png'
-          }
-        },
-        {
-          id: 1028,
-          name: 'Willow Kusko',
-          country: {
-            name: 'Romania',
-            code: 'ro'
-          },
-          company: 'U Pull It',
-          date: '2020-04-11',
-          status: 'qualified',
-          activity: 7,
-          representative: {
-            name: 'Onyama Limba',
-            image: 'onyamalimba.png'
-          }
-        },
-        {
-          id: 1029,
-          name: 'Bernardo Figeroa',
-          country: {
-            name: 'Israel',
-            code: 'il'
-          },
-          company: 'Clark, Richard Cpa',
-          date: '2018-04-11',
-          status: 'renewal',
-          activity: 81,
-          representative: {
-            name: 'Ioni Bowcher',
-            image: 'ionibowcher.png'
-          }
-        },
-        {
-          id: 1030,
-          name: 'Ammie Corrio',
-          country: {
-            name: 'Hungary',
-            code: 'hu'
-          },
-          company: 'Moskowitz, Barry S',
-          date: '2016-06-11',
-          status: 'negotiation',
-          activity: 56,
-          representative: {
-            name: 'Asiya Javayant',
-            image: 'asiyajavayant.png'
-          }
-        },
-        {
-          id: 1031,
-          name: 'Francine Vocelka',
-          country: {
-            name: 'Honduras',
-            code: 'hn'
-          },
-          company: 'Cascade Realty Advisors Inc',
-          date: '2017-08-02',
-          status: 'qualified',
-          activity: 94,
-          representative: {
-            name: 'Ioni Bowcher',
-            image: 'ionibowcher.png'
-          }
-        },
-        {
-          id: 1032,
-          name: 'Ernie Stenseth',
-          country: {
-            name: 'Australia',
-            code: 'au'
-          },
-          company: 'Knwz Newsradio',
-          date: '2018-06-06',
-          status: 'renewal',
-          activity: 68,
-          representative: {
-            name: 'Xuxue Feng',
-            image: 'xuxuefeng.png'
-          }
-        },
-        {
-          id: 1033,
-          name: 'Albina Glick',
-          country: {
-            name: 'Ukraine',
-            code: 'ua'
-          },
-          company: 'Giampetro, Anthony D',
-          date: '2019-08-08',
-          status: 'proposal',
-          activity: 85,
-          representative: {
-            name: 'Bernardo Dominic',
-            image: 'bernardodominic.png'
-          }
-        },
-        {
-          id: 1034,
-          name: 'Alishia Sergi',
-          country: {
-            name: 'Qatar',
-            code: 'qa'
-          },
-          company: 'Milford Enterprises Inc',
-          date: '2018-05-19',
-          status: 'negotiation',
-          activity: 46,
-          representative: {
-            name: 'Ivan Magalhaes',
-            image: 'ivanmagalhaes.png'
-          }
-        },
-        {
-          id: 1035,
-          name: 'Solange Shinko',
-          country: {
-            name: 'Cameroon',
-            code: 'cm'
-          },
-          company: 'Mosocco, Ronald A',
-          date: '2015-02-12',
-          status: 'qualified',
-          activity: 32,
-          representative: {
-            name: 'Onyama Limba',
-            image: 'onyamalimba.png'
-          }
-        },
-        {
-          id: 1036,
-          name: 'Jose Stockham',
-          country: {
-            name: 'Italy',
-            code: 'it'
-          },
-          company: 'Tri State Refueler Co',
-          date: '2018-04-25',
-          status: 'qualified',
-          activity: 77,
-          representative: {
-            name: 'Amy Elsner',
-            image: 'amyelsner.png'
-          }
-        },
-        {
-          id: 1037,
-          name: 'Rozella Ostrosky',
-          country: {
-            name: 'Venezuela',
-            code: 've'
-          },
-          company: 'Parkway Company',
-          date: '2016-02-27',
-          status: 'unqualified',
-          activity: 66,
-          representative: {
-            name: 'Amy Elsner',
-            image: 'amyelsner.png'
-          }
-        },
-        {
-          id: 1038,
-          name: 'Valentine Gillian',
-          country: {
-            name: 'Paraguay',
-            code: 'py'
-          },
-          company: 'Fbs Business Finance',
-          date: '2019-09-17',
-          status: 'qualified',
-          activity: 25,
-          representative: {
-            name: 'Bernardo Dominic',
-            image: 'bernardodominic.png'
-          }
-        },
-        {
-          id: 1039,
-          name: 'Kati Rulapaugh',
-          country: {
-            name: 'Puerto Rico',
-            code: 'pr'
-          },
-          company: 'Eder Assocs Consltng Engrs Pc',
-          date: '2016-12-03',
-          status: 'renewal',
-          activity: 51,
-          representative: {
-            name: 'Ioni Bowcher',
-            image: 'ionibowcher.png'
-          }
-        },
-        {
-          id: 1040,
-          name: 'Youlanda Schemmer',
-          country: {
-            name: 'Bolivia',
-            code: 'bo'
-          },
-          company: 'Tri M Tool Inc',
-          date: '2017-12-15',
-          status: 'negotiation',
-          activity: 49,
-          representative: {
-            name: 'Xuxue Feng',
-            image: 'xuxuefeng.png'
-          }
-        },
-        {
-          id: 1041,
-          name: 'Dyan Oldroyd',
-          country: {
-            name: 'Argentina',
-            code: 'ar'
-          },
-          company: 'International Eyelets Inc',
-          date: '2017-02-02',
-          status: 'qualified',
-          activity: 5,
-          representative: {
-            name: 'Amy Elsner',
-            image: 'amyelsner.png'
-          }
-        },
-        {
-          id: 1042,
-          name: 'Roxane Campain',
-          country: {
-            name: 'France',
-            code: 'fr'
-          },
-          company: 'Rapid Trading Intl',
-          date: '2018-12-25',
-          status: 'unqualified',
-          activity: 100,
-          representative: {
-            name: 'Anna Fali',
-            image: 'annafali.png'
-          }
-        },
-        {
-          id: 1043,
-          name: 'Lavera Perin',
-          country: {
-            name: 'Vietnam',
-            code: 'vn'
-          },
-          company: 'Abc Enterprises Inc',
-          date: '2018-04-10',
-          status: 'qualified',
-          activity: 71,
-          representative: {
-            name: 'Stephen Shaw',
-            image: 'stephenshaw.png'
-          }
-        },
-        {
-          id: 1044,
-          name: 'Erick Ferencz',
-          country: {
-            name: 'Belgium',
-            code: 'be'
-          },
-          company: 'Cindy Turner Associates',
-          date: '2018-05-06',
-          status: 'unqualified',
-          activity: 54,
-          representative: {
-            name: 'Amy Elsner',
-            image: 'amyelsner.png'
-          }
-        },
-        {
-          id: 1045,
-          name: 'Fatima Saylors',
-          country: {
-            name: 'Canada',
-            code: 'ca'
-          },
-          company: 'Stanton, James D Esq',
-          date: '2019-07-10',
-          status: 'renewal',
-          activity: 93,
-          representative: {
-            name: 'Onyama Limba',
-            image: 'onyamalimba.png'
-          }
-        },
-        {
-          id: 1046,
-          name: 'Jina Briddick',
-          country: {
-            name: 'Mexico',
-            code: 'mx'
-          },
-          company: 'Grace Pastries Inc',
-          date: '2018-02-19',
-          status: 'unqualified',
-          activity: 97,
-          representative: {
-            name: 'Xuxue Feng',
-            image: 'xuxuefeng.png'
-          }
-        },
-        {
-          id: 1047,
-          name: 'Kanisha Waycott',
-          country: {
-            name: 'Ecuador',
-            code: 'ec'
-          },
-          company: 'Schroer, Gene E Esq',
-          date: '2019-11-27',
-          status: 'new',
-          activity: 80,
-          representative: {
-            name: 'Xuxue Feng',
-            image: 'xuxuefeng.png'
-          }
-        },
-        {
-          id: 1048,
-          name: 'Emerson Bowley',
-          country: {
-            name: 'Finland',
-            code: 'fi'
-          },
-          company: 'Knights Inn',
-          date: '2018-11-24',
-          status: 'new',
-          activity: 63,
-          representative: {
-            name: 'Stephen Shaw',
-            image: 'stephenshaw.png'
-          }
-        },
-        {
-          id: 1049,
-          name: 'Blair Malet',
-          country: {
-            name: 'Finland',
-            code: 'fi'
-          },
-          company: 'Bollinger Mach Shp \u0026 Shipyard',
-          date: '2018-04-19',
-          status: 'new',
-          activity: 92,
-          representative: {
-            name: 'Asiya Javayant',
-            image: 'asiyajavayant.png'
-          }
-        }
+    this.statuses = [
+      {label: 'Verified', value: 'yes'},
+      {label: 'Unverified', value: 'no'}];
+
+    this.statusess = [
+      {label: 'Unqualified', value: 'unqualified'},
+      {label: 'Qualified', value: 'qualified'},
+      {label: 'New', value: 'new'},
+      {label: 'Negotiation', value: 'negotiation'},
+      {label: 'Renewal', value: 'renewal'},
+      {label: 'Proposal', value: 'proposal'}
     ];
+    this.bookoingAction = [
+      {
+        id: '1', label: 'View', icon: 'pi pi-eye', command: (event) => {
+          console.log(this.bookingDetails);
+          this.openViewBookingDialog();
+        }
+      },
+      {
+        label: 'Cancel', icon: 'pi pi-minus-circle', command: () => {
+          this.cancelBooking();
+        }
+      },
+      {
+        label: 'Delete', icon: 'pi pi-times', command: () => {
+          this.deleteBooking();
+        }
+      },
+      {separator: true},
+      {label: 'Setup', icon: 'pi pi-cog', routerLink: ['/setup']}
+    ];
+
+    this.cols = [
+      {field: 'username', header: 'Username'},
+      {field: 'userEmail', header: 'Email'},
+      {field: 'phoneNumber', header: 'Phone'}
+    ];
+    this.exportColumns = this.cols.map(col => ({title: col.header, dataKey: col.field}));
   }
 
   reload(): void {
     setTimeout(() => window.location.reload(), 100);
-  }
-
-  next(): void {
-    this.first = this.first + this.rows;
-  }
-
-  prev(): void {
-    this.first = this.first - this.rows;
-  }
-
-  reset(): void {
-    this.first = 0;
-  }
-
-  isLastPage(): boolean {
-    return this.customers ? this.first === (this.customers.length - this.rows) : true;
-  }
-
-  isFirstPage(): boolean {
-    return this.customers ? this.first === 0 : true;
   }
 
   openAddRentDialog(): void {
@@ -950,4 +128,185 @@ export class CalendarComponent implements OnInit {
     });
   }
 
+  confirm(event: Event): void {
+    this.confirmationService.confirm({
+      target: event.target,
+      message: 'Are you sure that you want to proceed?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.toastService.show(EToastSeverities.INFO, 'confirmed');
+      },
+      reject: () => {
+        this.toastService.show(EToastSeverities.ERROR, 'rejected');
+      }
+    });
+  }
+
+  openViewBookingDialog(): void {
+    const ref = this.dialogService.open(ViewBookingComponent, {
+      header: 'Booking Details',
+      data: this.bookingDetails
+    });
+
+    ref.onClose.subscribe((formId: number) => {
+      if (formId) {
+      }
+    });
+  }
+
+  getUsers(): void {
+    this.userService.getAllUsers()
+      .subscribe(
+        (data: UserInfoDTO[]) => {
+          this.users = data;
+          console.log(this.users.length);
+          this.users
+            .filter(x => x.bookingDTO)
+            .forEach((u, i) => {
+              const car = data.find(x => x.username === u.username);
+              this.events.push({
+                id: i,
+                title: (u.bookingDTO.carDTO) ? `${car.bookingDTO.carDTO.modelDTO.brand} ${car.bookingDTO.carDTO.modelDTO.modelType} booked by ${u.username}`
+                  : (u.bookingDTO.cancellationDate) ? `Cancelled reservation by ${u.username}`
+                    : (u.bookingDTO.bookingState === 'FINISHED') ? `Finished reservation by ${u.username}` : '',
+                start: u.bookingDTO.withdrawalDate,
+                end: u.bookingDTO.returnDate,
+                color: (u.bookingDTO.cancellationDate) ? '#DC143C' : (u.bookingDTO.bookingState === 'FINISHED') ? '#1E90FF' : ''
+              });
+            });
+        },
+        error => {
+          console.error(error);
+        });
+  }
+
+  cancelBooking(): void {
+    const ref = this.dialogService.open(ConfirmationDialogComponent, {
+      header: 'Confirmation',
+      data: {
+        message: 'You are about to cancel this reservation, do you want to continue ? '
+      }
+    });
+    ref.onClose.subscribe((confirm: boolean) => {
+      if (confirm) {
+      }
+    });
+  }
+
+  deleteBooking(): void {
+    const ref = this.dialogService.open(ConfirmationDialogComponent, {
+      header: 'Confirmation',
+      data: {
+        message: 'You are about to delete this reservation, do you want to continue ? '
+      }
+    });
+    ref.onClose.subscribe((confirm: boolean) => {
+      if (confirm) {
+      }
+    });
+  }
+
+  deleteUser(): void {
+    const ref = this.dialogService.open(ConfirmationDialogComponent, {
+      header: 'Confirmation',
+      data: {
+        message: 'You are about to delete this user, do you want to continue ? '
+      }
+    });
+    ref.onClose.subscribe((confirm: boolean) => {
+      if (confirm) {
+      }
+    });
+  }
+
+  deleteSelectedUsers(): void {
+    const t = this.users.filter(val => this.selectedUsers.includes(val));
+    console.log(t);
+    this.selectedUsers = null;
+  }
+
+  getDate(fc: any): void {
+    // console.log(fc);
+    // console.log((fc as HTMLElement).tagName);
+    let username: string;
+    if ((fc as HTMLElement).tagName === 'SPAN') {
+      const target = fc as HTMLElement;
+      // console.log(target);
+      // console.log(target?.innerHTML.split('by')[1]);
+      username = target?.innerHTML.split('by')[1];
+    } else if ((fc as HTMLElement).tagName === 'DIV') {
+      const target = fc as HTMLElement;
+      const target1 = target.innerHTML as unknown as HTMLElement;
+      // console.log(target.childElementCount);
+      // console.log(target1);
+      // console.log(JSON.stringify(target1)?.split('by')[1]?.split('<')[0]);
+      username = JSON.stringify(target1)?.split('by')[1]?.split('<')[0];
+    }
+
+    if (username) {
+      this.openViewBookingDialog();
+    }
+  }
+
+  onRowEditInit(user: UserInfoDTO): void {
+    this.clonedUsers[user.userId] = {...user};
+  }
+
+  onRowEditSave(user: UserInfoDTO): void {
+    delete this.clonedUsers[user.userId];
+    this.toastService.show(EToastSeverities.INFO, 'user info updated');
+    const t = this.users.find(x => x.userId === user.userId);
+    console.log(t);
+  }
+
+  onRowEditCancel(user: UserInfoDTO, index: number): void {
+    this.users[index] = this.clonedUsers[user.userId];
+    delete this.clonedUsers[user.userId];
+  }
+
+  exportPdf(): void {
+    import('jspdf').then(jsPDF => {
+      import('jspdf-autotable').then(x => {
+        const doc = new jsPDF.default(0, 0);
+        doc.autoTable(this.exportColumns, (this.selectedUsers.length === 0) ? this.users : this.selectedUsers);
+        doc.save('users.pdf');
+      });
+    });
+  }
+
+  exportExcel(): void {
+    const excelUsers = [];
+    this.users.forEach(x => excelUsers.push({username: x.username, email: x.userEmail, phone: x.phoneNumber}));
+    import('xlsx').then(xlsx => {
+      const worksheet = xlsx.utils.json_to_sheet(excelUsers);
+      const workbook = {Sheets: {data: worksheet}, SheetNames: ['data']};
+      const excelBuffer: any = xlsx.write(workbook, {bookType: 'xlsx', type: 'array'});
+      this.saveAsExcelFile(excelBuffer, 'users');
+    });
+  }
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    import('file-saver').then(FileSaver => {
+      const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      const EXCEL_EXTENSION = '.xlsx';
+      const data: Blob = new Blob([buffer], {
+        type: EXCEL_TYPE
+      });
+      FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    });
+  }
+
+  clear(table: Table): void {
+    table.clear();
+  }
+
+  returnArrary(o: any): any[] {
+    let s: any[];
+    s = [o];
+    return s.flatMap(x => x);
+  }
+
+  userBookingToView(user: any): void {
+    this.bookingDetails = user;
+  }
 }

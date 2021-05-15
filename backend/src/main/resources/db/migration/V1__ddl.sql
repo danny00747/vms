@@ -31,7 +31,7 @@ CREATE TABLE users
     id                      uuid        DEFAULT uuid_generate_v4() PRIMARY KEY,
     username                VARCHAR(32)               NOT NULL UNIQUE,
     email                   VARCHAR(255)              NOT NULL UNIQUE,
-    phone_number            VARCHAR(12)               NOT NULL UNIQUE,
+    phone_number            VARCHAR(15)               NOT NULL UNIQUE,
     password                VARCHAR(255)              NOT NULL,
     activated               BOOLEAN     DEFAULT FALSE NOT NULL,
     activation_key          VARCHAR(36),
@@ -157,7 +157,7 @@ CREATE TABLE booking
     withdrawal_date   TIMESTAMPTZ                    NOT NULL,
     return_date       TIMESTAMPTZ                    NOT NULL CHECK (return_date > withdrawal_date),
     user_id           uuid                           NOT NULL UNIQUE,
-    car_id            uuid                           NOT NULL,
+    car_id            uuid,
     created_at        TIMESTAMPTZ     DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (car_id) REFERENCES cars (id) ON UPDATE CASCADE ON DELETE CASCADE
@@ -170,7 +170,7 @@ CREATE TABLE rent
     withdrawal_km         INTEGER     NOT NULL,
     return_km             INTEGER     NOT NULL CHECK (return_km > withdrawal_km),
     effective_return_date TIMESTAMPTZ NOT NULL UNIQUE,
-    caution_payment        boolean     NOT NULL,
+    caution_payment       boolean     NOT NULL,
     booking_id            uuid        NOT NULL,
     created_at            TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (booking_id) REFERENCES booking (id) ON UPDATE CASCADE ON DELETE CASCADE

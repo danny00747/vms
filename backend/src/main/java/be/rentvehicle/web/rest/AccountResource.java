@@ -231,6 +231,21 @@ public class AccountResource extends BaseRestController {
     }
 
     /**
+     * {@code DELETE /user/bulk/delete} : delete Users by id.
+     *
+     * @param userIds the ids of users to delete.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)}.
+     */
+    @DeleteMapping("/user/bulk/delete")
+    @isAdmin
+    public ResponseEntity<Map<String, String>> bulkDeleteUsers(@RequestBody List<String> userIds) {
+        log.debug("REST request to delete multiple Users : {}", userIds);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(Map.of("message", userService.bulkDeleteUsers(userIds)));
+    }
+
+    /**
      * {@code GET  /verifyPhone} : verify a phone number.
      *
      * @param verificationCode the code to verify.

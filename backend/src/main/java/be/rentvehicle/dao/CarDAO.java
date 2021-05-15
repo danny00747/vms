@@ -47,5 +47,5 @@ public interface CarDAO extends JpaRepository<Car, UUID> {
             left join c.booking b
             where :date between b.withdrawalDate and b.returnDate
             """)
-    List<Car> findBetweens(Instant date);
+    List<Car> findBookedCars(Instant date);
 }

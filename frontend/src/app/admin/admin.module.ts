@@ -6,24 +6,27 @@ import {SharedModule} from '@app/shared/shared.module';
 import {CalendarComponent} from './components/calendar/calendar.component';
 import {AddRentComponent} from './components/add-rent/add-rent.component';
 import {AdminGuard} from '@app/core/guards/admin.guard';
+import { ViewBookingComponent } from './components/view-booking/view-booking.component';
+import {DialogService} from 'primeng/dynamicdialog';
+import {ConfirmationService} from 'primeng/api';
 
 
 const appRoutes: Routes = [
   {
     path: 'admin/management',
     component: CalendarComponent,
-    canActivate: [AdminGuard]
+    // canActivate: [AdminGuard]
   },
 ];
 
 @NgModule({
-  declarations: [CalendarComponent, AddRentComponent],
+  declarations: [CalendarComponent, AddRentComponent, ViewBookingComponent],
   imports: [
     CommonModule,
     FullCalendarModule,
     SharedModule,
     RouterModule.forChild(appRoutes),
-  ]
+  ], providers: [ConfirmationService]
 })
 export class AdminModule {
 }

@@ -5,8 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
@@ -38,6 +40,11 @@ public interface UserDAO extends JpaRepository<User, UUID> {
     List<User> findAllByCreatedAtBetween(Instant dateTime1, Instant dateTime2);
 
     Page<User> findAllByUsernameNot(Pageable pageable, String username);
+
+    @Transactional
+    @Modifying
+    @Query("delete from User u where u.id in :uuids")
+    List<User> deleteUsersById(List<UUID> uuids);
 
     @Query(""" 
                 select distinct user from User user 

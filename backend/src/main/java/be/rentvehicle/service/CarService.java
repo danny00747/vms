@@ -39,10 +39,10 @@ public interface CarService {
     /**
      * Get a car given its id .
      *
-     * @param id the id of car to search.
+     * @param carId the id of car to search.
      * @return the found entity.
      */
-    Optional<CarDTO> getOneCarById(String id);
+    Optional<CarDTO> getOneCarById(String carId);
 
 
     /**

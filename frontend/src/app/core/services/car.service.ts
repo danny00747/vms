@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {CarDTO} from '@app/shared/models';
+import {CarDTO, ModelDTO} from '@app/shared/models';
 import {Observable} from 'rxjs';
 
 @Injectable({
@@ -26,6 +26,10 @@ export class CarService {
 
   getNoneBookedCars(withdrawalDate: string): Observable<CarDTO[]> {
     return this.http.get<CarDTO[]>(`/api/v1/cars?withdrawalDate=${withdrawalDate}`);
+  }
+
+  getAllCarsModels(): Observable<ModelDTO[]> {
+    return this.http.get<ModelDTO[]>(`/api/v1/models`);
   }
 
 }

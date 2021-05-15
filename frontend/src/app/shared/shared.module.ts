@@ -22,6 +22,13 @@ import {TooltipModule} from 'primeng/tooltip';
 import {DropdownModule} from 'primeng/dropdown';
 import {InputMaskModule} from 'primeng/inputmask';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { TagModule } from 'primeng/tag';
+import {BadgeModule} from 'primeng/badge';
+import {SplitButtonModule} from 'primeng/splitbutton';
+import {DividerModule} from 'primeng/divider';
+import {CardModule} from 'primeng/card';
+import {DialogModule} from 'primeng/dialog';
+import {ConfirmPopupModule} from 'primeng/confirmpopup';
 
 @NgModule({
   declarations: [SidebarComponent, NavbarComponent, ConfirmationDialogComponent],
@@ -33,11 +40,18 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     RatingModule,
     HttpClientModule,
     PasswordModule,
+    DialogModule,
     InputTextModule,
     RippleModule,
     InputMaskModule,
+    DividerModule,
+    ConfirmPopupModule,
+    CardModule,
     TabViewModule,
+    SplitButtonModule,
     TooltipModule,
+    TagModule,
+    BadgeModule,
     ToolbarModule,
     CalendarModule,
     DropdownModule,
@@ -52,11 +66,18 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     ReactiveFormsModule,
     NgbModule,
     HttpClientModule,
+    ConfirmPopupModule,
     RatingModule,
     ToolbarModule,
+    DividerModule,
+    DialogModule,
+    CardModule,
     MultiSelectModule,
     TooltipModule,
+    TagModule,
+    SplitButtonModule,
     TabViewModule,
+    BadgeModule,
     InputMaskModule,
     ToastModule,
     InputTextModule,

@@ -15,6 +15,10 @@ export class UserService {
     return this.http.get<UserInfoDTO>(`/api/v1/account`);
   }
 
+  getAllUsers(): Observable<UserInfoDTO[]> {
+    return this.http.get<UserInfoDTO[]>(`/api/v1/users`);
+  }
+
   createUser(user: CreateUserDTO): Observable<{ message: string }> {
     return this.http.post<{ message: string }>(`/api/v1/register`, user);
   }

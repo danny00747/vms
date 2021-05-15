@@ -2,7 +2,6 @@ package be.rentvehicle.service;
 
 import be.rentvehicle.domain.Booking;
 import be.rentvehicle.service.dto.BookingDTO;
-import be.rentvehicle.service.dto.UserInfoDTO;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -28,6 +27,14 @@ public interface BookingService {
      * @return the persisted entity.
      */
     BookingDTO save(@Valid BookingDTO bookingDTO, String cardId);
+
+    /**
+     * Cancels a specific reservation.
+     *
+     * @param bookingId id of the reservation.
+     * @return confirmation message.
+     */
+    Optional<String> cancelReservation(String bookingId);
 
     /**
      * Deletes a specific reservation, and return a confirmation message.

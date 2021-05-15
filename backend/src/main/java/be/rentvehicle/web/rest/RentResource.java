@@ -29,11 +29,11 @@ public class RentResource extends BaseRestController {
     /**
      * {@code GET  /rents} : get all the rents.
      *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of users in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rents in body.
      */
     @GetMapping("/rents")
     @isAdmin
-    public ResponseEntity<List<RentDTO>> getAllBookings() {
+    public ResponseEntity<List<RentDTO>> getAllRents() {
         log.debug("REST request to get all rents");
         List<RentDTO> rents = this.rentService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(rents);

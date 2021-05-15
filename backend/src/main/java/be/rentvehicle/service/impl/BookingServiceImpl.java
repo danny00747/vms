@@ -13,6 +13,7 @@ import be.rentvehicle.service.CarService;
 import be.rentvehicle.service.MailService;
 import be.rentvehicle.service.UserService;
 import be.rentvehicle.service.dto.BookingDTO;
+import be.rentvehicle.service.dto.CarDTO;
 import be.rentvehicle.service.impl.errors.ResourceFoundException;
 import be.rentvehicle.service.impl.errors.UserNotFoundException;
 import be.rentvehicle.service.mapper.BookingMapper;
@@ -27,6 +28,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -76,7 +78,6 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingDTO save(@Valid BookingDTO bookingDTO, String cardId) {
-        carService.getOneCarById(cardId);
 
         Booking booking = bookingMapper.toEntity(bookingDTO);
 
@@ -90,7 +91,7 @@ public class BookingServiceImpl implements BookingService {
                 .orElseThrow(() -> new UserNotFoundException("User could not be found"));
 
         Car car = Optional.of(carDAO
-                .findById(UUID.fromString(cardId)))
+                .findById(validatedId(cardId)))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .orElseThrow(() -> new ResourceFoundException("No car was found with this id :" + cardId));
@@ -105,11 +106,12 @@ public class BookingServiceImpl implements BookingService {
                 .withZone(ZoneId.systemDefault());
 
             /*
-            long nbOfDaysBetween = ChronoUnit.DAYS.between(booking.getWithdrawalDate(), booking.getReturnDate());
+                    long nbOfDaysBetween = ChronoUnit.DAYS.between(booking.getWithdrawalDate(), booking.getReturnDate());
             long total = booking.getCar().getModel().getPricingClass().getCostPerDay() * nbOfDaysBetween;
 
                     mailService.sendReservationEMail(
                     "danbarca955@gmail.com",
+                    booking.getId().toString(),
                     booking.getCar().getModel().getBrand() + " " + booking.getCar().getModel().getModelType(),
                     formatter.format(booking.getReturnDate()),
                     formatter.format(booking.getWithdrawalDate()),
@@ -130,6 +132,34 @@ public class BookingServiceImpl implements BookingService {
                     bookingDAO.delete(booking);
                     return booking.getUser().getUsername() + "'s reservation has been successfully deleted !";
                 });
+    }
+
+    @Override
+    public Optional<String> cancelReservation(String id) {
+        return Optional.of(bookingDAO
+                .findById(validatedId(id)))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(booking -> {
+                    if (!booking.getBookingState().toString().equals(BOOKINGSTATE.CANCELLED.toString())) {
+                        booking.setBookingState(BOOKINGSTATE.CANCELLED);
+                        booking.setCancellationDate(Instant.now());
+                        booking.setCar(null);
+                        bookingDAO.save(booking);
+                        return "This reservation has been successfully cancelled !";
+                    }
+                    return "This reservation has already been cancelled.";
+                });
+    }
+
+    private UUID validatedId(String id) {
+        UUID validId;
+        try {
+            validId = UUID.fromString(id);
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException("Please provide a valid UUID");
+        }
+        return validId;
     }
 }
 

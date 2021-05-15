@@ -3,11 +3,7 @@ package be.rentvehicle.web.rest;
 import be.rentvehicle.security.securityAnnotations.isAdmin;
 import be.rentvehicle.service.BookingService;
 import be.rentvehicle.service.dto.BookingDTO;
-import be.rentvehicle.service.dto.UserInfoDTO;
-import be.rentvehicle.service.impl.errors.EmailAlreadyUsedException;
 import be.rentvehicle.service.impl.errors.ResourceFoundException;
-import be.rentvehicle.service.impl.errors.UserNotFoundException;
-import be.rentvehicle.service.impl.errors.UsernameAlreadyUsedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,7 +13,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.awt.print.Book;
 import java.util.List;
 import java.util.Map;
 
@@ -78,6 +73,23 @@ public class BookingResource extends BaseRestController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(Map.of("message", bookingService.deleteBooking(bookingId)
+                        .orElseThrow(() -> new ResourceFoundException("No booking was found with this id :" + bookingId))));
+    }
+
+    /**
+     * {@code GET /bookings/{bookingId}/cancel} : cancel the a reservation.
+     *
+     * @param bookingId the id of the reservation to cancel.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the of the updated booking or with status {@code 404 (Not Found)}.
+     * @throws IllegalArgumentException {@code 400 (Bad Request)} if the id is an invalid UUID.
+     * @throws ResourceFoundException   {@code 404 (Not Found)} if a booking couldn't be returned.
+     */
+    @GetMapping("/bookings/{bookingId}/cancel")
+    public ResponseEntity<Map<String, String>> cancelReservation(@PathVariable("bookingId") String bookingId) {
+        log.debug("REST request to cancel a reservation : {}", bookingId);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(Map.of("message", bookingService.cancelReservation(bookingId)
                         .orElseThrow(() -> new ResourceFoundException("No booking was found with this id :" + bookingId))));
     }
 }

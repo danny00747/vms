@@ -56,7 +56,7 @@ public class CarServiceImpl implements CarService {
     public Optional<CarDTO> partialUpdate(CarDTO carDTO) {
         log.debug("Request to partially update Car : {}", carDTO);
         return carDAO
-                .findById(UUID.fromString(carDTO.getCarId()))
+                .findById(validatedId(carDTO.getCarId()))
                 .map(existingCar -> {
                             carMapper.partialUpdate(existingCar, carDTO);
                             return existingCar;
@@ -67,16 +67,10 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Optional<CarDTO> getOneCarById(String id) {
-        UUID carId;
-        try {
-            carId = UUID.fromString(id);
-        } catch (IllegalArgumentException ex) {
-            throw new IllegalArgumentException("Please provide a valid UUID");
-        }
+    public Optional<CarDTO> getOneCarById(String carId) {
 
         return Optional.of(carDAO
-                .findById(carId))
+                .findById(validatedId(carId)))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(carMapper::toDto);
@@ -87,7 +81,7 @@ public class CarServiceImpl implements CarService {
 
         if (date.compareTo(Instant.now().minus(3, ChronoUnit.MINUTES)) > 0) {
 
-            List<Car> bookedCars = carDAO.findBetweens(date);
+            List<Car> bookedCars = carDAO.findBookedCars(date);
 
             if (bookedCars.size() == 0) {
                 return carDAO.findAll()
@@ -112,6 +106,16 @@ public class CarServiceImpl implements CarService {
                     .map(carMapper::toDto)
                     .collect(Collectors.toList());
         }
+    }
+
+    private UUID validatedId(String id) {
+        UUID validId;
+        try {
+            validId = UUID.fromString(id);
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException("Please provide a valid UUID");
+        }
+        return validId;
     }
 
 }
