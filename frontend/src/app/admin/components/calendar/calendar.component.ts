@@ -34,16 +34,10 @@ export class CalendarComponent implements OnInit {
   clonedUsers: { [s: string]: UserInfoDTO; } = {};
   exportColumns: any[];
   cols: any[];
-  statusess: SelectItem[];
-  bookoingAction: MenuItem[];
+  bookingStateOption: SelectItem[];
+  fullBookoingAction: MenuItem[];
+  smallBookoingAction: MenuItem[];
   selectedUsers: UserInfoDTO[];
-
-
-  first = 0;
-
-  rows = 10;
-
-  // @ViewChild('calendar') private calendar;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -76,19 +70,17 @@ export class CalendarComponent implements OnInit {
       {label: 'Verified', value: 'yes'},
       {label: 'Unverified', value: 'no'}];
 
-    this.statusess = [
-      {label: 'Unqualified', value: 'unqualified'},
-      {label: 'Qualified', value: 'qualified'},
-      {label: 'New', value: 'new'},
-      {label: 'Negotiation', value: 'negotiation'},
-      {label: 'Renewal', value: 'renewal'},
-      {label: 'Proposal', value: 'proposal'}
+    this.bookingStateOption = [
+      {label: 'open', value: 'OPEN'},
+      {label: 'cancelled', value: 'CANCELLED'},
+      {label: 'finished', value: 'FINISHED'},
+      {label: 'deleted', value: 'DELETED'}
     ];
-    this.bookoingAction = [
+    this.fullBookoingAction = [
       {
         id: '1', label: 'View', icon: 'pi pi-eye', command: (event) => {
           console.log(this.bookingDetails);
-          this.openViewBookingDialog();
+          this.openViewBookingDialog(this.bookingDetails);
         }
       },
       {
@@ -103,6 +95,21 @@ export class CalendarComponent implements OnInit {
       },
       {separator: true},
       {label: 'Setup', icon: 'pi pi-cog', routerLink: ['/setup']}
+    ];
+    this.smallBookoingAction = [
+      {
+        id: '1', label: 'View', icon: 'pi pi-eye', command: (event) => {
+          console.log(this.bookingDetails);
+          this.openViewBookingDialog(this.bookingDetails);
+        }
+      },
+      {
+        label: 'Delete', icon: 'pi pi-times', command: () => {
+          this.deleteBooking();
+        }
+      },
+      {separator: true},
+      {label: 'Setup', icon: 'pi pi-cog'}
     ];
 
     this.cols = [
@@ -142,10 +149,10 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  openViewBookingDialog(): void {
+  openViewBookingDialog(bookingDetails: UserInfoDTO): void {
     const ref = this.dialogService.open(ViewBookingComponent, {
       header: 'Booking Details',
-      data: this.bookingDetails
+      data: bookingDetails
     });
 
     ref.onClose.subscribe((formId: number) => {
@@ -171,7 +178,7 @@ export class CalendarComponent implements OnInit {
                     : (u.bookingDTO.bookingState === 'FINISHED') ? `Finished reservation by ${u.username}` : '',
                 start: u.bookingDTO.withdrawalDate,
                 end: u.bookingDTO.returnDate,
-                color: (u.bookingDTO.cancellationDate) ? '#DC143C' : (u.bookingDTO.bookingState === 'FINISHED') ? '#1E90FF' : ''
+                color: (u.bookingDTO.cancellationDate) ? '#DC143C' : (u.bookingDTO.bookingState === 'FINISHED') ? '#e49b0f' : ''
               });
             });
         },
@@ -225,26 +232,24 @@ export class CalendarComponent implements OnInit {
     this.selectedUsers = null;
   }
 
-  getDate(fc: any): void {
-    // console.log(fc);
-    // console.log((fc as HTMLElement).tagName);
-    let username: string;
+  getClikedDate(fc: any): void {
+
+    let clickedUsername = '';
     if ((fc as HTMLElement).tagName === 'SPAN') {
       const target = fc as HTMLElement;
-      // console.log(target);
-      // console.log(target?.innerHTML.split('by')[1]);
-      username = target?.innerHTML.split('by')[1];
+      clickedUsername = target?.innerHTML.split('by')[1]?.substring(1);
     } else if ((fc as HTMLElement).tagName === 'DIV') {
       const target = fc as HTMLElement;
       const target1 = target.innerHTML as unknown as HTMLElement;
-      // console.log(target.childElementCount);
-      // console.log(target1);
-      // console.log(JSON.stringify(target1)?.split('by')[1]?.split('<')[0]);
-      username = JSON.stringify(target1)?.split('by')[1]?.split('<')[0];
+      clickedUsername = JSON.stringify(target1)?.split('by')[1]?.split('<')[0]?.substring(1);
     }
 
-    if (username) {
-      this.openViewBookingDialog();
+    if (clickedUsername) {
+      const user = this.users
+        .find(u => u.username === clickedUsername);
+      if (user){
+        this.openViewBookingDialog(user);
+      }
     }
   }
 

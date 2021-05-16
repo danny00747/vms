@@ -17,7 +17,7 @@ export interface CreateUserDTO {
 
 export class UserInfoDTO {
   userId: string;
-  username: string;
+  username: any;
   userEmail: string;
   phoneNumber: string;
   userRoles: RoleDTO[];

@@ -24,6 +24,9 @@ public @Data class BookingDTO {
     private Instant returnDate;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Instant createdAt;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private CarDTO carDTO;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

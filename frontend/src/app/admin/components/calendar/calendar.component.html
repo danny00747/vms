@@ -7,14 +7,14 @@
     <div class="overlay"></div>
     <div class="container">
       <br><br>
-      <h1 class="page_title text-white mb-0">Calendar</h1>
+      <h1 class="page_title text-white mb-0">Reservations Management</h1>
     </div>
   </div>
   <div class="breadcrumb_nav clearfix" style="background-color: #F2F2F2">
     <div class="container">
       <ul class="ul_li clearfix">
         <li><a>Home</a></li>
-        <li>Calendar</li>
+        <li>Reservations Management</li>
       </ul>
     </div>
   </div>
@@ -40,7 +40,7 @@
 
       <!-- calendar -->
       <p-tabPanel header="Calendar" [leftIcon]="'pi pi-fw pi-calendar'">
-        <p-fullCalendar (click)="getDate($event.target)" [events]="events" [options]="options"></p-fullCalendar>
+        <p-fullCalendar (click)="getClikedDate($event.target)" [events]="events" [options]="options"></p-fullCalendar>
       </p-tabPanel>
 
 
@@ -62,6 +62,7 @@
                  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
                  [rowsPerPageOptions]="[10,25,50]">
 
+          <!-- table caption -->
           <ng-template pTemplate="caption">
             <div class="p-d-flex p-ai-center p-jc-between">
               <h5 class="p-m-0">Manage Users</h5>
@@ -82,6 +83,8 @@
               </button>
             </div>
           </ng-template>
+
+          <!-- table header -->
           <ng-template pTemplate="header">
             <tr>
               <th style="width: 3rem">
@@ -96,21 +99,27 @@
                 <p-columnFilter type="text" field="userEmail" display="menu"></p-columnFilter>
               </th>
               <th>Phone
-                <p-columnFilter field="phoneNumber" matchMode="equals" display="menu">
-                  <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                    <p-dropdown [ngModel]="value" [options]="statusess" (onChange)="filter($event.value)"
-                                placeholder="Any">
-                      <ng-template let-option pTemplate="item">
-                        <p-badge styleClass="p-badge-info" value="{{option.label}}"></p-badge>
-                      </ng-template>
-                    </p-dropdown>
-                  </ng-template>
-                </p-columnFilter>
               </th>
               <th>Verified
                 <p-columnFilter type="boolean" field="activated"></p-columnFilter>
               </th>
-              <th>Booking
+              <th pSortableColumn="bookingDTO.bookingState">Booking
+                <p-sortIcon field="bookingDTO.bookingState"></p-sortIcon>
+                <p-columnFilter field="bookingDTO.bookingState" matchMode="equals" display="menu">
+                  <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                    <p-dropdown [ngModel]="value" [options]="bookingStateOption" (onChange)="filter($event.value)"
+                                placeholder="Any">
+                      <ng-template let-option pTemplate="item">
+                        <p-badge *ngIf="option.label === 'open'" severity="success" value="{{option.label}}"></p-badge>
+                        <p-badge *ngIf="option.label === 'cancelled'" severity="danger"
+                                 value="{{option.label}}"></p-badge>
+                        <p-badge *ngIf="option.label === 'finished'" severity="warning"
+                                 value="{{option.label}}"></p-badge>
+                        <p-badge *ngIf="option.label === 'deleted'" severity="info" value="{{option.label}}"></p-badge>
+                      </ng-template>
+                    </p-dropdown>
+                  </ng-template>
+                </p-columnFilter>
               </th>
               <th style="width:8rem"></th>
             </tr>
@@ -181,23 +190,23 @@
               <td>
                 <p-cellEditor>
                   <ng-template pTemplate="input">
-                    <p-dropdown  [options]="statuses" [(ngModel)]="user.activated"
+                    <p-dropdown [options]="statuses" [(ngModel)]="user.activated"
                                 [style]="{'width':'100%'}"></p-dropdown>
                   </ng-template>
                   <ng-template pTemplate="output">
 
                     <span *ngIf="user.activated && !user.activated?.length">
-                      <p-badge [value]="'Verified'" severity="info"></p-badge>
+                      <p-tag styleClass="p-mr-2" icon="fas fa-user-check" severity="info" value="Verified"></p-tag>
                     </span>
                     <span *ngIf="!user.activated && !user.activated?.length">
-                      <p-badge [value]="'Unverified'" severity="danger"></p-badge>
+                      <p-tag styleClass="p-mr-2" icon="fas fa-user-times" severity="danger" value="Unerified"></p-tag>
                     </span>
 
                     <span *ngIf=" user.activated?.length > 0 && user.activated == 'yes'">
-                      <p-badge [value]="'Verified'" severity="info"></p-badge>
+                      <p-tag styleClass="p-mr-2" icon="fas fa-user-check" severity="info" value="Verified"></p-tag>
                     </span>
                     <span *ngIf=" user.activated?.length > 0 && user.activated == 'no'">
-                        <p-badge [value]="'Unverified'" severity="danger"></p-badge>
+                        <p-tag styleClass="p-mr-2" icon="fas fa-user-times" severity="danger" value="Unerified"></p-tag>
                     </span>
 
                   </ng-template>
@@ -205,12 +214,30 @@
               </td>
 
               <!-- view booking btn -->
-              <td>
-                <small>
+              <td *ngIf="user.bookingDTO">
+
+                <small *ngIf="user.bookingDTO.bookingState === 'OPEN'">
                   <p-splitButton label="Action" icon="pi pi-plus" (click)="userBookingToView(user)"
-                                 [model]="bookoingAction" styleClass="p-button-info p-button-sm">
+                                 pBadge severity="success" [value]="'open'"
+                                 [model]="fullBookoingAction" styleClass="p-button-info p-button-sm p-mr-2">
                   </p-splitButton>
                 </small>
+                <small *ngIf="user.bookingDTO.bookingState === 'CANCELLED'">
+                  <p-splitButton label="Action" icon="pi pi-plus" (click)="userBookingToView(user)"
+                                 pBadge severity="danger" [value]="'cancelled'"
+                                 [model]="smallBookoingAction" styleClass="p-button-info p-button-sm p-mr-2">
+                  </p-splitButton>
+                </small>
+                <small *ngIf="user.bookingDTO.bookingState === 'FINISHED'">
+                  <p-splitButton label="Action" icon="pi pi-plus" (click)="userBookingToView(user)"
+                                 pBadge severity="warning" [value]="'finished'"
+                                 [model]="smallBookoingAction" styleClass="p-button-info p-button-sm p-mr-2">
+                  </p-splitButton>
+                </small>
+              </td>
+
+              <td *ngIf="!user.bookingDTO">
+                <p-chip label="No booking" icon="pi pi-times-circle" styleClass="p-mr-2"></p-chip>
               </td>
 
               <!-- edit and delete btn -->

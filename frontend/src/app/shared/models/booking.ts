@@ -7,6 +7,7 @@ export class BookingDTO {
   bookingState: BookingState;
   withdrawalDate: Date;
   returnDate: Date;
+  createdAt?: Date;
   carDTO: CarDTO;
   rentDTO: RentDTO;
 }

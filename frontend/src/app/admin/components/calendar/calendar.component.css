@@ -26,3 +26,8 @@
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
+
+.p-dialog-title{
+  color: #000C21;
+  font-family: "Goldman", cursive;
+}

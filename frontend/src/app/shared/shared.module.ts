@@ -29,6 +29,9 @@ import {DividerModule} from 'primeng/divider';
 import {CardModule} from 'primeng/card';
 import {DialogModule} from 'primeng/dialog';
 import {ConfirmPopupModule} from 'primeng/confirmpopup';
+import { ChipModule } from 'primeng/chip';
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
 
 @NgModule({
   declarations: [SidebarComponent, NavbarComponent, ConfirmationDialogComponent],
@@ -41,6 +44,9 @@ import {ConfirmPopupModule} from 'primeng/confirmpopup';
     HttpClientModule,
     PasswordModule,
     DialogModule,
+    MessagesModule,
+    MessageModule,
+    ChipModule,
     InputTextModule,
     RippleModule,
     InputMaskModule,
@@ -66,9 +72,12 @@ import {ConfirmPopupModule} from 'primeng/confirmpopup';
     ReactiveFormsModule,
     NgbModule,
     HttpClientModule,
+    MessagesModule,
+    MessageModule,
     ConfirmPopupModule,
     RatingModule,
     ToolbarModule,
+    ChipModule,
     DividerModule,
     DialogModule,
     CardModule,

@@ -9,6 +9,7 @@ import {AdminGuard} from '@app/core/guards/admin.guard';
 import { ViewBookingComponent } from './components/view-booking/view-booking.component';
 import {DialogService} from 'primeng/dynamicdialog';
 import {ConfirmationService} from 'primeng/api';
+import { EditCarsListComponent } from './components/edit-cars-list/edit-cars-list.component';
 
 
 const appRoutes: Routes = [
@@ -20,7 +21,7 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [CalendarComponent, AddRentComponent, ViewBookingComponent],
+  declarations: [CalendarComponent, AddRentComponent, ViewBookingComponent, EditCarsListComponent],
   imports: [
     CommonModule,
     FullCalendarModule,

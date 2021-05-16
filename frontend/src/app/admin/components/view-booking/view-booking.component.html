@@ -1,46 +1,248 @@
-<p></p>
-
+<h6>Created on {{bookingDetails.createdAt | date}}</h6>
 <p-tabView>
-  <p-tabPanel header="Car" rightIcon="fas fa-car" tooltip="car info">
 
-    <h5>{{bookingDetails.username}}</h5>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,.</p>
+  <!-- user details -->
+  <p-tabPanel header="User" rightIcon="fas fa-user" tooltip="user info">
 
-    <p-divider align="left">
+    <!-- username -->
+    <p-divider  align="left">
       <div class="p-d-inline-flex p-ai-center">
-        <i class="pi pi-user p-mr-2"></i>
-        <b>Icon</b>
+        <i class="fas fa-user p-mr-2"></i>
+        <b>username</b>
       </div>
     </p-divider>
 
-    <p>Sed ut perspiciatis unde omnis iste natus er.</p>
+    <p>
+      {{bookingDetails.username}}
+    </p>
 
-    <p-divider align="center">
-      <span class="p-tag">Badge</span>
+    <!-- email -->
+    <p-divider align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <i class="fas fa-envelope p-mr-2"></i>
+        <b>email</b>
+      </div>
     </p-divider>
 
-    <p>At vero eos et accusamus et iusto </p>
+    <p>
+      {{bookingDetails.userEmail}}
+    </p>
 
-    <p-divider align="right">
-      <p-button label="Button" icon="pi pi-search" styleClass="p-button-outlined"></p-button>
+    <!-- phone -->
+    <p-divider align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <i class="fas fa-mobile-alt p-mr-2"></i>
+        <b>phone</b>
+      </div>
     </p-divider>
 
-    <p>Temporibus autem quibusdam et aut officiis </p>
+    <p>
+      {{bookingDetails.phoneNumber}}
+    </p>
+
+    <!-- role -->
+    <p-divider *ngIf="bookingDetails.userRoles.length !== 0" align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <i class="fas fa-user p-mr-2"></i>
+        <b>role</b>
+      </div>
+    </p-divider>
+
+    <p *ngIf="bookingDetails.userRoles.length !== 0">
+      {{bookingDetails.userRoles[0].name}}
+    </p>
+
+    <!-- cancellation date  -->
+    <p-divider *ngIf="bookingDetails.addressDTO" align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <i class="fas fa-map-marker-alt p-mr-2"></i>
+        <b>address</b>
+      </div>
+    </p-divider>
+
+    <p *ngIf="bookingDetails.addressDTO">
+      {{bookingDetails.addressDTO.road}}, {{bookingDetails.addressDTO.houseNumber}} bte {{bookingDetails.addressDTO.postBox}}
+    </p>
+    <p *ngIf="bookingDetails.addressDTO">
+      {{bookingDetails.addressDTO.townDTO.postcode}}  {{bookingDetails.addressDTO.townDTO.name}}
+    </p>
+
   </p-tabPanel>
-  <p-tabPanel header="Car Model" rightIcon="fas fa-car" tooltip="car model">
-    <p>Sed ut perspiciatis unde omnis is.</p>
+
+  <!-- booking details -->
+  <p-tabPanel *ngIf="bookingDetails.bookingDTO" header="Booking" rightIcon="fas fa-tag" tooltip="booking info">
+
+    <!-- booking ref -->
+    <p-divider  align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <i class="fas fa-tag p-mr-2"></i>
+        <b>reference</b>
+      </div>
+    </p-divider>
+
+    <p>
+      {{bookingDetails.bookingDTO.bookingId}}
+    </p>
+
+    <!-- booking state -->
+    <p-divider align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <i class="fas fa-tag p-mr-2"></i>
+        <b>booking state</b>
+      </div>
+    </p-divider>
+
+    <p>
+      <p-badge *ngIf="bookingDetails.bookingDTO.bookingState === 'OPEN'" severity="success" value="{{bookingDetails.bookingDTO.bookingState}}"></p-badge>
+      <p-badge *ngIf="bookingDetails.bookingDTO.bookingState === 'CANCELLED'" severity="danger" value="{{bookingDetails.bookingDTO.bookingState}}"></p-badge>
+      <p-badge *ngIf="bookingDetails.bookingDTO.bookingState === 'FINISHED'" severity="warning" value="{{bookingDetails.bookingDTO.bookingState}}"></p-badge>
+      <p-badge *ngIf="bookingDetails.bookingDTO.bookingState === 'DELETED'" severity="info" value="{{bookingDetails.bookingDTO.bookingState}}"></p-badge>
+    </p>
+
+    <!-- withdrawal date  -->
+    <p-divider align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <i class="far fa-calendar-alt p-mr-2"></i>
+        <b>withdrawal date</b>
+      </div>
+    </p-divider>
+
+    <p>
+      {{bookingDetails.bookingDTO.withdrawalDate | date}}
+    </p>
+
+    <!-- return date  -->
+    <p-divider align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <i class="far fa-calendar-alt p-mr-2"></i>
+        <b>return date</b>
+      </div>
+    </p-divider>
+
+    <p>
+      {{bookingDetails.bookingDTO.returnDate | date}}
+    </p>
+
+    <!-- cancellation date  -->
+    <p-divider *ngIf="bookingDetails.bookingDTO.cancellationDate" align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <i class="far fa-calendar-alt p-mr-2"></i>
+        <b>cancellation date</b>
+      </div>
+    </p-divider>
+
+    <p *ngIf="bookingDetails.bookingDTO.cancellationDate">
+      {{bookingDetails.bookingDTO.cancellationDate | date}}
+
+      <p-messages *ngIf="2 > diffDays" severity="warn">
+        <ng-template pTemplate>
+          <i class=" pi pi-exclamation-triangle" style="font-size: 2rem"></i>
+          <div class="p-ml-2">{{bookingDetails.username}} cancelled this reservation {{this.diffDays}} day before the withdrawal date !</div>
+        </ng-template>
+      </p-messages>
+
+    </p>
+
   </p-tabPanel>
-  <p-tabPanel header="Pricing" rightIcon="pi pi-star" tooltip="car pricing">
+
+  <!-- car details -->
+  <p-tabPanel *ngIf="bookingDetails.bookingDTO.carDTO" header="Car" rightIcon="fas fa-car" tooltip="car info">
+
+    <!-- car name -->
+    <p-divider align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <i class="fas fa-car p-mr-2"></i>
+        <b>name</b>
+      </div>
+    </p-divider>
+
+    <p>
+      <img class="p-mr-2"
+           src="../../../../assets/images/feature/super-small/{{bookingDetails.bookingDTO.carDTO.modelDTO.brand}} {{bookingDetails.bookingDTO.carDTO.modelDTO.modelType}}.jpg" alt="image_not_found">
+      {{bookingDetails.bookingDTO.carDTO.modelDTO.brand}} {{bookingDetails.bookingDTO.carDTO.modelDTO.modelType}}
+    </p>
+
+    <!-- license plate -->
+    <p-divider align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <i class="fas fa-car p-mr-2"></i>
+        <b>license plate</b>
+      </div>
+    </p-divider>
+
+    <p>
+      {{bookingDetails.bookingDTO.carDTO.licensePlate}}
+    </p>
+
+    <!-- made in year -->
+    <p-divider align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <i class="far fa-calendar-alt p-mr-2"></i>
+        <b>made in year</b>
+      </div>
+    </p-divider>
+
+    <p>
+      {{bookingDetails.bookingDTO.carDTO.madeInYear}}
+    </p>
+
+  </p-tabPanel>
+
+  <!-- car model -->
+  <p-tabPanel *ngIf="bookingDetails.bookingDTO.carDTO" header="Car Model" rightIcon="fas fa-car" tooltip="car model">
+
+    <!-- model brand -->
+    <p-divider align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <i class="fas fa-car p-mr-2"></i>
+        <b>brand</b>
+      </div>
+    </p-divider>
+
+    <p>
+      {{bookingDetails.bookingDTO.carDTO.modelDTO.brand}}
+    </p>
+
+    <!-- model type -->
+    <p-divider align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <i class="fas fa-car p-mr-2"></i>
+        <b>model type</b>
+      </div>
+    </p-divider>
+
+    <p>
+      {{bookingDetails.bookingDTO.carDTO.modelDTO.modelType}}
+    </p>
+
+  </p-tabPanel>
+
+  <!-- pricing -->
+  <p-tabPanel header="Pricing" rightIcon="fas fa-euro-sign" tooltip="car pricing">
     <p>At vero eos et accusamus et iusto odio digni.</p>
   </p-tabPanel>
-  <p-tabPanel header="Rent" leftIcon="pi pi-user" rightIcon="pi pi-star" tooltip="rent details">
-    <p>At vero eos et accusamus et iusto odio digni.</p>
+
+  <!-- rent -->
+  <p-tabPanel *ngIf="bookingDetails.bookingDTO.rentDTO" header="Rent" leftIcon="pi pi-user" rightIcon="pi pi-star" tooltip="rent details">
+
+    <!-- made in year -->
+    <p-divider align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <i class="far fa-calendar-alt p-mr-2"></i>
+        <b>made in year</b>
+      </div>
+    </p-divider>
+
+    <p>
+      {{bookingDetails.bookingDTO.rentDTO.withdrawalKm}}
+    </p>
+
   </p-tabPanel>
 </p-tabView>
 
 <p-divider></p-divider>
 <span style="float: right">
-      <p-button icon="pi pi-check" label="Ok" styleClass="p-button-text"></p-button>
+      <p-button icon="pi pi-check" label="Ok" styleClass="p-button-outlined" (click)="ref.close()"></p-button>
   </span>
 <br>
 
