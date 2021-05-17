@@ -45,7 +45,7 @@
 
 
       <!-- users -->
-      <p-tabPanel header="Users">
+      <p-tabPanel header="Users" [leftIcon]="'pi pi-users'">
         <h5>List of users</h5>
         <br>
         <p-toolbar styleClass="p-mb-4">
@@ -90,21 +90,20 @@
               <th style="width: 3rem">
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
               </th>
-              <th pSortableColumn="username">Username
+              <th pSortableColumn="username"><strong>Username</strong>
                 <p-sortIcon field="username"></p-sortIcon>
                 <p-columnFilter type="text" field="username" display="menu"></p-columnFilter>
               </th>
-              <th pSortableColumn="userEmail">Email
+              <th pSortableColumn="userEmail"><strong>Email</strong>
                 <p-sortIcon field="userEmail"></p-sortIcon>
                 <p-columnFilter type="text" field="userEmail" display="menu"></p-columnFilter>
               </th>
-              <th>Phone
+              <th><strong>Phone</strong>
               </th>
-              <th>Verified
-                <p-columnFilter type="boolean" field="activated"></p-columnFilter>
+              <th><strong>Verified</strong>
+                <p-columnFilter type="boolean" field="activated" display="menu"></p-columnFilter>
               </th>
-              <th pSortableColumn="bookingDTO.bookingState">Booking
-                <p-sortIcon field="bookingDTO.bookingState"></p-sortIcon>
+              <th><strong>Booking</strong>
                 <p-columnFilter field="bookingDTO.bookingState" matchMode="equals" display="menu">
                   <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                     <p-dropdown [ngModel]="value" [options]="bookingStateOption" (onChange)="filter($event.value)"
@@ -141,7 +140,7 @@
                     <input pInputText type="text" [style]="{'width':'100%'}" [(ngModel)]="user.username">
                   </ng-template>
                   <ng-template pTemplate="output">
-                    {{user.username}}
+                    <h6>{{user.username}}</h6>
                   </ng-template>
                 </p-cellEditor>
               </td>
@@ -169,7 +168,7 @@
 
                   </ng-template>
                   <ng-template pTemplate="output">
-                    {{user.userEmail}}
+                     <h6>{{user.userEmail}}</h6>
                   </ng-template>
                 </p-cellEditor>
               </td>
@@ -181,7 +180,7 @@
                     <input pInputText type="text" [style]="{'width':'100%'}" [(ngModel)]="user.phoneNumber">
                   </ng-template>
                   <ng-template pTemplate="output">
-                    {{user.phoneNumber}}
+                     <h6>{{user.phoneNumber}}</h6>
                   </ng-template>
                 </p-cellEditor>
               </td>
@@ -264,9 +263,9 @@
       </p-tabPanel>
 
 
-      <!-- rents -->
-      <p-tabPanel header="Rents">
-        <h5>List of rents</h5>
+      <!-- Vehicules -->
+      <p-tabPanel header="Vehicules" [leftIcon]="'fas fa-car'">
+        <h5>List of all Vehicules</h5>
         <br>
         <p-toolbar styleClass="p-mb-4">
           <ng-template pTemplate="left">
@@ -276,6 +275,30 @@
             <button pButton pRipple [label]="'Delete'" icon="pi pi-trash" class="p-button-danger"></button>
           </ng-template>
         </p-toolbar>
+
+        <app-edit-cars-list></app-edit-cars-list>
+      </p-tabPanel>
+
+      <!-- Rents -->
+      <p-tabPanel header="Rents" [leftIcon]="'fas fa-car'">
+        <h5>List of all Rents</h5>
+        <br>
+        <p-toolbar styleClass="p-mb-4">
+          <ng-template pTemplate="left">
+            <button (click)="openAddRentDialog()" pButton pRipple label="New" icon="pi pi-plus"
+                    class="p-button-success p-mr-2">
+            </button>
+            <button pButton pRipple [label]="'Delete'" icon="pi pi-trash" class="p-button-danger"></button>
+          </ng-template>
+        </p-toolbar>
+
+        <app-rent-list></app-rent-list>
+      </p-tabPanel>
+
+
+      <!-- Car Maintenance -->
+      <p-tabPanel header="Car Maintenance" [leftIcon]="'fas fa-car'">
+      <app-car-maintenance></app-car-maintenance>
       </p-tabPanel>
     </p-tabView>
   </div>

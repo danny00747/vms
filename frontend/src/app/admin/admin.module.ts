@@ -10,7 +10,8 @@ import { ViewBookingComponent } from './components/view-booking/view-booking.com
 import {DialogService} from 'primeng/dynamicdialog';
 import {ConfirmationService} from 'primeng/api';
 import { EditCarsListComponent } from './components/edit-cars-list/edit-cars-list.component';
-
+import { CarMaintenanceComponent } from './components/car-maintenance/car-maintenance.component';
+import { RentListComponent } from './components/rent-list/rent-list.component';
 
 const appRoutes: Routes = [
   {
@@ -21,7 +22,7 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [CalendarComponent, AddRentComponent, ViewBookingComponent, EditCarsListComponent],
+  declarations: [CalendarComponent, AddRentComponent, ViewBookingComponent, EditCarsListComponent, CarMaintenanceComponent, RentListComponent],
   imports: [
     CommonModule,
     FullCalendarModule,

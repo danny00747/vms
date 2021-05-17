@@ -1,1 +1,68 @@
-<p>edit-cars-list works!</p>
+<div *ngIf="cars.length !== 0" class="card">
+  <p-dataView #dv [value]="cars" [paginator]="true" [rows]="9" filterBy="modelDTO.brand"
+              [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
+    <ng-template pTemplate="header">
+      <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+        <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By Price" (onChange)="onSortChange($event)" styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
+        <span class="p-input-icon-left p-mb-2 p-mb-md-0">
+                    <i class="pi pi-search"></i>
+                    <input type="search" pInputText placeholder="Search by brand" (input)="dv.filter($event.target.value)">
+                </span>
+        <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+      </div>
+    </ng-template>
+    <ng-template let-car pTemplate="listItem">
+      <div class="p-col-12">
+        <div class="product-list-item">
+          <img class="p-mr-2" src="../../../../assets/images/feature/{{car.modelDTO.brand}} {{car.modelDTO.modelType}}.jpg" alt="image_not_found">
+          <div class="product-list-detail">
+            <h4>{{car.modelDTO.brand}} {{car.modelDTO.modelType}}</h4>
+            <h6>{{car.licensePlate}}</h6>
+            <p-rating [ngModel]="rating" stars="5" [readonly]="true" [cancel]="false"></p-rating>
+            <i class="pi pi-tag product-category-icon"></i>
+            <span *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_A'" class="product-category">Premium</span>
+            <span *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_B'" class="product-category">Standard</span>
+            <span *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_C'" class="product-category">Basic</span>
+          </div>
+          <div class="product-list-action">
+            <span class="item_price product-price">{{car.modelDTO.princingDetailsDTO.costPerDay}}€/day</span>
+            <button pButton pRipple icon="pi pi-pencil" type="button" label="Edit" class="p-button-secondary p-button-sm p-button-rounded"></button>
+            <p-badge *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_A'" severity="success" value="A Class"></p-badge>
+            <p-badge *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_B'" severity="info" value="B Class"></p-badge>
+            <p-badge *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_C'" severity="warning" value="C Class"></p-badge>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template let-car pTemplate="gridItem">
+      <div class="p-col-12 p-md-4">
+        <div class="product-grid-item card">
+          <div class="product-grid-item-top">
+            <div style="margin-left: 7px; margin-top: 7px">
+              <i class="pi pi-tag product-category-icon"></i>
+              <span *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_A'" class="product-category">Premium</span>
+              <span *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_B'" class="product-category">Standard</span>
+              <span *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_C'" class="product-category">Basic</span>
+            </div>
+            <span style="margin-right: 7px; margin-top: 7px">
+              <p-badge *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_A'" severity="success" value="A Class"></p-badge>
+              <p-badge *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_B'" severity="info" value="B Class"></p-badge>
+              <p-badge *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_C'" severity="warning" value="C Class"></p-badge>
+            </span>
+          </div>
+          <div class="product-grid-item-content">
+            <img class="p-mr-2" src="../../../../assets/images/feature/{{car.modelDTO.brand}} {{car.modelDTO.modelType}}.jpg" alt="image_not_found">
+            <h4>{{car.modelDTO.brand}} {{car.modelDTO.modelType}}</h4>
+            <h6>{{car.licensePlate}}</h6>
+            <p-rating [ngModel]="rating" stars="5" [readonly]="true" [cancel]="false"></p-rating>
+          </div>
+          <div class="product-grid-item-bottom">
+            <span class="item_price">{{car.modelDTO.princingDetailsDTO.costPerDay}}€/day</span>
+            <button style="margin-bottom: 7px" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2">
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+</div>

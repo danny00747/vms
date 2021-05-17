@@ -11,6 +11,9 @@ export class CarService {
   constructor(private http: HttpClient) {
   }
 
+  getAllCars(): Observable<CarDTO[]> {
+    return this.http.get<CarDTO[]>(`/api/v1/admin/cars`);
+  }
 
   getCars(date: string = new Date().toISOString()): Observable<CarDTO[]> {
     return this.http.get<CarDTO[]>(`/api/v1/cars?withdrawalDate=${date}`);

@@ -1,0 +1,26 @@
+<div *ngIf="sourceCars.length !== 0">
+  <p-pickList [source]="sourceCars" [target]="targetCars" sourceHeader="Available" targetHeader="Damaged" [dragdrop]="true"
+              [responsive]="true" [sourceStyle]="{'height':'30rem'}" [targetStyle]="{'height':'30rem'}"
+              filterBy="modelDTO.brand"
+              sourceFilterPlaceholder="Search by brand" targetFilterPlaceholder="Search by brand">
+    <ng-template let-car pTemplate="item">
+      <div class="product-item">
+        <div class="image-container">
+          <img class="p-mr-2" src="../../../../assets/images/feature/super-small/{{car.modelDTO.brand}} {{car.modelDTO.modelType}}.jpg" alt="image_not_found">
+        </div>
+        <div class="product-list-detail">
+          <h5 class="p-mb-2">{{car.modelDTO.brand}} {{car.modelDTO.modelType}}</h5>
+          <i class="fas fa-tag product-category-icon"></i>
+          <span class="product-category">{{car.licensePlate}}</span>
+        </div>
+        <div class="product-list-action">
+          <h6 class="p-mb-2">{{car.modelDTO.princingDetailsDTO.costPerDay}}€/day</h6>
+          <p-badge *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_A'" severity="success" value="A Class"></p-badge>
+          <p-badge *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_B'" severity="info" value="B Class"></p-badge>
+          <p-badge *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_C'" severity="warning" value="C Class"></p-badge>
+        </div>
+      </div>
+    </ng-template>
+  </p-pickList>
+</div>
+

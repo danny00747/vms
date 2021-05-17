@@ -1,0 +1,71 @@
+<p-toast></p-toast>
+
+<div *ngIf="users.length !== 0" class="card">
+  <p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="left">
+      <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2"></button>
+      <button pButton pRipple [label]="'Delete'" icon="pi pi-trash" class="p-button-danger"  [disabled]="!selectedProducts || !selectedProducts.length"></button>
+    </ng-template>
+
+    <ng-template pTemplate="right">
+      <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table #dt [value]="users" [rows]="10" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']"
+           [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
+           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        <h5 class="p-m-0">Manage Rents</h5>
+        <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="username">username <p-sortIcon field="username"></p-sortIcon></th>
+        <th pSortableColumn="Car Name">Car Name <p-sortIcon field="bookingDTO.carDTO.modelDTO.brand"></p-sortIcon></th>
+        <th>Image</th>
+        <th pSortableColumn="price">Cost <p-sortIcon field="costToPay"></p-sortIcon></th>
+        <th pSortableColumn="category">Withdrawn Km <p-sortIcon field="category"></p-sortIcon></th>
+        <th pSortableColumn="category">Return Km <p-sortIcon field="category"></p-sortIcon></th>
+        <th pSortableColumn="rating">Status <p-sortIcon field="rating"></p-sortIcon></th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="user"></p-tableCheckbox>
+        </td>
+        <td>{{user.username}}</td>
+        <td>{{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}</td>
+        <td>
+          <img src="../../../../assets/images/feature/super-small/{{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}.jpg"
+               alt="'image_not_found'" width="100">
+        </td>
+        <td>{{user.bookingDTO.rentDTO.costToPay}}</td>
+        <td>{{user.bookingDTO.rentDTO.withdrawalKm}}</td>
+        <td>{{user.bookingDTO.rentDTO.returnKm}}</td>
+        <td>{{user.bookingDTO.bookingState}}</td>
+        <td>
+          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"></button>
+          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        In total there are 3 products.
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+
+

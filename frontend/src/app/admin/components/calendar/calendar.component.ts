@@ -15,6 +15,10 @@ import {CarService} from '@app/core/services/car.service';
 import {ViewBookingComponent} from '@app/admin/components/view-booking/view-booking.component';
 import {ConfirmationDialogComponent} from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import {ConfirmationService} from 'primeng/api';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import autoTable from 'jspdf-autotable';
+
 
 @Component({
   selector: 'app-calendar',
@@ -37,7 +41,7 @@ export class CalendarComponent implements OnInit {
   bookingStateOption: SelectItem[];
   fullBookoingAction: MenuItem[];
   smallBookoingAction: MenuItem[];
-  selectedUsers: UserInfoDTO[];
+  selectedUsers: UserInfoDTO[] = [];
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -270,13 +274,29 @@ export class CalendarComponent implements OnInit {
   }
 
   exportPdf(): void {
-    import('jspdf').then(jsPDF => {
+    /*
+        import('jspdf').then(jsPDF => {
       import('jspdf-autotable').then(x => {
         const doc = new jsPDF.default(0, 0);
+        doc.text(35, 15, 'VmsApp Users');
         doc.autoTable(this.exportColumns, (this.selectedUsers.length === 0) ? this.users : this.selectedUsers);
         doc.save('users.pdf');
       });
     });
+     */
+
+    const doc = new jsPDF();
+
+    doc.text('VmsApp Users', 14, 16);
+    doc.autoTable({
+      columns: [
+        { dataKey: 'username', header: 'Username' },
+        { dataKey: 'userEmail', header: 'Email' },
+        { dataKey: 'phoneNumber', header: 'Phone' },
+      ], body: (this.selectedUsers.length === 0) ? this.users : this.selectedUsers, theme: 'grid', startY: 20});
+
+    doc.save('users.pdf');
+
   }
 
   exportExcel(): void {

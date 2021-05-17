@@ -32,6 +32,9 @@ import {ConfirmPopupModule} from 'primeng/confirmpopup';
 import { ChipModule } from 'primeng/chip';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
+import {DataViewModule} from 'primeng/dataview';
+import {PickListModule} from 'primeng/picklist';
+
 
 @NgModule({
   declarations: [SidebarComponent, NavbarComponent, ConfirmationDialogComponent],
@@ -44,6 +47,8 @@ import {MessageModule} from 'primeng/message';
     HttpClientModule,
     PasswordModule,
     DialogModule,
+    DataViewModule,
+    PickListModule,
     MessagesModule,
     MessageModule,
     ChipModule,
@@ -76,6 +81,8 @@ import {MessageModule} from 'primeng/message';
     MessageModule,
     ConfirmPopupModule,
     RatingModule,
+    PickListModule,
+    DataViewModule,
     ToolbarModule,
     ChipModule,
     DividerModule,
