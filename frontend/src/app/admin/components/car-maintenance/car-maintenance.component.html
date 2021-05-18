@@ -15,12 +15,21 @@
         </div>
         <div class="product-list-action">
           <h6 class="p-mb-2">{{car.modelDTO.princingDetailsDTO.costPerDay}}€/day</h6>
-          <p-badge *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_A'" severity="success" value="A Class"></p-badge>
-          <p-badge *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_B'" severity="info" value="B Class"></p-badge>
-          <p-badge *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_C'" severity="warning" value="C Class"></p-badge>
+          <p-badge [style]="{'font-family':'Goldman'}" *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_A'" severity="success" value="A Class"></p-badge>
+          <p-badge [style]="{'font-family':'Goldman'}" *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_B'" severity="info" value="B Class"></p-badge>
+          <p-badge [style]="{'font-family':'Goldman'}" *ngIf="car.modelDTO.princingDetailsDTO.className === 'CLASS_C'" severity="warning" value="C Class"></p-badge>
         </div>
       </div>
     </ng-template>
   </p-pickList>
+  <br>
+  <br>
+  <div style="float: right">
+    <div class="abtn_wrap clearfix">
+      <button (click)="submit()" [disabled]="targetCars.length === 0" class="custom_btn bg_default_red btn_width text-uppercase">Confirm
+        <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found">
+      </button>
+    </div>
+  </div>
 </div>
 

@@ -34,10 +34,11 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {DataViewModule} from 'primeng/dataview';
 import {PickListModule} from 'primeng/picklist';
+import { TruncatePipe } from './pipes/truncate.pipe';
 
 
 @NgModule({
-  declarations: [SidebarComponent, NavbarComponent, ConfirmationDialogComponent],
+  declarations: [SidebarComponent, NavbarComponent, ConfirmationDialogComponent, TruncatePipe],
   imports: [
     CommonModule,
     RouterModule,
@@ -87,6 +88,7 @@ import {PickListModule} from 'primeng/picklist';
     ChipModule,
     DividerModule,
     DialogModule,
+    TruncatePipe,
     CardModule,
     MultiSelectModule,
     TooltipModule,

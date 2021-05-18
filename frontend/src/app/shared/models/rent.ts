@@ -1,4 +1,5 @@
 export class RentDTO {
+  rentId: string;
   licenseNumber: string;
   withdrawalKm: number;
   returnKm: number;

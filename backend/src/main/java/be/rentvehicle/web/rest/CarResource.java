@@ -1,6 +1,7 @@
 package be.rentvehicle.web.rest;
 
 import be.rentvehicle.security.RolesConstants;
+import be.rentvehicle.security.securityAnnotations.isAdmin;
 import be.rentvehicle.service.CarService;
 import be.rentvehicle.service.dto.CarDTO;
 import be.rentvehicle.service.impl.errors.ResourceFoundException;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Validated
@@ -109,6 +111,21 @@ public class CarResource extends BaseRestController {
                         .partialUpdate(carDTO)
                         .orElseThrow(() -> new ResourceFoundException("No car was found with this id :" + id)));
 
+    }
+
+    /**
+     * {@code POST /cars/damaged} : saves all damaged cars
+     *
+     * @param carIds  ids list of cars damaged cars
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)}.
+     */
+    @PostMapping("/admin/cars/damaged")
+    @isAdmin
+    public ResponseEntity<Map<String, String>> saveDamagedCars(@RequestBody List<String> carIds) {
+        log.debug("REST request to save all damaged cars : {}", carIds);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(Map.of("message", carService.saveDamagedCars(carIds)));
     }
 
 }

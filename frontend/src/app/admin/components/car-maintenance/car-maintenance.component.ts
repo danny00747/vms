@@ -25,10 +25,14 @@ export class CarMaintenanceComponent implements OnInit {
       .subscribe(
         async (data: CarDTO[]) => {
           this.sourceCars = data;
+          this.targetCars = data.filter(car => car.isDamaged);
         },
         error => {
           console.error(error);
         });
   }
 
+  submit(): void {
+    console.log(this.targetCars);
+  }
 }

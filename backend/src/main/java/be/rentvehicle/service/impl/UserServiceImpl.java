@@ -172,28 +172,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> updateUser(String usernameParam, String username, String email) {
+    public Optional<UserInfoDTO> updateUser(String usernameParam, UserInfoDTO userDTO) {
 
-        Optional<User> existingUserEmail = userDAO.findOneByEmailIgnoreCase(email);
+        Optional<User> existingUserEmail = userDAO.findOneByEmailIgnoreCase(userDTO.getUserEmail());
         if (existingUserEmail.isPresent() && (!existingUserEmail.get().getUsername().equalsIgnoreCase(usernameParam))) {
-            throw new EmailAlreadyUsedException(email);
+            throw new EmailAlreadyUsedException(userDTO.getUserEmail());
         }
-        Optional<User> existingUsername = userDAO.findOneByUsername(username);
+        Optional<User> existingUsername = userDAO.findOneByUsername(userDTO.getUsername());
         if (existingUsername.isPresent() && (!existingUsername.get().getUsername().equalsIgnoreCase(usernameParam))) {
-            throw new UsernameAlreadyUsedException(username);
+            throw new UsernameAlreadyUsedException(userDTO.getUsername());
         }
 
         return Optional.of(userDAO
                 .findOneByUsername(usernameParam))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .map(user -> {
-                    user.setUsername(username);
-                    user.setEmail(email);
-                    userDAO.save(user);
-                    log.debug("Changed Information for User: {}", user);
-                    return user;
-                });
+                .map(existingUser -> {
+                            userInfoMapper.partialUpdate(existingUser, userDTO);
+                            return existingUser;
+                        }
+                )
+                .map(userDAO::save)
+                .map(userInfoMapper::toDto);
     }
 
     @Override
@@ -216,7 +216,7 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
         List<User> users = userDAO.findAllById(uuids);
         userDAO.deleteAll(users);
-        return (users.size() == 0) ? "No users were deleted !" : "Users were successfully deleted ! N";
+        return (users.size() == 0) ? "No users were deleted !" : "Users were successfully deleted !";
     }
 
     @Override

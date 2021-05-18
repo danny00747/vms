@@ -139,13 +139,15 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  confirm(event: Event): void {
+  confirm(event: any, user: UserInfoDTO): void {
     this.confirmationService.confirm({
       target: event.target,
-      message: 'Are you sure that you want to proceed?',
+      message: 'Are you sure that you want to delete this user?',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.toastService.show(EToastSeverities.INFO, 'confirmed');
+        const foundUser = this.users.findIndex(u => u.userId === user.userId);
+        this.users.splice(foundUser, 1);
+        this.toastService.show(EToastSeverities.INFO, 'User was successfully deleted !');
       },
       reject: () => {
         this.toastService.show(EToastSeverities.ERROR, 'rejected');
@@ -251,7 +253,7 @@ export class CalendarComponent implements OnInit {
     if (clickedUsername) {
       const user = this.users
         .find(u => u.username === clickedUsername);
-      if (user){
+      if (user) {
         this.openViewBookingDialog(user);
       }
     }
@@ -263,9 +265,8 @@ export class CalendarComponent implements OnInit {
 
   onRowEditSave(user: UserInfoDTO): void {
     delete this.clonedUsers[user.userId];
-    this.toastService.show(EToastSeverities.INFO, 'user info updated');
+    this.toastService.show(EToastSeverities.INFO, 'User info were successfully updated !');
     const t = this.users.find(x => x.userId === user.userId);
-    console.log(t);
   }
 
   onRowEditCancel(user: UserInfoDTO, index: number): void {
@@ -283,6 +284,11 @@ export class CalendarComponent implements OnInit {
         doc.save('users.pdf');
       });
     });
+        didParseCell(data: any): void {
+        if (data.column.dataKey === 'bookingDTO') {
+          data.cell.text = data.cell.raw.bookingId;
+        }
+      }
      */
 
     const doc = new jsPDF();
@@ -290,10 +296,12 @@ export class CalendarComponent implements OnInit {
     doc.text('VmsApp Users', 14, 16);
     doc.autoTable({
       columns: [
-        { dataKey: 'username', header: 'Username' },
-        { dataKey: 'userEmail', header: 'Email' },
-        { dataKey: 'phoneNumber', header: 'Phone' },
-      ], body: (this.selectedUsers.length === 0) ? this.users : this.selectedUsers, theme: 'grid', startY: 20});
+        {dataKey: 'username', header: 'Username'},
+        {dataKey: 'userEmail', header: 'Email'},
+        {dataKey: 'phoneNumber', header: 'Phone'},
+        {dataKey: 'bookingDTO', header: 'Booking Ref'},
+      ], body: (this.selectedUsers.length === 0) ? this.users : this.selectedUsers, theme: 'grid', startY: 20
+    });
 
     doc.save('users.pdf');
 

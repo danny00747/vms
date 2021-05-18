@@ -24,7 +24,6 @@ public @Data class UserInfoDTO implements Serializable {
     @Size(min = 4, max = 32, message = "A username length must be between 4 and 32.")
     private String username;
 
-    @Pattern(regexp = Constants.EMAIL_REGEX, message = "Please provide a valid email")
     @NotNull(message = "userEmail is a required field.")
     @Size(min = 5, max = 254)
     private String userEmail;
@@ -42,7 +41,7 @@ public @Data class UserInfoDTO implements Serializable {
     private Set<RoleDTO> userRoles;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private boolean activated = false;
+    private boolean activated;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Instant createdAt;

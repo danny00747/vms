@@ -52,4 +52,12 @@ public interface CarService {
      * @return the found entities.
      */
     List<CarDTO> getBookedCars(Instant date);
+
+    /**
+     * Saves all damaged cars
+     *
+     * @param ids list of cars damaged cars
+     * @return confirmation message.
+     */
+    String saveDamagedCars(List<String> ids);
 }

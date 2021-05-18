@@ -2,13 +2,12 @@
 <p-tabView>
 
   <!-- user details -->
-  <p-tabPanel header="User" rightIcon="fas fa-user" tooltip="user info">
+  <p-tabPanel header="User" [headerStyle]="{'font-family':'Goldman'}" leftIcon="fas fa-user" tooltip="user info">
 
     <!-- username -->
     <p-divider  align="left">
       <div class="p-d-inline-flex p-ai-center">
-        <i class="fas fa-user p-mr-2"></i>
-        <b>username</b>
+        <h6><i class="fas fa-user p-mr-2"></i>username</h6>
       </div>
     </p-divider>
 
@@ -19,8 +18,7 @@
     <!-- email -->
     <p-divider align="left">
       <div class="p-d-inline-flex p-ai-center">
-        <i class="fas fa-envelope p-mr-2"></i>
-        <b>email</b>
+        <h6><i class="fas fa-envelope p-mr-2"></i>email</h6>
       </div>
     </p-divider>
 
@@ -31,8 +29,7 @@
     <!-- phone -->
     <p-divider align="left">
       <div class="p-d-inline-flex p-ai-center">
-        <i class="fas fa-mobile-alt p-mr-2"></i>
-        <b>phone</b>
+        <h6><i class="fas fa-mobile-alt p-mr-2"></i>phone</h6>
       </div>
     </p-divider>
 
@@ -43,8 +40,7 @@
     <!-- role -->
     <p-divider *ngIf="bookingDetails.userRoles.length !== 0" align="left">
       <div class="p-d-inline-flex p-ai-center">
-        <i class="fas fa-user p-mr-2"></i>
-        <b>role</b>
+        <h6><i class="fas fa-user p-mr-2"></i>role</h6>
       </div>
     </p-divider>
 
@@ -55,8 +51,7 @@
     <!-- cancellation date  -->
     <p-divider *ngIf="bookingDetails.addressDTO" align="left">
       <div class="p-d-inline-flex p-ai-center">
-        <i class="fas fa-map-marker-alt p-mr-2"></i>
-        <b>address</b>
+        <h6><i class="fas fa-map-marker-alt p-mr-2"></i>address</h6>
       </div>
     </p-divider>
 
@@ -70,13 +65,13 @@
   </p-tabPanel>
 
   <!-- booking details -->
-  <p-tabPanel *ngIf="bookingDetails.bookingDTO" header="Booking" rightIcon="fas fa-tag" tooltip="booking info">
+  <p-tabPanel *ngIf="bookingDetails.bookingDTO" header="Booking" [headerStyle]="{'font-family':'Goldman'}"
+              leftIcon="fas fa-tag" tooltip="booking info">
 
     <!-- booking ref -->
     <p-divider  align="left">
       <div class="p-d-inline-flex p-ai-center">
-        <i class="fas fa-tag p-mr-2"></i>
-        <b>reference</b>
+        <h6><i class="fas fa-tag p-mr-2"></i>reference</h6>
       </div>
     </p-divider>
 
@@ -87,8 +82,7 @@
     <!-- booking state -->
     <p-divider align="left">
       <div class="p-d-inline-flex p-ai-center">
-        <i class="fas fa-tag p-mr-2"></i>
-        <b>booking state</b>
+        <h6><i class="fas fa-tag p-mr-2"></i>booking state</h6>
       </div>
     </p-divider>
 
@@ -102,8 +96,7 @@
     <!-- withdrawal date  -->
     <p-divider align="left">
       <div class="p-d-inline-flex p-ai-center">
-        <i class="far fa-calendar-alt p-mr-2"></i>
-        <b>withdrawal date</b>
+        <h6><i class="far fa-calendar-alt p-mr-2"></i>withdrawal date</h6>
       </div>
     </p-divider>
 
@@ -114,8 +107,7 @@
     <!-- return date  -->
     <p-divider align="left">
       <div class="p-d-inline-flex p-ai-center">
-        <i class="far fa-calendar-alt p-mr-2"></i>
-        <b>return date</b>
+        <h6><i class="far fa-calendar-alt p-mr-2"></i>return date</h6>
       </div>
     </p-divider>
 
@@ -126,8 +118,7 @@
     <!-- cancellation date  -->
     <p-divider *ngIf="bookingDetails.bookingDTO.cancellationDate" align="left">
       <div class="p-d-inline-flex p-ai-center">
-        <i class="far fa-calendar-alt p-mr-2"></i>
-        <b>cancellation date</b>
+        <h6><i class="far fa-calendar-alt p-mr-2"></i>cancellation date</h6>
       </div>
     </p-divider>
 
@@ -146,13 +137,13 @@
   </p-tabPanel>
 
   <!-- car details -->
-  <p-tabPanel *ngIf="bookingDetails.bookingDTO.carDTO" header="Car" rightIcon="fas fa-car" tooltip="car info">
+  <p-tabPanel *ngIf="bookingDetails.bookingDTO.carDTO" header="Car" [headerStyle]="{'font-family':'Goldman'}"
+              leftIcon="fas fa-car" tooltip="car info">
 
     <!-- car name -->
     <p-divider align="left">
       <div class="p-d-inline-flex p-ai-center">
-        <i class="fas fa-car p-mr-2"></i>
-        <b>name</b>
+        <h6><i class="fas fa-car p-mr-2"></i>name</h6>
       </div>
     </p-divider>
 
@@ -164,8 +155,7 @@
     <!-- license plate -->
     <p-divider align="left">
       <div class="p-d-inline-flex p-ai-center">
-        <i class="fas fa-car p-mr-2"></i>
-        <b>license plate</b>
+        <h6><i class="fas fa-car p-mr-2"></i>license plate</h6>
       </div>
     </p-divider>
 
@@ -176,8 +166,7 @@
     <!-- made in year -->
     <p-divider align="left">
       <div class="p-d-inline-flex p-ai-center">
-        <i class="far fa-calendar-alt p-mr-2"></i>
-        <b>made in year</b>
+        <h6> <i class="far fa-calendar-alt p-mr-2"></i> made in year</h6>
       </div>
     </p-divider>
 
@@ -188,13 +177,13 @@
   </p-tabPanel>
 
   <!-- car model -->
-  <p-tabPanel *ngIf="bookingDetails.bookingDTO.carDTO" header="Car Model" rightIcon="fas fa-car" tooltip="car model">
+  <p-tabPanel *ngIf="bookingDetails.bookingDTO.carDTO" header="Car Model" [headerStyle]="{'font-family':'Goldman'}"
+              leftIcon="fas fa-car" tooltip="car model">
 
     <!-- model brand -->
     <p-divider align="left">
       <div class="p-d-inline-flex p-ai-center">
-        <i class="fas fa-car p-mr-2"></i>
-        <b>brand</b>
+        <h6><i class="fas fa-car p-mr-2"></i> brand</h6>
       </div>
     </p-divider>
 
@@ -205,8 +194,7 @@
     <!-- model type -->
     <p-divider align="left">
       <div class="p-d-inline-flex p-ai-center">
-        <i class="fas fa-car p-mr-2"></i>
-        <b>model type</b>
+        <h6><i class="fas fa-car p-mr-2"></i> model type</h6>
       </div>
     </p-divider>
 
@@ -214,28 +202,187 @@
       {{bookingDetails.bookingDTO.carDTO.modelDTO.modelType}}
     </p>
 
-  </p-tabPanel>
+    <!-- model options -->
+    <p-divider type="dashed" align="center">
+      <p-tag [style]="{'font-family':'Goldman'}" styleClass="p-mr-2" icon="fas fa-car" severity="info" value="model options"></p-tag>
+    </p-divider>
 
-  <!-- pricing -->
-  <p-tabPanel header="Pricing" rightIcon="fas fa-euro-sign" tooltip="car pricing">
-    <p>At vero eos et accusamus et iusto odio digni.</p>
-  </p-tabPanel>
-
-  <!-- rent -->
-  <p-tabPanel *ngIf="bookingDetails.bookingDTO.rentDTO" header="Rent" leftIcon="pi pi-user" rightIcon="pi pi-star" tooltip="rent details">
-
-    <!-- made in year -->
+    <!-- bagsNumber -->
     <p-divider align="left">
       <div class="p-d-inline-flex p-ai-center">
-        <i class="far fa-calendar-alt p-mr-2"></i>
-        <b>made in year</b>
+        <h6><i class="fas fa-suitcase-rolling p-mr-2"></i> number of bags</h6>
       </div>
     </p-divider>
 
     <p>
-      {{bookingDetails.bookingDTO.rentDTO.withdrawalKm}}
+      {{bookingDetails.bookingDTO.carDTO.modelDTO.modelOptionDTO.bagsNumber}}
     </p>
 
+
+    <!-- seatsNumber -->
+    <p-divider align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <h6><i class="fas fa-users p-mr-2"></i> number of passengers</h6>
+      </div>
+    </p-divider>
+
+    <p>
+      {{bookingDetails.bookingDTO.carDTO.modelDTO.modelOptionDTO.seatsNumber}}
+    </p>
+
+    <!-- isAutomatic -->
+    <p-divider align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <h6><i class="fas fa-cogs p-mr-2"></i> manual or automatic </h6>
+      </div>
+    </p-divider>
+
+    <p *ngIf="bookingDetails.bookingDTO.carDTO.modelDTO.modelOptionDTO.isAutomatic">
+      automatic <i class="fas fa-badge-check" style="color: #4CAF50;"></i>
+    </p>
+
+    <p *ngIf="!bookingDetails.bookingDTO.carDTO.modelDTO.modelOptionDTO.isAutomatic">
+      manual <i class="fas fa-badge-check" style="color: #4CAF50;"></i>
+    </p>
+
+
+  </p-tabPanel>
+
+  <!-- pricing -->
+  <p-tabPanel *ngIf="bookingDetails.bookingDTO.carDTO" header="Pricing" leftIcon="fas fa-euro-sign"
+              [headerStyle]="{'font-family':'Goldman'}" tooltip="car pricing">
+
+    <!-- class name -->
+    <p-divider align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <h6><i class="fas fa-car p-mr-2"></i> class</h6>
+      </div>
+    </p-divider>
+
+    <p>
+      <p-badge *ngIf="bookingDetails.bookingDTO.carDTO.modelDTO.princingDetailsDTO.className === 'CLASS_A'" severity="success"
+               [style]="{'font-family':'Goldman'}" value="A Class">
+      </p-badge>
+      <p-badge *ngIf="bookingDetails.bookingDTO.carDTO.modelDTO.princingDetailsDTO.className === 'CLASS_B'" severity="info"
+               [style]="{'font-family':'Goldman'}" value="B Class">
+      </p-badge>
+      <p-badge *ngIf="bookingDetails.bookingDTO.carDTO.modelDTO.princingDetailsDTO.className === 'CLASS_C'" severity="warning"
+               [style]="{'font-family':'Goldman'}" value="C Class">
+      </p-badge>
+    </p>
+
+    <!-- cost per day -->
+    <p-divider align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <h6><i class="fab fa-cc-mastercard p-mr-2"></i> cost per day</h6>
+      </div>
+    </p-divider>
+
+    <p>
+      {{bookingDetails.bookingDTO.carDTO.modelDTO.princingDetailsDTO.costPerDay}}€
+    </p>
+
+    <!-- daily fine -->
+    <p-divider align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <h6><i class="fab fa-cc-mastercard p-mr-2"></i> daily fine</h6>
+      </div>
+    </p-divider>
+
+    <p>
+      {{bookingDetails.bookingDTO.carDTO.modelDTO.princingDetailsDTO.dailyFine}}€
+    </p>
+
+    <p>
+      <p-message severity="info" text="Fine to pay for every day passed since the return date" styleClass="p-mr-2"></p-message>
+    </p>
+
+    <!-- allowedKmPerDay -->
+    <p-divider align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <h6><i class="far fa-road p-mr-2"></i> allowed km per day</h6>
+      </div>
+    </p-divider>
+
+    <p>
+      {{bookingDetails.bookingDTO.carDTO.modelDTO.princingDetailsDTO.allowedKmPerDay}}km
+    </p>
+
+    <!-- priceByKm -->
+    <p-divider align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <h6><i class="far fa-road p-mr-2"></i> price by km </h6>
+      </div>
+    </p-divider>
+
+    <p>
+      {{bookingDetails.bookingDTO.carDTO.modelDTO.princingDetailsDTO.priceByKm}}€
+    </p>
+
+    <p>
+      <p-message severity="info" text="Fine to pay for every km passed beyond the allowed km" styleClass="p-mr-2"></p-message>
+    </p>
+
+  </p-tabPanel>
+
+  <!-- rent -->
+  <p-tabPanel *ngIf="bookingDetails.bookingDTO.rentDTO" header="Rent" [headerStyle]="{'font-family':'Goldman'}"
+              leftIcon="pi pi-user" rightIcon="pi pi-star" tooltip="rent details">
+
+    <!-- rent ref -->
+    <p-divider  align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <h6><i class="fas fa-tag p-mr-2"></i>reference</h6>
+      </div>
+    </p-divider>
+
+    <p>
+      {{bookingDetails.bookingDTO.rentDTO.rentId}}
+    </p>
+
+    <!-- licenseNumber -->
+    <p-divider  align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <h6><i class="far fa-id-card p-mr-2"></i>{{bookingDetails.username}}'s driving license number</h6>
+      </div>
+    </p-divider>
+
+    <p>
+      {{bookingDetails.bookingDTO.rentDTO.licenseNumber}}
+    </p>
+
+    <!-- withdrawalKm -->
+    <p-divider  align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <h6><i class="far fa-road p-mr-2"></i>withdrawan km</h6>
+      </div>
+    </p-divider>
+
+    <p>
+      {{bookingDetails.bookingDTO.rentDTO.withdrawalKm}}km
+    </p>
+
+    <!-- returnKm -->
+    <p-divider  align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <h6><i class="far fa-road p-mr-2"></i>returned km</h6>
+      </div>
+    </p-divider>
+
+    <p>
+      {{bookingDetails.bookingDTO.rentDTO.returnKm}}km
+    </p>
+
+    <!-- cautionPayment -->
+    <p-divider  align="left">
+      <div class="p-d-inline-flex p-ai-center">
+        <h6><i class="fab fa-cc-mastercard p-mr-2"></i>paid ?</h6>
+      </div>
+    </p-divider>
+
+    <p>
+      yes <i class="fas fa-badge-check" style="color: #4CAF50;"></i>
+    </p>
   </p-tabPanel>
 </p-tabView>
 

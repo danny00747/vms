@@ -2,9 +2,7 @@ package be.rentvehicle.service.mapper;
 
 import be.rentvehicle.domain.User;
 import be.rentvehicle.service.dto.UserInfoDTO;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 
 import java.util.UUID;
 
@@ -26,6 +24,12 @@ public non-sealed interface UserInfoMapper extends EntityMapper<UserInfoDTO, Use
             @Mapping(source = "userEmail", target = "email"),
     })
     User toEntity(UserInfoDTO userInfoDTO);
+
+    @Mappings({
+            @Mapping(target = "activated", ignore = true),
+            @Mapping(source = "userEmail", target = "email"),
+    })
+    void partialUpdate(@MappingTarget User user, UserInfoDTO userInfoDTO);
 
 
 /*

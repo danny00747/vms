@@ -64,7 +64,7 @@ public interface UserService {
      * @param email    email of user.
      * @return updated user.
      */
-    Optional<User> updateUser(String usernameParam, String username, String email);
+    Optional<UserInfoDTO> updateUser(String usernameParam, UserInfoDTO userDTO);
 
     /**
      * Deletes a specific user, and return a confirmation message.

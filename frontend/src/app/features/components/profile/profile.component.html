@@ -72,8 +72,8 @@
               <ul class="ul_li_block clearfix">
                 <li><span>Booking Reference:</span> {{user.bookingDTO.bookingId}}</li>
                 <li><span>Booked Car:</span> {{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}</li>
-                <li><span>Withdrawal Date:</span> {{user.bookingDTO.withdrawalDate | date: 'dd/MM/yyyy'}} </li>
-                <li><span>Return Date:</span> {{user.bookingDTO.returnDate | date: 'dd/MM/yyyy'}} </li>
+                <li><span>Withdrawal Date:</span> {{user.bookingDTO.withdrawalDate | date}} </li>
+                <li><span>Return Date:</span> {{user.bookingDTO.returnDate | date}} </li>
               </ul>
               <a (click)="cancelReservation()" class="text_btn text-uppercase"><span>Cancel your reservation</span>
                 <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
@@ -96,8 +96,8 @@
               <ul class="ul_li_block clearfix">
                 <li><span>Booking Reference:</span> {{user.bookingDTO.bookingId}}</li>
                 <li><span>Booked Car:</span> {{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}</li>
-                <li><span>Withdrawal Date:</span> {{user.bookingDTO.withdrawalDate | date: 'dd/MM/yyyy'}} </li>
-                <li><span>Return Date:</span> {{user.bookingDTO.returnDate | date: 'dd/MM/yyyy'}} </li>
+                <li><span>Withdrawal Date:</span> {{user.bookingDTO.withdrawalDate | date}} </li>
+                <li><span>Return Date:</span> {{user.bookingDTO.returnDate | date}} </li>
               </ul>
             </div>
 
@@ -132,7 +132,7 @@
                 <li><span>Upcoming Reservations:</span>{{user.bookingDTO ? 'You have one active Reservations' : ' No Reservations Yet'}}</li>
                 <li><span>Past Rentals:</span> 0</li>
               </ul>
-              <a class="text_btn text-uppercase" href="#!"><span>Book A Car</span>
+              <a class="text_btn text-uppercase" [routerLink]="['/gallery']"><span>Book A Car</span>
                 <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
             </div>
 
@@ -141,8 +141,8 @@
               <ul class="ul_li_block clearfix">
                 <li><span>Booking Reference:</span> {{user.bookingDTO.bookingId}}</li>
                 <li><span>Booked Car:</span> {{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}</li>
-                <li><span>Withdrawal Date:</span> {{user.bookingDTO.withdrawalDate | date: 'dd/MM/yyyy'}} </li>
-                <li><span>Return Date:</span> {{user.bookingDTO.returnDate | date: 'dd/MM/yyyy'}} </li>
+                <li><span>Withdrawal Date:</span> {{user.bookingDTO.withdrawalDate | date}} </li>
+                <li><span>Return Date:</span> {{user.bookingDTO.returnDate | date}} </li>
               </ul>
             </div>
 

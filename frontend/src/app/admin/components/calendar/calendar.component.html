@@ -39,13 +39,13 @@
     <p-tabView *ngIf="events.length !== 0">
 
       <!-- calendar -->
-      <p-tabPanel header="Calendar" [leftIcon]="'pi pi-fw pi-calendar'">
+      <p-tabPanel header="Calendar" [headerStyle]="{'font-family':'Goldman'}" [leftIcon]="'far fa-calendar-alt'">
         <p-fullCalendar (click)="getClikedDate($event.target)" [events]="events" [options]="options"></p-fullCalendar>
       </p-tabPanel>
 
 
       <!-- users -->
-      <p-tabPanel header="Users" [leftIcon]="'pi pi-users'">
+      <p-tabPanel header="Users" [headerStyle]="{'font-family':'Goldman'}" [leftIcon]="'fas fa-users'">
         <h5>List of users</h5>
         <br>
         <p-toolbar styleClass="p-mb-4">
@@ -110,10 +110,8 @@
                                 placeholder="Any">
                       <ng-template let-option pTemplate="item">
                         <p-badge *ngIf="option.label === 'open'" severity="success" value="{{option.label}}"></p-badge>
-                        <p-badge *ngIf="option.label === 'cancelled'" severity="danger"
-                                 value="{{option.label}}"></p-badge>
-                        <p-badge *ngIf="option.label === 'finished'" severity="warning"
-                                 value="{{option.label}}"></p-badge>
+                        <p-badge *ngIf="option.label === 'cancelled'" severity="danger" value="{{option.label}}"></p-badge>
+                        <p-badge *ngIf="option.label === 'finished'" severity="warning" value="{{option.label}}"></p-badge>
                         <p-badge *ngIf="option.label === 'deleted'" severity="info" value="{{option.label}}"></p-badge>
                       </ng-template>
                     </p-dropdown>
@@ -168,7 +166,10 @@
 
                   </ng-template>
                   <ng-template pTemplate="output">
-                     <h6>{{user.userEmail}}</h6>
+                     <h6 *ngIf="user.userEmail.length <= 14">{{user.userEmail}}</h6>
+                     <h6 *ngIf="user.userEmail.length > 14" pTooltip="{{user.userEmail}}" tooltipPosition="top">
+                       {{user.userEmail | truncate:[14]}}
+                     </h6>
                   </ng-template>
                 </p-cellEditor>
               </td>
@@ -252,8 +253,8 @@
                         (click)="onRowEditCancel(user, ri)"
                         class="p-button-rounded p-button-text p-button-danger">
                 </button>
-                <button pButton pRipple type="button" icon="pi pi-trash" (click)="confirm($event)"
-                        class="p-button-rounded p-button-warning p-button-text">
+                <button pButton pRipple type="button" icon="pi pi-trash" (click)="confirm($event, user)"
+                        class="p-button-rounded p-button-secondary p-button-text">
                 </button>
               </td>
             </tr>
@@ -264,7 +265,7 @@
 
 
       <!-- Vehicules -->
-      <p-tabPanel header="Vehicules" [leftIcon]="'fas fa-car'">
+      <p-tabPanel header="Vehicules" [headerStyle]="{'font-family':'Goldman'}" [leftIcon]="'fas fa-cars'">
         <h5>List of all Vehicules</h5>
         <br>
         <p-toolbar styleClass="p-mb-4">
@@ -280,7 +281,7 @@
       </p-tabPanel>
 
       <!-- Rents -->
-      <p-tabPanel header="Rents" [leftIcon]="'fas fa-car'">
+      <p-tabPanel header="Rents" [headerStyle]="{'font-family':'Goldman'}" [leftIcon]="'fas fa-car'">
         <h5>List of all Rents</h5>
         <br>
         <p-toolbar styleClass="p-mb-4">
@@ -297,7 +298,7 @@
 
 
       <!-- Car Maintenance -->
-      <p-tabPanel header="Car Maintenance" [leftIcon]="'fas fa-car'">
+      <p-tabPanel header="Car Maintenance" [headerStyle]="{'font-family':'Goldman'}" [leftIcon]="'fas fa-car'">
       <app-car-maintenance></app-car-maintenance>
       </p-tabPanel>
     </p-tabView>

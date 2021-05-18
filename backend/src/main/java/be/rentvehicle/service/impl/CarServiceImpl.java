@@ -2,6 +2,7 @@ package be.rentvehicle.service.impl;
 
 import be.rentvehicle.dao.CarDAO;
 import be.rentvehicle.domain.Car;
+import be.rentvehicle.domain.User;
 import be.rentvehicle.service.CarService;
 import be.rentvehicle.service.dto.CarDTO;
 import be.rentvehicle.service.mapper.CarMapper;
@@ -106,6 +107,18 @@ public class CarServiceImpl implements CarService {
                     .map(carMapper::toDto)
                     .collect(Collectors.toList());
         }
+    }
+
+    @Transactional
+    @Override
+    public String saveDamagedCars(List<String> ids) {
+        List<UUID> uuids = ids.stream()
+                .map(UUID::fromString)
+                .collect(Collectors.toList());
+        List<Car> cars = carDAO.findAllById(uuids);
+        cars.forEach(car -> car.setIsDamaged(true));
+        carDAO.saveAll(cars);
+        return (cars.size() == 0) ? "No cars were updated !" : "These cars's info was successfully updated !";
     }
 
     private UUID validatedId(String id) {

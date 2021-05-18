@@ -136,7 +136,7 @@ public class AccountResource extends BaseRestController {
     /**
      * {@code PATCH /user} : Updates an existing User.
      *
-     * @param updateVM the managed update View Model.
+     * @param userDTO the managed update View Model.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body of the updated user.
      * @throws EmailAlreadyUsedException    {@code 409 (CONFLICT)} if the email is already in use.
      * @throws UsernameAlreadyUsedException {@code 409 (CONFLICT)} if the username is already in use.
@@ -144,13 +144,12 @@ public class AccountResource extends BaseRestController {
      */
     @PatchMapping("/user/{usernameParam}")
     @PreAuthorize("#usernameParam == authentication.principal.username or hasAuthority(\"" + RolesConstants.ADMIN + "\")")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable("usernameParam") String usernameParam, @RequestBody UserVM.UpdateVM updateVM) {
+    public ResponseEntity<UserInfoDTO> updateUser(@PathVariable("usernameParam") String usernameParam, @RequestBody UserInfoDTO userDTO) {
         log.debug("REST request to upfate User : {}", usernameParam);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userService
-                        .updateUser(usernameParam, updateVM.username(), updateVM.email())
-                        .map(UserDTO::new)
+                        .updateUser(usernameParam, userDTO)
                         .orElseThrow(() -> new UserNotFoundException(usernameParam)));
     }
 
