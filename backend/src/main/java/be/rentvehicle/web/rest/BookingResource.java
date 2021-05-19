@@ -3,7 +3,7 @@ package be.rentvehicle.web.rest;
 import be.rentvehicle.security.securityAnnotations.isAdmin;
 import be.rentvehicle.service.BookingService;
 import be.rentvehicle.service.dto.BookingDTO;
-import be.rentvehicle.service.impl.errors.ResourceFoundException;
+import be.rentvehicle.service.impl.errors.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -65,7 +65,7 @@ public class BookingResource extends BaseRestController {
      *
      * @param bookingId the id of a booking to delete.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)}.
-     * @throws ResourceFoundException {@code 404 (Not Found)} if the booking couldn't be found.
+     * @throws ResourceNotFoundException {@code 404 (Not Found)} if the booking couldn't be found.
      */
     @DeleteMapping("/bookings/{bookingId}")
     public ResponseEntity<Map<String, String>> deleteBooking(@PathVariable String bookingId) {
@@ -73,7 +73,7 @@ public class BookingResource extends BaseRestController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(Map.of("message", bookingService.deleteBooking(bookingId)
-                        .orElseThrow(() -> new ResourceFoundException("No booking was found with this id :" + bookingId))));
+                        .orElseThrow(() -> new ResourceNotFoundException("No booking was found with this id :" + bookingId))));
     }
 
     /**
@@ -82,7 +82,7 @@ public class BookingResource extends BaseRestController {
      * @param bookingId the id of the reservation to cancel.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the of the updated booking or with status {@code 404 (Not Found)}.
      * @throws IllegalArgumentException {@code 400 (Bad Request)} if the id is an invalid UUID.
-     * @throws ResourceFoundException   {@code 404 (Not Found)} if a booking couldn't be returned.
+     * @throws ResourceNotFoundException   {@code 404 (Not Found)} if a booking couldn't be returned.
      */
     @GetMapping("/bookings/{bookingId}/cancel")
     public ResponseEntity<Map<String, String>> cancelReservation(@PathVariable("bookingId") String bookingId) {
@@ -90,6 +90,6 @@ public class BookingResource extends BaseRestController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(Map.of("message", bookingService.cancelReservation(bookingId)
-                        .orElseThrow(() -> new ResourceFoundException("No booking was found with this id :" + bookingId))));
+                        .orElseThrow(() -> new ResourceNotFoundException("No booking was found with this id :" + bookingId))));
     }
 }

@@ -2,7 +2,7 @@ package be.rentvehicle.web.rest;
 
 import be.rentvehicle.service.ModelService;
 import be.rentvehicle.service.dto.ModelDTO;
-import be.rentvehicle.service.impl.errors.ResourceFoundException;
+import be.rentvehicle.service.impl.errors.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -49,7 +49,7 @@ public class ModelResource extends BaseRestController {
      * @param modelDTO the modelDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated modelDTO,
      * @throws IllegalArgumentException {@code 400 (Bad Request)} if the modelId or id are invalid UUID.
-     * @throws ResourceFoundException {@code 404 (Not Found)} if the carDTO is not found,
+     * @throws ResourceNotFoundException {@code 404 (Not Found)} if the carDTO is not found,
      */
     @PatchMapping("/models/{id}")
     public ResponseEntity<ModelDTO> partialUpdateCar(
@@ -65,7 +65,7 @@ public class ModelResource extends BaseRestController {
                 .status(HttpStatus.OK)
                 .body(modelService
                         .partialUpdate(modelDTO)
-                        .orElseThrow(() -> new ResourceFoundException("No model was found with this id :" + id)));
+                        .orElseThrow(() -> new ResourceNotFoundException("No model was found with this id :" + id)));
 
     }
 }

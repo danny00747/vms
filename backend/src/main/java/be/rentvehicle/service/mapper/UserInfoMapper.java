@@ -27,6 +27,7 @@ public non-sealed interface UserInfoMapper extends EntityMapper<UserInfoDTO, Use
 
     @Mappings({
             @Mapping(target = "activated", ignore = true),
+            @Mapping(target = "password", ignore = true),
             @Mapping(source = "userEmail", target = "email"),
     })
     void partialUpdate(@MappingTarget User user, UserInfoDTO userInfoDTO);

@@ -52,7 +52,7 @@
           <ng-template pTemplate="left">
             <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2"></button>
             <button pButton pRipple [label]="'Delete'" icon="pi pi-trash" class="p-button-danger"
-                    (click)="deleteSelectedUsers()" [disabled]="!selectedUsers || !selectedUsers.length"></button>
+                    (click)="confirmDeleteManyUsers($event)" [disabled]="!selectedUsers || !selectedUsers.length"></button>
           </ng-template>
         </p-toolbar>
         <p-table #dt [value]="users" dataKey="userId" editMode="row" [paginator]="true" [rows]="10"
@@ -147,23 +147,7 @@
               <td>
                 <p-cellEditor>
                   <ng-template pTemplate="input">
-
-                    <input #emailInput="ngModel"
-                           pattern="^[aA-zZ0-9._%+-]+@[a-z0-9.-]+\.[aA-zZ]{2,4}$"
-                           [class.is-invalid]="emailInput.invalid && emailInput.touched"
-                           [class.is-valid]="!(emailInput.invalid && emailInput.untouched)"
-                           class="form-control" type="email" id="inputEmail" pInputText [style]="{'width':'100%'}"
-                           [(ngModel)]="user.userEmail" name="email" required>
-                    <div *ngIf="emailInput.errors && (emailInput.invalid ||emailInput.touched)">
-                      <small *ngIf="emailInput.errors.pattern" id="emailInvalid" class="text-danger">
-                        {{emailInput.value}} is not valid email
-                      </small>
-                      <small *ngIf="emailInput.errors.required && emailInput.touched"
-                             id="emailRequired" class="text-danger">
-                        This field is required
-                      </small>
-                    </div>
-
+                    <input pInputText type="email" [style]="{'width':'100%'}" [(ngModel)]="user.userEmail">
                   </ng-template>
                   <ng-template pTemplate="output">
                      <h6 *ngIf="user.userEmail.length <= 14">{{user.userEmail}}</h6>
@@ -253,7 +237,7 @@
                         (click)="onRowEditCancel(user, ri)"
                         class="p-button-rounded p-button-text p-button-danger">
                 </button>
-                <button pButton pRipple type="button" icon="pi pi-trash" (click)="confirm($event, user)"
+                <button pButton pRipple type="button" icon="pi pi-trash" (click)="confirmDelete($event, user)"
                         class="p-button-rounded p-button-secondary p-button-text">
                 </button>
               </td>

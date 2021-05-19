@@ -1,24 +1,15 @@
 package be.rentvehicle.web.rest;
 
-import be.rentvehicle.config.TwilioConfiguration;
 import be.rentvehicle.security.CustomAuthenticationFailureHandler;
 import be.rentvehicle.security.RolesConstants;
 import be.rentvehicle.security.jwt.JWTFilter;
 import be.rentvehicle.security.jwt.TokenProvider;
 import be.rentvehicle.security.securityAnnotations.isAdmin;
 import be.rentvehicle.security.securityAnnotations.isUsername;
-import be.rentvehicle.service.MailService;
 import be.rentvehicle.service.UserService;
-import be.rentvehicle.service.dto.UserDTO;
 import be.rentvehicle.service.dto.UserInfoDTO;
-import be.rentvehicle.service.impl.errors.AccountResourceException;
-import be.rentvehicle.service.impl.errors.EmailAlreadyUsedException;
-import be.rentvehicle.service.impl.errors.UserNotFoundException;
-import be.rentvehicle.service.impl.errors.UsernameAlreadyUsedException;
+import be.rentvehicle.service.impl.errors.*;
 import be.rentvehicle.web.rest.vm.UserVM;
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.rest.api.v2010.account.MessageCreator;
-import com.twilio.type.PhoneNumber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -34,7 +25,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
 
@@ -51,17 +41,11 @@ public class AccountResource extends BaseRestController {
 
     private final TokenProvider tokenProvider;
 
-    private final TwilioConfiguration twilioConfiguration;
-
-    private final MailService mailService;
-
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public AccountResource(UserService userService, TokenProvider tokenProvider, TwilioConfiguration twilioConfiguration, MailService mailService, AuthenticationManagerBuilder authenticationManagerBuilder) {
+    public AccountResource(UserService userService, TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.userService = userService;
         this.tokenProvider = tokenProvider;
-        this.twilioConfiguration = twilioConfiguration;
-        this.mailService = mailService;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
     }
 
@@ -113,20 +97,6 @@ public class AccountResource extends BaseRestController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
-        /*
-         // mailService.sendMail();
-         SecureRandom secureRandom = new SecureRandom();
-         int myCode = secureRandom.nextInt(9000000) + 1000000;
-
-         PhoneNumber to = new PhoneNumber("+32485713601");
-         PhoneNumber from = new PhoneNumber(twilioConfiguration.getTrialNumber());
-         String message = "\n[RentVehicle] Your verification code is : " + myCode;
-         MessageCreator creator = Message.creator(to, from, message);
-         creator.create();
-         log.info("Send sms {}", "sms sent with code :" + myCode);
-
-         */
-
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .headers(httpHeaders)
@@ -156,12 +126,11 @@ public class AccountResource extends BaseRestController {
     /**
      * {@code GET  /users} : get all the users.
      *
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of users in body.
      */
     @GetMapping("/users")
     @isAdmin
-    public ResponseEntity<List<UserInfoDTO>> getAllUsers(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public ResponseEntity<List<UserInfoDTO>> getAllUsers() {
         log.debug("REST request to get all users");
         List<UserInfoDTO> users = this.userService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(users);
@@ -239,9 +208,13 @@ public class AccountResource extends BaseRestController {
     @isAdmin
     public ResponseEntity<Map<String, String>> bulkDeleteUsers(@RequestBody List<String> userIds) {
         log.debug("REST request to delete multiple Users : {}", userIds);
+        String message = userIds.size() <= 1
+                ? "No user was found with this id : " + String.join(",", userIds)
+                : "No users was found with these ids : " + String.join(",", userIds);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(Map.of("message", userService.bulkDeleteUsers(userIds)));
+                .body(Map.of("message", userService.bulkDeleteUsers(userIds)
+                        .orElseThrow(() -> new ResourceNotFoundException(message))));
     }
 
     /**

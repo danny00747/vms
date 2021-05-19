@@ -210,13 +210,14 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public String bulkDeleteUsers(List<String> ids) {
+    public Optional<String> bulkDeleteUsers(List<String> ids) {
         List<UUID> uuids = ids.stream()
                 .map(UUID::fromString)
                 .collect(Collectors.toList());
         List<User> users = userDAO.findAllById(uuids);
         userDAO.deleteAll(users);
-        return (users.size() == 0) ? "No users were deleted !" : "Users were successfully deleted !";
+        String message = (users.size() > 0) ? "Users were successfully deleted !" : null;
+        return Optional.ofNullable(message);
     }
 
     @Override

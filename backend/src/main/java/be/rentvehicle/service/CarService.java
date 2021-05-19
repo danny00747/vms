@@ -59,5 +59,5 @@ public interface CarService {
      * @param ids list of cars damaged cars
      * @return confirmation message.
      */
-    String saveDamagedCars(List<String> ids);
+    Optional<String> saveDamagedCars(List<String> ids);
 }

@@ -6,7 +6,7 @@ import be.rentvehicle.domain.Booking;
 import be.rentvehicle.domain.Rent;
 import be.rentvehicle.service.RentService;
 import be.rentvehicle.service.dto.RentDTO;
-import be.rentvehicle.service.impl.errors.ResourceFoundException;
+import be.rentvehicle.service.impl.errors.ResourceNotFoundException;
 import be.rentvehicle.service.mapper.RentMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +43,7 @@ public class RentServiceImpl implements RentService {
                 .findById(UUID.fromString(bookingId)))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .orElseThrow(() -> new ResourceFoundException("No reservation was found with this id :" + bookingId));
+                .orElseThrow(() -> new ResourceNotFoundException("No reservation was found with this id :" + bookingId));
 
         Rent rent = rentMapper.toEntity(rentDTO);
         rent.setBooking(booking);

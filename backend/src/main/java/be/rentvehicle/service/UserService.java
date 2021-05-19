@@ -60,8 +60,8 @@ public interface UserService {
     /**
      * Update basic information (username, email) for a specific user, and return the modified user.
      *
-     * @param username username of user.
-     * @param email    email of user.
+     * @param usernameParam username of user to update.
+     * @param userDTO containing fields to update.
      * @return updated user.
      */
     Optional<UserInfoDTO> updateUser(String usernameParam, UserInfoDTO userDTO);
@@ -80,7 +80,7 @@ public interface UserService {
      * @param ids list of user ids to delete.
      * @return confirmation message.
      */
-    String bulkDeleteUsers(List<String> ids);
+    Optional<String> bulkDeleteUsers(List<String> ids);
 
 
     /**

@@ -111,14 +111,15 @@ public class CarServiceImpl implements CarService {
 
     @Transactional
     @Override
-    public String saveDamagedCars(List<String> ids) {
+    public Optional<String> saveDamagedCars(List<String> ids) {
         List<UUID> uuids = ids.stream()
                 .map(UUID::fromString)
                 .collect(Collectors.toList());
         List<Car> cars = carDAO.findAllById(uuids);
         cars.forEach(car -> car.setIsDamaged(true));
         carDAO.saveAll(cars);
-        return (cars.size() == 0) ? "No cars were updated !" : "These cars's info was successfully updated !";
+        String message = (cars.size() > 0) ? "These cars's info was successfully updated !" : null;
+        return Optional.ofNullable(message);
     }
 
     private UUID validatedId(String id) {

@@ -4,7 +4,7 @@ import be.rentvehicle.security.RolesConstants;
 import be.rentvehicle.security.securityAnnotations.isAdmin;
 import be.rentvehicle.service.CarService;
 import be.rentvehicle.service.dto.CarDTO;
-import be.rentvehicle.service.impl.errors.ResourceFoundException;
+import be.rentvehicle.service.impl.errors.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -74,7 +74,7 @@ public class CarResource extends BaseRestController {
      * @param id the id of the car to find.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the found car or with status {@code 404 (Not Found)}.
      * @throws IllegalArgumentException {@code 400 (Bad Request)} if the id is an invalid UUID.
-     * @throws ResourceFoundException   {@code 404 (Not Found)} if the car couldn't be returned.
+     * @throws ResourceNotFoundException   {@code 404 (Not Found)} if the car couldn't be returned.
      */
     @GetMapping("/cars/{id}")
     public ResponseEntity<CarDTO> getCarById(@PathVariable("id") String id) {
@@ -83,7 +83,7 @@ public class CarResource extends BaseRestController {
                 .status(HttpStatus.OK)
                 .body(carService
                         .getOneCarById(id)
-                        .orElseThrow(() -> new ResourceFoundException("No car was found with this id :" + id)));
+                        .orElseThrow(() -> new ResourceNotFoundException("No car was found with this id :" + id)));
     }
 
     /**
@@ -93,7 +93,7 @@ public class CarResource extends BaseRestController {
      * @param carDTO the carDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated carDTO,
      * @throws IllegalArgumentException {@code 400 (Bad Request)} if the carId or id are invalid UUID.
-     * @throws ResourceFoundException   {@code 404 (Not Found)} if the carDTO is not found,
+     * @throws ResourceNotFoundException   {@code 404 (Not Found)} if the carDTO is not found,
      */
     @PatchMapping("/cars/{id}")
     public ResponseEntity<CarDTO> partialUpdateCar(
@@ -109,7 +109,7 @@ public class CarResource extends BaseRestController {
                 .status(HttpStatus.OK)
                 .body(carService
                         .partialUpdate(carDTO)
-                        .orElseThrow(() -> new ResourceFoundException("No car was found with this id :" + id)));
+                        .orElseThrow(() -> new ResourceNotFoundException("No car was found with this id :" + id)));
 
     }
 
@@ -123,9 +123,13 @@ public class CarResource extends BaseRestController {
     @isAdmin
     public ResponseEntity<Map<String, String>> saveDamagedCars(@RequestBody List<String> carIds) {
         log.debug("REST request to save all damaged cars : {}", carIds);
+        String message = carIds.size() <= 1
+                ? "No car was found with this id : " + String.join(",", carIds)
+                : "No cars was found with these ids : " + String.join(",", carIds);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(Map.of("message", carService.saveDamagedCars(carIds)));
+                .body(Map.of("message", carService.saveDamagedCars(carIds)
+                        .orElseThrow(() -> new ResourceNotFoundException(message))));
     }
 
 }

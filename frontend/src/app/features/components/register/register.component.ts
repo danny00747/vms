@@ -10,6 +10,24 @@ import {ReplaySubject} from 'rxjs';
 })
 export class RegisterComponent implements OnInit, OnDestroy {
 
+  username: string;
+  userEmail: string;
+  password: string;
+  phoneNumber: number;
+
+  road: string;
+  houseNumber: number;
+  townName: string;
+  postCode: number;
+  passwordPattern = '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})';
+
+  verifyInputs = false;
+  emailKey = '';
+  phoneCode: number;
+
+  verifiedEmailKey = false;
+  verifiedPhoneCode = false;
+
   value4: string;
 
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
@@ -32,6 +50,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
   async ngOnDestroy(): Promise<any> {
     this.destroyed$.next(true);
     this.destroyed$.complete();
+  }
+
+  submit(): void {
+    // console.log();
+    // const t = this.value4.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})$/i);
+    // ^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})
+    // console.log(t);
   }
 
 }

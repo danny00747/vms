@@ -22,6 +22,7 @@ export class UserInfoDTO {
   phoneNumber: string;
   userRoles: RoleDTO[];
   activated: boolean;
+  password?: string;
   createdAt: Date;
   addressDTO: AddressDTO;
   bookingDTO: BookingDTO;

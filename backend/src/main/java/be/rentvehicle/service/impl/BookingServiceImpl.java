@@ -13,8 +13,7 @@ import be.rentvehicle.service.CarService;
 import be.rentvehicle.service.MailService;
 import be.rentvehicle.service.UserService;
 import be.rentvehicle.service.dto.BookingDTO;
-import be.rentvehicle.service.dto.CarDTO;
-import be.rentvehicle.service.impl.errors.ResourceFoundException;
+import be.rentvehicle.service.impl.errors.ResourceNotFoundException;
 import be.rentvehicle.service.impl.errors.UserNotFoundException;
 import be.rentvehicle.service.mapper.BookingMapper;
 import be.rentvehicle.service.mapper.RentMapper;
@@ -94,7 +93,7 @@ public class BookingServiceImpl implements BookingService {
                 .findById(validatedId(cardId)))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .orElseThrow(() -> new ResourceFoundException("No car was found with this id :" + cardId));
+                .orElseThrow(() -> new ResourceNotFoundException("No car was found with this id :" + cardId));
 
         booking.setUser(user);
         booking.setCar(car);

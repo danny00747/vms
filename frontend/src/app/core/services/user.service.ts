@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {CreateUserDTO, UserDTO, UserInfoDTO} from '@app/shared/models';
 
@@ -17,6 +17,24 @@ export class UserService {
 
   getAllUsers(): Observable<UserInfoDTO[]> {
     return this.http.get<UserInfoDTO[]>(`/api/v1/users`);
+  }
+
+  updateUser(username: string, user: UserInfoDTO): Observable<UserInfoDTO> {
+    return this.http.patch<UserInfoDTO>(`/api/v1/user/${username}`, user);
+  }
+
+  deleteUser(username: string): Observable<any> {
+    return this.http.delete(`/api/v1/user/${username}`);
+  }
+
+  deleteManyUsers(userIds: Array<string>): Observable<any> {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: userIds,
+    };
+    return this.http.delete(`/api/v1/user/bulk/delete`, options);
   }
 
   createUser(user: CreateUserDTO): Observable<{ message: string }> {

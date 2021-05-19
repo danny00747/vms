@@ -42,6 +42,7 @@ export class CalendarComponent implements OnInit {
   fullBookoingAction: MenuItem[];
   smallBookoingAction: MenuItem[];
   selectedUsers: UserInfoDTO[] = [];
+  usernameToUpdate: string;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -82,8 +83,7 @@ export class CalendarComponent implements OnInit {
     ];
     this.fullBookoingAction = [
       {
-        id: '1', label: 'View', icon: 'pi pi-eye', command: (event) => {
-          console.log(this.bookingDetails);
+        id: '1', label: 'View', icon: 'pi pi-eye', command: () => {
           this.openViewBookingDialog(this.bookingDetails);
         }
       },
@@ -102,8 +102,7 @@ export class CalendarComponent implements OnInit {
     ];
     this.smallBookoingAction = [
       {
-        id: '1', label: 'View', icon: 'pi pi-eye', command: (event) => {
-          console.log(this.bookingDetails);
+        id: '1', label: 'View', icon: 'pi pi-eye', command: () => {
           this.openViewBookingDialog(this.bookingDetails);
         }
       },
@@ -139,22 +138,6 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  confirm(event: any, user: UserInfoDTO): void {
-    this.confirmationService.confirm({
-      target: event.target,
-      message: 'Are you sure that you want to delete this user?',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        const foundUser = this.users.findIndex(u => u.userId === user.userId);
-        this.users.splice(foundUser, 1);
-        this.toastService.show(EToastSeverities.INFO, 'User was successfully deleted !');
-      },
-      reject: () => {
-        this.toastService.show(EToastSeverities.ERROR, 'rejected');
-      }
-    });
-  }
-
   openViewBookingDialog(bookingDetails: UserInfoDTO): void {
     const ref = this.dialogService.open(ViewBookingComponent, {
       header: 'Booking Details',
@@ -165,6 +148,35 @@ export class CalendarComponent implements OnInit {
       if (formId) {
       }
     });
+  }
+
+  confirmDelete(event: any, user: UserInfoDTO): void {
+    this.confirmationService.confirm({
+      target: event.target,
+      message: 'Are you sure that you want to delete this user?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        const foundUserIndex = this.users.findIndex(u => u.userId === user.userId);
+        const username: string = this.users[foundUserIndex].username;
+        this.users.splice(foundUserIndex, 1);
+        this.deleteUser(username);
+      },
+      reject: () => {
+        this.toastService.show(EToastSeverities.ERROR, 'rejected');
+      }
+    });
+  }
+
+  deleteUser(username: string): void {
+    this.userService.deleteUser(username)
+      .subscribe(
+        () => {
+          this.toastService.show(EToastSeverities.SUCCESS, 'User was successfully deleted !');
+        },
+        error => {
+          console.error(error);
+          this.toastService.show(EToastSeverities.ERROR, 'Somehthing went wrong !');
+        });
   }
 
   getUsers(): void {
@@ -219,23 +231,42 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  deleteUser(): void {
-    const ref = this.dialogService.open(ConfirmationDialogComponent, {
-      header: 'Confirmation',
-      data: {
-        message: 'You are about to delete this user, do you want to continue ? '
-      }
-    });
-    ref.onClose.subscribe((confirm: boolean) => {
-      if (confirm) {
-      }
-    });
+  deleteSelectedUsers(): void {
+    const usersToDelete = this.users
+      .filter(user => this.selectedUsers.includes(user))
+      .map(user => user.userId);
+    const message: string = usersToDelete.length <= 1 ? 'User was successfully deleted !' : 'Users were successfully deleted !';
+    this.userService.deleteManyUsers(usersToDelete)
+      .subscribe(
+        () => {
+          this.toastService.show(EToastSeverities.SUCCESS, message);
+          this.users
+            .filter(user => this.selectedUsers.includes(user))
+            .map(user => this.users.findIndex(u => u.userId === user.userId))
+            .sort((a, b) => b - a)
+            .forEach(x => this.users.splice(x, 1));
+          this.selectedUsers = null;
+        },
+        error => {
+          console.error(error);
+          this.toastService.show(EToastSeverities.ERROR, 'Somehthing went wrong !');
+        });
   }
 
-  deleteSelectedUsers(): void {
-    const t = this.users.filter(val => this.selectedUsers.includes(val));
-    console.log(t);
-    this.selectedUsers = null;
+  confirmDeleteManyUsers(event: any): void {
+    const displayMessage: string = this.selectedUsers.length <= 1 ? 'Are you sure that you want to delete this user ?'
+      : 'Are you sure that you want to delete these users ?';
+    this.confirmationService.confirm({
+      target: event.target,
+      message: displayMessage,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.deleteSelectedUsers();
+      },
+      reject: () => {
+        this.toastService.show(EToastSeverities.ERROR, 'rejected');
+      }
+    });
   }
 
   getClikedDate(fc: any): void {
@@ -260,13 +291,32 @@ export class CalendarComponent implements OnInit {
   }
 
   onRowEditInit(user: UserInfoDTO): void {
+    this.usernameToUpdate = user.username;
     this.clonedUsers[user.userId] = {...user};
   }
 
   onRowEditSave(user: UserInfoDTO): void {
     delete this.clonedUsers[user.userId];
-    this.toastService.show(EToastSeverities.INFO, 'User info were successfully updated !');
-    const t = this.users.find(x => x.userId === user.userId);
+    const foundUser = this.users.find(x => x.userId === user.userId);
+    const updatedUser: any = {
+      username: foundUser.username,
+      userEmail: foundUser.userEmail,
+      password: '1234',
+      phoneNumber: foundUser.phoneNumber
+    };
+    this.updateUser(this.usernameToUpdate, updatedUser);
+  }
+
+  updateUser(username: string, user: UserInfoDTO): void {
+    this.userService.updateUser(username, user)
+      .subscribe(
+        () => {
+          this.toastService.show(EToastSeverities.SUCCESS, 'User was successfully updated !');
+        },
+        error => {
+          console.error(error);
+          this.toastService.show(EToastSeverities.ERROR, 'Somehthing went wrong !');
+        });
   }
 
   onRowEditCancel(user: UserInfoDTO, index: number): void {

@@ -35,23 +35,23 @@ export class RentListComponent implements OnInit {
   }
 
   getUsers(): void {
+    /*
     this.userService.getAllUsers()
       .subscribe(
         (data: UserInfoDTO[]) => {
           // console.log(this.users.length);
           const d =  data
             .filter(u => u.bookingDTO && u.bookingDTO.rentDTO);
-          /*
           this.users.forEach(x => {
             // x.bookingDTO.rentDTO.daysDiff = this.daysDiff(x.bookingDTO.withdrawalDate, x.bookingDTO.returnDate);
            // x.bookingDTO.rentDTO.costToPay = x.bookingDTO.rentDTO.daysDiff * x.bookingDTO.carDTO.modelDTO.princingDetailsDTO.costPerDay;
           });
-           */
           console.log(d);
         },
         error => {
           console.error(error);
         });
+     */
   }
 
   daysDiff(d1: Date, d2: Date): number {

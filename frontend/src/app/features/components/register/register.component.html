@@ -1,11 +1,10 @@
-
 <!-- breadcrumb_section - start
 ================================================== -->
 <section class="breadcrumb_section text-center clearfix">
   <div class="page_title_area has_overlay d-flex align-items-center clearfix"
        style="background-image: url('../../../../assets/images/breadcrumb/bg_09.jpg')">
     <div class="overlay"></div>
-    <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <div class="container">
       <br><br><br>
       <h1 class="page_title text-white mb-0">Register</h1>
     </div>
@@ -23,79 +22,192 @@
 ================================================== -->
 
 
-
 <!-- register_section - start
 ================================================== -->
 <section class="register_section sec_ptb_100 clearfix">
   <div class="container">
 
 
-    <div class="register_card mb-0" style="background-color: #F2F2F2" data-aos="fade-up" data-aos-delay="100">
+    <div class="register_card mb-0" style="background-color: #F2F2F2">
       <div class="section_title mb_30 text-center">
-        <h2 class="title_text mb-0" data-aos="fade-up" data-aos-delay="300">
+        <h2 class="title_text mb-0">
           <span>Register</span>
         </h2>
       </div>
-      <form action="#">
+      <form #signUpForm="ngForm">
         <div class="row justify-content-lg-between">
-          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="500">
-            <div class="form_item">
-              <input type="text" name="name" placeholder="Your Name*">
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+            <!-- username -->
+            <div class="form_item form-label-group input">
+              <input #pseudoInput="ngModel"
+                     [class.is-invalid]="pseudoInput.invalid && pseudoInput.touched"
+                     [class.is-valid]="!(pseudoInput.invalid && pseudoInput.untouched)"
+                     [(ngModel)]="username" class="form-control" type="text" name="username" id="username" required
+                     autofocus>
+              <label for="username">username</label>
+              <small id="pseudoError" class="text-danger"
+                     [class.d-none]="pseudoInput.valid || pseudoInput.untouched">
+                This field is required
+              </small>
             </div>
-            <div class="form_item">
-              <input type="email" name="email" placeholder="Your Email*">
+
+
+            <!-- email -->
+            <div class="form_item form-label-group input">
+              <input #emailInput="ngModel"
+                     pattern="^[aA-zZ0-9._%+-]+@[a-z0-9.-]+\.[aA-zZ]{2,4}$"
+                     [class.is-invalid]="emailInput.invalid && emailInput.touched"
+                     [class.is-valid]="!(emailInput.invalid && emailInput.untouched)"
+                     class="form-control" type="email" id="inputEmail"
+                     [(ngModel)]="userEmail" name="email" required>
+              <label for="inputEmail">email</label>
+              <div *ngIf="emailInput.errors && (emailInput.invalid ||emailInput.touched)">
+                <small *ngIf="emailInput.errors.pattern" id="emailInvalid" class="text-danger">
+                  {{emailInput.value}} is not valid email
+                </small>
+                <small *ngIf="emailInput.errors.required && emailInput.touched"
+                       id="emailRequired" class="text-danger">
+                  This field is required
+                </small>
+              </div>
             </div>
-            <div class="form_item">
-              <input type="password" name="password" placeholder="Password*">
+
+            <!-- password -->
+            <div class="form_item form-label-group input">
+              <input #passwordInput="ngModel"
+                     [class.is-invalid]="passwordInput.invalid && passwordInput.touched"
+                     [class.is-valid]="!(passwordInput.invalid && passwordInput.untouched)"
+                     class="form-control" type="password" id="password"
+                     [(ngModel)]="password" name="password" required autofocus>
+              <label for="password">password</label>
+              <small id="passwordError" class="text-danger" [class.d-none]="passwordInput.valid ||
+                       passwordInput.untouched">A password is required
+              </small>
             </div>
-            <div class="form_item">
-              <p-password pTooltip="Enter your password" tooltipPosition="top" [(ngModel)]="value4" [toggleMask]="true">
-                <ng-template pTemplate="header">
-                  <h6>Pick a password</h6>
-                </ng-template>
-                <ng-template pTemplate="footer">
-                  <p-divider></p-divider>
-                  <p class="p-mt-2">Suggestions</p>
-                  <ul class="p-pl-2 p-ml-2 p-mt-0" style="line-height: 1.5">
-                    <li>At least one lowercase</li>
-                    <li>At least one uppercase</li>
-                    <li>At least one numeric</li>
-                    <li>Minimum 8 characters</li>
-                  </ul>
-                </ng-template>
-              </p-password>
+
+            <!-- phone number -->
+            <div class="form_item form-label-group input">
+              <input #phoneNumberInput="ngModel"
+                     pTooltip="Eg : +32485601713" tooltipPosition="top"
+                     [class.is-invalid]="phoneNumberInput.invalid && phoneNumberInput.touched"
+                     [class.is-valid]="!(phoneNumberInput.invalid && phoneNumberInput.untouched)"
+                     class="form-control" type="number" id="inputPhoneNumber"
+                     [(ngModel)]="phoneNumber" name="phoneNumber" required autofocus>
+              <label for="inputPhoneNumber">phone number</label>
+              <div *ngIf="phoneNumberInput.errors && (phoneNumberInput.invalid ||phoneNumberInput.touched)">
+                <small *ngIf="phoneNumberInput.errors.pattern" id="phoneNumberInputInvalid" class="text-danger">
+                  {{phoneNumberInput.value}} is not a valid phone number
+                </small>
+                <small *ngIf="phoneNumberInput.errors.required && phoneNumberInput.touched"
+                       id="phoneNumberRequired" class="text-danger">
+                  This field is required
+                </small>
+              </div>
             </div>
-            <div class="form_item">
-              <input type="password" name="confirmpass" placeholder="Confirm Password*">
+
+            <div>
+              <p style="cursor:default;" class="terms_condition">
+                <i style="color : #4CAF50;" class="fas fa-info-circle mr-1"></i>
+                Unverified accounts is deleted within 3 days.
+              </p>
             </div>
-            <div class="form_item">
-              <input type="tel" name="Phone" placeholder="Phone Number*">
+
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+
+            <!-- road -->
+            <div class="form_item form-label-group input">
+              <input #roadInput="ngModel"
+                     [class.is-invalid]="roadInput.invalid && roadInput.touched"
+                     [class.is-valid]="!(roadInput.invalid && roadInput.untouched)"
+                     [(ngModel)]="road" class="form-control" type="text" name="road" id="road" required autofocus>
+              <label for="road">road</label>
+              <small id="roadError" class="text-danger"
+                     [class.d-none]="roadInput.valid || roadInput.untouched">
+                This field is required
+              </small>
+            </div>
+
+            <!-- house number -->
+            <div class="form_item form-label-group input">
+              <input #houseNumberInput="ngModel"
+                     pattern="^([1-9][0-9]{0,2}|1000)$"
+                     [class.is-invalid]="houseNumberInput.invalid && houseNumberInput.touched"
+                     [class.is-valid]="!(houseNumberInput.invalid && houseNumberInput.untouched)"
+                     class="form-control" type="number" id="inputHouseNumber" min="1" max="1000"
+                     [(ngModel)]="houseNumber" name="houseNumber" required>
+              <label for="inputHouseNumber">house number</label>
+              <div *ngIf="houseNumberInput.errors && (houseNumberInput.invalid ||houseNumberInput.touched)">
+                <small *ngIf="houseNumberInput.errors.pattern" id="houseNumberInvalid" class="text-danger">
+                  {{houseNumberInput.value}} is not valid email
+                </small>
+                <small *ngIf="houseNumberInput.errors.required && houseNumberInput.touched"
+                       id="houseNumberRequired" class="text-danger">
+                  This field is required
+                </small>
+              </div>
+            </div>
+
+            <!-- town -->
+            <div class="form_item form-label-group input">
+              <input #townInput="ngModel"
+                     [class.is-invalid]="townInput.invalid && townInput.touched"
+                     [class.is-valid]="!(townInput.invalid && townInput.untouched)"
+                     class="form-control" type="text" id="townInput"
+                     [(ngModel)]="townName" name="townName" required autofocus>
+              <label for="townInput">town name</label>
+              <small id="townError" class="text-danger"
+                     [class.d-none]="townInput.valid || townInput.untouched">
+                This field is required
+              </small>
+            </div>
+            <p>
+              Your email address and phone number are only intended to confirm your appointment and
+              to contact you in the event of a change.
+            </p>
+            <button type="submit" (click)="submit()" class="custom_btn bg_default_red text-uppercase mb-0">Register
+              <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
+          </div>
+
+          <hr data-aos="fade-up" data-aos-delay="200">
+
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+
+            <div class="form_item form-label-group input">
+              <input class="form-control" type="text" id="emailKey"
+                     [(ngModel)]="emailKey" name="townName" required autofocus>
+              <label for="townInput">Enter verification key</label>
             </div>
           </div>
 
-          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="700">
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item">
-              <h4 class="input_icon">Select Car Type</h4>
-              <select class="nice-select">
-                <option data-display="Choose Payment Details">Select Your Option</option>
-                <option value="1">Some option</option>
-                <option value="2">Another option</option>
-                <option value="3" disabled>A disabled option</option>
-                <option value="4">Potato</option>
-              </select>
+              <button type="submit" class="custom_btn bg_default_red text-uppercase mb-0">Verify
+                <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
             </div>
-            <div class="form_item">
-              <input type="text" name="country" placeholder="Country*">
-            </div>
-            <div class="form_item">
-              <input type="text" name="address" placeholder="Billing Address*">
-            </div>
-            <p>
-              Your personal data will be used in mapping with the vehicles you added to the website, to manage access to your account, and for other purposes described in our
-            </p>
-            <button type="submit" class="custom_btn bg_default_red text-uppercase mb-0">Register
-              <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
           </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form_item">
+              <input type="number" name="country" placeholder="Enter verification code">
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form_item">
+              <button type="submit" class="custom_btn bg_default_red text-uppercase mb-0">Verify
+                <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
+            </div>
+
+            <div class="form_item">
+              <button type="submit" class="custom_btn bg_default_red text-uppercase mb-0">Submit
+                <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
+            </div>
+          </div>
+
         </div>
       </form>
     </div>

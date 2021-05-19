@@ -17,7 +17,7 @@ const appRoutes: Routes = [
   {
     path: 'admin/management',
     component: CalendarComponent,
-    // canActivate: [AdminGuard]
+    canActivate: [AdminGuard]
   },
 ];
 

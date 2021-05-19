@@ -74,10 +74,10 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * A method to handle {@link ResourceFoundException} across the whole application.
+     * A method to handle {@link ResourceNotFoundException} across the whole application.
      */
-    @ExceptionHandler({ResourceFoundException.class})
-    public ResponseEntity<Map<String, String>> resourceFoundException(ResourceFoundException ex) {
+    @ExceptionHandler({ResourceNotFoundException.class})
+    public ResponseEntity<Map<String, String>> resourceFoundException(ResourceNotFoundException ex) {
         log.warn("ResourceFoundException thrown !");
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
