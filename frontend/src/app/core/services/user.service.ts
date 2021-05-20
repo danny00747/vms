@@ -41,11 +41,15 @@ export class UserService {
     return this.http.post<{ message: string }>(`/api/v1/register`, user);
   }
 
-  verifyEmailKey(key: string): Observable<{ message: string }> {
-    return this.http.get<{ message: string }>(`/api/v1/activate?key=${key}`);
+  activateUser(username: string): Observable<{ message: string }> {
+    return this.http.get<{ message: string }>(`/api/v1/activate/${username}`);
+  }
+
+  verifyEmail(key: string): Observable<{ message: string }> {
+    return this.http.get<{ message: string }>(`/api/v1/verifyEmail?key=${key}`);
   }
 
   verifyPhoneCode(code: number): Observable<{ message: string }> {
-    return this.http.get<{ message: string }>(`/api/v1/verifyPhone?verificationCode=${code}`);
+    return this.http.get<{ message: string }>(`/api/v1/verifyPhone?code=${code}`);
   }
 }

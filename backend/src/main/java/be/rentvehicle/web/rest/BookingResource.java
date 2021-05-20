@@ -45,7 +45,7 @@ public class BookingResource extends BaseRestController {
     }
 
     /**
-     * {@code POST  /register} : register a reservation.
+     * {@code POST  //bookings/{carId}} : register a reservation.
      *
      * @param bookingDTO the reservation to create.
      * @param carId      the car to book.

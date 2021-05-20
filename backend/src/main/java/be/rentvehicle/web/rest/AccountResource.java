@@ -66,17 +66,17 @@ public class AccountResource extends BaseRestController {
     }
 
     /**
-     * {@code GET  /activate} : activate the registered user.
+     * {@code GET  /activate/{username}} : activate the registered user.
      *
-     * @param key the activation key.
+     * @param username the user to activate key.
      * @throws UserNotFoundException {@code 404 (Not Found)} if the user couldn't be activated.
      */
-    @GetMapping("/activate")
-    public ResponseEntity<Map<String, String>> activateAccount(@RequestParam(value = "key") String key) {
+    @GetMapping("/activate/{username}")
+    public ResponseEntity<Map<String, String>> activateAccount(@PathVariable("username") String username) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(Map.of("message", userService.activateRegistration(key)
-                        .orElseThrow(() -> new AccountResourceException("No user was found with this activation key"))));
+                .body(Map.of("message", userService.activateRegistration(username)
+                        .orElseThrow(() -> new UserNotFoundException(username))));
     }
 
     /**
@@ -220,14 +220,28 @@ public class AccountResource extends BaseRestController {
     /**
      * {@code GET  /verifyPhone} : verify a phone number.
      *
-     * @param verificationCode the code to verify.
+     * @param code the code to verify.
      * @throws UserNotFoundException {@code 404 (Not Found)} if the user with this verificationCode couldn't be found.
      */
     @GetMapping("/verifyPhone")
-    public ResponseEntity<Map<String, String>> verifyPhoneNumber(@RequestParam(value = "verificationCode") Integer verificationCode) {
+    public ResponseEntity<Map<String, String>> verifyPhoneNumber(@RequestParam(value = "code") Integer code) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(Map.of("message", userService.verifyPhoneNumber(verificationCode)
-                        .orElseThrow(() -> new AccountResourceException("No user was found with this verification code"))));
+                .body(Map.of("message", userService.verifyPhoneNumber(code)
+                        .orElseThrow(() -> new AccountResourceException("No user was found with this verification code: " + code))));
+    }
+
+    /**
+     * {@code GET  /verifyEmail} : verify an email address.
+     *
+     * @param key the key to verify.
+     * @throws UserNotFoundException {@code 404 (Not Found)} if the user with this verificationCode couldn't be found.
+     */
+    @GetMapping("/verifyEmail")
+    public ResponseEntity<Map<String, String>> verifyEmail(@RequestParam(value = "key") String key) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(Map.of("message", userService.verifyEmail(key)
+                        .orElseThrow(() -> new AccountResourceException("No user was found with this key: " + key))));
     }
 }

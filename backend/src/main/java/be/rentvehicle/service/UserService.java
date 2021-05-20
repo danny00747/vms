@@ -84,12 +84,12 @@ public interface UserService {
 
 
     /**
-     * Deletes a specific user, and return a confirmation message.
+     * Activates a specific user, and returns a confirmation message.
      *
-     * @param key activation key.
+     * @param username user to activate.
      * @return confirmation message.
      */
-    Optional<String> activateRegistration(String key);
+    Optional<String> activateRegistration(String username);
 
     /**
      * Verifies a specific phone number.
@@ -98,6 +98,14 @@ public interface UserService {
      * @return confirmation message.
      */
     Optional<String> verifyPhoneNumber(Integer verificationCode);
+
+    /**
+     * Verifies a specific email address.
+     *
+     * @param key the key to verify.
+     * @return confirmation message.
+     */
+    Optional<String> verifyEmail(String key);
 
 
     /**

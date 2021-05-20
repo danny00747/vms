@@ -11,7 +11,6 @@ import {AuthGuard} from '@app/core/guards/auth.guard';
 import {CarsComponent} from './components/cars/cars.component';
 import {CarDetailComponent} from './components/cars/car-detail/car-detail.component';
 import {ReservationComponent} from './components/reservation/reservation.component';
-import {CarsResolver} from '@app/core/resolvers/cars.resolver';
 import {SkeletonModule} from 'primeng/skeleton';
 import {PaginatorModule} from 'primeng/paginator';
 import {DataViewModule} from 'primeng/dataview';
@@ -19,6 +18,7 @@ import {CascadeSelectModule} from 'primeng/cascadeselect';
 import {VerifyEmailComponent} from './components/register/verify-email/verify-email.component';
 import {EditProfileComponent} from './components/profile/edit-profile/edit-profile.component';
 import {DialogService} from 'primeng/dynamicdialog';
+import { ReservationRecapComponent } from './components/reservation/reservation-recap/reservation-recap.component';
 
 const routes: Routes = [
   {path: 'register', component: RegisterComponent},
@@ -28,6 +28,7 @@ const routes: Routes = [
   {path: 'cars', component: CarsComponent},
   {path: 'cars/:id', component: CarDetailComponent},
   {path: 'reservation/:carId', component: ReservationComponent},
+  {path: 'reservation/recap/:bookingId', component: ReservationRecapComponent},
   {path: 'verify-email/:key', component: VerifyEmailComponent},
 ];
 
@@ -35,7 +36,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [LoginComponent, RegisterComponent, GalleryComponent,
-    ProfileComponent, CarsComponent, CarDetailComponent, ReservationComponent, VerifyEmailComponent, EditProfileComponent],
+    ProfileComponent, CarsComponent, CarDetailComponent, ReservationComponent, VerifyEmailComponent, EditProfileComponent, ReservationRecapComponent],
   imports: [
     CommonModule,
     SharedModule,

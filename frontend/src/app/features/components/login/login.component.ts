@@ -46,12 +46,10 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe(
         async () => {
           this.toastService.show(EToastSeverities.INFO, 'Welcome back !');
-          await this.router.navigate(['/gallery']);
-          this.reload();
+          setTimeout(async () => await  this.router.navigate(['/gallery']), 1000);
         },
         error => {
           console.error(error);
-          // this.toast.show(EToastSeverities.ERROR, 'Authenticate failed !');
           this.toastService.show(EToastSeverities.ERROR, 'Authentification failed !');
         });
   }

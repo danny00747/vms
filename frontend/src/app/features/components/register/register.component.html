@@ -1,5 +1,6 @@
 <!-- breadcrumb_section - start
 ================================================== -->
+<p-toast></p-toast>
 <section class="breadcrumb_section text-center clearfix">
   <div class="page_title_area has_overlay d-flex align-items-center clearfix"
        style="background-image: url('../../../../assets/images/breadcrumb/bg_09.jpg')">
@@ -107,7 +108,7 @@
             </div>
 
             <div>
-              <p style="cursor:default;" class="terms_condition">
+              <p style="cursor:default;" class="terms_condition p-text-italic">
                 <i style="color : #4CAF50;" class="fas fa-info-circle mr-1"></i>
                 Unverified accounts is deleted within 3 days.
               </p>
@@ -151,6 +152,20 @@
               </div>
             </div>
 
+            <!-- postcode -->
+            <div class="form_item form-label-group input">
+              <input #postCodeInput="ngModel"
+                     [class.is-invalid]="postCodeInput.invalid && postCodeInput.touched"
+                     [class.is-valid]="!(postCodeInput.invalid && postCodeInput.untouched)"
+                     class="form-control" type="number" id="postCodeInput"
+                     [(ngModel)]="postCode" name="postCode" required autofocus>
+              <label for="postCodeInput">post code</label>
+              <small id="postCodeInputError" class="text-danger"
+                     [class.d-none]="postCodeInput.valid || postCodeInput.untouched">
+                This field is required
+              </small>
+            </div>
+
             <!-- town -->
             <div class="form_item form-label-group input">
               <input #townInput="ngModel"
@@ -164,46 +179,52 @@
                 This field is required
               </small>
             </div>
-            <p>
+            <p class="p-text-italic">
               Your email address and phone number are only intended to confirm your appointment and
               to contact you in the event of a change.
             </p>
-            <button type="submit" (click)="submit()" class="custom_btn bg_default_red text-uppercase mb-0">Register
-              <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
+            <button type="submit" [disabled]="signUpForm.invalid || verifyInputs" (click)="submit()"
+                    class="custom_btn bg_default_red text-uppercase mb-0">Submit
+              <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found">
+            </button>
           </div>
 
-          <hr data-aos="fade-up" data-aos-delay="200">
+          <hr *ngIf="verifyInputs" data-aos="fade-up" data-aos-delay="200">
 
-          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-
-
+          <div  *ngIf="verifyInputs" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item form-label-group input">
               <input class="form-control" type="text" id="emailKey"
-                     [(ngModel)]="emailKey" name="townName" required autofocus>
-              <label for="townInput">Enter verification key</label>
+                     [(ngModel)]="emailKey" name="emailKey" required autofocus>
+              <label for="emailKey">Enter verification key</label>
             </div>
           </div>
 
-          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div  *ngIf="verifyInputs" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item">
-              <button type="submit" class="custom_btn bg_default_red text-uppercase mb-0">Verify
+              <button type="submit" [disabled]="!checkEmailKey() || verifiedEmailKey" (click)="verifyEmailKey()"
+                      class="custom_btn bg_default_red text-uppercase mb-0">Verify
                 <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
             </div>
           </div>
-          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-            <div class="form_item">
-              <input type="number" name="country" placeholder="Enter verification code">
+
+          <div *ngIf="verifyInputs" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form_item form-label-group input">
+              <input class="form-control" type="number" id="phoneCode"
+                     [(ngModel)]="phoneCode" name="phoneCode" required autofocus>
+              <label for="phoneCode">Enter verification code</label>
             </div>
           </div>
 
-          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div *ngIf="verifyInputs" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item">
-              <button type="submit" class="custom_btn bg_default_red text-uppercase mb-0">Verify
+              <button type="submit" [disabled]="!checkPhoneCode() || verifiedPhoneCode" (click)="verifyPhoneCode()"
+                      class="custom_btn bg_default_red text-uppercase mb-0">Verify
                 <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
             </div>
 
             <div class="form_item">
-              <button type="submit" class="custom_btn bg_default_red text-uppercase mb-0">Submit
+              <button type="submit" [disabled]="!checkBooking()" (click)="signUp()"
+                      class="custom_btn bg_default_red text-uppercase mb-0">Sign up
                 <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
             </div>
           </div>

@@ -43,7 +43,7 @@ public class DomainUserDetailsService implements UserDetailsService {
         }
 
         String lowercaseUsername = username.toLowerCase(Locale.ENGLISH);
-        return userDAO.findOneWithRolesByUsernameAndActivatedIsTrue(lowercaseUsername)
+        return userDAO.findOneWithRolesByUsernameAndActivatedIsTrueAndVerificationPhoneCodeIsNull(lowercaseUsername)
                 .map(this::createSpringSecurityUser)
                 .orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseUsername + " was not found in the database"));
 

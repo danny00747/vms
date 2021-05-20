@@ -26,7 +26,7 @@ public interface UserDAO extends JpaRepository<User, UUID> {
     Optional<User> findOneByUsername(String username);
 
     @EntityGraph(attributePaths = "roles")
-    Optional<User> findOneWithRolesByUsernameAndActivatedIsTrue(String username);
+    Optional<User> findOneWithRolesByUsernameAndActivatedIsTrueAndVerificationPhoneCodeIsNull(String username);
 
     @EntityGraph(attributePaths = "roles")
     Optional<User> findOneWithRolesByEmailIgnoreCaseAndActivatedIsTrue(String email);

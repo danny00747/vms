@@ -122,13 +122,13 @@
             </li>
             <li *ngIf="!authService.currentUserValue" [routerLinkActive]="['active']"
                 [routerLinkActiveOptions]="{ exact: true }">
-              <button [routerLink]="['/login']" type="button" class="">
+              <button [routerLink]="['/login']" type="button" pTooltip="Sign In" tooltipPosition="top">
                 <i class="fal fa-sign-in"></i>
               </button>
             </li>
             <li *ngIf="!authService.currentUserValue" [routerLinkActive]="['active']"
                 [routerLinkActiveOptions]="{ exact: true }">
-              <button [routerLink]="['/register']" type="button" class="">
+              <button [routerLink]="['/register']" type="button" pTooltip="Sign Up" tooltipPosition="top">
                 <i class="fal fa-user-plus"></i>
               </button>
             </li>

@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
-import {filter, takeUntil} from 'rxjs/operators';
-import {CarDTO, CreateUserDTO, UserDTO} from '@app/shared/models';
+import {filter} from 'rxjs/operators';
+import {CarDTO, LoginDTO} from '@app/shared/models';
 import {CarService} from '@app/core/services/car.service';
 import {SelectItem} from 'primeng/api';
-import {EToastSeverities, ToastService} from '@app/core/services';
+import {AuthentificationService, EToastSeverities, ToastService} from '@app/core/services';
 import {UserService} from '@app/core/services/user.service';
+import {BookingService} from '@app/core/services/booking.service';
 
 @Component({
   selector: 'app-reservation',
@@ -38,26 +39,19 @@ export class ReservationComponent implements OnInit {
   loggedInUser = !!JSON.parse(localStorage.getItem('currentUser'))?.token;
 
   acceptedTerms = false;
+  successBooking = false;
 
-  date1: Date;
-  date2: Date;
-  date3: Date;
-  date4: Date;
+  withdrawalDate: Date;
+  returnDate: Date;
   minDate: Date = new Date();
   defaultHour = new Date().getHours() + ':' + new Date().getMinutes();
-
-  sortOptions: SelectItem[] = [
-    {label: 'Opel', value: 'Opel'},
-    {label: 'Ford', value: 'Ford'},
-    {label: 'Renault', value: 'Renault'},
-    {label: 'Toyota', value: 'Toyota'},
-    {label: 'Volkswagen', value: 'Volkswagen'}
-  ];
 
   constructor(private router: Router,
               private route: ActivatedRoute,
               public toastService: ToastService,
               private userService: UserService,
+              private bookingService: BookingService,
+              private authService: AuthentificationService,
               private carService: CarService) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationStart))
@@ -105,7 +99,6 @@ export class ReservationComponent implements OnInit {
     this.userService.createUser(createdUser)
       .subscribe(
         data => {
-          console.log(data);
           this.toastService.show(EToastSeverities.INFO, data.message);
           this.verifyInputs = true;
         },
@@ -124,10 +117,10 @@ export class ReservationComponent implements OnInit {
   }
 
   verifyEmailKey(): void {
-    this.userService.verifyEmailKey(this.emailKey)
+    this.userService.verifyEmail(this.emailKey)
       .subscribe(
         () => {
-          this.toastService.show(EToastSeverities.INFO, 'Your account has been successfully activated.');
+          this.toastService.show(EToastSeverities.SUCCESS, 'Your email has been successfully verified. !');
           this.verifiedEmailKey = true;
         },
         error => {
@@ -140,7 +133,7 @@ export class ReservationComponent implements OnInit {
     this.userService.verifyPhoneCode(this.phoneCode)
       .subscribe(
         () => {
-          this.toastService.show(EToastSeverities.INFO, 'Your phone number has been successfully verified.');
+          this.toastService.show(EToastSeverities.SUCCESS, 'Your phone number has been successfully verified. !');
           this.verifiedPhoneCode = true;
         },
         error => {
@@ -153,7 +146,64 @@ export class ReservationComponent implements OnInit {
     this.acceptedTerms = target.checked;
   }
 
-  checkBooking(): boolean{
-    return this.verifiedEmailKey && this.verifiedPhoneCode && this.acceptedTerms;
+  checkBooking(): boolean {
+    const checkDates: any = this.withdrawalDate && this.returnDate;
+    return this.verifiedEmailKey && this.verifiedPhoneCode && this.acceptedTerms && checkDates;
+  }
+
+  async saveBooking(): Promise<void> {
+    const editReturnDate = this.returnDate;
+
+    (typeof this.defaultHour === 'string') ?
+      editReturnDate.setHours(Number(this.defaultHour.split(':')[0]), Number(this.defaultHour.split(':')[1])) :
+      editReturnDate.setHours(new Date(this.defaultHour).getHours(), new Date(this.defaultHour).getMinutes());
+
+    this.userService.activateUser(this.username).toPromise().then().catch();
+
+    this.userService.activateUser(this.username)
+      .subscribe(
+        () => {
+          this.signInUser(editReturnDate);
+        },
+        error => {
+          console.error(error);
+          this.toastService.show(EToastSeverities.ERROR, 'Something went wrong !');
+        });
+
+
+  }
+
+  signInUser(editedReturnDate: Date): void {
+    const loginForm: LoginDTO = {
+      pseudo: this.username,
+      password: this.password
+    };
+    this.authService.loginUser(loginForm)
+      .subscribe(
+        () => {
+          this.createBooking(editedReturnDate);
+        },
+        error => {
+          console.error(error);
+          this.toastService.show(EToastSeverities.ERROR, 'Something went wrong !');
+        });
+  }
+
+  createBooking(editedReturnDate: Date): void {
+    const booking = {
+      withdrawalDate: this.withdrawalDate,
+      returnDate: editedReturnDate
+    };
+
+    this.bookingService.createBooking(this.carId, booking)
+      .subscribe(
+        () => {
+          this.toastService.show(EToastSeverities.SUCCESS, 'We have successfully received your reservation. !');
+          this.successBooking = true;
+        },
+        error => {
+          console.error(error);
+          this.toastService.show(EToastSeverities.ERROR, 'Something went wrong !');
+        });
   }
 }

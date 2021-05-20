@@ -221,18 +221,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<String> activateRegistration(String key) {
+    public Optional<String> activateRegistration(String username) {
+        log.debug("Activating user {}", username);
+        return Optional.of(userDAO
+                .findOneByUsername(username))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(user -> {
+                    if (user.isActivated()) return user.getUsername() + "'s account is already activated !";
+                    user.setActivated(true);
+                    userDAO.save(user);
+                    log.debug("Activated user: {}", user);
+                    return user.getUsername() + "'s account was successfully activated !";
+                });
+    }
+
+    @Override
+    public Optional<String> verifyEmail(String key) {
         log.debug("Activating user for activation key {}", key);
         return Optional.of(userDAO
                 .findOneByActivationKey(key))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(user -> {
-                    user.setActivated(true);
                     user.setActivationKey(null);
                     userDAO.save(user);
-                    log.debug("Activated user: {}", user);
-                    return user.getUsername() + "'s account was successfully activated !";
+                    log.debug("verifying user email: {}", user);
+                    return user.getUsername() + "'s email was successfully verified !";
                 });
     }
 

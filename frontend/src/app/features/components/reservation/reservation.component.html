@@ -5,7 +5,7 @@
   <div class="page_title_area has_overlay d-flex align-items-center clearfix"
        style="background-image: url('../../../../assets/images/breadcrumb/bg_06.jpg')">
     <div class="overlay"></div>
-    <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <div class="container">
       <br><br>
       <h1 class="page_title text-white mb-0">Reservation</h1>
     </div>
@@ -32,7 +32,7 @@
     <div class="row justify-content-lg-between justify-content-md-center justify-content-sm-center">
 
       <div class="col-lg-4 col-md-8 col-sm-10 col-xs-12">
-        <div class="feature_vehicle_item mt-0 ml-0" data-aos="fade-up" data-aos-delay="100">
+        <div class="feature_vehicle_item mt-0 ml-0">
           <h3 class="item_title mb-0">
             <a>
               {{car?.modelDTO.brand}} {{car?.modelDTO.modelType}}
@@ -43,7 +43,7 @@
               <img src="../../../../assets/images/feature/{{car?.modelDTO.brand}} {{car?.modelDTO.modelType}}.jpg"
                    alt="image_not_found">
             </a>
-            <span class="item_price bg_default_blue">230€/Day</span>
+            <span class="item_price bg_default_blue">{{car?.modelDTO.princingDetailsDTO.costPerDay}}€/Day</span>
           </div>
           <ul class="info_list ul_li_center clearfix">
             <li>{{car?.modelDTO.modelOptionDTO.bagsNumber}} Bags</li>
@@ -60,9 +60,8 @@
             <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12">
               <div class="form_item">
                 <h4 class="input_title">Pick Up Date</h4>
-                <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="date1" [minDate]="minDate"
-                            [showButtonBar]="true"
-                            [placeholder]="'pick up date'" inputId="pickUpDate">
+                <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="withdrawalDate" [minDate]="minDate"
+                            [showButtonBar]="true" [placeholder]="'pick up date'" inputId="pickUpDate">
                   <ng-template pTemplate="date" let-date>
                     <span
                       [ngStyle]="{textDecoration: (date.month < minDate.getMonth()) ? 'line-through' : 'inherit'}">{{date.day}}</span>
@@ -74,7 +73,7 @@
             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
               <div class="form_item">
                 <h4 class="input_title">Return Date</h4>
-                <p-calendar appendTo="body" [disabled]="!date1" [showIcon]="true" [(ngModel)]="date2" [minDate]="date1"
+                <p-calendar appendTo="body" [disabled]="!withdrawalDate" [showIcon]="true" [(ngModel)]="returnDate" [minDate]="withdrawalDate"
                             [placeholder]="'return date'" inputId="returnDate">
                 </p-calendar>
               </div>
@@ -380,7 +379,7 @@
                 </div>
               </div>
               <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                <button [disabled]="!checkBooking()" type="button"
+                <button [disabled]="!checkBooking() || successBooking" (click)="saveBooking()" type="button"
                         class="custom_btn bg_default_red text-uppercase">
                   Reservation Now
                   <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
