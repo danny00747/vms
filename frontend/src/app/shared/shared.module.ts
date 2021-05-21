@@ -35,6 +35,8 @@ import {MessageModule} from 'primeng/message';
 import {DataViewModule} from 'primeng/dataview';
 import {PickListModule} from 'primeng/picklist';
 import { TruncatePipe } from './pipes/truncate.pipe';
+import {DialogService} from 'primeng/dynamicdialog';
+import {ConfirmationService} from 'primeng/api';
 
 
 @NgModule({
@@ -106,6 +108,6 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     PasswordModule,
     BreadcrumbModule,
     SliderModule
-  ]
+  ], providers: [DialogService]
 })
 export class SharedModule { }

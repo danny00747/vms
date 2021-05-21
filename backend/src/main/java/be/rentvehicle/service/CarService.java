@@ -17,7 +17,7 @@ public interface CarService {
      *
      * @return the list of entities.
      */
-    List<CarDTO> findAll();
+    List<CarDTO> getAll();
 
     /**
      * Get the entities given a model brand .
@@ -51,7 +51,15 @@ public interface CarService {
      * @param date the withdrawalDate to search.
      * @return the found entities.
      */
-    List<CarDTO> getBookedCars(Instant date);
+    List<CarDTO> getBookedCarsByDate(Instant date);
+
+    /**
+     * Get all non booked cars .
+     *
+     * @return the found entities.
+     */
+    List<CarDTO> getBookedCars();
+
 
     /**
      * Saves all damaged cars

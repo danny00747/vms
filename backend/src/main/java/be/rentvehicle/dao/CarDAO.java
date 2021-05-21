@@ -38,7 +38,7 @@ public interface CarDAO extends JpaRepository<Car, UUID> {
             """)
     List<Car> findAllByModelBrand(String modelBrand);
 
-    List<Car> findAllByBookingIsNotNull();
+    List<Car> findAllByBookingIsNull();
 
     List<Car> findAllByBookingWithdrawalDateAndBookingReturnDate(Instant t1, Instant t2);
 

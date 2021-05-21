@@ -76,7 +76,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     const ref = this.dialogService.open(ConfirmationDialogComponent, {
       header: 'Confirmation',
       data: {
-        message: 'You are about to delete this reservation, this action is irreversible !'
+        message: 'You are about to cancel this reservation, this action is irreversible !'
       }
     });
     ref.onClose.subscribe((confirm: boolean) => {

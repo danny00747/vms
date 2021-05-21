@@ -44,53 +44,40 @@
                 <i class="fal fa-search"></i>
               </button>
             </li>
-            <li *ngIf="authService.currentUserValue" class="dropdown">
+            <li *ngIf="authService.currentUserValue && user?.bookingDTO" class="dropdown">
               <button type="button" class="cart_btn" id="cart_dropdown" data-toggle="dropdown" aria-haspopup="true"
                       aria-expanded="false">
-                <i class="fal fa-shopping-cart"></i>
-                <span class="cart_counter bg_default_red">3</span>
+                <i class="fal fa-car" style="font-size: 1.2rem"></i>
+                <span class="cart_counter bg_default_red">1</span>
               </button>
               <div class="cart_dropdown rotors_dropdown dropdown-menu" aria-labelledby="cart_dropdown">
-                <h4 class="wrap_title">Cart Items: (3)</h4>
+                <h4 class="wrap_title">Active Reservations: (1)</h4>
                 <ul class="cart_items_list ul_li_block clearfix">
                   <li>
                     <div class="item_image">
-                      <img src="../../../../assets/images/cart/img_2.png" alt="image_not_found">
+                      <img
+                        src="../../../../assets/images/feature/super-small/{{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}.jpg"
+                        alt="image_not_found">
                     </div>
                     <div class="item_content">
-                      <h4 class="item_title">Digital Infrared Thermometer</h4>
-                      <span class="item_price">$39.50</span>
+                      <h4
+                        class="item_title">{{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}</h4>
+                      <span class="item_price">{{user.bookingDTO.carDTO.licensePlate}}</span>
                     </div>
-                    <button type="button" class="remove_btn"><i class="fal fa-times"></i></button>
-                  </li>
-
-                  <li>
-                    <div class="item_image">
-                      <img src="../../../../assets/images/cart/img_2.png" alt="image_not_found">
-                    </div>
-                    <div class="item_content">
-                      <h4 class="item_title">Digital Infrared Thermometer</h4>
-                      <span class="item_price">$39.50</span>
-                    </div>
-                    <button type="button" class="remove_btn"><i class="fal fa-times"></i></button>
-                  </li>
-
-                  <li>
-                    <div class="item_image">
-                      <img src="../../../../assets/images/cart/img_2.png" alt="image_not_found">
-                    </div>
-                    <div class="item_content">
-                      <h4 class="item_title">Digital Infrared Thermometer</h4>
-                      <span class="item_price">$39.50</span>
-                    </div>
-                    <button type="button" class="remove_btn"><i class="fal fa-times"></i></button>
                   </li>
                 </ul>
                 <ul class="btns_group ul_li_block clearfix">
-                  <li><a class="custom_btn bg_default_red text-uppercase">View Cart <img
-                    src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></a></li>
-                  <li><a class="custom_btn bg_default_black text-uppercase">Checkout <img
-                    src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></a></li>
+                  <li>
+                    <a [routerLink]="['/reservation/recap', user.bookingDTO.bookingId]"
+                      class="custom_btn bg_default_red text-uppercase">View Booking
+                      <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found">
+                    </a>
+                  </li>
+                  <li>
+                    <a (click)="confirmCancel()" class="custom_btn bg_default_black text-uppercase">Cancel
+                      <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found">
+                    </a>
+                  </li>
                 </ul>
               </div>
             </li>

@@ -36,8 +36,16 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<CarDTO> findAll() {
+    public List<CarDTO> getAll() {
         return carDAO.findAll()
+                .stream()
+                .map(carMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CarDTO> getBookedCars() {
+        return carDAO.findAllByBookingIsNull()
                 .stream()
                 .map(carMapper::toDto)
                 .collect(Collectors.toList());
@@ -78,7 +86,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<CarDTO> getBookedCars(Instant date) {
+    public List<CarDTO> getBookedCarsByDate(Instant date) {
 
         if (date.compareTo(Instant.now().minus(3, ChronoUnit.MINUTES)) > 0) {
 

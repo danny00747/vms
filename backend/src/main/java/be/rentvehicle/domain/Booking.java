@@ -39,7 +39,7 @@ public @Data class Booking extends AbstractAuditingEntity {
     private User user;
 
     @OneToOne
-    @JoinColumn(name = "car_id", unique = true)
+    @JoinColumn(name = "car_id")
     private Car car;
 
     @OneToOne(mappedBy = "booking")

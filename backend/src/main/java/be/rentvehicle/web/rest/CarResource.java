@@ -41,7 +41,7 @@ public class CarResource extends BaseRestController {
     public ResponseEntity<List<CarDTO>> getAllCars() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(carService.findAll());
+                .body(carService.getAll());
     }
 
     /**
@@ -60,11 +60,11 @@ public class CarResource extends BaseRestController {
         } else if (withdrawalDate != null) {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(carService.getBookedCars(Instant.parse(withdrawalDate)));
+                    .body(carService.getBookedCarsByDate(Instant.parse(withdrawalDate)));
         } else {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(carService.getBookedCars(Instant.now()));
+                    .body(carService.getBookedCars());
         }
     }
 

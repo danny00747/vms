@@ -333,7 +333,7 @@
                      alt="image_not_found">
                 <ul class="btns_group ul_li_center clearfix">
                   <li>
-                    <span class="custom_btn btn_width bg_default_blue"><del>320€/Day</del> 210€/Day</span>
+                    <span class="custom_btn btn_width bg_default_blue"><del>320€/Day</del> {{cars[2]?.modelDTO.princingDetailsDTO.costPerDay}}€/Day</span>
                   </li>
                   <li>
                     <a [routerLink]="['/cars', cars[2]?.carId]"
@@ -352,7 +352,7 @@
               <li><strong>Suitcase:</strong> 1 Large, 2 Small</li>
               <li><strong>Doors:</strong> 2</li>
               <li><strong>Engine:</strong> 3.9L V8 32V GDI DOHC Twin Turbo</li>
-              <li><strong>Fuel Type:</strong> Gasoline, Premium unleaded</li>
+              <li><strong>Fuel Type:</strong> Gasoline</li>
               <li><strong>Options:</strong> Cruise Control, MP3 player, Automatic air conditioning, Wifi, GPS Navigation
               </li>
             </ul>

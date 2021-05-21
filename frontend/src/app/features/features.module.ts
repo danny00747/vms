@@ -19,6 +19,7 @@ import {VerifyEmailComponent} from './components/register/verify-email/verify-em
 import {EditProfileComponent} from './components/profile/edit-profile/edit-profile.component';
 import {DialogService} from 'primeng/dynamicdialog';
 import { ReservationRecapComponent } from './components/reservation/reservation-recap/reservation-recap.component';
+import {ConfirmationService} from 'primeng/api';
 
 const routes: Routes = [
   {path: 'register', component: RegisterComponent},
@@ -46,7 +47,7 @@ const routes: Routes = [
     DataViewModule,
     CascadeSelectModule,
     RouterModule.forChild(routes)
-  ], providers: [DialogService]
+  ], providers: [DialogService, ConfirmationService]
 })
 export class FeaturesModule {
 }

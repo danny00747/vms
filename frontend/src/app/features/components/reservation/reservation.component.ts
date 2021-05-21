@@ -7,6 +7,7 @@ import {SelectItem} from 'primeng/api';
 import {AuthentificationService, EToastSeverities, ToastService} from '@app/core/services';
 import {UserService} from '@app/core/services/user.service';
 import {BookingService} from '@app/core/services/booking.service';
+import {BookingDTO} from '@app/shared/models/booking';
 
 @Component({
   selector: 'app-reservation',
@@ -151,6 +152,11 @@ export class ReservationComponent implements OnInit {
     return this.verifiedEmailKey && this.verifiedPhoneCode && this.acceptedTerms && checkDates;
   }
 
+  checkBookingForLoggedInUser(): boolean {
+    const checkDates: any = this.withdrawalDate && this.returnDate;
+    return this.acceptedTerms && checkDates;
+  }
+
   async saveBooking(): Promise<void> {
     const editReturnDate = this.returnDate;
 
@@ -197,13 +203,25 @@ export class ReservationComponent implements OnInit {
 
     this.bookingService.createBooking(this.carId, booking)
       .subscribe(
-        () => {
+        (data: BookingDTO) => {
           this.toastService.show(EToastSeverities.SUCCESS, 'We have successfully received your reservation. !');
           this.successBooking = true;
+          setTimeout(async () => await  this.router.navigate(['/reservation/recap/', data.bookingId]), 1000);
         },
         error => {
           console.error(error);
           this.toastService.show(EToastSeverities.ERROR, 'Something went wrong !');
         });
+  }
+
+   saveBooking2(): void {
+    const editReturnDate = this.returnDate;
+
+    (typeof this.defaultHour === 'string') ?
+      editReturnDate.setHours(Number(this.defaultHour.split(':')[0]), Number(this.defaultHour.split(':')[1])) :
+      editReturnDate.setHours(new Date(this.defaultHour).getHours(), new Date(this.defaultHour).getMinutes());
+
+    this.createBooking(editReturnDate);
+
   }
 }

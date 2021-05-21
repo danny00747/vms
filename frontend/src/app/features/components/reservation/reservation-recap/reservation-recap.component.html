@@ -1,3 +1,5 @@
+<p-toast></p-toast>
+
 <section class="breadcrumb_section text-center clearfix">
   <div class="page_title_area has_overlay d-flex align-items-center clearfix"
        style="background-image: url('../../../../../assets/images/breadcrumb/bg_06.jpg')">
@@ -12,7 +14,7 @@
       <ul class="ul_li clearfix">
         <li><a [routerLink]="['/home']">Home</a></li>
         <li><a [routerLink]="['/cars']">Our Cars</a></li>
-        <li><a [routerLink]="['/cars', '']">Car Details</a></li>
+        <li><a [routerLink]="['/cars']">Car Details</a></li>
         <li>Reservation</li>
         <li>Reservation Recap</li>
       </ul>
@@ -25,7 +27,7 @@
 
 <!-- cart_section - start
 ================================================== -->
-<section class="cart_section sec_ptb_100 clearfix">
+<section *ngIf="user" class="cart_section sec_ptb_100 clearfix">
   <div class="container">
     <div class="row justify-content-lg-between justify-content-md-center justify-content-sm-center">
 
@@ -79,39 +81,9 @@
             </div>
           </div>
 
-          <!-- car info -->
-          <br>
-          <p-divider align="center">
-            <p-badge [style]="{'background-color': '#4CAF50'}" styleClass="p-mr-2" icon="fas fa-car"
-                   value="Car Information" size="large">
-            </p-badge>
-          </p-divider>
-          <br>
-          <div class="cart_offers_include">
-            <div class="row">
-              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <ul class="cart_info_list2 ul_li_block clearfix">
-                  <li><strong>Car rental duration:</strong> 20 days</li>
-                  <li><strong>Rental Price:</strong> $400/day</li>
-                  <li><strong>Subtotal:</strong> $4600</li>
-                </ul>
-              </div>
-
-              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <ul class="cart_info_list2 ul_li_block clearfix">
-                  <li><strong>Car rental duration:</strong> 20 days</li>
-                  <li><strong>Rental Price:</strong> $400/day</li>
-                  <li><strong>Subtotal:</strong> $4600</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-
-
           <!-- booking info -->
           <br>
-          <p-divider  align="center">
+          <p-divider align="center">
             <p-badge [style]="{'background-color': '#4CAF50'}" styleClass="p-mr-2" icon="fas fa-car"
                      value="Booking Information" size="large">
             </p-badge>
@@ -119,71 +91,140 @@
           <br>
           <div class="cart_offers_include">
             <div class="row">
-              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <ul class="cart_info_list2 ul_li_block clearfix">
-                  <li><strong>Car rental duration:</strong> 20 days</li>
-                  <li><strong>Rental Price:</strong> $400/day</li>
-                  <li><strong>Subtotal:</strong> $4600</li>
+                  <li><strong>Reference:</strong>{{user.bookingDTO.bookingId}}</li>
+                  <li></li>
                 </ul>
               </div>
-
+            </div>
+            <div class="row">
               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <ul class="cart_info_list2 ul_li_block clearfix">
-                  <li><strong>Car rental duration:</strong> 20 days</li>
-                  <li><strong>Rental Price:</strong> $400/day</li>
-                  <li><strong>Subtotal:</strong> $4600</li>
+                  <li><strong>withdrawal date:</strong> {{user.bookingDTO.withdrawalDate | date}}</li>
+                  <li><strong>return date:</strong> {{user.bookingDTO.returnDate | date}}</li>
+                  <li><strong>booking state:</strong>
+                    <p-badge *ngIf="user.bookingDTO.bookingState === 'OPEN'" severity="success"
+                             value="{{user.bookingDTO.bookingState}}"></p-badge>
+                    <p-badge *ngIf="user.bookingDTO.bookingState === 'CANCELLED'" severity="danger"
+                             value="{{user.bookingDTO.bookingState}}"></p-badge>
+                    <p-badge *ngIf="user.bookingDTO.bookingState === 'FINISHED'" severity="warning"
+                             value="{{user.bookingDTO.bookingState}}"></p-badge>
+                    <p-badge *ngIf="user.bookingDTO.bookingState === 'DELETED'" severity="info"
+                             value="{{user.bookingDTO.bookingState}}"></p-badge>
+                  </li>
                 </ul>
               </div>
             </div>
           </div>
 
 
-
-
-
-
-          <hr data-aos="fade-up" data-aos-delay="100">
-
-          <div class="rental_calltoaction">
-            <form>
-              <h4 class="title_text">Send a car rental details:</h4>
-              <div data-aos="fade-up" data-aos-delay="200">
-                <a class="register_btn mb_15">LogIn or Register</a>
-              </div>
-              <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <div class="form_item">
-                    <input type="email" name="email" placeholder="E-mail adress">
-                  </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <div class="form_item" data-aos="fade-up" data-aos-delay="400">
-                    <input type="tel" name="phone" placeholder="Phone number">
-                  </div>
-                </div>
-              </div>
-              <div class="checkbox_input mb-0" data-aos="fade-up" data-aos-delay="400">
-                <label for="payment_checkbox"><input id="payment_checkbox" type="checkbox">I accept all information and
-                  Payments etc</label>
-              </div>
-            </form>
-          </div>
-
-          <hr data-aos="fade-up" data-aos-delay="100">
-
-          <div class="cart_bottom_content mt__30 clearfix">
+          <!-- car info -->
+          <br>
+          <p-divider align="center">
+            <p-badge [style]="{'background-color': '#4CAF50'}" styleClass="p-mr-2" icon="fas fa-car"
+                     value="Car Information" size="large">
+            </p-badge>
+          </p-divider>
+          <br>
+          <div class="cart_offers_include">
             <div class="row">
               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <ul class="cart_price_info ul_li_block clearfix" data-aos="fade-up" data-aos-delay="100">
-                  <li><span>Tax:</span> $0</li>
-                  <li><span>Total:</span> $4140</li>
+                <ul class="cart_info_list2 ul_li_block clearfix">
+                  <li><strong>Car
+                    name:</strong> {{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}
+                  </li>
+                  <li><strong>License plate:</strong> {{user.bookingDTO.carDTO.licensePlate}}</li>
+                  <li><strong>Made in:</strong> {{user.bookingDTO.carDTO.madeInYear}}</li>
                 </ul>
               </div>
 
               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <div class="abtn_wrap clearfix" data-aos="fade-up" data-aos-delay="300">
-                  <a class="custom_btn bg_default_red btn_width text-uppercase" href="#!">Checkout <img
-                    src="assets/images/icons/icon_01.png" alt="icon_not_found"></a>
+                <ul class="cart_info_list2 ul_li_block clearfix">
+                  <li><strong>Number of
+                    passengers:</strong> {{user.bookingDTO.carDTO.modelDTO.modelOptionDTO.seatsNumber}}</li>
+                  <li><strong>Number of bags:</strong> {{user.bookingDTO.carDTO.modelDTO.modelOptionDTO.bagsNumber}}
+                  </li>
+                  <li *ngIf="user.bookingDTO.carDTO.modelDTO.modelOptionDTO.isAutomatic">
+                    <strong>Automatic:</strong> <i class="fas fa-badge-check" style="color: #4CAF50;"></i>
+                  </li>
+                  <li *ngIf="!user.bookingDTO.carDTO.modelDTO.modelOptionDTO.isAutomatic">
+                    <strong>Manual:</strong> <i class="fas fa-badge-check" style="color: #4CAF50;"></i>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- cost per day -->
+          <br>
+          <p-divider align="center">
+            <p-badge [style]="{'background-color': '#4CAF50'}" styleClass="p-mr-2" icon="fas fa-car"
+                     value="Rental information" size="large">
+            </p-badge>
+          </p-divider>
+          <br>
+
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <ul class="cart_info_list2 ul_li_block clearfix">
+                <li><strong>Car rental duration:</strong> {{diffDays === 0 ? '1 day' : diffDays + ' days'}}
+                </li>
+                <li><strong>Cost per day:</strong> {{user.bookingDTO.carDTO.modelDTO.princingDetailsDTO.costPerDay}}€
+                </li>
+                <li>
+                  <strong pTooltip="Fine to pay for every day passed since the return date." tooltipPosition="top">
+                    Daily fine:
+                  </strong> {{user.bookingDTO.carDTO.modelDTO.princingDetailsDTO.dailyFine}}€
+                </li>
+              </ul>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <ul class="cart_info_list2 ul_li_block clearfix">
+                <li>
+                  <strong pTooltip="Fine to pay for every km passed beyond the allowed kilometres."
+                          tooltipPosition="top">
+                    Price by km:
+                  </strong> {{user.bookingDTO.carDTO.modelDTO.princingDetailsDTO.priceByKm}}€
+                </li>
+                <li><strong>Allowed kilometres per
+                  day:</strong> {{user.bookingDTO.carDTO.modelDTO.princingDetailsDTO.allowedKmPerDay}}km
+              </ul>
+            </div>
+
+          </div>
+
+
+          <hr>
+
+          <p-messages severity="warn">
+            <ng-template pTemplate>
+              <i class=" pi pi-info-circle" style="font-size: 2.1rem"></i>
+              <p class="p-ml-3">
+                Any reservation can be canceled by the customer. It does not give
+                a financial penalty if it is carried out at least <u class="p-text-bold">two
+                days</u> before the scheduled withdrawal date.
+              </p>
+            </ng-template>
+          </p-messages>
+
+          <br>
+
+          <div class="cart_bottom_content mt__30 clearfix">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <ul class="cart_price_info ul_li_block clearfix">
+                  <li *ngIf="diffDays === 0"><span>Total:</span>{{user.bookingDTO.carDTO.modelDTO.princingDetailsDTO.costPerDay}}€</li>
+                  <li *ngIf="diffDays > 0"><span>Total:</span>{{user.bookingDTO.carDTO.modelDTO.princingDetailsDTO.costPerDay * diffDays}}€</li>
+                </ul>
+              </div>
+
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="abtn_wrap clearfix">
+                  <a (click)="confirmCancel()" class="text_btn text-uppercase"><span>Cancel your reservation</span>
+                    <img src="../../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
                 </div>
               </div>
             </div>
