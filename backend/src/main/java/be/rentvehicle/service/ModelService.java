@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * UserService interface for the {@link Model} entity.
+ * ModelService interface for the {@link Model} entity.
  */
 public interface ModelService {
 

@@ -36,8 +36,7 @@ import {DataViewModule} from 'primeng/dataview';
 import {PickListModule} from 'primeng/picklist';
 import { TruncatePipe } from './pipes/truncate.pipe';
 import {DialogService} from 'primeng/dynamicdialog';
-import {ConfirmationService} from 'primeng/api';
-
+import {InputNumberModule} from 'primeng/inputnumber';
 
 @NgModule({
   declarations: [SidebarComponent, NavbarComponent, ConfirmationDialogComponent, TruncatePipe],
@@ -52,6 +51,7 @@ import {ConfirmationService} from 'primeng/api';
     DialogModule,
     DataViewModule,
     PickListModule,
+    InputNumberModule,
     MessagesModule,
     MessageModule,
     ChipModule,
@@ -86,6 +86,7 @@ import {ConfirmationService} from 'primeng/api';
     RatingModule,
     PickListModule,
     DataViewModule,
+    InputNumberModule,
     ToolbarModule,
     ChipModule,
     DividerModule,

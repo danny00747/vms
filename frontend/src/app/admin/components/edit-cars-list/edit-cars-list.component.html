@@ -1,3 +1,14 @@
+
+<p-toast></p-toast>
+<p-toolbar styleClass="p-mb-4">
+  <ng-template pTemplate="left">
+    <button (click)="openEditCarClassRentDialog()" pButton pRipple label="Edit" icon="fal fa-edit"
+            class="p-button-success p-mr-2">
+    </button>
+    <button pButton pRipple [label]="'Delete'" icon="pi pi-trash" class="p-button-danger"></button>
+  </ng-template>
+</p-toolbar>
+
 <div *ngIf="cars.length !== 0" class="card">
   <p-dataView #dv [value]="cars" [paginator]="true" [rows]="9" filterBy="modelDTO.brand"
               [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">

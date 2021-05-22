@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * UserService interface for the {@link Car} entity.
+ * CarService interface for the {@link Car} entity.
  */
 public interface CarService {
 

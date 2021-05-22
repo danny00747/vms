@@ -1,0 +1,132 @@
+<!-- class name
+<div class="p-fluid">
+  <div class="p-grid p-formgrid ">
+    <div class="p-col-12 p-md-6 p-lg-6">
+      <p-dropdown  [options]="carClassOptions" [showClear]="true" placeholder="Select by Class"
+                  (onChange)="onSortClassChange($event)" name="carClassOptionss" styleClass="p-mb-2 p-mb-md-0"
+                  appendTo="body">
+        <ng-template let-option pTemplate="item">
+          <p-badge *ngIf="option.label === 'A Class'" severity="success" value="{{option.label}}"></p-badge>
+          <p-badge *ngIf="option.label === 'B Class'" severity="info" value="{{option.label}}"></p-badge>
+          <p-badge *ngIf="option.label === 'C Class'" severity="warning" value="{{option.label}}"></p-badge>
+        </ng-template>
+      </p-dropdown>
+    </div>
+  </div>
+</div>
+-->
+
+<div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+  <div class="checkbox_input">
+    <label for="CLASS_A">
+      <input type="radio" id="CLASS_A" name="pricing" (click)="getClickedClass($event.target)">
+      <p-badge severity="success" value="A Class"></p-badge>
+    </label>
+  </div>
+  <div class="checkbox_input">
+    <label for="CLASS_B">
+      <input type="radio" id="CLASS_B" name="pricing" (click)="getClickedClass($event.target)">
+      <p-badge severity="info" value="B Class"></p-badge>
+    </label>
+  </div>
+  <div class="checkbox_input">
+    <label for="CLASS_C">
+      <input type="radio" id="CLASS_C" name="pricing" (click)="getClickedClass($event.target)">
+      <p-badge severity="warning" value="C Class"></p-badge>
+    </label>
+  </div>
+</div>
+
+<form #editClass="ngForm" (ngSubmit)="submit()">
+  <div class="p-fluid">
+    <div class="p-grid p-formgrid ">
+
+      <div class="p-col-12 p-md-6 p-lg-6 form-label-group input">
+
+        <input #allowedKmPerDayInput="ngModel"
+               [class.is-invalid]="allowedKmPerDayInput.invalid && allowedKmPerDayInput.touched"
+               [class.is-valid]="!(allowedKmPerDayInput.invalid && dailyFineInput.untouched)"
+               [(ngModel)]="allowedKmPerDay" class="form-control" type="number" name="allowedKmPerDay"
+               id="allowedKmPerDay"
+               required>
+        <label for="allowedKmPerDay">allowed km per day</label>
+        <small id="allowedKmPerDayInputError" class="text-danger"
+               [class.d-none]="allowedKmPerDayInput.valid || allowedKmPerDayInput.untouched">
+          This field is required
+        </small>
+
+
+      </div>
+
+      <div class="p-col-12 p-md-6 p-lg-6 form-group form-label-group input">
+
+        <input #dailyFineInput="ngModel"
+               [class.is-invalid]="dailyFineInput.invalid && dailyFineInput.touched"
+               [class.is-valid]="!(dailyFineInput.invalid && dailyFineInput.untouched)"
+               [(ngModel)]="dailyFine" class="form-control" type="number" name="dailyFine" id="dailyFine" required>
+        <label for="dailyFine">daily Fine</label>
+        <small id="dailyFineError" class="text-danger"
+               [class.d-none]="dailyFineInput.valid || dailyFineInput.untouched">
+          This field is required
+        </small>
+      </div>
+    </div>
+
+    <div class="p-grid p-formgrid">
+      <div class="p-col-12 p-md-6 p-lg-6 form-label-group input">
+        <input #costPerDayInput="ngModel"
+               [class.is-invalid]="costPerDayInput.invalid && costPerDayInput.touched"
+               [class.is-valid]="!(costPerDayInput.invalid && costPerDayInput.untouched)"
+               class="form-control" type="number" id="costPerDay"
+               [(ngModel)]="costPerDay" name="costPerDay" required>
+        <label for="costPerDay">cost per day</label>
+        <small id="costPerDayError" class="text-danger"
+               [class.d-none]="costPerDayInput.valid || costPerDayInput.untouched">
+          This field is required
+        </small>
+      </div>
+      <div class="p-col-12 p-md-6 p-lg-6 form-label-group input">
+        <input #priceByKmInput="ngModel"
+               [class.is-invalid]="priceByKmInput.invalid && priceByKmInput.touched"
+               [class.is-valid]="!(priceByKmInput.invalid && priceByKmInput.untouched)"
+               class="form-control" type="number" id="priceByKm"
+               [(ngModel)]="priceByKm" name="priceByKm" required>
+        <label for="priceByKm">price by km</label>
+        <small id="wpriceByKmError" class="text-danger"
+               [class.d-none]="priceByKmInput.valid || priceByKmInput.untouched">
+          This field is required
+        </small>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <div class="p-col-12 p-md-6 p-lg-6">
+    <label for="temperature">Temperature
+      <p-inputNumber  #costPerDayInputt="ngModel"
+                      [class.is-invalid]="costPerDayInputt.invalid && costPerDayInputt.touched"
+                      [class.is-valid]="!(costPerDayInputt.invalid && costPerDayInput.untouched)"
+                      [(ngModel)]="costPerDay" [showButtons]="true" buttonLayout="horizontal" [minFractionDigits]="0"
+                      inputId="horizontal" id="temperature" spinnerMode="horizontal" [step]="10" name="costPerDay12" [required]="true"
+                      decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" locale="de-DE" prefix="↑ "
+                      incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" mode="currency" currency="EUR">
+      </p-inputNumber>
+      <small id="costPerDayError1" class="text-danger"
+             [class.d-none]="costPerDayInputt.valid || costPerDayInputt.untouched">
+        This field is required
+      </small>
+    </label>
+
+  </div>
+
+  <div style="float: right">
+    <button pButton type="button" [label]="'CANCEL'" class="p-button-danger p-button-outlined p-mr-1"
+            icon="bx bx-x" (click)="ref.close()">
+      <i class="pi pi-trash"></i>
+    </button>
+    <button pButton type="submit" [label]="'SAVE'" icon="bx bx-save" [disabled]="editClass.invalid">
+      <i class="pi pi-save"></i>
+    </button>
+  </div>
+</form>
+

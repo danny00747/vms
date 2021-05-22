@@ -153,8 +153,7 @@
                   <input #pseudoInput="ngModel"
                          [class.is-invalid]="pseudoInput.invalid && pseudoInput.touched"
                          [class.is-valid]="!(pseudoInput.invalid && pseudoInput.untouched)"
-                         [(ngModel)]="username" class="form-control" type="text" name="username" id="username" required
-                         autofocus>
+                         [(ngModel)]="username" class="form-control" type="text" name="username" id="username" required>
                   <label for="username">username</label>
                   <small id="pseudoError" class="text-danger"
                          [class.d-none]="pseudoInput.valid || pseudoInput.untouched">
@@ -192,7 +191,7 @@
                          [class.is-invalid]="passwordInput.invalid && passwordInput.touched"
                          [class.is-valid]="!(passwordInput.invalid && passwordInput.untouched)"
                          class="form-control" type="password" id="password"
-                         [(ngModel)]="password" name="password" required autofocus>
+                         [(ngModel)]="password" name="password" required>
                   <label for="password">password</label>
                   <small id="passwordError" class="text-danger" [class.d-none]="passwordInput.valid ||
                        passwordInput.untouched">A password is required
@@ -208,7 +207,7 @@
                          [class.is-invalid]="phoneNumberInput.invalid && phoneNumberInput.touched"
                          [class.is-valid]="!(phoneNumberInput.invalid && phoneNumberInput.untouched)"
                          class="form-control" type="text" id="inputPhoneNumber"
-                         [(ngModel)]="phoneNumber" name="phoneNumber" required autofocus>
+                         [(ngModel)]="phoneNumber" name="phoneNumber" required>
                   <label for="inputPhoneNumber">phone number</label>
                   <div *ngIf="phoneNumberInput.errors && (phoneNumberInput.invalid ||phoneNumberInput.touched)">
                     <small *ngIf="phoneNumberInput.errors.pattern" id="phoneNumberInputInvalid" class="text-danger">
@@ -229,7 +228,7 @@
                   <input #roadInput="ngModel"
                          [class.is-invalid]="roadInput.invalid && roadInput.touched"
                          [class.is-valid]="!(roadInput.invalid && roadInput.untouched)"
-                         [(ngModel)]="road" class="form-control" type="text" name="road" id="road" required autofocus>
+                         [(ngModel)]="road" class="form-control" type="text" name="road" id="road" required>
                   <label for="road">road</label>
                   <small id="roadError" class="text-danger"
                          [class.d-none]="roadInput.valid || roadInput.untouched">
@@ -267,7 +266,7 @@
                          [class.is-invalid]="townInput.invalid && townInput.touched"
                          [class.is-valid]="!(townInput.invalid && townInput.untouched)"
                          class="form-control" type="text" id="townInput"
-                         [(ngModel)]="townName" name="townName" required autofocus>
+                         [(ngModel)]="townName" name="townName" required>
                   <label for="townInput">town name</label>
                   <small id="townError" class="text-danger"
                          [class.d-none]="townInput.valid || townInput.untouched">
@@ -283,7 +282,7 @@
                          [class.is-invalid]="postCodeInput.invalid && postCodeInput.touched"
                          [class.is-valid]="!(postCodeInput.invalid && postCodeInput.untouched)"
                          class="form-control" type="number" id="postCodeInput"
-                         [(ngModel)]="postCode" name="postCode" required autofocus>
+                         [(ngModel)]="postCode" name="postCode" required>
                   <label for="postCodeInput">post code</label>
                   <small id="postCodeInputError" class="text-danger"
                          [class.d-none]="postCodeInput.valid || postCodeInput.untouched">

@@ -31,6 +31,10 @@ export class CarService {
     return this.http.get<CarDTO[]>(`/api/v1/cars?withdrawalDate=${withdrawalDate}`);
   }
 
+  saveDamagedCars(carIds: Array<string>): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`/api/v1/admin/cars/damaged`, carIds);
+  }
+
   getAllCarsModels(): Observable<ModelDTO[]> {
     return this.http.get<ModelDTO[]>(`/api/v1/models`);
   }

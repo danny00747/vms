@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {CarDTO} from '@app/shared/models';
 import {CarService} from '@app/core/services/car.service';
+import {EToastSeverities, ToastService} from '@app/core/services';
 
 @Component({
   selector: 'app-car-maintenance',
@@ -13,17 +14,17 @@ export class CarMaintenanceComponent implements OnInit {
 
   targetCars: CarDTO[] = [];
 
-  constructor( private carService: CarService) { }
+  constructor( private carService: CarService,
+               public toastService: ToastService) { }
 
   ngOnInit(): void {
     this.getAllCars();
   }
 
-
   getAllCars(): void {
     this.carService.getAllCars()
       .subscribe(
-        async (data: CarDTO[]) => {
+         (data: CarDTO[]) => {
           this.sourceCars = data;
           this.targetCars = data.filter(car => car.isDamaged);
         },
@@ -33,6 +34,14 @@ export class CarMaintenanceComponent implements OnInit {
   }
 
   submit(): void {
-    console.log(this.targetCars);
+    const damagedCars: Array<string> = this.targetCars.map(car => car.carId);
+    this.carService.saveDamagedCars(damagedCars)
+      .subscribe(
+        () => {
+          this.toastService.show(EToastSeverities.SUCCESS, 'Saved !');
+        },
+        error => {
+          console.error(error);
+        });
   }
 }

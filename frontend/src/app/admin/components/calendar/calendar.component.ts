@@ -18,6 +18,7 @@ import {ConfirmationService} from 'primeng/api';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import autoTable from 'jspdf-autotable';
+import {BookingService} from '@app/core/services/booking.service';
 
 
 @Component({
@@ -48,6 +49,7 @@ export class CalendarComponent implements OnInit {
               private route: ActivatedRoute,
               public toastService: ToastService,
               public carService: CarService,
+              public bookingService: BookingService,
               private confirmationService: ConfirmationService,
               private userService: UserService,
               private readonly dialogService: DialogService) {
@@ -57,7 +59,7 @@ export class CalendarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUsers();
+    this.getAllUsers();
     this.options = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
       defaultDate: new Date().toISOString(),
@@ -89,16 +91,15 @@ export class CalendarComponent implements OnInit {
       },
       {
         label: 'Cancel', icon: 'pi pi-minus-circle', command: () => {
-          this.cancelBooking();
+          this.cancelBooking(this.bookingDetails);
         }
       },
+      {separator: true},
       {
         label: 'Delete', icon: 'pi pi-times', command: () => {
           this.deleteBooking();
         }
-      },
-      {separator: true},
-      {label: 'Setup', icon: 'pi pi-cog', routerLink: ['/setup']}
+      }
     ];
     this.smallBookoingAction = [
       {
@@ -179,7 +180,7 @@ export class CalendarComponent implements OnInit {
         });
   }
 
-  getUsers(): void {
+  getAllUsers(): void {
     this.userService.getAllUsers()
       .subscribe(
         (data: UserInfoDTO[]) => {
@@ -205,7 +206,7 @@ export class CalendarComponent implements OnInit {
         });
   }
 
-  cancelBooking(): void {
+  cancelBooking(booking: UserInfoDTO): void {
     const ref = this.dialogService.open(ConfirmationDialogComponent, {
       header: 'Confirmation',
       data: {
@@ -214,8 +215,30 @@ export class CalendarComponent implements OnInit {
     });
     ref.onClose.subscribe((confirm: boolean) => {
       if (confirm) {
+        this.bookingService.cancelBooking(booking.bookingDTO.bookingId)
+          .subscribe(
+            () => {
+              this.getUpdatedUsers();
+              this.toastService.show(EToastSeverities.SUCCESS, 'Successfully cancelled !');
+            },
+            error => {
+              console.error(error);
+              this.toastService.show(EToastSeverities.ERROR, 'Somehthing went wrong !');
+            });
       }
     });
+  }
+
+  getUpdatedUsers(): void {
+    this.userService.getAllUsers()
+      .subscribe(
+        (data: UserInfoDTO[]) => {
+          this.users = data;
+        },
+        error => {
+          console.error(error);
+          this.toastService.show(EToastSeverities.ERROR, 'Somehthing went wrong !');
+        });
   }
 
   deleteBooking(): void {

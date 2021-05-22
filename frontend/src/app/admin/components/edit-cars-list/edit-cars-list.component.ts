@@ -1,8 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {CarDTO, UserInfoDTO} from '@app/shared/models';
+import {CarDTO, PrincingDetailsDTO, UserInfoDTO} from '@app/shared/models';
 import {SelectItem} from 'primeng/api';
 import {CarService} from '@app/core/services/car.service';
 import {takeUntil} from 'rxjs/operators';
+import {AddRentComponent} from '@app/admin/components/add-rent/add-rent.component';
+import {DialogService} from 'primeng/dynamicdialog';
+import {EditCarsDialogComponent} from '@app/admin/components/edit-cars-list/edit-cars-dialog/edit-cars-dialog.component';
+import {PricingClassService} from '@app/core/services/pricing-class.service';
+import {EToastSeverities, ToastService} from '@app/core/services';
 
 @Component({
   selector: 'app-edit-cars-list',
@@ -25,7 +30,9 @@ export class EditCarsListComponent implements OnInit {
   sortOrder: number;
 
 
-  constructor(private carService: CarService) {
+  constructor(private carService: CarService,
+              public toastService: ToastService,
+              private readonly dialogService: DialogService) {
   }
 
   ngOnInit(): void {
@@ -55,7 +62,6 @@ export class EditCarsListComponent implements OnInit {
 
   onSortPriceChange(event: any): void {
     const value = event.value;
-    console.log(value);
     if (value) {
       if (value.indexOf('!') === 0) {
         this.sortOrder = -1;
@@ -69,7 +75,7 @@ export class EditCarsListComponent implements OnInit {
     }
   }
 
-  onSortClassChange(event): void {
+  onSortClassChange(event: any): void {
     const value = event.value;
 
     if (value) {
@@ -77,6 +83,20 @@ export class EditCarsListComponent implements OnInit {
     } else {
       this.cars = this.cachedCars;
     }
+  }
+
+
+  openEditCarClassRentDialog(): void {
+    const ref = this.dialogService.open(EditCarsDialogComponent, {
+      header: 'Pricing Details',
+    });
+
+    ref.onClose.subscribe((pricingClass: PrincingDetailsDTO) => {
+      if (pricingClass) {
+        this.toastService.show(EToastSeverities.SUCCESS, 'Successfully updated !');
+        this.getAllCars();
+      }
+    });
   }
 
 }

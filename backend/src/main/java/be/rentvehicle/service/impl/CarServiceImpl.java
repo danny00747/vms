@@ -3,6 +3,7 @@ package be.rentvehicle.service.impl;
 import be.rentvehicle.dao.CarDAO;
 import be.rentvehicle.domain.Car;
 import be.rentvehicle.domain.User;
+import be.rentvehicle.domain.enumeration.PRICINGCLASS;
 import be.rentvehicle.service.CarService;
 import be.rentvehicle.service.dto.CarDTO;
 import be.rentvehicle.service.mapper.CarMapper;
@@ -82,6 +83,10 @@ public class CarServiceImpl implements CarService {
                 .findById(validatedId(carId)))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
+                .map(c -> {
+                    c.getModel().getPricingClass().setClassName(PRICINGCLASS.CLASS_B);
+                    return c;
+                })
                 .map(carMapper::toDto);
     }
 

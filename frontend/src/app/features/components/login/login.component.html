@@ -6,7 +6,7 @@
   <div class="page_title_area has_overlay d-flex align-items-center clearfix"
        style="background-image: url('../../../../assets/images/breadcrumb/bg_09.jpg')">
     <div class="overlay"></div>
-    <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <div class="container">
       <br><br><br>
       <h1 class="page_title text-white mb-20">Login</h1>
     </div>
@@ -32,13 +32,13 @@
          data-aos-delay="100">
       <div class="row align-items-center">
         <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-          <div class="reg_image" data-aos="fade-up" data-aos-delay="300">
+          <div class="reg_image">
             <img src="../../../../assets/images/about/login.png" alt="image_not_found">
           </div>
         </div>
 
         <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-          <div class="reg_form" data-aos="fade-up" data-aos-delay="500">
+          <div class="reg_form">
             <h3 class="form_title">LogIn:</h3>
             <p>
               Savings of up to 15% with our car rental solutions, global coverage and a dedicated customer team
@@ -52,7 +52,7 @@
                        [class.is-valid]="!(pseudoInput.invalid && pseudoInput.untouched)"
                        class="form-control" type="email" id="pseudo"
                        [(ngModel)]="pseudo" name="pseudo"
-                       placeholder="Pseudonyme" required autofocus>
+                       placeholder="Pseudonyme" required>
                 <label for="pseudo">username or email</label>
                 <small id="pseudoError" class="text-danger"
                        [class.d-none]="pseudoInput.valid || pseudoInput.untouched">
@@ -66,7 +66,7 @@
                        [class.is-valid]="!(passwordInput.invalid && passwordInput.untouched)"
                        class="form-control" type="password" id="password"
                        [(ngModel)]="password" name="password"
-                       placeholder="Mot de passe" required autofocus>
+                       placeholder="Mot de passe" required>
                 <label for="password">password</label>
                 <small id="passwordError" class="text-danger" [class.d-none]="passwordInput.valid ||
                        passwordInput.untouched">A password is required</small>
