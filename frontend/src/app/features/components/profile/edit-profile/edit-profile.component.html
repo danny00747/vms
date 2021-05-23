@@ -1,20 +1,22 @@
 <p></p>
-<form #editProfileForm="ngForm">
+<form #editProfileForm="ngForm" (ngSubmit)="submit()">
   <div class="p-fluid">
     <div class="p-grid p-formgrid">
-      <div class="p-col-12 p-md-6 p-lg-6 form-label-group input">
+      <div class="p-col-12 p-md-12 p-lg-12 form-label-group input">
         <input #pseudoInput="ngModel"
                [class.is-invalid]="pseudoInput.invalid && pseudoInput.touched"
                [class.is-valid]="!(pseudoInput.invalid && pseudoInput.untouched)"
-               [(ngModel)]="username" class="form-control" type="text" name="username" id="username" required
-               autofocus>
+               [(ngModel)]="username" class="form-control" type="text" name="username" id="username" required>
         <label for="username">username</label>
         <small id="pseudoError" class="text-danger"
                [class.d-none]="pseudoInput.valid || pseudoInput.untouched">
           This field is required
         </small>
       </div>
-      <div class="p-col-12 p-md-6 p-lg-6 form-label-group input">
+    </div>
+
+    <div class="p-grid p-formgrid">
+      <div class="p-col-12 p-md-12 p-lg-12 form-label-group input">
         <input #emailInput="ngModel"
                pattern="^[aA-zZ0-9._%+-]+@[a-z0-9.-]+\.[aA-zZ]{2,4}$"
                [class.is-invalid]="emailInput.invalid && emailInput.touched"
@@ -32,28 +34,17 @@
           </small>
         </div>
       </div>
+
     </div>
 
     <div class="p-grid p-formgrid">
-      <div class="p-col-12 p-md-6 p-lg-6 form-label-group input">
-        <input #passwordInput="ngModel"
-               [class.is-invalid]="passwordInput.invalid && passwordInput.touched"
-               [class.is-valid]="!(passwordInput.invalid && passwordInput.untouched)"
-               class="form-control" type="password" id="password"
-               [(ngModel)]="password" name="password" required autofocus>
-        <label for="password">password</label>
-        <small id="passwordError" class="text-danger" [class.d-none]="passwordInput.valid ||
-                       passwordInput.untouched">A password is required
-        </small>
-      </div>
-
-      <div class="p-col-12 p-md-6 p-lg-6 form-label-group input">
+      <div class="p-col-12 p-md-12 p-lg-12 form-label-group input">
         <input #phoneNumberInput="ngModel"
                pTooltip="Eg : +32485601713" tooltipPosition="top"
                [class.is-invalid]="phoneNumberInput.invalid && phoneNumberInput.touched"
                [class.is-valid]="!(phoneNumberInput.invalid && phoneNumberInput.untouched)"
                class="form-control" type="text" id="inputPhoneNumber"
-               [(ngModel)]="phoneNumber" name="phoneNumber" required autofocus>
+               [(ngModel)]="phoneNumber" name="phoneNumber" required>
         <label for="inputPhoneNumber">phone number</label>
         <div *ngIf="phoneNumberInput.errors && (phoneNumberInput.invalid ||phoneNumberInput.touched)">
           <small *ngIf="phoneNumberInput.errors.pattern" id="phoneNumberInputInvalid" class="text-danger">
@@ -67,9 +58,11 @@
       </div>
     </div>
 
+
   </div>
 
-  <hr >
+  <hr>
+
 
   <div style="float: right">
     <button pButton type="button" [label]="'CANCEL'" class="p-button-danger p-button-outlined p-mr-1"
@@ -81,4 +74,6 @@
       <i class="pi pi-save"></i>
     </button>
   </div>
+  <br>
+  <br>
 </form>

@@ -1,6 +1,7 @@
 
 <!-- breadcrumb_section - start
 ================================================== -->
+<p-toast></p-toast>
 <section class="breadcrumb_section text-center clearfix">
   <div class="page_title_area has_overlay d-flex align-items-center clearfix"
         style="background-image: url('../../../../assets/images/breadcrumb/bg_10.jpg')">
@@ -57,7 +58,7 @@
             <div class="account_info_list">
               <h3 class="list_title mb_30">Account:</h3>
               <ul class="ul_li_block clearfix">
-                <li><span>Name:</span> {{user.username}}</li>
+                <li><span>Username:</span> {{user.username}}</li>
                 <li><span>E-mail:</span> {{user.userEmail}}</li>
                 <li><span>Phone Number:</span> {{user.phoneNumber}}</li>
                 <li><span>Country:</span> Belgium</li>
@@ -71,9 +72,21 @@
               <h3 class="list_title mb_30">Booking Details:</h3>
               <ul class="ul_li_block clearfix">
                 <li><span>Booking Reference:</span> {{user.bookingDTO.bookingId}}</li>
-                <li><span>Booked Car:</span> {{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}</li>
+                <li><span>Booked Car:</span>
+                  {{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}
+                </li>
                 <li><span>Withdrawal Date:</span> {{user.bookingDTO.withdrawalDate | date}} </li>
                 <li><span>Return Date:</span> {{user.bookingDTO.returnDate | date}} </li>
+                <li><span>booking state:</span>
+                  <p-badge *ngIf="user.bookingDTO.bookingState === 'OPEN'" severity="success"
+                           value="{{user.bookingDTO.bookingState}}"></p-badge>
+                  <p-badge *ngIf="user.bookingDTO.bookingState === 'CANCELLED'" severity="danger"
+                           value="{{user.bookingDTO.bookingState}}"></p-badge>
+                  <p-badge *ngIf="user.bookingDTO.bookingState === 'FINISHED'" severity="warning"
+                           value="{{user.bookingDTO.bookingState}}"></p-badge>
+                  <p-badge *ngIf="user.bookingDTO.bookingState === 'DELETED'" severity="info"
+                           value="{{user.bookingDTO.bookingState}}"></p-badge>
+                </li>
               </ul>
               <a (click)="cancelReservation()" class="text_btn text-uppercase"><span>Cancel your reservation</span>
                 <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
@@ -98,6 +111,16 @@
                 <li><span>Booked Car:</span> {{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}</li>
                 <li><span>Withdrawal Date:</span> {{user.bookingDTO.withdrawalDate | date}} </li>
                 <li><span>Return Date:</span> {{user.bookingDTO.returnDate | date}} </li>
+                <li><span>booking state:</span>
+                  <p-badge *ngIf="user.bookingDTO.bookingState === 'OPEN'" severity="success"
+                           value="{{user.bookingDTO.bookingState}}"></p-badge>
+                  <p-badge *ngIf="user.bookingDTO.bookingState === 'CANCELLED'" severity="danger"
+                           value="{{user.bookingDTO.bookingState}}"></p-badge>
+                  <p-badge *ngIf="user.bookingDTO.bookingState === 'FINISHED'" severity="warning"
+                           value="{{user.bookingDTO.bookingState}}"></p-badge>
+                  <p-badge *ngIf="user.bookingDTO.bookingState === 'DELETED'" severity="info"
+                           value="{{user.bookingDTO.bookingState}}"></p-badge>
+                </li>
               </ul>
             </div>
 
@@ -143,6 +166,16 @@
                 <li><span>Booked Car:</span> {{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}</li>
                 <li><span>Withdrawal Date:</span> {{user.bookingDTO.withdrawalDate | date}} </li>
                 <li><span>Return Date:</span> {{user.bookingDTO.returnDate | date}} </li>
+                <li><span>booking state:</span>
+                  <p-badge *ngIf="user.bookingDTO.bookingState === 'OPEN'" severity="success"
+                           value="{{user.bookingDTO.bookingState}}"></p-badge>
+                  <p-badge *ngIf="user.bookingDTO.bookingState === 'CANCELLED'" severity="danger"
+                           value="{{user.bookingDTO.bookingState}}"></p-badge>
+                  <p-badge *ngIf="user.bookingDTO.bookingState === 'FINISHED'" severity="warning"
+                           value="{{user.bookingDTO.bookingState}}"></p-badge>
+                  <p-badge *ngIf="user.bookingDTO.bookingState === 'DELETED'" severity="info"
+                           value="{{user.bookingDTO.bookingState}}"></p-badge>
+                </li>
               </ul>
             </div>
 

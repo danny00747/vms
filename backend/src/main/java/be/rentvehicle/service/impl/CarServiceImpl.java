@@ -83,10 +83,6 @@ public class CarServiceImpl implements CarService {
                 .findById(validatedId(carId)))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .map(c -> {
-                    c.getModel().getPricingClass().setClassName(PRICINGCLASS.CLASS_B);
-                    return c;
-                })
                 .map(carMapper::toDto);
     }
 

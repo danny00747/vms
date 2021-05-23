@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {CreateUserDTO, UserDTO, UserInfoDTO} from '@app/shared/models';
+import {CreateUserDTO, UserInfoDTO} from '@app/shared/models';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +39,10 @@ export class UserService {
 
   createUser(user: CreateUserDTO): Observable<{ message: string }> {
     return this.http.post<{ message: string }>(`/api/v1/register`, user);
+  }
+
+  patchUser(username: string, user: any): Observable<UserInfoDTO> {
+    return this.http.patch<UserInfoDTO>(`/api/v1/user/${username}`, user);
   }
 
   activateUser(username: string): Observable<{ message: string }> {

@@ -70,7 +70,7 @@
                   <img class="car-border" src="../../../../assets/images/feature/{{car.modelDTO.brand}} {{car.modelDTO.modelType}}.jpg" alt="image_not_found">
                   <ul class="btns_group ul_li_center clearfix">
                     <li>
-                      <span class="custom_btn btn_width bg_default_blue"><del>320€/Day</del> 210€/Day</span>
+                      <span class="custom_btn btn_width bg_default_blue"><del>320€/Day</del> {{car.modelDTO.princingDetailsDTO.costPerDay}}€/Day</span>
                     </li>
                     <li>
                       <button [disabled]="loggedInUser" [routerLink]="['/reservation', car.carId]"

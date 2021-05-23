@@ -7,6 +7,7 @@ import {EditProfileComponent} from '@app/features/components/profile/edit-profil
 import {UserInfoDTO} from '@app/shared/models';
 import {UserService} from '@app/core/services/user.service';
 import {ConfirmationDialogComponent} from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import {EToastSeverities, ToastService} from '@app/core/services';
 
 @Component({
   selector: 'app-profile',
@@ -21,6 +22,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private userService: UserService,
+              public toastService: ToastService,
               private readonly dialogService: DialogService) {
     this.router.events
       .pipe(takeUntil(this.destroyed$),
@@ -36,27 +38,32 @@ export class ProfileComponent implements OnInit, OnDestroy {
     setTimeout(() => window.location.reload(), 100);
   }
 
-  openEditProfileDialog(): void {
-    const ref = this.dialogService.open(EditProfileComponent, {
-      header: 'Edit your profile',
-    });
-
-    ref.onClose.subscribe((formId: number) => {
-      if (formId) {
-      }
-    });
-  }
-
   getLoggedInUser(): void {
     this.userService.getUserByJwt()
       .subscribe(
         (data: UserInfoDTO) => {
-          console.log(data);
           this.user = data;
         },
         error => {
           console.error(error);
         });
+  }
+
+  openEditProfileDialog(): void {
+    const ref = this.dialogService.open(EditProfileComponent, {
+      header: 'Edit your profile',
+      width: '30%',
+      data: {
+        user: this.user
+      }
+    });
+
+    ref.onClose.subscribe((data: UserInfoDTO) => {
+      if (data) {
+        this.toastService.show(EToastSeverities.SUCCESS, 'Successfully updated !');
+        this.user = data;
+      }
+    });
   }
 
   logOutUser(): void {

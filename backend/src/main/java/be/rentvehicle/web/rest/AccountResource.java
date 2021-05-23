@@ -104,7 +104,7 @@ public class AccountResource extends BaseRestController {
     }
 
     /**
-     * {@code PATCH /user} : Updates an existing User.
+     * {@code PATCH /user/:usernameParam} : Updates an existing User.
      *
      * @param userDTO the managed update View Model.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body of the updated user.
