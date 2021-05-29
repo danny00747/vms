@@ -1,20 +1,18 @@
 package be.rentvehicle.service.dto;
-
-import be.rentvehicle.config.Constants;
-import be.rentvehicle.domain.Address;
-import be.rentvehicle.domain.Booking;
+;
+import be.rentvehicle.domain.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import javax.persistence.OneToOne;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Set;
-import java.util.UUID;
+
+/**
+ * A DTO for the {@link User} entity.
+ */
 
 public @Data class UserInfoDTO implements Serializable {
 

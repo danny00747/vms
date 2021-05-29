@@ -1,17 +1,16 @@
 package be.rentvehicle.service.mapper;
 
 import be.rentvehicle.domain.PricingClass;
-import be.rentvehicle.domain.User;
 import be.rentvehicle.service.dto.PricingClassDTO;
-import be.rentvehicle.service.dto.UserInfoDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.Mappings;
 
 import java.util.List;
 
-
+/**
+ * Mapper for the entity {@link PricingClass} and its DTO {@link PricingClassDTO}.
+ */
 @Mapper(componentModel = "spring")
 public non-sealed interface PricingClassMapper extends EntityMapper<PricingClassDTO, PricingClass> {
 

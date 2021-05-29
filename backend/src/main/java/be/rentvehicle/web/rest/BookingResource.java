@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * REST controller for managing the bookings
+ * REST controller for managing the booking entity.
  */
 @Controller
 @Validated

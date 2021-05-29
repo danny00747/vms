@@ -6,6 +6,9 @@ import org.mapstruct.Mapper;
 
 import java.util.Set;
 
+/**
+ * Mapper for the entity {@link Roles} and its DTO {@link RoleDTO}.
+ */
 @Mapper(componentModel = "spring")
 public non-sealed interface RoleMapper extends EntityMapper<RoleDTO, Roles> {
 

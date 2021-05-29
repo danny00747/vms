@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * REST controller for managing the Rent entity.
+ */
 @Controller
 @Validated
 public class RentResource extends BaseRestController {

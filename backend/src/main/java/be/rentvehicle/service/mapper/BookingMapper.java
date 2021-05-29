@@ -8,6 +8,9 @@ import org.mapstruct.Mappings;
 
 import java.util.UUID;
 
+/**
+ * Mapper for the entity {@link Booking} and its DTO {@link BookingDTO}.
+ */
 @Mapper(componentModel = "spring", uses = {CarMapper.class, RentMapper.class}, imports = {UUID.class})
 public non-sealed interface BookingMapper extends EntityMapper<BookingDTO, Booking> {
 

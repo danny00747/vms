@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+/**
+ * MailService for sending emails.
+ */
+
 // @Profile("prod")
 @Service
 public class MailService {

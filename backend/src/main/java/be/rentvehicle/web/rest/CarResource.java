@@ -19,6 +19,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * REST controller for managing the car entity.
+ */
 @Controller
 @Validated
 public class CarResource extends BaseRestController {

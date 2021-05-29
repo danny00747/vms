@@ -6,6 +6,9 @@ import org.mapstruct.*;
 
 import java.util.UUID;
 
+/**
+ * Mapper for the entity {@link User} and its DTO {@link UserInfoDTO}.
+ */
 @Mapper(componentModel = "spring", uses = {BookingMapper.class, AddressMapper.class, RoleMapper.class}, imports = {UUID.class})
 public non-sealed interface UserInfoMapper extends EntityMapper<UserInfoDTO, User> {
 

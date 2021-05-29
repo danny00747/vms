@@ -6,6 +6,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
+/**
+ * Mapper for the entity {@link Rent} and its DTO {@link RentDTO}.
+ */
 @Mapper(componentModel = "spring")
 public non-sealed interface RentMapper extends EntityMapper<RentDTO, Rent> {
 

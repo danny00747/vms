@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+/**
+ * REST controller for managing the Model entity.
+ */
 @Controller
 @Validated
 public class ModelResource extends BaseRestController {
