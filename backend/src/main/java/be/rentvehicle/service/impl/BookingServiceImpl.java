@@ -9,15 +9,11 @@ import be.rentvehicle.domain.User;
 import be.rentvehicle.domain.enumeration.BOOKINGSTATE;
 import be.rentvehicle.security.SecurityUtils;
 import be.rentvehicle.service.BookingService;
-import be.rentvehicle.service.CarService;
 import be.rentvehicle.service.MailService;
-import be.rentvehicle.service.UserService;
 import be.rentvehicle.service.dto.BookingDTO;
 import be.rentvehicle.service.impl.errors.ResourceNotFoundException;
 import be.rentvehicle.service.impl.errors.UserNotFoundException;
 import be.rentvehicle.service.mapper.BookingMapper;
-import be.rentvehicle.service.mapper.RentMapper;
-import be.rentvehicle.service.mapper.UserInfoMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -46,24 +42,15 @@ public class BookingServiceImpl implements BookingService {
     private final CarDAO carDAO;
     private final UserDAO userDAO;
     private final BookingMapper bookingMapper;
-    private final UserService userService;
-    private final CarService carService;
-    private final RentMapper rentMapper;
     private final MailService mailService;
-    private final UserInfoMapper userInfoMapper;
 
-    public BookingServiceImpl(BookingDAO bookingDAO, CarDAO carDAO, UserDAO userDAO, BookingMapper bookingMapper,
-                              UserService userService, CarService carService, RentMapper rentMapper, MailService mailService,
-                              UserInfoMapper userInfoMapper) {
+    public BookingServiceImpl(BookingDAO bookingDAO, CarDAO carDAO, UserDAO userDAO,
+                              BookingMapper bookingMapper, MailService mailService) {
         this.bookingDAO = bookingDAO;
         this.carDAO = carDAO;
         this.userDAO = userDAO;
         this.bookingMapper = bookingMapper;
-        this.userService = userService;
-        this.carService = carService;
-        this.rentMapper = rentMapper;
         this.mailService = mailService;
-        this.userInfoMapper = userInfoMapper;
     }
 
     @Override
@@ -104,19 +91,19 @@ public class BookingServiceImpl implements BookingService {
                 .withLocale(Locale.ENGLISH)
                 .withZone(ZoneId.systemDefault());
 
-            /*
-                    long nbOfDaysBetween = ChronoUnit.DAYS.between(booking.getWithdrawalDate(), booking.getReturnDate());
-            long total = booking.getCar().getModel().getPricingClass().getCostPerDay() * nbOfDaysBetween;
 
-                    mailService.sendReservationEMail(
-                    "danbarca955@gmail.com",
-                    booking.getId().toString(),
-                    booking.getCar().getModel().getBrand() + " " + booking.getCar().getModel().getModelType(),
-                    formatter.format(booking.getReturnDate()),
-                    formatter.format(booking.getWithdrawalDate()),
-                    booking.getCar().getModel().getPricingClass().getCostPerDay().toString() + "€",
-                    total + "€");
-             */
+        long nbOfDaysBetween = ChronoUnit.DAYS.between(booking.getWithdrawalDate(), booking.getReturnDate());
+        long total = booking.getCar().getModel().getPricingClass().getCostPerDay() * nbOfDaysBetween;
+
+        mailService.sendReservationEMail(
+                user.getEmail(),
+                booking.getId().toString(),
+                booking.getCar().getModel().getBrand() + " " + booking.getCar().getModel().getModelType(),
+                formatter.format(booking.getReturnDate()),
+                formatter.format(booking.getWithdrawalDate()),
+                booking.getCar().getModel().getPricingClass().getCostPerDay().toString() + "€",
+                total + "€");
+
 
         return bookingMapper.toDto(booking);
     }

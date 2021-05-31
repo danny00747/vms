@@ -12,7 +12,6 @@ import be.rentvehicle.service.MailService;
 import be.rentvehicle.service.dto.UserDTO;
 import be.rentvehicle.service.dto.UserInfoDTO;
 import be.rentvehicle.service.mapper.UserInfoMapper;
-import be.rentvehicle.service.mapper.UserMapper;
 import be.rentvehicle.dao.RolesDAO;
 import be.rentvehicle.dao.UserDAO;
 import be.rentvehicle.security.RolesConstants;
@@ -88,8 +87,8 @@ public class UserServiceImpl implements UserService {
         String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
         user.setPassword(encryptedPassword);
         user.setPhoneNumber(userDTO.getPhoneNumber());
-        // user.setVerificationPhoneCode(getVerificationPhoneCode(userDTO.getPhoneNumber()));
-        user.setVerificationPhoneCode(1234567);
+        user.setVerificationPhoneCode(getVerificationPhoneCode(userDTO.getPhoneNumber()));
+        // user.setVerificationPhoneCode(1234567);
 
         String confirmationKey = UUID.randomUUID().toString();
         user.setActivated(false);
@@ -99,7 +98,7 @@ public class UserServiceImpl implements UserService {
         user = userDAO.save(user);
         log.info("Created Information for User: {}", user);
 
-        // mailService.sendEmailConfirmation(user.getEmail(), confirmationKey);
+        mailService.sendEmailConfirmation(user.getEmail(), confirmationKey);
 
         return userInfoMapper.toDto(user);
     }

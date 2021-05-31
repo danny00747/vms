@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {CreateUserDTO} from '@app/shared/models';
 import {Observable} from 'rxjs';
 import {BookingDTO} from '@app/shared/models/booking';
 

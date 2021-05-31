@@ -61,7 +61,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       username: this.username,
       userEmail: this.userEmail,
       password: this.password,
-      phoneNumber: this.phoneNumber.toString(),
+      phoneNumber: '+' + this.phoneNumber.toString(),
       addressDTO: {
         road: this.road,
         postBox: 3,
@@ -76,7 +76,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.userService.createUser(createdUser)
       .subscribe(
         data => {
-          console.log(data);
           this.toastService.show(EToastSeverities.INFO, data.message);
           this.verifyInputs = true;
         },

@@ -5,6 +5,7 @@ import com.sendgrid.*;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class MailService {
 
     public void sendEmailConfirmation(String emailTo, String key) {
         Email from = new Email("he201718@students.ephec.be", "rent vehicle");
-        String subject = "Confirmation Your Email !";
+        String subject = "Confirm Your Email !";
         Email to = new Email(emailTo);
         Content content = new Content("text/html", emailConfirmationTemplate()
                 .replace("xxx-key-xxx", key));
