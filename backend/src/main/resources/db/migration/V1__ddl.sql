@@ -31,10 +31,12 @@ CREATE TABLE users
     id                      uuid        DEFAULT uuid_generate_v4() PRIMARY KEY,
     username                VARCHAR(32)               NOT NULL UNIQUE,
     email                   VARCHAR(255)              NOT NULL UNIQUE,
-    phone_number            VARCHAR(15)               NOT NULL UNIQUE,
     password                VARCHAR(255)              NOT NULL,
     activated               BOOLEAN     DEFAULT FALSE NOT NULL,
     activation_key          VARCHAR(36),
+    phone_number            VARCHAR(15),
+    reset_key               VARCHAR(36),
+    reset_date              TIMESTAMPTZ,
     verification_phone_code INTEGER,
     created_at              TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );

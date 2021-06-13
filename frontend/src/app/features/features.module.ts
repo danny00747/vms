@@ -24,7 +24,7 @@ import {ConfirmationService} from 'primeng/api';
 const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+  {path: 'profile/:username', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'gallery', component: GalleryComponent},
   {path: 'cars', component: CarsComponent},
   {path: 'cars/:id', component: CarDetailComponent},

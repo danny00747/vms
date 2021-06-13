@@ -36,29 +36,6 @@
       </div>
 
     </div>
-
-    <div class="p-grid p-formgrid">
-      <div class="p-col-12 p-md-12 p-lg-12 form-label-group input">
-        <input #phoneNumberInput="ngModel"
-               pTooltip="Eg : +32485601713" tooltipPosition="top"
-               [class.is-invalid]="phoneNumberInput.invalid && phoneNumberInput.touched"
-               [class.is-valid]="!(phoneNumberInput.invalid && phoneNumberInput.untouched)"
-               class="form-control" type="text" id="inputPhoneNumber"
-               [(ngModel)]="phoneNumber" name="phoneNumber" required>
-        <label for="inputPhoneNumber">phone number</label>
-        <div *ngIf="phoneNumberInput.errors && (phoneNumberInput.invalid ||phoneNumberInput.touched)">
-          <small *ngIf="phoneNumberInput.errors.pattern" id="phoneNumberInputInvalid" class="text-danger">
-            {{phoneNumberInput.value}} is not a valid phone number
-          </small>
-          <small *ngIf="phoneNumberInput.errors.required && phoneNumberInput.touched"
-                 id="phoneNumberRequired" class="text-danger">
-            This field is required
-          </small>
-        </div>
-      </div>
-    </div>
-
-
   </div>
 
   <hr>

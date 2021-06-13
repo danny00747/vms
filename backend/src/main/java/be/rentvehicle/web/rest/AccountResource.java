@@ -7,6 +7,8 @@ import be.rentvehicle.security.jwt.TokenProvider;
 import be.rentvehicle.security.securityAnnotations.isAdmin;
 import be.rentvehicle.security.securityAnnotations.isUsername;
 import be.rentvehicle.service.UserService;
+import be.rentvehicle.service.dto.ContactMessageDTO;
+import be.rentvehicle.service.dto.ResetPasswordDTO;
 import be.rentvehicle.service.dto.UserInfoDTO;
 import be.rentvehicle.service.impl.errors.*;
 import be.rentvehicle.web.rest.vm.UserVM;
@@ -221,7 +223,7 @@ public class AccountResource extends BaseRestController {
      * {@code GET  /verifyPhone} : verify a phone number.
      *
      * @param code the code to verify.
-     * @throws UserNotFoundException {@code 404 (Not Found)} if the user with this verificationCode couldn't be found.
+     * @throws AccountResourceException {@code 404 (Not Found)} if the user with this verificationCode couldn't be found.
      */
     @GetMapping("/verifyPhone")
     public ResponseEntity<Map<String, String>> verifyPhoneNumber(@RequestParam(value = "code") Integer code) {
@@ -232,10 +234,52 @@ public class AccountResource extends BaseRestController {
     }
 
     /**
+     * {@code POST  /contact} : send admin a customer message.
+     *
+     * @param contactMessageDTO containing a customer message..
+     */
+    @PostMapping("/contact")
+    public ResponseEntity<Map<String, String>> contactMessage(@RequestBody ContactMessageDTO contactMessageDTO) {
+        log.debug("sending a customer message to admin {}", contactMessageDTO);
+        userService.sendContactMessage(contactMessageDTO);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(Map.of("message", "Your message was sent successfully !"));
+    }
+
+    /**
+     * {@code POST   /reset-password/init} : Send an email to reset the password of the user.
+     *
+     * @param mail the mail of the user.
+     * @throws AccountResourceException {@code 404 (Not Found)} if the user with this verificationCode couldn't be found.
+     */
+    @PostMapping("/reset-password/init")
+    public ResponseEntity<Map<String, String>> requestPasswordReset(@RequestBody String mail) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(Map.of("message", userService.requestPasswordReset(mail)
+                        .orElseThrow(() -> new AccountResourceException("No user was found with this email: " + mail))));
+    }
+
+    /**
+     * {@code POST   /reset-password/finish} : Finish to reset the password of the user.
+     *
+     * @param resetPasswordDTO the generated key and the new password.
+     * @throws AccountResourceException {@code 404 (Not Found)} if the password could not be reset since the key is invalid.
+     */
+    @PostMapping("/reset-password/finish")
+    public ResponseEntity<Map<String, String>> finishPasswordReset(@RequestBody ResetPasswordDTO resetPasswordDTO) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(Map.of("message", userService.completePasswordReset(resetPasswordDTO)
+                        .orElseThrow(() -> new AccountResourceException("No user was found for this reset key: " + resetPasswordDTO.getKey()))));
+    }
+
+    /**
      * {@code GET  /verifyEmail} : verify an email address.
      *
      * @param key the key to verify.
-     * @throws UserNotFoundException {@code 404 (Not Found)} if the user with this verificationCode couldn't be found.
+     * @throws AccountResourceException {@code 404 (Not Found)} if the user with this verificationCode couldn't be found.
      */
     @GetMapping("/verifyEmail")
     public ResponseEntity<Map<String, String>> verifyEmail(@RequestParam(value = "key") String key) {

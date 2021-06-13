@@ -75,10 +75,100 @@
                       (click)="onLoginSubmit()"
                       [disabled]="signUpForm.form.invalid">Login
                 <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
-              <span class="reset_pass mb_15"><a>Reset your Password by e-mail?</a></span>
+              <span class="reset_pass mb_15">
+                <a (click)="displayResetPassword()">Reset your password by e-mail?</a>
+              </span>
             </form>
           </div>
         </div>
+
+        <div style="width: 100%" class="row align-items-center" *ngIf="showResetPasswordSection">
+
+          <hr>
+
+          <!-- email -->
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form_item form-label-group input">
+              <input #emailInput="ngModel"
+                     pattern="^[aA-zZ0-9._%+-]+@[a-z0-9.-]+\.[aA-zZ]{2,4}$"
+                     [class.is-invalid]="emailInput.invalid && emailInput.touched"
+                     [class.is-valid]="!(emailInput.invalid && emailInput.untouched)"
+                     class="form-control" type="email" id="inputEmail" placeholder="email"
+                     [(ngModel)]="userEmail" name="email" required>
+              <label for="inputEmail">email</label>
+              <div *ngIf="emailInput.errors && (emailInput.invalid ||emailInput.touched)">
+                <small *ngIf="emailInput.errors.pattern" id="emailInvalid" class="text-danger">
+                  {{emailInput.value}} is not valid email
+                </small>
+                <small *ngIf="emailInput.errors.required && emailInput.touched"
+                       id="emailRequired" class="text-danger">
+                  This field is required
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <!-- email verify button-->
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form_item">
+              <button type="submit" [disabled]="emailInput.errors || verifiedEmailKey" (click)="requestPasswordReset()"
+                      class="custom_btn bg_default_red text-uppercase mb-0">Verify
+                <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
+            </div>
+          </div>
+
+          <!-- verification key -->
+          <div *ngIf="showResetPassword" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form_item form-label-group input">
+              <input class="form-control" type="text" id="verificationKey" maxlength="36"
+                     [(ngModel)]="emailKey" name="verificationKey" placeholder="verification key" required>
+              <label for="verificationKey">verification key</label>
+            </div>
+          </div>
+
+          <!-- password -->
+          <div *ngIf="showResetPassword" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form_item form-label-group input">
+              <input #newPasswordInput="ngModel"
+                     class="form-control" type="password" id="newPassword" minlength="4" maxlength="100"
+                     [(ngModel)]="newPassword" name="newPassword" placeholder="new password" required>
+              <label for="newPassword">new password </label>
+              <small *ngIf="newPasswordInput.errors?.minlength" class="text-danger"
+                     [class.d-none]="newPasswordInput.valid ||
+                       newPasswordInput.untouched">A password min length must 4
+              </small>
+              <small *ngIf="newPasswordInput.errors?.maxlength" class="text-danger"
+                     [class.d-none]="newPasswordInput.valid ||
+                       newPasswordInput.untouched">A password max length must 100
+              </small>
+            </div>
+          </div>
+
+          <!-- confirm password -->
+          <div *ngIf="showResetPassword" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form_item form-label-group input">
+              <input #inputConfirmPassword="ngModel"
+                     class="form-control" type="password" id="PasswordConfirm"
+                     [(ngModel)]="confirmPassword" name="confirmPassword"
+                     placeholder="confirm password">
+              <label for="PasswordConfirm">confirm password</label>
+              <small *ngIf="newPassword !== confirmPassword && inputConfirmPassword.touched"
+                     id="passwordMatchError" class="text-danger">passwords don't match
+              </small>
+            </div>
+          </div>
+
+          <!-- reset button -->
+          <div *ngIf="showResetPassword" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form_item">
+              <button type="submit" [disabled]="!checkEmailKeyAndPassword() || completedPasswordReset"
+                      (click)="completePasswordReset()"
+                      class="custom_btn bg_default_red text-uppercase mb-0">reset
+                <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>

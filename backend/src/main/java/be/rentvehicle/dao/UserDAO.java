@@ -41,6 +41,8 @@ public interface UserDAO extends JpaRepository<User, UUID> {
 
     Page<User> findAllByUsernameNot(Pageable pageable, String username);
 
+    Optional<User> findOneByResetKey(String resetKey);
+
     @Transactional
     @Modifying
     @Query("delete from User u where u.id in :uuids")

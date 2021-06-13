@@ -19,7 +19,7 @@ export class UserInfoDTO {
   userId: string;
   username: any;
   userEmail: string;
-  phoneNumber: string;
+  phoneNumber?: string;
   userRoles: RoleDTO[];
   activated: boolean;
   password?: string;
@@ -44,3 +44,19 @@ export interface JWT {
   message: string;
   token: string;
 }
+
+export class ContactMessageDTO {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+  message: string;
+}
+
+export class ResetPasswordDTO {
+  key: string;
+  newPassword: string;
+}
+
+
+

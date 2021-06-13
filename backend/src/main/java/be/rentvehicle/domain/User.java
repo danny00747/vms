@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -48,6 +49,12 @@ public class User extends AbstractAuditingEntity {
 
     @NotNull
     private String password;
+
+    @Column(name = "reset_key")
+    private String resetKey;
+
+    @Column(name = "reset_date")
+    private Instant resetDate;
 
     @OneToOne(mappedBy = "user")
     private Address address;
@@ -132,6 +139,22 @@ public class User extends AbstractAuditingEntity {
 
     public void setActivationKey(String activationKey) {
         this.activationKey = activationKey;
+    }
+
+    public void setResetKey(String resetKey) {
+        this.resetKey = resetKey;
+    }
+
+    public void setResetDate(Instant resetDate) {
+        this.resetDate = resetDate;
+    }
+
+    public String getResetKey() {
+        return resetKey;
+    }
+
+    public Instant getResetDate() {
+        return resetDate;
     }
 
     public User roles(Set<Roles> roles) {

@@ -9,6 +9,8 @@ import be.rentvehicle.domain.Town;
 import be.rentvehicle.domain.User;
 import be.rentvehicle.security.SecurityUtils;
 import be.rentvehicle.service.MailService;
+import be.rentvehicle.service.dto.ContactMessageDTO;
+import be.rentvehicle.service.dto.ResetPasswordDTO;
 import be.rentvehicle.service.dto.UserDTO;
 import be.rentvehicle.service.dto.UserInfoDTO;
 import be.rentvehicle.service.mapper.UserInfoMapper;
@@ -86,8 +88,8 @@ public class UserServiceImpl implements UserService {
         user.setRoles(roles);
         String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
         user.setPassword(encryptedPassword);
-        user.setPhoneNumber(userDTO.getPhoneNumber());
-        user.setVerificationPhoneCode(getVerificationPhoneCode(userDTO.getPhoneNumber()));
+        // user.setPhoneNumber(userDTO.getPhoneNumber());
+        // user.setVerificationPhoneCode(getVerificationPhoneCode(userDTO.getPhoneNumber()));
         // user.setVerificationPhoneCode(1234567);
 
         String confirmationKey = UUID.randomUUID().toString();
@@ -262,6 +264,46 @@ public class UserServiceImpl implements UserService {
                     userDAO.save(user);
                     return user.getUsername() + "'s phone number was successfully verified !";
                 });
+    }
+
+    @Override
+    public void sendContactMessage(ContactMessageDTO contactMessageDTO) {
+        log.debug("sending a customer message to admin {}", contactMessageDTO);
+        mailService
+                .sendContactMessage(contactMessageDTO.getFirstName(),
+                        contactMessageDTO.getLastName(), contactMessageDTO.getPhoneNumber(),
+                        contactMessageDTO.getEmail(), contactMessageDTO.getMessage());
+    }
+
+    @Override
+    public Optional<String> requestPasswordReset(String userEmail) {
+        return userDAO
+                .findOneByEmailIgnoreCase(userEmail)
+                .filter(User::isActivated)
+                .map(
+                        user -> {
+                            String resetKey = UUID.randomUUID().toString();
+                            user.setResetKey(resetKey);
+                            user.setResetDate(Instant.now());
+                            mailService.sendResetPasswordMail(userEmail, resetKey);
+                            return "A verification key has been sent to " + userEmail;
+                        }
+                );
+    }
+
+    @Override
+    public Optional<String> completePasswordReset(ResetPasswordDTO resetPasswordDTO) {
+        return userDAO
+                .findOneByResetKey(resetPasswordDTO.getKey())
+                .filter(user -> user.getResetDate().isAfter(Instant.now().minusSeconds(86400)))
+                .map(
+                        user -> {
+                            user.setPassword(passwordEncoder.encode(resetPasswordDTO.getNewPassword()));
+                            user.setResetKey(null);
+                            user.setResetDate(null);
+                            return "Your password has been successfully changed !";
+                        }
+                );
     }
 
     @Override

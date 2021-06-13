@@ -1,11 +1,11 @@
-import {Component, HostListener, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {NavigationStart, Router} from '@angular/router';
 import {ReplaySubject} from 'rxjs';
-import {AuthentificationService, EToastSeverities} from '@app/core/services';
-import {ToastService} from '@app/core/services';
-import {LoginDTO} from '@app/shared/models';
+import {AuthentificationService, EToastSeverities, ToastService} from '@app/core/services';
+import {LoginDTO, ResetPasswordDTO} from '@app/shared/models';
 import {filter, takeUntil} from 'rxjs/operators';
 import {MessageService} from 'primeng/api';
+import {UserService} from '@app/core/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -17,11 +17,24 @@ export class LoginComponent implements OnInit, OnDestroy {
   pseudo: string;
   password: string;
 
+  userEmail: string;
+  emailKey: string;
+  newPassword: string;
+  confirmPassword: string;
+
+  showResetPasswordSection = false;
+  showResetPassword = false;
+
+  verifiedEmailKey = false;
+  completedPasswordReset = false;
+
+
   // Observable used to notify subscription when to end
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private router: Router,
               public toastService: ToastService,
+              private userService: UserService,
               private readonly toast: ToastService,
               private messageService: MessageService,
               private authService: AuthentificationService) {
@@ -46,11 +59,52 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe(
         async () => {
           this.toastService.show(EToastSeverities.INFO, 'Welcome back !');
-          setTimeout(async () => await  this.router.navigate(['/gallery']), 1000);
+          setTimeout(async () => await this.router.navigate(['/gallery']), 1000);
         },
         error => {
           console.error(error);
           this.toastService.show(EToastSeverities.ERROR, 'Authentification failed !');
+        });
+  }
+
+  checkEmailKeyAndPassword(): boolean {
+    return this.emailKey !== undefined && this.emailKey.length === 36
+      && this.newPassword !== undefined && this.newPassword.length >= 4 && this.newPassword === this.confirmPassword;
+  }
+
+  displayResetPassword(): void {
+    this.showResetPasswordSection = true;
+  }
+
+  requestPasswordReset(): void {
+    this.userService.requestPasswordReset(this.userEmail)
+      .subscribe(
+        () => {
+          this.showResetPassword = true;
+          this.verifiedEmailKey = true;
+          this.toastService.show(EToastSeverities.INFO, 'A verification key has been sent your email');
+        },
+        error => {
+          console.error(error);
+          this.toastService.show(EToastSeverities.ERROR, 'Something went wrong !');
+        });
+  }
+
+  completePasswordReset(): void {
+    const resetPasswordDTO: ResetPasswordDTO = {
+      key: this.emailKey,
+      newPassword: this.newPassword
+    };
+    this.userService.finishPasswordReset(resetPasswordDTO)
+      .subscribe(
+        () => {
+          this.completedPasswordReset = true;
+          this.showResetPasswordSection = false;
+          this.toastService.show(EToastSeverities.SUCCESS, 'Reset completed !');
+        },
+        error => {
+          console.error(error);
+          this.toastService.show(EToastSeverities.ERROR, 'Something went wrong !');
         });
   }
 

@@ -35,7 +35,6 @@ export class EditProfileComponent implements OnInit {
       username : this.username,
       userEmail : this.userEmail,
       password : '1234',
-      phoneNumber : this.phoneNumber,
     };
 
     const sub$: Observable<UserInfoDTO> =

@@ -70,8 +70,7 @@ public final class SecurityUtils {
      */
     public static boolean isCurrentUserInRole(String role) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication != null &&
-                getAuthorities(authentication).anyMatch(role::equals);
+        return authentication != null && getAuthorities(authentication).anyMatch(role::equals);
     }
 
     /**

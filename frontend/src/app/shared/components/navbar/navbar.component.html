@@ -92,12 +92,12 @@
                     <img src="../../../../assets/images/meta/img_01.png" alt="thumbnail_not_found">
                   </a>
                   <div class="user_content">
-                    <h4 [routerLink]="['/profile']" class="user_name"><a>{{username}}</a></h4>
+                    <h4 [routerLink]="['/profile', username]" class="user_name"><a>{{username}}</a></h4>
                     <span class="user_title">{{userRole}}</span>
                   </div>
                 </div>
                 <ul class="ul_li_block clearfix">
-                  <li><a [routerLink]="['/profile']"><i class="fal fa-user-circle"></i> Profile</a></li>
+                  <li><a [routerLink]="['/profile', username]"><i class="fal fa-user-circle"></i> Profile</a></li>
                   <li><a><i class="fal fa-user-cog"></i> Settings</a></li>
                   <li><a (click)="onLogOutClick()"><i class="fal fa-sign-out"></i> Logout</a></li>
                 </ul>

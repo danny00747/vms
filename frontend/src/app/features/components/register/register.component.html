@@ -44,7 +44,8 @@
               <input #pseudoInput="ngModel"
                      [class.is-invalid]="pseudoInput.invalid && pseudoInput.touched"
                      [class.is-valid]="!(pseudoInput.invalid && pseudoInput.untouched)"
-                     [(ngModel)]="username" class="form-control" type="text" name="username" id="username" required>
+                     [(ngModel)]="username" class="form-control" type="text" name="username"
+                     id="username" placeholder="username" required>
               <label for="username">username</label>
               <small id="pseudoError" class="text-danger"
                      [class.d-none]="pseudoInput.valid || pseudoInput.untouched">
@@ -59,7 +60,7 @@
                      pattern="^[aA-zZ0-9._%+-]+@[a-z0-9.-]+\.[aA-zZ]{2,4}$"
                      [class.is-invalid]="emailInput.invalid && emailInput.touched"
                      [class.is-valid]="!(emailInput.invalid && emailInput.untouched)"
-                     class="form-control" type="email" id="inputEmail"
+                     class="form-control" type="email" id="inputEmail" placeholder="email"
                      [(ngModel)]="userEmail" name="email" required>
               <label for="inputEmail">email</label>
               <div *ngIf="emailInput.errors && (emailInput.invalid ||emailInput.touched)">
@@ -78,21 +79,25 @@
               <input #passwordInput="ngModel"
                      [class.is-invalid]="passwordInput.invalid && passwordInput.touched"
                      [class.is-valid]="!(passwordInput.invalid && passwordInput.untouched)"
-                     class="form-control" type="password" id="password"
-                     [(ngModel)]="password" name="password" required>
+                     class="form-control" type="password" id="password" placeholder="password"
+                     [(ngModel)]="password" name="password" minlength="4" maxlength="100" required>
               <label for="password">password</label>
               <small id="passwordError" class="text-danger" [class.d-none]="passwordInput.valid ||
                        passwordInput.untouched">A password is required
               </small>
+              <small *ngIf="passwordInput.errors?.minlength" class="text-danger"
+                     [class.d-none]="passwordInput.valid ||
+                       passwordInput.untouched">A password min length must 4
+              </small>
             </div>
 
-            <!-- phone number -->
+            <!-- phone number
             <div class="form_item form-label-group input">
               <input #phoneNumberInput="ngModel"
                      pTooltip="Eg : +32485601713" tooltipPosition="top"
                      [class.is-invalid]="phoneNumberInput.invalid && phoneNumberInput.touched"
                      [class.is-valid]="!(phoneNumberInput.invalid && phoneNumberInput.untouched)"
-                     class="form-control" type="number" id="inputPhoneNumber"
+                     class="form-control" type="number" id="inputPhoneNumber" maxlength="5"
                      [(ngModel)]="phoneNumber" name="phoneNumber" required>
               <label for="inputPhoneNumber">phone number</label>
               <div *ngIf="phoneNumberInput.errors && (phoneNumberInput.invalid ||phoneNumberInput.touched)">
@@ -104,6 +109,21 @@
                   This field is required
                 </small>
               </div>
+            </div>
+             -->
+
+            <!-- road -->
+            <div class="form_item form-label-group input">
+              <input #roadInput="ngModel"
+                     [class.is-invalid]="roadInput.invalid && roadInput.touched"
+                     [class.is-valid]="!(roadInput.invalid && roadInput.untouched)"
+                     [(ngModel)]="road" class="form-control" type="text" name="road"
+                     id="road" placeholder="road" required>
+              <label for="road">road</label>
+              <small id="roadError" class="text-danger"
+                     [class.d-none]="roadInput.valid || roadInput.untouched">
+                This field is required
+              </small>
             </div>
 
             <div>
@@ -117,20 +137,6 @@
 
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
-
-            <!-- road -->
-            <div class="form_item form-label-group input">
-              <input #roadInput="ngModel"
-                     [class.is-invalid]="roadInput.invalid && roadInput.touched"
-                     [class.is-valid]="!(roadInput.invalid && roadInput.untouched)"
-                     [(ngModel)]="road" class="form-control" type="text" name="road" id="road" required>
-              <label for="road">road</label>
-              <small id="roadError" class="text-danger"
-                     [class.d-none]="roadInput.valid || roadInput.untouched">
-                This field is required
-              </small>
-            </div>
-
             <!-- house number -->
             <div class="form_item form-label-group input">
               <input #houseNumberInput="ngModel"
@@ -138,7 +144,7 @@
                      [class.is-invalid]="houseNumberInput.invalid && houseNumberInput.touched"
                      [class.is-valid]="!(houseNumberInput.invalid && houseNumberInput.untouched)"
                      class="form-control" type="number" id="inputHouseNumber" min="1" max="1000"
-                     [(ngModel)]="houseNumber" name="houseNumber" required>
+                     [(ngModel)]="houseNumber" name="houseNumber" placeholder="house number" required>
               <label for="inputHouseNumber">house number</label>
               <div *ngIf="houseNumberInput.errors && (houseNumberInput.invalid ||houseNumberInput.touched)">
                 <small *ngIf="houseNumberInput.errors.pattern" id="houseNumberInvalid" class="text-danger">
@@ -157,7 +163,7 @@
                      [class.is-invalid]="postCodeInput.invalid && postCodeInput.touched"
                      [class.is-valid]="!(postCodeInput.invalid && postCodeInput.untouched)"
                      class="form-control" type="number" id="postCodeInput"
-                     [(ngModel)]="postCode" name="postCode" required>
+                     [(ngModel)]="postCode" name="postCode" placeholder="post code" required>
               <label for="postCodeInput">post code</label>
               <small id="postCodeInputError" class="text-danger"
                      [class.d-none]="postCodeInput.valid || postCodeInput.untouched">
@@ -171,7 +177,7 @@
                      [class.is-invalid]="townInput.invalid && townInput.touched"
                      [class.is-valid]="!(townInput.invalid && townInput.untouched)"
                      class="form-control" type="text" id="townInput"
-                     [(ngModel)]="townName" name="townName" required>
+                     [(ngModel)]="townName" name="townName" placeholder="town name" required>
               <label for="townInput">town name</label>
               <small id="townError" class="text-danger"
                      [class.d-none]="townInput.valid || townInput.untouched">
@@ -179,7 +185,7 @@
               </small>
             </div>
             <p class="p-text-italic">
-              Your email address and phone number are only intended to confirm your appointment and
+              Your email address is only intended to confirm your appointment and
               to contact you in the event of a change.
             </p>
             <button type="submit" [disabled]="signUpForm.invalid || verifyInputs" (click)="submit()"
@@ -190,7 +196,7 @@
 
           <hr *ngIf="verifyInputs" data-aos="fade-up" data-aos-delay="200">
 
-          <div  *ngIf="verifyInputs" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div *ngIf="verifyInputs" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item form-label-group input">
               <input class="form-control" type="text" id="emailKey"
                      [(ngModel)]="emailKey" name="emailKey" required>
@@ -198,7 +204,7 @@
             </div>
           </div>
 
-          <div  *ngIf="verifyInputs" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div *ngIf="verifyInputs" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item">
               <button type="submit" [disabled]="!checkEmailKey() || verifiedEmailKey" (click)="verifyEmailKey()"
                       class="custom_btn bg_default_red text-uppercase mb-0">Verify
@@ -207,20 +213,11 @@
           </div>
 
           <div *ngIf="verifyInputs" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-            <div class="form_item form-label-group input">
-              <input class="form-control" type="number" id="phoneCode"
-                     [(ngModel)]="phoneCode" name="phoneCode" required>
-              <label for="phoneCode">Enter verification code</label>
-            </div>
           </div>
 
           <div *ngIf="verifyInputs" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item">
-              <button type="submit" [disabled]="!checkPhoneCode() || verifiedPhoneCode" (click)="verifyPhoneCode()"
-                      class="custom_btn bg_default_red text-uppercase mb-0">Verify
-                <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
             </div>
-
             <div class="form_item">
               <button type="submit" [disabled]="!checkBooking()" (click)="signUp()"
                       class="custom_btn bg_default_red text-uppercase mb-0">Sign up

@@ -61,7 +61,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
       username: this.username,
       userEmail: this.userEmail,
       password: this.password,
-      phoneNumber: '+' + this.phoneNumber.toString(),
       addressDTO: {
         road: this.road,
         postBox: 3,
@@ -97,7 +96,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.userService.verifyEmail(this.emailKey)
       .subscribe(
         () => {
-          this.toastService.show(EToastSeverities.SUCCESS, 'Your email has been successfully verified. !');
+          this.toastService.show(EToastSeverities.SUCCESS, 'Your email has been successfully verified !');
           this.verifiedEmailKey = true;
         },
         error => {
@@ -110,7 +109,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.userService.verifyPhoneCode(this.phoneCode)
       .subscribe(
         () => {
-          this.toastService.show(EToastSeverities.SUCCESS, 'Your phone number has been successfully verified.');
+          this.toastService.show(EToastSeverities.SUCCESS, 'Your phone number has been successfully verified !');
           this.verifiedPhoneCode = true;
         },
         error => {
@@ -120,14 +119,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   checkBooking(): boolean {
-    return this.verifiedEmailKey && this.verifiedPhoneCode;
+    return this.verifiedEmailKey;
   }
 
   signUp(): void {
     this.userService.activateUser(this.username)
       .subscribe(
         async () => {
-          this.toastService.show(EToastSeverities.SUCCESS, 'Your account has been successfully activated. !');
+          this.toastService.show(EToastSeverities.SUCCESS, 'Your account has been successfully activated !');
           setTimeout(async () => await this.router.navigate(['/login']), 2000);
         },
         error => {

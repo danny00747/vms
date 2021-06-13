@@ -85,7 +85,6 @@ export class ReservationComponent implements OnInit {
       username: this.username,
       userEmail: this.userEmail,
       password: this.password,
-      phoneNumber: this.phoneNumber.toString(),
       addressDTO: {
         road: this.road,
         postBox: 3,
@@ -121,7 +120,7 @@ export class ReservationComponent implements OnInit {
     this.userService.verifyEmail(this.emailKey)
       .subscribe(
         () => {
-          this.toastService.show(EToastSeverities.SUCCESS, 'Your email has been successfully verified. !');
+          this.toastService.show(EToastSeverities.SUCCESS, 'Your email has been successfully verified !');
           this.verifiedEmailKey = true;
         },
         error => {
@@ -134,7 +133,7 @@ export class ReservationComponent implements OnInit {
     this.userService.verifyPhoneCode(this.phoneCode)
       .subscribe(
         () => {
-          this.toastService.show(EToastSeverities.SUCCESS, 'Your phone number has been successfully verified. !');
+          this.toastService.show(EToastSeverities.SUCCESS, 'Your phone number has been successfully verified !');
           this.verifiedPhoneCode = true;
         },
         error => {
@@ -149,7 +148,7 @@ export class ReservationComponent implements OnInit {
 
   checkBooking(): boolean {
     const checkDates: any = this.withdrawalDate && this.returnDate;
-    return this.verifiedEmailKey && this.verifiedPhoneCode && this.acceptedTerms && checkDates;
+    return this.verifiedEmailKey && this.acceptedTerms && checkDates;
   }
 
   checkBookingForLoggedInUser(): boolean {
@@ -204,7 +203,7 @@ export class ReservationComponent implements OnInit {
     this.bookingService.createBooking(this.carId, booking)
       .subscribe(
         (data: BookingDTO) => {
-          this.toastService.show(EToastSeverities.SUCCESS, 'We have successfully received your reservation. !');
+          this.toastService.show(EToastSeverities.SUCCESS, 'We have successfully received your reservation !');
           this.successBooking = true;
           setTimeout(async () => await  this.router.navigate(['/reservation/recap/', data.bookingId]), 1000);
         },

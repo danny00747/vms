@@ -1,5 +1,6 @@
 <!-- breadcrumb_section - start
     ================================================== -->
+<p-toast></p-toast>
 <section class="breadcrumb_section text-center clearfix">
   <div class="page_title_area has_overlay d-flex align-items-center clearfix"
         style="background-image: url('../../../../assets/images/breadcrumb/bg_06.jpg')">
@@ -25,7 +26,7 @@
 ================================================== -->
 <section class="contact_section clearfix" style="margin-top: 180px">
   <div class="container">
-    <div class="contact_details_wrap text-white" style="background-color: #1F2B3E" data-bg-color="#1F2B3E" data-aos="fade-up" data-aos-delay="100">
+    <div class="contact_details_wrap text-white" style="background-color: #1F2B3E">
       <div class="row justify-content-lg-between">
         <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12">
           <div class="image_area">
@@ -76,43 +77,111 @@
 <section class="contact_form_section sec_ptb_100 clearfix">
   <div class="container">
 
-    <div class="section_title mb_60 text-center" data-aos="fade-up" data-aos-delay="100">
+    <div class="section_title mb_60 text-center">
       <h2 class="title_text mb-0">
         <span>Send Us a Message</span>
       </h2>
     </div>
 
-    <form id="contact_form" action="mail.php" method="POST">
+    <form #contactForm="ngForm">
       <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-          <div class="form_item" data-aos="fade-up" data-aos-delay="100">
-            <input type="text" name="firstname" placeholder="First Name">
+
+          <!-- firstName -->
+          <div class="form_item form-label-group input">
+            <input #firstNameInput="ngModel"
+                   [class.is-invalid]="firstNameInput.invalid && firstNameInput.touched"
+                   [class.is-valid]="!(firstNameInput.invalid && firstNameInput.untouched)"
+                   class="form-control" type="text" id="firstName"
+                   [(ngModel)]="firstName" name="firstName"
+                   placeholder="firstName" required>
+            <label for="firstName">first name</label>
+            <small id="firstNameError" class="text-danger"
+                   [class.d-none]="firstNameInput.valid || firstNameInput.untouched">
+              This field is required
+            </small>
           </div>
         </div>
 
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-          <div class="form_item" data-aos="fade-up" data-aos-delay="200">
-            <input type="text" name="lastname" placeholder="Last Name">
+          <!-- lastName -->
+          <div class="form_item form-label-group input">
+            <input #lastNameInput="ngModel"
+                   [class.is-invalid]="lastNameInput.invalid && lastNameInput.touched"
+                   [class.is-valid]="!(lastNameInput.invalid && lastNameInput.untouched)"
+                   class="form-control" type="text" id="lastName" placeholder="lastName"
+                   [(ngModel)]="lastName" name="lastName" required>
+            <label for="lastName">last name</label>
+            <small id="lastNameError" class="text-danger"
+                   [class.d-none]="lastNameInput.valid || lastNameInput.untouched">
+              This field is required
+            </small>
           </div>
         </div>
 
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-          <div class="form_item" data-aos="fade-up" data-aos-delay="300">
-            <input type="email" name="email" placeholder="E-mail">
+          <!-- email -->
+          <div class="form_item form-label-group input">
+            <input #emailInput="ngModel"
+                   pattern="^[aA-zZ0-9._%+-]+@[a-z0-9.-]+\.[aA-zZ]{2,4}$"
+                   [class.is-invalid]="emailInput.invalid && emailInput.touched"
+                   [class.is-valid]="!(emailInput.invalid && emailInput.untouched)"
+                   class="form-control" type="email" id="inputEmail" placeholder="email"
+                   [(ngModel)]="email" name="email" required>
+            <label for="inputEmail">email</label>
+            <div *ngIf="emailInput.errors && (emailInput.invalid ||emailInput.touched)">
+              <small *ngIf="emailInput.errors.pattern" id="emailInvalid" class="text-danger">
+                {{emailInput.value}} is not valid email
+              </small>
+              <small *ngIf="emailInput.errors.required && emailInput.touched"
+                     id="emailRequired" class="text-danger">
+                This field is required
+              </small>
+            </div>
           </div>
+
         </div>
 
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-          <div class="form_item" data-aos="fade-up" data-aos-delay="400">
-            <input type="tel" name="phone" placeholder="Phone Number">
+          <!-- phone number -->
+          <div class="form_item form-label-group input">
+            <input #phoneNumberInput="ngModel"
+                   pTooltip="Eg : +32485601713" tooltipPosition="top"
+                   [class.is-invalid]="phoneNumberInput.invalid && phoneNumberInput.touched"
+                   [class.is-valid]="!(phoneNumberInput.invalid && phoneNumberInput.untouched)"
+                   class="form-control" type="number" id="inputPhoneNumber" placeholder="phone number eg : +32485601713"
+                   [(ngModel)]="phoneNumber" name="phoneNumber" required>
+            <label for="inputPhoneNumber">phone number eg : +32485601713</label>
+            <div *ngIf="phoneNumberInput.errors && (phoneNumberInput.invalid ||phoneNumberInput.touched)">
+              <small *ngIf="phoneNumberInput.errors.pattern" id="phoneNumberInputInvalid" class="text-danger">
+                {{phoneNumberInput.value}} is not a valid phone number
+              </small>
+              <small *ngIf="phoneNumberInput.errors.required && phoneNumberInput.touched"
+                     id="phoneNumberRequired" class="text-danger">
+                This field is required
+              </small>
+            </div>
           </div>
         </div>
       </div>
-      <div class="form_item" data-aos="fade-up" data-aos-delay="500">
-        <textarea name="message" placeholder="Leave Your Message"></textarea>
+      <br>
+      <div class="form_item form-label-group textarea">
+        <textarea #messageInput="ngModel"
+               [class.is-invalid]="messageInput.invalid && messageInput.touched"
+               [class.is-valid]="!(messageInput.invalid && messageInput.untouched)"
+               class="form-control" id="message" placeholder="message"
+                  [(ngModel)]="message" name="message" required>
+        </textarea>
+        <label *ngIf="messageInput.untouched" for="message">your message</label>
+        <label *ngIf="messageInput.valid" for="message">{{512 - messageInput.value?.toString().length}}   characters left</label>
+        <small class="text-danger" [class.d-none]="messageInput.valid ||
+                messageInput.untouched">This field is required</small>
       </div>
-      <div class="abtn_wrap text-center clearfix" data-aos="fade-up" data-aos-delay="600">
-        <button type="submit" value="submit" class="custom_btn btn_width bg_default_red text-uppercase">Send a Message <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
+      <div class="abtn_wrap text-center clearfix">
+        <button type="submit" value="submit" [disabled]="contactForm.form.invalid"
+                (click)="onSubmit()"
+                class="custom_btn btn_width bg_default_red text-uppercase">
+          Send a Message <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
       </div>
     </form>
 

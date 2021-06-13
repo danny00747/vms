@@ -7,7 +7,7 @@ import {EditProfileComponent} from '@app/features/components/profile/edit-profil
 import {UserInfoDTO} from '@app/shared/models';
 import {UserService} from '@app/core/services/user.service';
 import {ConfirmationDialogComponent} from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
-import {EToastSeverities, ToastService} from '@app/core/services';
+import {AuthentificationService, EToastSeverities, ToastService} from '@app/core/services';
 
 @Component({
   selector: 'app-profile',
@@ -22,6 +22,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private userService: UserService,
+              public authService: AuthentificationService,
               public toastService: ToastService,
               private readonly dialogService: DialogService) {
     this.router.events
@@ -66,15 +67,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  logOutUser(): void {
+   logOutUser(): void {
     const ref = this.dialogService.open(ConfirmationDialogComponent, {
       header: 'Confirmation',
       data: {
         message: 'You are about to log out, do you want to continue ? '
       }
     });
-    ref.onClose.subscribe((confirm: boolean) => {
+    ref.onClose.subscribe(async (confirm: boolean) => {
       if (confirm) {
+        this.authService.logout();
+        await this.router.navigate(['/login']);
+        this.reload();
       }
     });
   }

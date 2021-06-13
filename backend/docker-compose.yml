@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+
+  vms-server:
+    container_name: vms-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env.dev
+    networks:
+      - vmsApp-network
+    depends_on:
+      - database
+
+  database:
+    container_name: postgres-container
+    image: postgres
+    env_file:
+      - .env.dev
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    volumes:
+      - ./src/main/resources/db/migration/V1__ddl.sql:/docker-entrypoint-initdb.d/1-schema.sql
+      - ./src/main/resources/db/migration/V2__data.sql:/docker-entrypoint-initdb.d/2-data.sql
+    networks:
+      - vmsApp-network
+
+networks:
+  vmsApp-network:
+    driver: bridge

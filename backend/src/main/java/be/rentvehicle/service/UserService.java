@@ -1,6 +1,8 @@
 package be.rentvehicle.service;
 
 import be.rentvehicle.domain.User;
+import be.rentvehicle.service.dto.ContactMessageDTO;
+import be.rentvehicle.service.dto.ResetPasswordDTO;
 import be.rentvehicle.service.dto.UserDTO;
 import be.rentvehicle.service.dto.UserInfoDTO;
 
@@ -98,6 +100,30 @@ public interface UserService {
      * @return confirmation message.
      */
     Optional<String> verifyPhoneNumber(Integer verificationCode);
+
+    /**
+     * Sends message to admin account.
+     *
+     * @param contactMessageDTO as a customer message.
+     */
+    void sendContactMessage(ContactMessageDTO contactMessageDTO);
+
+
+    /**
+     * Sends an mail to the provided user email.
+     *
+     * @param userEmail the mail of the user.
+     * @return confirmation message.
+     */
+    Optional<String> requestPasswordReset(String userEmail);
+
+    /**
+     * Resets the user password.
+     *
+     * @param resetPasswordDTO the new password.
+     * @return confirmation message.
+     */
+    Optional<String> completePasswordReset(ResetPasswordDTO resetPasswordDTO);
 
     /**
      * Verifies a specific email address.

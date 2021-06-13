@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {CreateUserDTO, UserInfoDTO} from '@app/shared/models';
+import {ContactMessageDTO, CreateUserDTO, ResetPasswordDTO, UserInfoDTO} from '@app/shared/models';
 
 @Injectable({
   providedIn: 'root'
@@ -55,5 +55,17 @@ export class UserService {
 
   verifyPhoneCode(code: number): Observable<{ message: string }> {
     return this.http.get<{ message: string }>(`/api/v1/verifyPhone?code=${code}`);
+  }
+
+  sendContactMessage(contactMessageDTO: ContactMessageDTO): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>('/api/v1/contact', contactMessageDTO);
+  }
+
+  requestPasswordReset(email: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>('/api/v1/reset-password/init', email);
+  }
+
+  finishPasswordReset(resetPasswordDTO: ResetPasswordDTO): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>('/api/v1/reset-password/finish', resetPasswordDTO);
   }
 }

@@ -1,10 +1,12 @@
 package be.rentvehicle.service.dto;
-;
+
+import be.rentvehicle.config.Constants;
 import be.rentvehicle.domain.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
@@ -22,12 +24,11 @@ public @Data class UserInfoDTO implements Serializable {
     @Size(min = 4, max = 32, message = "A username length must be between 4 and 32.")
     private String username;
 
+    @Pattern(regexp = Constants.EMAIL_REGEX, message = "Please provide a valid email")
     @NotNull(message = "userEmail is a required field.")
     @Size(min = 5, max = 254)
     private String userEmail;
 
-    @NotNull(message = "phone number is a required field.")
-    @Size(min = 9, max = 12, message = "A phone number length must be between 10 and 100.")
     private String phoneNumber;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

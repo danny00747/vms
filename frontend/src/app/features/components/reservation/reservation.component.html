@@ -199,7 +199,7 @@
                 </div>
               </div>
 
-              <!-- phone number -->
+              <!-- phone number
               <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
                 <div class="form_item form-label-group input">
                   <input #phoneNumberInput="ngModel"
@@ -220,7 +220,7 @@
                   </div>
                 </div>
               </div>
-
+              -->
 
               <!-- road -->
               <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
@@ -316,7 +316,7 @@
 
             <br>
 
-            <div *ngIf="verifyInputs" class="cart_bottom_content mt__30 clearfix">
+            <div  class="cart_bottom_content mt__30 clearfix">
               <div class="row  align-items-center">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                   <div class="form_item cart_price_info ul_li_block clearfix">
@@ -338,32 +338,10 @@
 
             <br>
 
-            <div *ngIf="verifyInputs" class="cart_bottom_content mt__30 clearfix">
-              <div class="row  align-items-center">
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <div class="form_item cart_price_info ul_li_block clearfix">
-                    <input type="number" name="phoneKey" class="form-control" [(ngModel)]="phoneCode"
-                           placeholder="Enter verification code">
-                  </div>
-                </div>
-
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <div class="abtn_wrap clearfix">
-                    <button [disabled]="!checkPhoneCode() || verifiedPhoneCode" (click)="verifyPhoneCode()"
-                            class="custom_btn bg_default_red btn_width text-uppercase">Verify
-                      <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found">
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <br>
-
             <div>
               <a class="terms_condition">
                 <i class="fas fa-info-circle mr-1"></i>
-                You must be at least 21 years old to rent this car. Collision Damage Waiver (CDW)
+                You must be at least 21 years old to rent this car.
               </a>
             </div>
 
