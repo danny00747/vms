@@ -42,8 +42,8 @@
               <a (click)="logOutUser()"><i class="fas fa-sign-out-alt"></i> Log Out
                 <img class="arrow" src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
             </li>
-            <li>
-              <a data-toggle="tab" href="#profile_tab"><i class="fas fa-address-book"></i> Booking Profiles</a>
+            <li *ngIf="user?.bookingDTO">
+              <a data-toggle="tab" href="#profile_tab"><i class="fas fa-address-book"></i> Booking Details</a>
             </li>
             <li>
               <a data-toggle="tab" href="#history_tab"><i class="fas fa-file-alt"></i> Booking History</a>
@@ -67,7 +67,7 @@
                 <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
             </div>
 
-            <div class="account_info_list">
+            <div *ngIf="user?.bookingDTO" class="account_info_list">
               <h3 class="list_title mb_30">Booking Details:</h3>
               <ul class="ul_li_block clearfix">
                 <li><span>Booking Reference:</span> {{user.bookingDTO.bookingId}}</li>
@@ -97,12 +97,19 @@
                 <li><span>Upcoming Reservations:</span>{{user.bookingDTO ? 'You have one active Reservations' : ' No Reservations Yet'}}</li>
                 <li><span>Past Rentals:</span> 0</li>
               </ul>
-              <a class="text_btn text-uppercase" [routerLink]="['/gallery']"><span>Book A Car</span>
-                <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
+              <a *ngIf="!user?.bookingDTO" class="text_btn text-uppercase" [routerLink]="['/gallery']">
+                <span>Book A Car</span>
+                <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found">
+              </a>
+              <a *ngIf="user?.bookingDTO" class="text_btn text-uppercase"
+                 [routerLink]="['/reservation/recap', user.bookingDTO.bookingId]">
+                <span>View Your Reservation</span>
+                <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found">
+              </a>
             </div>
           </div>
 
-          <div id="profile_tab" class="tab-pane fade">
+          <div *ngIf="user?.bookingDTO" id="profile_tab" class="tab-pane fade">
             <div class="account_info_list">
               <h3 class="list_title mb_30">Booking Details:</h3>
               <ul class="ul_li_block clearfix">
@@ -126,11 +133,18 @@
             <div class="account_info_list">
               <h3 class="list_title mb_30">Booking History:</h3>
               <ul class="ul_li_block clearfix">
-                <li><span>Upcoming Reservations:</span>{{user.bookingDTO ? 'You have one active Reservations' : ' No Reservations Yet'}}</li>
+                <li><span>Upcoming Reservations:</span>
+                  {{user?.bookingDTO ? 'You have one active reservation' : ' No reservation yet'}}</li>
                 <li><span>Past Rentals:</span> 0</li>
               </ul>
-              <a class="text_btn text-uppercase" [routerLink]="['/gallery']"><span>Book A Car</span>
-                <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
+              <a *ngIf="!user?.bookingDTO" class="text_btn text-uppercase" [routerLink]="['/gallery']"><span>Book A Car</span>
+                <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found">
+              </a>
+              <a *ngIf="user?.bookingDTO" class="text_btn text-uppercase"
+                 [routerLink]="['/reservation/recap', user.bookingDTO.bookingId]">
+                <span>View Your Reservation</span>
+                <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found">
+              </a>
             </div>
 
             <div class="account_info_list">
@@ -153,11 +167,17 @@
                 <li><span>Upcoming Reservations:</span>{{user.bookingDTO ? 'You have one active Reservations' : ' No Reservations Yet'}}</li>
                 <li><span>Past Rentals:</span> 0</li>
               </ul>
-              <a class="text_btn text-uppercase" [routerLink]="['/gallery']"><span>Book A Car</span>
-                <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
+              <a *ngIf="!user?.bookingDTO" class="text_btn text-uppercase" [routerLink]="['/gallery']"><span>Book A Car</span>
+                <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found">
+              </a>
+              <a *ngIf="user?.bookingDTO" class="text_btn text-uppercase"
+                 [routerLink]="['/reservation/recap', user.bookingDTO.bookingId]">
+                <span>View Your Reservation</span>
+                <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found">
+              </a>
             </div>
 
-            <div class="account_info_list">
+            <div *ngIf="user?.bookingDTO" class="account_info_list">
               <h3 class="list_title mb_30">Booking Details:</h3>
               <ul class="ul_li_block clearfix">
                 <li><span>Booking Reference:</span> {{user.bookingDTO.bookingId}}</li>

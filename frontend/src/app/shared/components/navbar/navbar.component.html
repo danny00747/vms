@@ -69,7 +69,7 @@
                 <ul class="btns_group ul_li_block clearfix">
                   <li>
                     <a [routerLink]="['/reservation/recap', user.bookingDTO.bookingId]"
-                      class="custom_btn bg_default_red text-uppercase">View Booking
+                       class="custom_btn bg_default_red text-uppercase">View Booking
                       <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found">
                     </a>
                   </li>
@@ -103,10 +103,6 @@
                 </ul>
               </div>
             </li>
-            <li *ngIf="authService.currentUserValue">
-              <button type="button" class="mobile_sidebar_btn">
-                <i class="fal fa-align-right"></i></button>
-            </li>
             <li *ngIf="!authService.currentUserValue" [routerLinkActive]="['active']"
                 [routerLinkActiveOptions]="{ exact: true }">
               <button [routerLink]="['/login']" type="button" pTooltip="Sign In" tooltipPosition="top">
@@ -115,9 +111,16 @@
             </li>
             <li *ngIf="!authService.currentUserValue" [routerLinkActive]="['active']"
                 [routerLinkActiveOptions]="{ exact: true }">
-              <button [routerLink]="['/register']" type="button" pTooltip="Sign Up" tooltipPosition="top">
+              <button [routerLink]="['/register']" type="button" pTooltip="Register" tooltipPosition="top">
                 <i class="fal fa-user-plus"></i>
               </button>
+            </li>
+            <li>
+              <button (click)="showSideBar()" type="button" class="mobile_sidebar_btn">
+                <i class="fal fa-align-right"></i></button>
+              <div *ngIf="visibleSideBar">
+                <app-sidebar (closeSideBar)="closeSide($event)" ></app-sidebar>
+              </div>
             </li>
           </ul>
         </div>
@@ -135,14 +138,14 @@
               </li>
               <li [routerLinkActive]="['active']"
                   [routerLinkActiveOptions]="{ exact: true }">
-                <a>Reviews</a>
-              </li>
-              <li [routerLinkActive]="['active']"
-                  [routerLinkActiveOptions]="{ exact: true }">
                 <a [routerLink]="['/about']">About</a></li>
               <li [routerLinkActive]="['active']"
                   [routerLinkActiveOptions]="{ exact: true }">
                 <a [routerLink]="['/contact']">Contact Us</a>
+              </li>
+              <li [routerLinkActive]="['active']"
+                  [routerLinkActiveOptions]="{ exact: true }">
+                <a [routerLink]="['/faq']">F.A.Q.</a>
               </li>
             </ul>
           </nav>
@@ -155,12 +158,22 @@
   <div id="collapse_search_body" class="collapse_search_body collapse">
     <div class="search_body">
       <div class="container">
-        <form action="#">
-          <div class="form_item">
-            <input type="search" name="search" placeholder="Type here...">
-            <button type="submit"><i class="fal fa-search"></i></button>
-          </div>
-        </form>
+        <div class="form_item">
+          <p-autoComplete [style]="{'width':'90%'}" [suggestions]="filteredBrands" [minLength]="1" [group]="true"
+                          [dropdown]="true" (completeMethod)="filterBrand($event)" [multiple]="true"
+                          [emptyMessage]="'no brands found'" field="label" [placeholder]="'Type here...'"
+                          #brands (click)="getBrands(brands)">
+
+            <ng-template let-group pTemplate="group">
+              <div [style]="{'width':'90%'}"  class="p-d-flex">
+                <img src="../../../../assets/images/flag/{{group.label}}.jpg" [class]="'p-mr-2 flag flag-' + group.value"
+                     alt="image_not_found" style="width: 20px"/>
+                <span [style]="{'width':'90%'}">{{group.label}}</span>
+              </div>
+            </ng-template>
+          </p-autoComplete>
+          <button (click)="submitQuery()" type="submit"><i class="fal fa-search"></i></button>
+        </div>
       </div>
     </div>
   </div>

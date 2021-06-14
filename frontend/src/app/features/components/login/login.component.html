@@ -75,8 +75,8 @@
                       (click)="onLoginSubmit()"
                       [disabled]="signUpForm.form.invalid">Login
                 <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
-              <span class="reset_pass mb_15">
-                <a (click)="displayResetPassword()">Reset your password by e-mail?</a>
+              <span style="float: right" class="reset_pass mb_15">
+                <a (click)="displayResetPassword()">Forgot your password ?</a>
               </span>
             </form>
           </div>
@@ -112,7 +112,7 @@
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="form_item">
               <button type="submit" [disabled]="emailInput.errors || verifiedEmailKey" (click)="requestPasswordReset()"
-                      class="custom_btn bg_default_red text-uppercase mb-0">Verify
+                      class="custom_btn bg_default_red text-uppercase">Send
                 <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
             </div>
           </div>
@@ -163,7 +163,7 @@
             <div class="form_item">
               <button type="submit" [disabled]="!checkEmailKeyAndPassword() || completedPasswordReset"
                       (click)="completePasswordReset()"
-                      class="custom_btn bg_default_red text-uppercase mb-0">reset
+                      class="custom_btn bg_default_red text-uppercase">reset
                 <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
             </div>
           </div>

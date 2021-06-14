@@ -2,7 +2,7 @@
 ================================================== -->
 <section class="breadcrumb_section text-center clearfix">
   <div class="page_title_area has_overlay d-flex align-items-center clearfix"
-        style="background-image: url('../../../../../assets/images/breadcrumb/bg_02.jpg')">
+       style="background-image: url('../../../../../assets/images/breadcrumb/bg_02.jpg')">
     <div class="overlay"></div>
     <div class="container">
       <br><br><br>
@@ -51,6 +51,31 @@
       </div>
 
 
+      <div *ngIf="!car" class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
+        <div class="account_tab_content  tab-content">
+          <div  class="tab-pane active">
+            <div class="car_choose_carousel mb_30 clearfix" data-aos-delay="300">
+              <div class="thumbnail_carousel">
+                <div class="item">
+                  <div class="item_head">
+                      <div class="p-field p-col-12 p-md-6">
+                        <p-skeleton width="30rem" height="20rem"></p-skeleton>
+                        <br>
+                        <p-skeleton styleClass="p-mb-2" height="2rem" borderRadius="16px"></p-skeleton>
+                        <p-skeleton styleClass="p-mb-2" height="2rem" borderRadius="16px"></p-skeleton>
+                        <p-skeleton styleClass="p-mb-2" height="2rem" borderRadius="16px"></p-skeleton>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
       <div *ngIf="car" class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
         <div class="account_tab_content  tab-content">
           <div id="admin_tab" class="tab-pane active">
@@ -67,14 +92,17 @@
                       <li><span class="bg_default_blue">4.8/5</span></li>
                     </ul>
                   </div>
-                  <img class="car-border" src="../../../../assets/images/feature/{{car.modelDTO.brand}} {{car.modelDTO.modelType}}.jpg" alt="image_not_found">
+                  <img class="car-border"
+                       src="../../../../assets/images/feature/{{car.modelDTO.brand}} {{car.modelDTO.modelType}}.jpg"
+                       alt="image_not_found">
                   <ul class="btns_group ul_li_center clearfix">
                     <li>
-                      <span class="custom_btn btn_width bg_default_blue"><del>320€/Day</del> {{car.modelDTO.princingDetailsDTO.costPerDay}}€/Day</span>
+                      <span class="custom_btn btn_width bg_default_blue"><del>320€/Day</del>
+                        {{car.modelDTO.princingDetailsDTO.costPerDay}}€/Day</span>
                     </li>
                     <li>
                       <button [disabled]="loggedInUser" [routerLink]="['/reservation', car.carId]"
-                         class="custom_btn btn_width bg_default_red text-uppercase">Book it
+                              class="custom_btn btn_width bg_default_red text-uppercase">Book it
                         <img src="../../../../../assets/images/icons/icon_01.png" alt="icon_not_found">
                       </button>
                     </li>
@@ -96,8 +124,10 @@
                       <ul class="info_list ul_li_block mb_15 clearfix">
                         <li><strong>Passengers:</strong> {{car.modelDTO.modelOptionDTO.seatsNumber}}</li>
                         <li><strong>Suitcase:</strong> {{car.modelDTO.modelOptionDTO.bagsNumber}}</li>
-                        <li><strong>Air Conditioning: </strong> <i class="pi pi-check-circle" style="color: #4CAF50"></i></li>
-                        <li><strong>{{(car.modelDTO.modelOptionDTO.isAutomatic) ? 'Automatic:' : 'Manual:'}} </strong> <i class="pi pi-check-circle" style="color: #4CAF50"></i></li>
+                        <li><strong>Air Conditioning: </strong> <i class="pi pi-check-circle"
+                                                                   style="color: #4CAF50"></i></li>
+                        <li><strong>{{(car.modelDTO.modelOptionDTO.isAutomatic) ? 'Automatic:' : 'Manual:'}} </strong>
+                          <i class="pi pi-check-circle" style="color: #4CAF50"></i></li>
                       </ul>
                     </div>
                   </div>
@@ -110,10 +140,14 @@
 
 
             <div class="faq_content">
-              <h2 class="title_text mb_15" >Official Rental Information:</h2>
+              <h2 class="title_text mb_15">Official Rental Information:</h2>
 
               <p class="mb_30">
-                Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque ipsum sapien, cursus eu scelerisque eget, scelerisque nec nulla. In turpis ex, congue ut scelerisque ut, euismod a turpis. Nunc metus purus, pretium ac nunc vitae, ultricies euismod magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer hendrerit, ipsum et tristique tincidunt, mauris eros tristique dolor, ut ornare turpis sapien at tellus
+                Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque
+                ipsum sapien, cursus eu scelerisque eget, scelerisque nec nulla. In turpis ex, congue ut scelerisque ut,
+                euismod a turpis. Nunc metus purus, pretium ac nunc vitae, ultricies euismod magna. Interdum et
+                malesuada fames ac ante ipsum primis in faucibus. Integer hendrerit, ipsum et tristique tincidunt,
+                mauris eros tristique dolor, ut ornare turpis sapien at tellus
               </p>
 
               <div id="faq_accordion" class="faq_accordion mb_30">
@@ -125,7 +159,9 @@
                   </div>
                   <div id="collapse_one" class="collapse show" data-parent="#faq_accordion">
                     <div class="card-body">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                      nisi ut aliquip ex ea commodo consequat.
                     </div>
                   </div>
                 </div>
@@ -138,7 +174,9 @@
                   </div>
                   <div id="collapse_two" class="collapse" data-parent="#faq_accordion">
                     <div class="card-body">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                      nisi ut aliquip ex ea commodo consequat.
                     </div>
                   </div>
                 </div>
@@ -151,7 +189,9 @@
                   </div>
                   <div id="collapse_three" class="collapse" data-parent="#faq_accordion">
                     <div class="card-body">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                      nisi ut aliquip ex ea commodo consequat.
                     </div>
                   </div>
                 </div>
@@ -159,12 +199,15 @@
                 <div class="card">
                   <div class="card-header">
                     <a class="collapsed" data-toggle="collapse" href="#collapse_four">
-                      Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Class aptent taciti sociosqu ad litora torquent per?
+                      Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Class
+                      aptent taciti sociosqu ad litora torquent per?
                     </a>
                   </div>
                   <div id="collapse_four" class="collapse" data-parent="#faq_accordion">
                     <div class="card-body">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                      nisi ut aliquip ex ea commodo consequat.
                     </div>
                   </div>
                 </div>
@@ -177,14 +220,20 @@
                   </div>
                   <div id="collapse_five" class="collapse" data-parent="#faq_accordion">
                     <div class="card-body">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                      nisi ut aliquip ex ea commodo consequat.
                     </div>
                   </div>
                 </div>
               </div>
 
               <p class="mb-0">
-                Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque ipsum sapien, cursus eu scelerisque eget, scelerisque nec nulla. In turpis ex, congue ut scelerisque ut, euismod a turpis. Nunc metus purus, pretium ac nunc vitae, ultricies euismod magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer hendrerit, ipsum et tristique tincidunt, mauris eros tristique dolor, ut ornare turpis sapien at tellus
+                Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque
+                ipsum sapien, cursus eu scelerisque eget, scelerisque nec nulla. In turpis ex, congue ut scelerisque ut,
+                euismod a turpis. Nunc metus purus, pretium ac nunc vitae, ultricies euismod magna. Interdum et
+                malesuada fames ac ante ipsum primis in faucibus. Integer hendrerit, ipsum et tristique tincidunt,
+                mauris eros tristique dolor, ut ornare turpis sapien at tellus
               </p>
             </div>
 
@@ -192,20 +241,23 @@
           </div>
 
           <div id="history_tab" class="tab-pane fade">
-            <div  class="rent_details_info">
+            <div class="rent_details_info">
               <h3 class="title_text mb_15">
                 <i class="fas fa-user"></i>
                 Driver & License Requirements
-                </h3>
+              </h3>
               <p>When you pick the car up, you'll need:</p>
               <div class="car_choose_content ml-5">
                 <ul class="ul_li_block info_list ul_li_block clearfix ">
                   <li class="clearfix"><i style="color: #0048B9" class="far fa-id-card"></i>
-                    Passport or national ID card</li>
+                    Passport or national ID card
+                  </li>
                   <li><i style="color: #0048B9" class="far fa-id-card"></i>
-                    Driving licence</li>
+                    Driving licence
+                  </li>
                   <li><i style="color: #0048B9" class="fab fa-cc-mastercard"></i>
-                    Credit card</li>
+                    Credit card
+                  </li>
                 </ul>
               </div>
               <div data-aos="fade-up">
@@ -216,7 +268,7 @@
               </div>
             </div>
             <hr>
-            <div  class="rent_details_info">
+            <div class="rent_details_info">
               <h3 class="title_text mb_15">
                 <i class="fas fa-shield-check"></i>
                 Security Deposit : 700,00 €
@@ -224,8 +276,10 @@
               <div class="car_choose_content ml-5">
                 <ul class="ul_li_block info_list ul_li_block clearfix ">
                   <li class="clearfix">
-                    At pick-up, the main driver will leave a refundable security deposit of 700,00 € on their credit card. Cash and debit cards are not accepted.
-                    The counter staff will confirm how much this will be.</li>
+                    At pick-up, the main driver will leave a refundable security deposit of 700,00 € on their credit
+                    card. Cash and debit cards are not accepted.
+                    The counter staff will confirm how much this will be.
+                  </li>
                 </ul>
               </div>
             </div>
@@ -252,7 +306,7 @@
               </div>
             </div>
             <hr>
-            <div  class="rent_details_info">
+            <div class="rent_details_info">
               <h3 class="title_text mb_15">
                 <i class="fas fa-road"></i>
                 Mileage 450 kilometres per rental

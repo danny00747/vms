@@ -1,95 +1,74 @@
 <div class="sidebar-menu-wrapper">
-  <div class="mobile_sidebar_menu">
-    <button type="button" class="close_btn"><i class="fal fa-times"></i></button>
+  <div class="mobile_sidebar_menu active">
+    <button (click)="sideBarClose()" type="button" class="close_btn"><i class="fal fa-times"></i></button>
 
     <div class="about_content mb_60">
       <div class="brand_logo mb_15">
-        <a href="index.html">
-          <img src="../../../../assets/images/logo/logo_01_1x.png" srcset="../../../../assets/images/logo/logo_01_2x.png 2x"
+        <a>
+          <img src="../../../../assets/images/logo/logo_01_1x.png"
+               srcset="../../../../assets/images/logo/logo_01_2x.png 2x"
                alt="logo_not_found">
         </a>
       </div>
-      <p class="mb-0">
-        Rent Vehicle
-      </p>
+      <h3 class="title_text text-white">Travel With Us</h3>
     </div>
 
     <div class="menu_list mb_60 clearfix">
-      <h3 class="title_text text-white">Menu</h3>
       <ul class="ul_li_block clearfix">
-        <li class="active dropdown">
-          <a  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dashbord  <i class="fa fa-caret-down ml-2" aria-hidden="true"></i></a>
+        <li *ngIf="user?.userRoles[0]?.name === 'ROLE_ADMIN'" class="active dropdown">
+          <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin
+            <i class="fa fa-caret-down ml-2" aria-hidden="true"></i>
+          </a>
           <ul class="dropdown-menu">
-            <li><a>Admin Dashboard</a></li>
-            <li><a>User Dashboard</a></li>
+            <li><a [routerLink]="['/admin/management']">Calendar</a></li>
+            <li><a [routerLink]="['/admin/management']">Users List</a></li>
+            <li><a [routerLink]="['/admin/management']">Cars List</a></li>
+            <li><a [routerLink]="['/admin/management']">Car Maintenance</a></li>
           </ul>
         </li>
-        <li><a >Reservations</a></li>
-        <li><a >Our Cars</a></li>
-        <li><a >Reviews</a></li>
-        <li><a >Payments</a></li>
-        <li><a >Maintenance</a></li>
-        <li><a >Repair orders</a></li>
-        <li><a >Notifications</a></li>
-        <li><a >About</a></li>
-        <li class="dropdown">
-          <a  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages
-            <i class="fa fa-caret-down ml-2" aria-hidden="true"></i></a>
-          <ul class="dropdown-menu">
-            <li><a >Our Service</a></li>
-            <li><a >Car Gallery</a></li>
-            <li><a >My Account</a></li>
-            <li><a >Reservation</a></li>
-            <li class="dropdown">
-              <a  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Blogs</a>
-              <ul class="dropdown-menu">
-                <li><a >Blog</a></li>
-                <li><a >Blog Details</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Our Cars</a>
-              <ul class="dropdown-menu">
-                <li><a >Cars</a></li>
-                <li><a >Car Details</a></li>
-              </ul>
-            </li>
-            <li><a >Shopping Cart</a></li>
-            <li><a >F.A.Q.</a></li>
-            <li><a >Login</a></li>
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contact Us</a>
-          <ul class="dropdown-menu">
-            <li><a >Contact Default</a></li>
-            <li><a >Contact Wordwide</a></li>
-          </ul>
-        </li>
+        <li><a [routerLink]="['/home']">Home</a></li>
+        <li *ngIf="user?.bookingDTO"><a [routerLink]="['/reservation/recap', user.bookingDTO.bookingId]">My Reservation</a></li>
+        <li *ngIf="user"><a [routerLink]="['/profile', user?.username]">My Account</a></li>
+        <li><a [routerLink]="['/cars']">Our Cars</a></li>
+        <li><a [routerLink]="['/gallery']">Featured Cars</a></li>
+        <li><a [routerLink]="['/about']">About</a></li>
+        <li><a [routerLink]="['/contact']">Contact</a></li>
+        <li><a [routerLink]="['/faq']">F.A.Q.</a></li>
       </ul>
     </div>
-
+    <hr>
     <div class="booking_car_form">
       <h3 class="title_text text-white mb-2">Book A Car</h3>
-      <p class="mb_15">
-        Nullam id dolor auctor, dignissim magna eu, mattis ante. Pellentesque tincidunt, elit a facilisis efficitur.
-      </p>
-      <form action="#">
+      <div>
         <div class="form_item">
-          <h4 class="input_title text-white">Pick Up Location</h4>
+          <h4 class="input_title text-white">Pick Up Date</h4>
           <div class="position-relative">
-            <input id="location_one" type="text" name="location" placeholder="City, State or Airport Code">
-            <label for="location_one" class="input_icon"><i class="fas fa-map-marker-alt"></i></label>
+            <p-calendar [showIcon]="true" [(ngModel)]="pickUpDate" [minDate]="minDate"
+                        [placeholder]="'pickUp date'">
+            </p-calendar>
           </div>
         </div>
         <div class="form_item">
-          <h4 class="input_title text-white">Pick A Date</h4>
-          <input type="date" name="date">
+          <h4 class="input_title text-white">Return Date</h4>
+          <p-calendar [disabled]="!pickUpDate" [showIcon]="true" [(ngModel)]="returnDate" [minDate]="pickUpDate"
+                      [placeholder]="'return date'">
+          </p-calendar>
         </div>
-        <button type="submit" class="custom_btn bg_default_red btn_width text-uppercase">Book A Car <img
-          src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
-      </form>
+
+        <div class="form_item">
+          <div class="price-range-area clearfix">
+            <h4 class="input_title text-white">Price</h4>
+            <p-slider styleClass="slider-range" [(ngModel)]="rangeValues" [style]="{'width':'82%'}"
+                      [step]="5" [range]="true" [min]="110" [max]="300"></p-slider>
+            <h4 class="input_title" style="color: white; font-size: 18px">{{rangeValues[0] + '€ - ' + rangeValues[1] + '€'}}</h4>
+          </div>
+        </div>
+
+        <button [disabled]="!checkSubmission()" [style]="{'width':'82%'}" (click)="submitQuery()"
+                type="submit" class="custom_btn bg_default_red btn_width text-uppercase">Book A Car
+          <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found">
+        </button>
+      </div>
     </div>
 
   </div>

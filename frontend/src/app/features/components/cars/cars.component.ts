@@ -26,6 +26,7 @@ export class CarsComponent implements OnInit, OnDestroy {
   queryParamCarBrand: string;
   queryParamAutomaticCar: string;
   queryParamRangesValues: any[] = [];
+  queryBrands: any[] = [];
 
   nbOfPassengers: string;
   nbOfBags: string;
@@ -53,6 +54,7 @@ export class CarsComponent implements OnInit, OnDestroy {
           this.queryParamCarBrand = params.carBrand;
           this.queryParamAutomaticCar = params.automaticCar;
           this.queryParamRangesValues = params.costRange ?? [];
+          this.queryBrands = params.brands ?? [];
         }
       );
 
@@ -82,7 +84,6 @@ export class CarsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe(
         async (data: CarDTO[]) => {
-          console.log(data);
           if (this.queryParamCarBrand && this.queryParamCarBrand !== 'All') {
             this.cars = data.filter(x => x.modelDTO.brand === this.queryParamCarBrand);
             this.cachedCars = data;
@@ -90,6 +91,9 @@ export class CarsComponent implements OnInit, OnDestroy {
             this.cars = data
               .filter(x => x.modelDTO.princingDetailsDTO.costPerDay >= Number(this.queryParamRangesValues[0])
               && x.modelDTO.princingDetailsDTO.costPerDay <= Number(this.queryParamRangesValues[1]));
+            this.cachedCars = data;
+          } else if (this.queryBrands.length !== 0) {
+            this.cars = data.filter(x => this.queryBrands.includes(x.modelDTO.brand));
             this.cachedCars = data;
           } else {
             this.cars = data;

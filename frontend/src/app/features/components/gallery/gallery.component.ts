@@ -27,6 +27,8 @@ export class GalleryComponent implements OnInit, OnDestroy {
   date1: Date;
   date2: Date;
 
+  smallCars: CarDTO[] = [];
+
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private router: Router, private carService: CarService) {
@@ -57,6 +59,7 @@ export class GalleryComponent implements OnInit, OnDestroy {
         async (data: CarDTO[]) => {
           this.cars = data;
           this.cachedCars = data;
+          this.smallCars = data.slice(4, 8);
         },
         error => {
           console.error(error);

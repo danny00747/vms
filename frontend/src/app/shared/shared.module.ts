@@ -33,6 +33,7 @@ import { ChipModule } from 'primeng/chip';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {DataViewModule} from 'primeng/dataview';
+import {AutoCompleteModule} from 'primeng/autocomplete';
 import {PickListModule} from 'primeng/picklist';
 import { TruncatePipe } from './pipes/truncate.pipe';
 import {DialogService} from 'primeng/dynamicdialog';
@@ -47,6 +48,7 @@ import {InputNumberModule} from 'primeng/inputnumber';
     MultiSelectModule,
     RatingModule,
     HttpClientModule,
+    AutoCompleteModule,
     PasswordModule,
     DialogModule,
     DataViewModule,
@@ -63,6 +65,8 @@ import {InputNumberModule} from 'primeng/inputnumber';
     CardModule,
     TabViewModule,
     SplitButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
     TooltipModule,
     TagModule,
     BadgeModule,
@@ -84,6 +88,7 @@ import {InputNumberModule} from 'primeng/inputnumber';
     MessageModule,
     ConfirmPopupModule,
     RatingModule,
+    AutoCompleteModule,
     PickListModule,
     DataViewModule,
     InputNumberModule,

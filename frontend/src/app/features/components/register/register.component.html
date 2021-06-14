@@ -45,12 +45,15 @@
                      [class.is-invalid]="pseudoInput.invalid && pseudoInput.touched"
                      [class.is-valid]="!(pseudoInput.invalid && pseudoInput.untouched)"
                      [(ngModel)]="username" class="form-control" type="text" name="username"
-                     id="username" placeholder="username" required>
+                     id="username" placeholder="username" minlength="4" maxlength="32" required>
               <label for="username">username</label>
-              <small id="pseudoError" class="text-danger"
-                     [class.d-none]="pseudoInput.valid || pseudoInput.untouched">
-                This field is required
-              </small>
+              <div *ngIf="pseudoInput.errors && (pseudoInput.invalid || pseudoInput.touched)">
+                <small id="usernameError1" class="text-danger" *ngIf="pseudoInput.errors.minlength">
+                  {{pseudoInput.value}} minimum length must be 4
+                </small>
+                <small *ngIf="pseudoInput.errors.required && pseudoInput.touched"
+                       id="usernameError2" class="text-danger">This field is required</small>
+              </div>
             </div>
 
 
@@ -118,7 +121,7 @@
                      [class.is-invalid]="roadInput.invalid && roadInput.touched"
                      [class.is-valid]="!(roadInput.invalid && roadInput.untouched)"
                      [(ngModel)]="road" class="form-control" type="text" name="road"
-                     id="road" placeholder="road" required>
+                     id="road" placeholder="road" required maxlength="32">
               <label for="road">road</label>
               <small id="roadError" class="text-danger"
                      [class.d-none]="roadInput.valid || roadInput.untouched">
@@ -176,7 +179,7 @@
               <input #townInput="ngModel"
                      [class.is-invalid]="townInput.invalid && townInput.touched"
                      [class.is-valid]="!(townInput.invalid && townInput.untouched)"
-                     class="form-control" type="text" id="townInput"
+                     class="form-control" type="text" id="townInput" maxlength="32"
                      [(ngModel)]="townName" name="townName" placeholder="town name" required>
               <label for="townInput">town name</label>
               <small id="townError" class="text-danger"

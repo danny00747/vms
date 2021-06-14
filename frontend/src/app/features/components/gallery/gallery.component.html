@@ -49,7 +49,22 @@
       <li><button #sort5 (click)="sortCars(sort5)" id="volkswagen" [className]="sortHeaders[4].active ? 'button active' : 'button'">{{sortHeaders[4].name}}</button></li>
     </ul>
 
-    <div class="feature_vehicle_filter mb-0 element-grid clearfix">
+    <div *ngIf="cars.length === 0" class="justify-content-center container feature_vehicle_filter mb-0 element-grid clearfix">
+      <p-skeleton width="50rem" height="5rem"></p-skeleton>
+      <br>
+      <p-skeleton width="50rem" height="5rem"></p-skeleton>
+      <br>
+      <p-skeleton width="50rem" height="5rem"></p-skeleton>
+      <br>
+      <p-skeleton width="50rem" height="5rem"></p-skeleton>
+      <br>
+      <p-skeleton width="50rem" height="5rem"></p-skeleton>
+      <br>
+      <p-skeleton width="50rem" height="5rem"></p-skeleton>
+      <br>
+    </div>
+
+    <div *ngIf="cars.length !== 0" class="feature_vehicle_filter mb-0 element-grid clearfix">
 
       <p-dataView [value]="cars" [paginator]="true" [rows]="9" alwaysShowPaginator=false filterBy="name"
                   paginatorDropdownAppendTo="body" [rowsPerPageOptions]="[10,15,20]" layout="grid">
@@ -139,42 +154,17 @@
     <div class="row offers_car_carousel slideshow4_slider" data-slick='{"dots": false}' data-aos="fade-up"
          data-aos-delay="100">
       <div class="row ml-auto">
-        <div class="col-sm-3 item gallery_fullimage_2">
-          <img src="../../../../assets/images/feature/small/Ford%20Focus.jpg" alt="image_not_found">
-          <div class="item_content text-white">
-            <span class="item_price bg_default_blue">170€/Day</span>
-            <h3 class="item_title text-white">Ford Focus</h3>
-            <a class="text_btn text-uppercase"><span>Book it</span>
-              <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
+        <ng-container *ngFor="let car of smallCars">
+          <div class="col-sm-3 item gallery_fullimage_2">
+            <img src="../../../../assets/images/feature/{{car.modelDTO.brand}} {{car.modelDTO.modelType}}.jpg" alt="image_not_found">
+            <div class="item_content text-white">
+              <span class="item_price bg_default_blue">{{car.modelDTO.princingDetailsDTO.costPerDay}}€/Day</span>
+              <h3 class="item_title text-white">{{car.modelDTO.brand}} {{car.modelDTO.modelType}}</h3>
+              <a class="text_btn text-uppercase" [routerLink]="['/cars', car.carId]"><span>Book it</span>
+                <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
+            </div>
           </div>
-        </div>
-        <div class="col-sm-3 item gallery_fullimage_2">
-          <img src="../../../../assets/images/feature/small/Citroen%20C3.jpg" alt="image_not_found">
-          <div class="item_content text-white">
-            <span class="item_price bg_default_blue">120€/Day</span>
-            <h3 class="item_title text-white">Citroen C3</h3>
-            <a class="text_btn text-uppercase"><span>Book it</span>
-              <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
-          </div>
-        </div>
-        <div class="col-sm-3 item gallery_fullimage_2">
-          <img src="../../../../assets/images/feature/small/Hyundai%20Tucson.jpg" alt="image_not_found">
-          <div class="item_content text-white">
-            <span class="item_price bg_default_blue">210€/Day</span>
-            <h3 class="item_title text-white">Hyundai Tucson</h3>
-            <a class="text_btn text-uppercase" href="#"><span>Book it</span>
-              <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
-          </div>
-        </div>
-        <div class="col-sm-3 item gallery_fullimage_2">
-          <img src="../../../../assets/images/feature/small/Nissan%20Juke.jpg" alt="image_not_found">
-          <div class="item_content text-white">
-            <span class="item_price bg_default_blue">230€/Day</span>
-            <h3 class="item_title text-white">Nissan Juke</h3>
-            <a class="text_btn text-uppercase" href="#"><span>Book it</span>
-              <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
-          </div>
-        </div>
+        </ng-container>
       </div>
     </div>
   </section>
