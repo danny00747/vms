@@ -39,7 +39,7 @@
 
         <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
           <div class="reg_form">
-            <h3 class="form_title">LogIn:</h3>
+            <h3 id="formTitle" class="form_title">LogIn:</h3>
             <p>
               Savings of up to 15% with our car rental solutions, global coverage and a dedicated customer team
             </p>
@@ -71,7 +71,8 @@
                 <small id="passwordError" class="text-danger" [class.d-none]="passwordInput.valid ||
                        passwordInput.untouched">A password is required</small>
               </div>
-              <button type="submit" class="custom_btn carret bg_default_red text-uppercase"
+              <button type="submit" id="submitBtn"
+                      class="custom_btn carret bg_default_red text-uppercase"
                       (click)="onLoginSubmit()" [disabled]="signUpForm.form.invalid">Login
                 <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found"></button>
               <span style="float: right" class="reset_pass mb_15">
