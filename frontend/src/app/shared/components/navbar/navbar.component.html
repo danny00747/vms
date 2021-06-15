@@ -51,9 +51,11 @@
                 <span class="cart_counter bg_default_red">1</span>
               </button>
               <div class="cart_dropdown rotors_dropdown dropdown-menu" aria-labelledby="cart_dropdown">
-                <h4 class="wrap_title">Active Reservations: (1)</h4>
+                <h4 class="wrap_title">
+                  {{user?.bookingDTO?.cancellationDate ? 'Cancelled Reservation: (1)' : 'Active Reservation: (1)'}}
+                </h4>
                 <ul class="cart_items_list ul_li_block clearfix">
-                  <li>
+                  <li *ngIf="user?.bookingDTO.carDTO">
                     <div class="item_image">
                       <img
                         src="../../../../assets/images/feature/super-small/{{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}.jpg"
@@ -73,7 +75,7 @@
                       <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found">
                     </a>
                   </li>
-                  <li>
+                  <li *ngIf="!user?.bookingDTO.cancellationDate">
                     <a (click)="confirmCancel()" class="custom_btn bg_default_black text-uppercase">Cancel
                       <img src="../../../../assets/images/icons/icon_01.png" alt="icon_not_found">
                     </a>

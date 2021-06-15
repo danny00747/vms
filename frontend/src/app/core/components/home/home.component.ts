@@ -12,6 +12,8 @@ import {CarService} from '@app/core/services/car.service';
 export class HomeComponent implements OnInit {
 
   val3 = 3;
+  val1 = 4;
+  val2 = 5;
   rangeValues: number[] = [110, 199];
   rangeDates: Date[];
   date1: Date;

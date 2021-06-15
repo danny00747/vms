@@ -15,6 +15,10 @@ export class UserService {
     return this.http.get<UserInfoDTO>(`/api/v1/account`);
   }
 
+  getUserByUsername(username: string): Observable<UserInfoDTO> {
+    return this.http.get<UserInfoDTO>(`/api/v1/user/${username}`);
+  }
+
   getAllUsers(): Observable<UserInfoDTO[]> {
     return this.http.get<UserInfoDTO[]>(`/api/v1/users`);
   }

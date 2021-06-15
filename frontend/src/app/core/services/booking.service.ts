@@ -18,4 +18,8 @@ export class BookingService {
   cancelBooking(bookingId: string): Observable<{ message: string }> {
     return this.http.get<{ message: string }>(`/api/v1/bookings/${bookingId}/cancel`);
   }
+
+  deleteBooking(bookingId: string): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`/api/v1/bookings/${bookingId}`);
+  }
 }

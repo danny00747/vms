@@ -2,10 +2,10 @@
 
 <section class="breadcrumb_section text-center clearfix">
   <div class="page_title_area has_overlay d-flex align-items-center clearfix"
-       style="background-image: url('../../../../../assets/images/breadcrumb/bg_06.jpg')">
+       style="background-image: url('../../../../../assets/images/breadcrumb/bg_08.jpg')">
     <div class="overlay"></div>
     <div class="container">
-      <br><br>
+      <br><br><br>
       <h1 class="page_title text-white mb-0">Reservation Recap</h1>
     </div>
   </div>
@@ -31,7 +31,7 @@
   <div class="container">
     <div class="row justify-content-lg-between justify-content-md-center justify-content-sm-center">
 
-      <div class="col-lg-4 col-md-9 col-sm-10 col-xs-12">
+      <div *ngIf="user.bookingDTO.carDTO" class="col-lg-4 col-md-9 col-sm-10 col-xs-12">
         <div class="feature_vehicle_item mt-0 ml-0">
           <h3 class="item_title mb-0">
             <a>
@@ -121,13 +121,13 @@
 
           <!-- car info -->
           <br>
-          <p-divider align="center">
+          <p-divider *ngIf="user.bookingDTO.carDTO" align="center">
             <p-badge [style]="{'background-color': '#4CAF50'}" styleClass="p-mr-2" icon="fas fa-car"
                      value="Car Information" size="large">
             </p-badge>
           </p-divider>
           <br>
-          <div class="cart_offers_include">
+          <div *ngIf="user.bookingDTO.carDTO" class="cart_offers_include">
             <div class="row">
               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <ul class="cart_info_list2 ul_li_block clearfix">
@@ -159,14 +159,14 @@
 
           <!-- cost per day -->
           <br>
-          <p-divider align="center">
+          <p-divider *ngIf="user.bookingDTO.carDTO" align="center">
             <p-badge [style]="{'background-color': '#4CAF50'}" styleClass="p-mr-2" icon="fas fa-car"
                      value="Rental information" size="large">
             </p-badge>
           </p-divider>
           <br>
 
-          <div class="row">
+          <div *ngIf="user.bookingDTO.carDTO" class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <ul class="cart_info_list2 ul_li_block clearfix">
                 <li><strong>Car rental duration:</strong> {{diffDays === 0 ? '1 day' : diffDays + ' days'}}
@@ -199,7 +199,7 @@
 
           <hr>
 
-          <p-messages severity="warn">
+          <p-messages *ngIf="user.bookingDTO.carDTO" severity="warn">
             <ng-template pTemplate>
               <i class=" pi pi-info-circle" style="font-size: 2.1rem"></i>
               <p class="p-ml-3">
@@ -212,7 +212,7 @@
 
           <br>
 
-          <div class="cart_bottom_content mt__30 clearfix">
+          <div *ngIf="user.bookingDTO.carDTO" class="cart_bottom_content mt__30 clearfix">
             <div class="row">
               <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <ul class="cart_price_info ul_li_block clearfix">
@@ -229,6 +229,16 @@
               </div>
             </div>
           </div>
+
+          <p-messages *ngIf="!user.bookingDTO.carDTO" severity="warn">
+            <ng-template pTemplate>
+              <i class=" pi pi-info-circle" style="font-size: 1.7rem"></i>
+              <p class="p-ml-3">
+                Your reservation was cancelled on {{user.bookingDTO.cancellationDate | date}}.
+                An administrator will review your request to make sure everything is order.
+              </p>
+            </ng-template>
+          </p-messages>
 
         </div>
       </div>

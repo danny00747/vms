@@ -5,6 +5,7 @@ import {MenuItem, SelectItem} from 'primeng/api';
 import {ReplaySubject} from 'rxjs';
 import {CarService} from '@app/core/services/car.service';
 import {CarDTO} from '@app/shared/models';
+import topsis from 'topsis';
 
 @Component({
   selector: 'app-cars',
@@ -30,6 +31,8 @@ export class CarsComponent implements OnInit, OnDestroy {
 
   nbOfPassengers: string;
   nbOfBags: string;
+
+  bestCars: CarDTO[] = [];
 
   // Observable used to notify subscription when to end
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
@@ -67,6 +70,11 @@ export class CarsComponent implements OnInit, OnDestroy {
       {label: 'Toyota', value: 'Toyota'},
       {label: 'Volkswagen', value: 'Volkswagen'}
     ];
+
+    this.bestCars = topsis.getBest(this.cars,
+      this.cars.map(x => x.modelDTO.princingDetailsDTO.costPerDay),
+      this.cars.map(x => x.modelDTO.modelOptionDTO.seatsNumber),
+      this.cars.map(x => x.modelDTO.modelOptionDTO.bagsNumber));
   }
 
   @HostListener('window:beforeunload')
@@ -90,7 +98,7 @@ export class CarsComponent implements OnInit, OnDestroy {
           } else if (this.queryParamRangesValues.length !== 0) {
             this.cars = data
               .filter(x => x.modelDTO.princingDetailsDTO.costPerDay >= Number(this.queryParamRangesValues[0])
-              && x.modelDTO.princingDetailsDTO.costPerDay <= Number(this.queryParamRangesValues[1]));
+                && x.modelDTO.princingDetailsDTO.costPerDay <= Number(this.queryParamRangesValues[1]));
             this.cachedCars = data;
           } else if (this.queryBrands.length !== 0) {
             this.cars = data.filter(x => this.queryBrands.includes(x.modelDTO.brand));

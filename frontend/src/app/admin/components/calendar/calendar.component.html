@@ -3,10 +3,10 @@
 <p-confirmPopup></p-confirmPopup>
 <section class="breadcrumb_section text-center clearfix">
   <div class="page_title_area has_overlay d-flex align-items-center clearfix"
-       style="background-image: url('../../../../assets/images/breadcrumb/bg_02.jpg')">
+       style="background-image: url('../../../../assets/images/breadcrumb/bg_08.jpg')">
     <div class="overlay"></div>
     <div class="container">
-      <br><br>
+      <br><br><br>
       <h1 class="page_title text-white mb-0">Reservations Management</h1>
     </div>
   </div>
@@ -52,7 +52,8 @@
           <ng-template pTemplate="left">
             <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2"></button>
             <button pButton pRipple [label]="'Delete'" icon="pi pi-trash" class="p-button-danger"
-                    (click)="confirmDeleteManyUsers($event)" [disabled]="!selectedUsers || !selectedUsers.length"></button>
+                    (click)="confirmDeleteManyUsers($event)"
+                    [disabled]="!selectedUsers || !selectedUsers.length"></button>
           </ng-template>
         </p-toolbar>
         <p-table #dt [value]="users" dataKey="userId" editMode="row" [paginator]="true" [rows]="10"
@@ -110,8 +111,10 @@
                                 placeholder="Any">
                       <ng-template let-option pTemplate="item">
                         <p-badge *ngIf="option.label === 'open'" severity="success" value="{{option.label}}"></p-badge>
-                        <p-badge *ngIf="option.label === 'cancelled'" severity="danger" value="{{option.label}}"></p-badge>
-                        <p-badge *ngIf="option.label === 'finished'" severity="warning" value="{{option.label}}"></p-badge>
+                        <p-badge *ngIf="option.label === 'cancelled'" severity="danger"
+                                 value="{{option.label}}"></p-badge>
+                        <p-badge *ngIf="option.label === 'finished'" severity="warning"
+                                 value="{{option.label}}"></p-badge>
                         <p-badge *ngIf="option.label === 'deleted'" severity="info" value="{{option.label}}"></p-badge>
                       </ng-template>
                     </p-dropdown>
@@ -150,10 +153,10 @@
                     <input pInputText type="email" [style]="{'width':'100%'}" [(ngModel)]="user.userEmail">
                   </ng-template>
                   <ng-template pTemplate="output">
-                     <h6 *ngIf="user.userEmail.length <= 14">{{user.userEmail}}</h6>
-                     <h6 *ngIf="user.userEmail.length > 14" pTooltip="{{user.userEmail}}" tooltipPosition="top">
-                       {{user.userEmail | truncate:[14]}}
-                     </h6>
+                    <h6 *ngIf="user.userEmail.length <= 14">{{user.userEmail}}</h6>
+                    <h6 *ngIf="user.userEmail.length > 14" pTooltip="{{user.userEmail}}" tooltipPosition="top">
+                      {{user.userEmail | truncate:[14]}}
+                    </h6>
                   </ng-template>
                 </p-cellEditor>
               </td>
@@ -165,7 +168,7 @@
                     <input pInputText type="text" [style]="{'width':'100%'}" [(ngModel)]="user.phoneNumber">
                   </ng-template>
                   <ng-template pTemplate="output">
-                     <h6>{{user.phoneNumber}}</h6>
+                    <h6>{{user.phoneNumber}}</h6>
                   </ng-template>
                 </p-cellEditor>
               </td>
@@ -260,7 +263,7 @@
         <app-car-maintenance></app-car-maintenance>
       </p-tabPanel>
 
-      <!-- Rents -->
+      <!-- Rents
       <p-tabPanel header="Rents" [headerStyle]="{'font-family':'Goldman'}" [leftIcon]="'fas fa-car'">
         <h5>List of all Rents</h5>
         <br>
@@ -275,7 +278,7 @@
 
         <app-rent-list></app-rent-list>
       </p-tabPanel>
-
+      -->
     </p-tabView>
   </div>
 </section>

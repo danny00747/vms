@@ -1,5 +1,5 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {NavigationStart, Router} from '@angular/router';
+import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {ReplaySubject} from 'rxjs';
 import {DialogService} from 'primeng/dynamicdialog';
@@ -8,6 +8,7 @@ import {UserInfoDTO} from '@app/shared/models';
 import {UserService} from '@app/core/services/user.service';
 import {ConfirmationDialogComponent} from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import {AuthentificationService, EToastSeverities, ToastService} from '@app/core/services';
+import {BookingService} from '@app/core/services/booking.service';
 
 @Component({
   selector: 'app-profile',
@@ -17,12 +18,15 @@ import {AuthentificationService, EToastSeverities, ToastService} from '@app/core
 export class ProfileComponent implements OnInit, OnDestroy {
 
   user: UserInfoDTO;
+  currentUser: string;
 
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private router: Router,
               private userService: UserService,
               public authService: AuthentificationService,
+              private route: ActivatedRoute,
+              private bookingService: BookingService,
               public toastService: ToastService,
               private readonly dialogService: DialogService) {
     this.router.events
@@ -32,6 +36,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.currentUser = this.route.snapshot.paramMap.get('username');
+    console.log(this.currentUser);
     this.getLoggedInUser();
   }
 
@@ -40,7 +46,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   getLoggedInUser(): void {
-    this.userService.getUserByJwt()
+    this.userService.getUserByUsername(this.currentUser)
       .subscribe(
         (data: UserInfoDTO) => {
           this.user = data;
@@ -59,10 +65,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
       }
     });
 
-    ref.onClose.subscribe((data: UserInfoDTO) => {
+    ref.onClose.subscribe(async (data: UserInfoDTO) => {
       if (data) {
         this.toastService.show(EToastSeverities.SUCCESS, 'Successfully updated !');
         this.user = data;
+        this.authService.logout();
+        await this.router.navigate(['/login']);
       }
     });
   }
@@ -78,7 +86,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
       if (confirm) {
         this.authService.logout();
         await this.router.navigate(['/login']);
-        this.reload();
       }
     });
   }
@@ -90,8 +97,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
         message: 'You are about to cancel this reservation, this action is irreversible !'
       }
     });
-    ref.onClose.subscribe((confirm: boolean) => {
+    ref.onClose.subscribe(async (confirm: boolean) => {
       if (confirm) {
+        this.bookingService.cancelBooking(this.user.bookingDTO.bookingId)
+          .subscribe(
+            () => {
+              this.toastService.show(EToastSeverities.SUCCESS, 'Successfully cancelled !');
+              setTimeout(async () => await this.router.navigate(['/gallery']), 1000);
+              },
+            error => {
+              console.error(error);
+              this.toastService.show(EToastSeverities.ERROR, 'Somehthing went wrong !');
+            });
       }
     });
   }

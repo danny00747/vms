@@ -3,10 +3,10 @@
 <p-toast></p-toast>
 <section class="breadcrumb_section text-center clearfix">
   <div class="page_title_area has_overlay d-flex align-items-center clearfix"
-        style="background-image: url('../../../../assets/images/breadcrumb/bg_06.jpg')">
+        style="background-image: url('../../../../assets/images/breadcrumb/bg_08.jpg')">
     <div class="overlay"></div>
     <div class="container" data-aos="fade-up" data-aos-delay="100">
-      <br><br>
+      <br><br><br>
       <h1 class="page_title text-white mb-0">Contacts</h1>
     </div>
   </div>
@@ -169,11 +169,11 @@
         <textarea #messageInput="ngModel"
                [class.is-invalid]="messageInput.invalid && messageInput.touched"
                [class.is-valid]="!(messageInput.invalid && messageInput.untouched)"
-               class="form-control" id="message" placeholder="message"
+               class="form-control" id="message" placeholder="message" maxlength="512"
                   [(ngModel)]="message" name="message" required>
         </textarea>
         <label *ngIf="messageInput.untouched" for="message">your message</label>
-        <label *ngIf="messageInput.valid" for="message">{{512 - messageInput.value?.toString().length}}   characters left</label>
+        <label *ngIf="messageInput.valid" for="message">{{512 - messageInput.value?.toString().length}} characters left</label>
         <small class="text-danger" [class.d-none]="messageInput.valid ||
                 messageInput.untouched">This field is required</small>
       </div>

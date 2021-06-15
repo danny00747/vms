@@ -48,8 +48,8 @@ export class CalendarComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               public toastService: ToastService,
-              public carService: CarService,
-              public bookingService: BookingService,
+              private carService: CarService,
+              private bookingService: BookingService,
               private confirmationService: ConfirmationService,
               private userService: UserService,
               private readonly dialogService: DialogService) {
@@ -97,7 +97,7 @@ export class CalendarComponent implements OnInit {
       {separator: true},
       {
         label: 'Delete', icon: 'pi pi-times', command: () => {
-          this.deleteBooking();
+          this.deleteBooking(this.bookingDetails);
         }
       }
     ];
@@ -109,11 +109,9 @@ export class CalendarComponent implements OnInit {
       },
       {
         label: 'Delete', icon: 'pi pi-times', command: () => {
-          this.deleteBooking();
+          this.deleteBooking(this.bookingDetails);
         }
-      },
-      {separator: true},
-      {label: 'Setup', icon: 'pi pi-cog'}
+      }
     ];
 
     this.cols = [
@@ -241,7 +239,7 @@ export class CalendarComponent implements OnInit {
         });
   }
 
-  deleteBooking(): void {
+  deleteBooking(booking: UserInfoDTO): void {
     const ref = this.dialogService.open(ConfirmationDialogComponent, {
       header: 'Confirmation',
       data: {
@@ -250,6 +248,16 @@ export class CalendarComponent implements OnInit {
     });
     ref.onClose.subscribe((confirm: boolean) => {
       if (confirm) {
+        this.bookingService.deleteBooking(booking.bookingDTO.bookingId)
+          .subscribe(
+            () => {
+              this.getUpdatedUsers();
+              this.toastService.show(EToastSeverities.SUCCESS, 'Booking successfully deleted !');
+            },
+            error => {
+              console.error(error);
+              this.toastService.show(EToastSeverities.ERROR, 'Somehthing went wrong !');
+            });
       }
     });
   }
@@ -364,16 +372,32 @@ export class CalendarComponent implements OnInit {
       }
      */
 
+    const pdfUsers = [];
+    const selectedPdfUsers = [];
+    this.users.forEach(x => pdfUsers.push({
+      username: x.username,
+      email: x.userEmail,
+      phone: x.phoneNumber,
+      bookingRef: (x.bookingDTO) ? x.bookingDTO.bookingId : 'no booking'
+    }));
+
+    this.selectedUsers.forEach(x => selectedPdfUsers.push({
+      username: x.username,
+      email: x.userEmail,
+      phone: x.phoneNumber,
+      bookingRef: (x.bookingDTO) ? x.bookingDTO.bookingId : 'no booking'
+    }));
+
     const doc = new jsPDF();
 
     doc.text('VmsApp Users', 14, 16);
     doc.autoTable({
       columns: [
         {dataKey: 'username', header: 'Username'},
-        {dataKey: 'userEmail', header: 'Email'},
-        {dataKey: 'phoneNumber', header: 'Phone'},
-        {dataKey: 'bookingDTO', header: 'Booking Ref'},
-      ], body: (this.selectedUsers.length === 0) ? this.users : this.selectedUsers, theme: 'grid', startY: 20
+        {dataKey: 'email', header: 'Email'},
+        {dataKey: 'phone', header: 'Phone'},
+        {dataKey: 'bookingRef', header: 'Booking Ref'},
+      ], body: (this.selectedUsers.length === 0) ? pdfUsers : selectedPdfUsers, theme: 'grid', startY: 20
     });
 
     doc.save('users.pdf');
@@ -382,9 +406,24 @@ export class CalendarComponent implements OnInit {
 
   exportExcel(): void {
     const excelUsers = [];
-    this.users.forEach(x => excelUsers.push({username: x.username, email: x.userEmail, phone: x.phoneNumber}));
+    const selectedPdfUsers = [];
+
+    this.users.forEach(x => excelUsers.push({
+      username: x.username,
+      email: x.userEmail,
+      phone: x.phoneNumber,
+      bookingRef: (x.bookingDTO) ? x.bookingDTO.bookingId : 'no booking'
+    }));
+
+    this.selectedUsers.forEach(x => selectedPdfUsers.push({
+      username: x.username,
+      email: x.userEmail,
+      phone: x.phoneNumber,
+      bookingRef: (x.bookingDTO) ? x.bookingDTO.bookingId : 'no booking'
+    }));
+
     import('xlsx').then(xlsx => {
-      const worksheet = xlsx.utils.json_to_sheet(excelUsers);
+      const worksheet = xlsx.utils.json_to_sheet((this.selectedUsers.length === 0) ? excelUsers : selectedPdfUsers);
       const workbook = {Sheets: {data: worksheet}, SheetNames: ['data']};
       const excelBuffer: any = xlsx.write(workbook, {bookType: 'xlsx', type: 'array'});
       this.saveAsExcelFile(excelBuffer, 'users');

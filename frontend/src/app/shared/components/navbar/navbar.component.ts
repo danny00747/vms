@@ -8,6 +8,7 @@ import {UserService} from '@app/core/services/user.service';
 import {ConfirmationDialogComponent} from '@app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import {EToastSeverities, ToastService} from '@app/core/services';
 import {DialogService} from 'primeng/dynamicdialog';
+import {BookingService} from '@app/core/services/booking.service';
 
 @Component({
   selector: 'app-navbar',
@@ -29,6 +30,7 @@ export class NavbarComponent implements OnInit {
     public authService: AuthentificationService,
     public toastService: ToastService,
     private filterService: FilterService,
+    private bookingService: BookingService,
     private readonly dialogService: DialogService,
     private userService: UserService,
     private router: Router
@@ -163,7 +165,6 @@ export class NavbarComponent implements OnInit {
   async onLogOutClick(): Promise<void> {
     this.authService.logout();
     await this.router.navigate(['/login']);
-    this.reload();
   }
 
   getUserRole(): void {
@@ -196,7 +197,16 @@ export class NavbarComponent implements OnInit {
     });
     ref.onClose.subscribe((confirm: boolean) => {
       if (confirm) {
-        this.toastService.show(EToastSeverities.SUCCESS, 'cancelled !');
+        this.bookingService.cancelBooking(this.user.bookingDTO.bookingId)
+          .subscribe(
+            () => {
+              this.toastService.show(EToastSeverities.SUCCESS, 'Successfully cancelled !');
+              setTimeout(async () => await this.router.navigate(['/gallery']), 1000);
+            },
+            error => {
+              console.error(error);
+              this.toastService.show(EToastSeverities.ERROR, 'Somehthing went wrong !');
+            });
       }
     });
   }

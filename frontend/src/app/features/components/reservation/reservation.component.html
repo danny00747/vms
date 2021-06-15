@@ -3,10 +3,10 @@
 <p-toast></p-toast>
 <section class="breadcrumb_section text-center clearfix">
   <div class="page_title_area has_overlay d-flex align-items-center clearfix"
-       style="background-image: url('../../../../assets/images/breadcrumb/bg_06.jpg')">
+       style="background-image: url('../../../../assets/images/breadcrumb/bg_08.jpg')">
     <div class="overlay"></div>
     <div class="container">
-      <br><br>
+      <br><br><br>
       <h1 class="page_title text-white mb-0">Reservation</h1>
     </div>
   </div>
@@ -316,7 +316,7 @@
 
             <br>
 
-            <div  class="cart_bottom_content mt__30 clearfix">
+            <div *ngIf="verifyInputs" class="cart_bottom_content mt__30 clearfix">
               <div class="row  align-items-center">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                   <div class="form_item cart_price_info ul_li_block clearfix">

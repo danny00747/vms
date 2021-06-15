@@ -4,7 +4,7 @@
 <p-toast></p-toast>
 <section class="breadcrumb_section text-center clearfix">
   <div class="page_title_area has_overlay d-flex align-items-center clearfix"
-        style="background-image: url('../../../../assets/images/breadcrumb/bg_10.jpg')">
+        style="background-image: url('../../../../assets/images/breadcrumb/bg_08.jpg')">
     <div class="overlay"></div>
     <div class="container" data-aos="fade-up" data-aos-delay="100">
       <br><br><br>
@@ -71,7 +71,7 @@
               <h3 class="list_title mb_30">Booking Details:</h3>
               <ul class="ul_li_block clearfix">
                 <li><span>Booking Reference:</span> {{user.bookingDTO.bookingId}}</li>
-                <li><span>Booked Car:</span>
+                <li *ngIf="user.bookingDTO.carDTO"><span>Booked Car:</span>
                   {{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}
                 </li>
                 <li><span>Withdrawal Date:</span> {{user.bookingDTO.withdrawalDate | date}} </li>
@@ -87,14 +87,17 @@
                            value="{{user.bookingDTO.bookingState}}"></p-badge>
                 </li>
               </ul>
-              <a (click)="cancelReservation()" class="text_btn text-uppercase"><span>Cancel your reservation</span>
+              <a *ngIf="!user.bookingDTO.cancellationDate" (click)="cancelReservation()" class="text_btn text-uppercase"><span>Cancel your reservation</span>
                 <img src="../../../../assets/images/icons/icon_02.png" alt="icon_not_found"></a>
             </div>
 
             <div class="account_info_list">
               <h3 class="list_title mb_30">Booking History:</h3>
               <ul class="ul_li_block clearfix">
-                <li><span>Upcoming Reservations:</span>{{user.bookingDTO ? 'You have one active Reservations' : ' No Reservations Yet'}}</li>
+                <li><span>Upcoming Reservations:</span>
+                  {{user?.bookingDTO && !user?.bookingDTO?.cancellationDate ? 'You have one active reservation'
+                    : user?.bookingDTO?.cancellationDate ? 'You have one cancelled reservation' : ' No reservation yet'}}
+                </li>
                 <li><span>Past Rentals:</span> 0</li>
               </ul>
               <a *ngIf="!user?.bookingDTO" class="text_btn text-uppercase" [routerLink]="['/gallery']">
@@ -114,7 +117,9 @@
               <h3 class="list_title mb_30">Booking Details:</h3>
               <ul class="ul_li_block clearfix">
                 <li><span>Booking Reference:</span> {{user.bookingDTO.bookingId}}</li>
-                <li><span>Booked Car:</span> {{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}</li>
+                <li *ngIf="user.bookingDTO.carDTO">
+                  <span>Booked Car:</span> {{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}
+                </li>
                 <li><span>Withdrawal Date:</span> {{user.bookingDTO.withdrawalDate | date}} </li>
                 <li><span>Return Date:</span> {{user.bookingDTO.returnDate | date}} </li>
                 <li><span>booking state:</span>
@@ -164,7 +169,10 @@
             <div class="account_info_list">
               <h3 class="list_title mb_30">Booking History:</h3>
               <ul class="ul_li_block clearfix">
-                <li><span>Upcoming Reservations:</span>{{user.bookingDTO ? 'You have one active Reservations' : ' No Reservations Yet'}}</li>
+                <li><span>Upcoming Reservations:</span>
+                  {{user?.bookingDTO && !user?.bookingDTO?.cancellationDate ? 'You have one active reservation'
+                    : user?.bookingDTO?.cancellationDate ? 'You have one cancelled reservation' : ' No reservation yet'}}
+                </li>
                 <li><span>Past Rentals:</span> 0</li>
               </ul>
               <a *ngIf="!user?.bookingDTO" class="text_btn text-uppercase" [routerLink]="['/gallery']"><span>Book A Car</span>
@@ -181,7 +189,9 @@
               <h3 class="list_title mb_30">Booking Details:</h3>
               <ul class="ul_li_block clearfix">
                 <li><span>Booking Reference:</span> {{user.bookingDTO.bookingId}}</li>
-                <li><span>Booked Car:</span> {{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}</li>
+                <li *ngIf="user.bookingDTO.carDTO">
+                  <span>Booked Car:</span> {{user.bookingDTO.carDTO.modelDTO.brand}} {{user.bookingDTO.carDTO.modelDTO.modelType}}
+                </li>
                 <li><span>Withdrawal Date:</span> {{user.bookingDTO.withdrawalDate | date}} </li>
                 <li><span>Return Date:</span> {{user.bookingDTO.returnDate | date}} </li>
                 <li><span>booking state:</span>
