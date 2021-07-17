@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         },
         error => {
           console.error(error);
-          this.toastService.show(EToastSeverities.ERROR, 'Authentification failed !');
+          this.toastService.show(EToastSeverities.ERROR, 'Incorrect credentials !');
         });
   }
 

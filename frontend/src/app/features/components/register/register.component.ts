@@ -78,9 +78,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
           this.toastService.show(EToastSeverities.INFO, data.message);
           this.verifyInputs = true;
         },
-        error => {
-          console.error(error);
-          this.toastService.show(EToastSeverities.ERROR, 'Something went wrong !');
+        httpErrorResponse => {
+          console.error(httpErrorResponse);
+          if (httpErrorResponse.status === 409) {
+            this.toastService.show(EToastSeverities.ERROR, httpErrorResponse.error.message);
+          } else {
+            this.toastService.show(EToastSeverities.ERROR, 'Something went wrong !');
+          }
         });
   }
 
